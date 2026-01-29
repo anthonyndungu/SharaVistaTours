@@ -1,0 +1,73 @@
+2026-01-28 21:56:32:5632 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-01-28 21:56:34:5634 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-01-28 21:56:34:5634 [32minfo[39m: [32m✓ Upload directory created at ./uploads[39m
+2026-01-28 21:56:34:5634 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-01-28 21:56:34:5634 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-01-29 00:13:41:1341 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-01-29 00:13:43:1343 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-01-29 00:13:43:1343 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-01-29 00:13:43:1343 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-01-29 00:14:15:1415 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-01-29 00:14:17:1417 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-01-29 00:14:17:1417 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-01-29 00:14:17:1417 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-01-29 00:43:56:4356 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-01-29 00:44:03:443 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-01-29 00:44:03:443 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-01-29 00:44:03:443 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-01-29 00:44:38:4438 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:44:38:4438 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:44:39:4439 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:44:39:4439 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:46:29:4629 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:46:29:4629 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:46:30:4630 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:46:30:4630 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:47:25:4725 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:47:25:4725 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:47:26:4726 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:47:26:4726 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:47:59:4759 [32minfo[39m: [32mPOST /api/v1/auth/signup[39m
+2026-01-29 00:47:59:4759 [33mwarn[39m: [33mValidation errors:[39m
+2026-01-29 00:48:00:480 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:48:00:480 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:48:25:4825 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-01-29 00:48:25:4825 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:48:25:4825 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:49:13:4913 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-01-29 00:49:16:4916 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-01-29 00:49:16:4916 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-01-29 00:49:16:4916 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-01-29 00:49:32:4932 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-01-29 00:49:32:4932 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:49:32:4932 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:50:17:5017 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:50:17:5017 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-01-29 00:50:21:5021 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:21:5021 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:22:5022 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:22:5022 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:44:5044 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:44:5044 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:45:5045 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:50:45:5045 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:02:572 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:02:572 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:03:573 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:03:573 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:14:5714 [32minfo[39m: [32mGET /api/v1/packages/9dd7970e-4d5e-4f21-8e4e-2c090a117e1a[39m
+2026-01-29 00:57:14:5714 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-01-29 00:57:14:5714 [32minfo[39m: [32mGET /api/v1/packages/9dd7970e-4d5e-4f21-8e4e-2c090a117e1a[39m
+2026-01-29 00:57:14:5714 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-01-29 00:57:21:5721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:21:5721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:22:5722 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:22:5722 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-01-29 00:57:31:5731 [32minfo[39m: [32mGET /api/v1/packages/1fd175d4-c76f-48a9-9177-1e64b42c0178[39m
+2026-01-29 00:57:31:5731 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-01-29 00:57:31:5731 [32minfo[39m: [32mGET /api/v1/packages/1fd175d4-c76f-48a9-9177-1e64b42c0178[39m
+2026-01-29 00:57:31:5731 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-01-29 00:57:38:5738 [32minfo[39m: [32mGET /api/v1/packages/1fd175d4-c76f-48a9-9177-1e64b42c0178[39m
+2026-01-29 00:57:38:5738 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-01-29 00:57:38:5738 [32minfo[39m: [32mGET /api/v1/packages/1fd175d4-c76f-48a9-9177-1e64b42c0178[39m
+2026-01-29 00:57:38:5738 [31merror[39m: [31mGet package by ID error: User is not defined[39m
