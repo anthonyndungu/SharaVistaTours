@@ -4,3 +4,4 @@
 2026-01-29 00:57:31:5731 [31merror[39m: [31mGet package by ID error: User is not defined[39m
 2026-01-29 00:57:38:5738 [31merror[39m: [31mGet package by ID error: User is not defined[39m
 2026-01-29 00:57:38:5738 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-02-02 08:44:33:4433 [31merror[39m: [31m✗ Unable to start server: database "tours_db" does not exist[39m

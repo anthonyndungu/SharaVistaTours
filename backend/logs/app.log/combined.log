@@ -71,3 +71,102 @@
 2026-01-29 00:57:38:5738 [31merror[39m: [31mGet package by ID error: User is not defined[39m
 2026-01-29 00:57:38:5738 [32minfo[39m: [32mGET /api/v1/packages/1fd175d4-c76f-48a9-9177-1e64b42c0178[39m
 2026-01-29 00:57:38:5738 [31merror[39m: [31mGet package by ID error: User is not defined[39m
+2026-02-01 15:04:16:416 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-01 15:04:17:417 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-01 15:04:17:417 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-01 15:04:17:417 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-01 15:05:56:556 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:05:56:556 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:05:57:557 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:05:57:557 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:40:640 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:40:640 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:41:641 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:41:641 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:57:657 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:57:657 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:58:658 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:06:58:658 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:07:43:743 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:07:43:743 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:07:43:743 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:07:43:743 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:44:844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:44:844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:44:844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:45:845 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:50:850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:50:850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:50:850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:08:50:850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:10:54:1054 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:10:54:1054 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:10:55:1055 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:10:55:1055 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:42:1142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:42:1142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:42:1142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 15:11:42:1142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:27:01:271 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-01 16:27:02:272 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-01 16:27:02:272 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-01 16:27:02:272 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-01 16:27:23:2723 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:27:23:2723 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:27:24:2724 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:27:24:2724 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:29:29:2929 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:29:29:2929 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:36:22:3622 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:36:22:3622 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:36:22:3622 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:36:22:3622 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:40:24:4024 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:40:24:4024 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:40:24:4024 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:40:24:4024 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:42:40:4240 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:42:40:4240 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:42:41:4241 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:42:41:4241 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:48:48:4848 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:48:48:4848 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:48:49:4849 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 16:48:49:4849 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 17:38:42:3842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 17:38:42:3842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 17:38:43:3843 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 17:38:43:3843 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-01 21:51:34:5134 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-01 21:51:34:5134 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-01 21:51:34:5134 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-01 21:51:34:5134 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-01 23:18:29:1829 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-01 23:18:30:1830 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-01 23:18:30:1830 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-01 23:18:30:1830 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-01 23:21:37:2137 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-01 23:21:38:2138 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-01 23:21:38:2138 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-01 23:21:38:2138 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-02 05:51:45:5145 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-02 05:51:45:5145 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-02 05:51:45:5145 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-02 05:51:45:5145 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-02 07:09:22:922 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-02 07:09:22:922 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-02 07:09:22:922 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-02 07:09:22:922 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-02 08:44:33:4433 [31merror[39m: [31m✗ Unable to start server: database "tours_db" does not exist[39m
+2026-02-02 08:52:37:5237 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-02 08:52:38:5238 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-02 08:52:38:5238 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-02 08:52:38:5238 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-02 13:46:22:4622 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-02 13:46:23:4623 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-02 13:46:23:4623 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-02 13:46:23:4623 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m

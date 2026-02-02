@@ -1,69 +1,487 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchFeaturedPackages, fetchPackages } from '../features/packages/packageSlice'
-import { Link } from 'react-router-dom'
-import { ArrowRightIcon } from '@heroicons/react/24/outline'
-import PackageCard from '../components/PackageCard'
-import Testimonials from '../components/Testimonials'
-import Stats from '../components/Stats'
-import Spinner from '../components/Spinner'
 
 export default function Home() {
-  const dispatch = useDispatch()
-  const { featuredPackages, loading: featuredLoading, error: featuredError } = useSelector((state) => state.packages)
-  const { packages: allPackages, loading: allLoading } = useSelector((state) => state.packages)
-
+  // Initialize template JS plugins after component mounts
   useEffect(() => {
-    dispatch(fetchFeaturedPackages())
-    dispatch(fetchPackages())
-  }, [dispatch])
-
-  const stats = [
-    { id: 1, name: 'Destinations', value: '50+' },
-    { id: 2, name: 'Happy Travelers', value: '10K+' },
-    { id: 3, name: 'Tour Packages', value: '200+' },
-    { id: 4, name: 'Years Experience', value: '10+' },
-  ]
-
-  if (featuredLoading && !featuredPackages.length) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    )
-  }
+    // Reinitialize Owl Carousel for destination section
+    if (window.$ && window.$.fn.owlCarousel) {
+      $('.tours-type-slider').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        responsive: {
+          0: { items: 1 },
+          480: { items: 2 },
+          768: { items: 2 },
+          992: { items: 3 },
+          1200: { items: 4 }
+        }
+      });
+      
+      $('.wrapper-tours-type-slider').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: false,
+        responsive: {
+          0: { items: 1 },
+          480: { items: 2 },
+          768: { items: 3 },
+          992: { items: 4 },
+          1200: { items: 5 }
+        }
+      });
+    }
+  }, []);
 
   return (
-    <>
-      {/* Hero Section */}
-      <div className="relative bg-gray-900 overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 bg-gray-900 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-            <svg className="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-gray-900 transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <polygon points="50,0 100,0 50,100 0,100" />
-            </svg>
-            
-            <div className="pt-12 sm:pt-16 md:pt-20 lg:pt-28">
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="text-center">
-                  <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                    <span className="block">Discover the World's</span>
-                    <span className="block text-primary-400">Most Beautiful Destinations</span>
-                  </h1>
-                  <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                    Experience unforgettable journeys with our expertly crafted tour packages. From adventure to relaxation, we have the perfect travel experience for you.
-                  </p>
-                  <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                    <div className="rounded-md shadow">
-                      <Link to="/tours" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10">
-                        Explore Tours
-                        <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
-                      </Link>
+    <div className="home-content" role="main">
+      {/* Hero Video Slider */}
+      <div className="wrapper-bg-video">
+        <video poster="/assets/img/video_slider.jpg" playsInline autoPlay muted loop>
+          <source src="https://physcode.com/video/330149744.mp4" type="video/mp4" />
+        </video>
+        <div className="content-slider">
+          <p>Find your special tour today</p>
+          <h2>With Sharavista Tours</h2>
+          <p><a href="/tours" className="btn btn-slider">VIEW TOURS</a></p>
+        </div>
+      </div>
+
+      {/* Search Form */}
+      <div className="slider-tour-booking">
+        <div className="container">
+          <div className="travel-booking-search hotel-booking-search travel-booking-style_1">
+            <form name="hb-search-form" action="/tours" id="tourBookingForm">
+              <ul className="hb-form-table">
+                <li className="hb-form-field">
+                  <div className="hb-form-field-input hb_input_field">
+                    <input type="text" name="name_tour" placeholder="Tour name" />
+                  </div>
+                </li>
+                <li className="hb-form-field">
+                  <div className="hb-form-field-input hb_input_field">
+                    <select name="tourtax[tour_phys]">
+                      <option value="0">Tour Type</option>
+                      <option value="escorted-tour">Escorted Tour</option>
+                      <option value="rail-tour">Rail Tour</option>
+                      <option value="river-cruise">River Cruise</option>
+                      <option value="tour-cruise">Tour & Cruise</option>
+                      <option value="wildlife">Wildlife</option>
+                    </select>
+                  </div>
+                </li>
+                <li className="hb-form-field">
+                  <div className="hb-form-field-input hb_input_field">
+                    <select name="tourtax[pa_destination]">
+                      <option value="0">Destination</option>
+                      <option value="brazil">Brazil</option>
+                      <option value="canada">Canada</option>
+                      <option value="cuba">Cuba</option>
+                      <option value="italy">Italy</option>
+                      <option value="philippines">Philippines</option>
+                      <option value="usa">USA</option>
+                    </select>
+                  </div>
+                </li>
+                <li className="hb-form-field">
+                  <div className="hb-form-field-input hb_input_field">
+                    <select name="tourtax[pa_month]">
+                      <option value="0">Month</option>
+                      {['January','February','March','April','May','June','July','August','September','October','November','December'].map((month) => (
+                        <option key={month} value={month.toLowerCase()}>{month}</option>
+                      ))}
+                    </select>
+                  </div>
+                </li>
+                <li className="hb-submit">
+                  <button type="submit">Search Tours</button>
+                </li>
+              </ul>
+              <input type="hidden" name="lang" value="" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* Why Choose Us */}
+      <div className="container two-column-respon mg-top-6x mg-bt-6x">
+        <div className="row">
+          <div className="col-sm-12 mg-btn-6x">
+            <div className="shortcode_title title-center title-decoration-bottom-center">
+              <h3 className="title_primary">WHY CHOOSE US?</h3>
+              <span className="line_after_title"></span>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          {[
+            { icon: 'flaticon-transport-6', title: 'Diverse Destinations', desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.' },
+            { icon: 'flaticon-sand', title: 'Value for Money', desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.' },
+            { icon: 'flaticon-travel-2', title: 'Beautiful Places', desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.' },
+            { icon: 'flaticon-travelling', title: 'Passionate Travel', desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.' }
+          ].map((item, index) => (
+            <div key={index} className="wpb_column col-sm-3">
+              <div className="widget-icon-box widget-icon-box-base iconbox-center">
+                <div className="boxes-icon circle" style={{fontSize:'30px',width:'80px', height:'80px',lineHeight:'80px'}}>
+                  <span className="inner-icon"><i className={`vc_icon_element-icon ${item.icon}`}></i></span>
+                </div>
+                <div className="content-inner">
+                  <div className="sc-heading article_heading">
+                    <h4 className="heading__primary">{item.title}</h4>
+                  </div>
+                  <div className="desc-icon-box">
+                    <div>{item.desc}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Most Popular Tours */}
+      <div className="padding-top-6x padding-bottom-6x section-background" style={{backgroundImage: 'url(/assets/img/home/bg-popular.jpg)'}}>
+        <div className="container">
+          <div className="shortcode_title text-white title-center title-decoration-bottom-center">
+            <div className="title_subtitle">Take a Look at Our</div>
+            <h3 className="title_primary">MOST POPULAR TOURS</h3>
+            <span className="line_after_title" style={{color:'#ffffff'}}></span>
+          </div>
+          <div className="row wrapper-tours-slider">
+            <div 
+              className="tours-type-slider list_content" 
+              data-dots="true" 
+              data-nav="true" 
+              data-responsive='{"0":{"items":1}, "480":{"items":2}, "768":{"items":2}, "992":{"items":3}, "1200":{"items":4}}'
+            >
+              {[
+                { id: 1, title: 'Kiwiana Panorama', price: 87.00, salePrice: 82.00, image: '/assets/img/tour/tour-1.jpg', sale: true },
+                { id: 2, title: 'Camping Americas West', price: 82.00, image: '/assets/img/tour/tour-2.jpg' },
+                { id: 3, title: 'Anchorage to Santiago', price: 89.00, image: '/assets/img/tour/tour-3.jpg' },
+                { id: 4, title: 'Anchorage to Ushuaia', price: 90.00, image: '/assets/img/tour/tour-4.jpg' },
+                { id: 5, title: 'Discover Brazil', price: 94.00, image: '/assets/img/tour/tour-5.jpg' },
+                { id: 6, title: 'Cuzco to Anchorage', price: 91.00, image: '/assets/img/tour/tour-6.jpg' }
+              ].map((tour) => (
+                <div key={tour.id} className="item-tour">
+                  <div className="item_border">
+                    <div className="item_content">
+                      <div className="post_images">
+                        <a href={`/tours/${tour.id}`} className="travel_tour-LoopProduct-link">
+                          {tour.sale ? (
+                            <>
+                              <span className="price">
+                                <del><span className="travel_tour-Price-amount amount">${tour.price.toFixed(2)}</span></del>
+                                <ins><span className="travel_tour-Price-amount amount">${tour.salePrice.toFixed(2)}</span></ins>
+                              </span>
+                              <span className="onsale">Sale!</span>
+                            </>
+                          ) : (
+                            <span className="price">
+                              <span className="travel_tour-Price-amount amount">${tour.price.toFixed(2)}</span>
+                            </span>
+                          )}
+                          <img src={tour.image} alt={tour.title} title={tour.title} />
+                          <div className="group-icon">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="River Cruise" className="frist">
+                              <i className="flaticon-transport-2"></i>
+                            </a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Wildlife">
+                              <i className="flaticon-island"></i>
+                            </a>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="wrapper_content">
+                        <div className="post_title">
+                          <h4><a href={`/tours/${tour.id}`} rel="bookmark">{tour.title}</a></h4>
+                        </div>
+                        <span className="post_date">5 DAYS 4 NIGHTS</span>
+                        <p>Aliquam lacus nisl, viverra convallis sit amet&nbsp;penatibus nunc&nbsp;luctus</p>
+                      </div>
                     </div>
-                    <div className="mt-3 sm:mt-0 sm:ml-3">
-                      <Link to="/contact" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                        Contact Us
-                      </Link>
+                    <div className="read_more">
+                      <div className="item_rating">
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                      </div>
+                      <a href={`/tours/${tour.id}`} className="read_more_button">
+                        VIEW MORE <i className="fa fa-long-arrow-right"></i>
+                      </a>
+                      <div className="clear"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Destination Carousel */}
+      <div className="section-white padding-top-6x padding-bottom-6x tours-type">
+        <div className="container">
+          <div className="shortcode_title title-center title-decoration-bottom-center">
+            <div className="title_subtitle">Find a Tour by</div>
+            <h3 className="title_primary">DESTINATION</h3>
+            <span className="line_after_title"></span>
+          </div>
+          <div className="wrapper-tours-slider wrapper-tours-type-slider">
+            <div 
+              className="tours-type-slider" 
+              data-dots="true" 
+              data-nav="true" 
+              data-responsive='{"0":{"items":1}, "480":{"items":2}, "768":{"items":3}, "992":{"items":4}, "1200":{"items":5}}'
+            >
+              {[
+                { name: 'Brazil', image: '/assets/img/city/brazil.jpg' },
+                { name: 'Philippines', image: '/assets/img/city/philippines.jpg' },
+                { name: 'Italy', image: '/assets/img/city/italy.jpg' },
+                { name: 'USA', image: '/assets/img/city/usa.jpg' },
+                { name: 'Canada', image: '/assets/img/city/canada.jpg' },
+                { name: 'Cuba', image: '/assets/img/city/cuba.jpg' }
+              ].map((dest, index) => (
+                <div key={index} className="tours_type_item">
+                  <a href="/tours" className="tours-type__item__image">
+                    <img src={dest.image} alt={dest.name} />
+                  </a>
+                  <div className="content-item">
+                    <div className="item__title">{dest.name}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Center Achievements */}
+      <div className="padding-top-6x padding-bottom-6x bg__shadow section-background" style={{backgroundImage: 'url(/assets/img/home/bg-pallarax.jpg)'}}>
+        <div className="container">
+          <div className="shortcode_title text-white title-center title-decoration-bottom-center">
+            <div className="title_subtitle">Some statistics about Sharavista Tours</div>
+            <h3 className="title_primary">CENTER ACHIEVEMENTS</h3>
+            <span className="line_after_title" style={{color:'#ffffff'}}></span>
+          </div>
+          <div className="row">
+            {[
+              { value: '94,532', label: 'Customers', icon: 'flaticon-airplane' },
+              { value: '1,021', label: 'Destinations', icon: 'flaticon-island' },
+              { value: '20,096', label: 'Tours', icon: 'flaticon-globe' },
+              { value: '12', label: 'Tour types', icon: 'flaticon-people' }
+            ].map((stat, index) => (
+              <div key={index} className="col-sm-3">
+                <div className="stats_counter text-center text-white">
+                  <div className="wrapper-icon">
+                    <i className={stat.icon}></i>
+                  </div>
+                  <div className="stats_counter_number">{stat.value}</div>
+                  <div className="stats_counter_title">{stat.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Deals and Discounts */}
+      <div className="section-white padding-top-6x padding-bottom-6x">
+        <div className="container">
+          <div className="shortcode_title title-center title-decoration-bottom-center">
+            <h3 className="title_primary">DEALS AND DISCOUNTS</h3>
+            <span className="line_after_title"></span>
+          </div>
+          <div className="row wrapper-tours-slider">
+            <div 
+              className="tours-type-slider list_content" 
+              data-dots="true" 
+              data-nav="true" 
+              data-responsive='{"0":{"items":1}, "480":{"items":2}, "768":{"items":3}, "992":{"items":3}, "1200":{"items":3}}'
+            >
+              {[
+                { id: 1, title: 'Anchorage to Santiago', price: 89.00, image: '/assets/img/tour-3.jpg' },
+                { id: 2, title: 'Anchorage to Ushuaia', price: 90.00, image: '/assets/img/tour-4.jpg' },
+                { id: 3, title: 'Discover Brazil', price: 94.00, image: '/assets/img/tour-5.jpg' },
+                { id: 4, title: 'Kiwiana Panorama', price: 87.00, salePrice: 82.00, image: '/assets/img/tour-1.jpg', sale: true }
+              ].map((deal) => (
+                <div key={deal.id} className="item-tour">
+                  <div className="item_border">
+                    <div className="item_content">
+                      <div className="post_images">
+                        <a href={`/tours/${deal.id}`} className="travel_tour-LoopProduct-link">
+                          {deal.sale ? (
+                            <>
+                              <span className="price">
+                                <del><span className="travel_tour-Price-amount amount">${deal.price.toFixed(2)}</span></del>
+                                <ins><span className="travel_tour-Price-amount amount">${deal.salePrice.toFixed(2)}</span></ins>
+                              </span>
+                              <span className="onsale">Sale!</span>
+                            </>
+                          ) : (
+                            <span className="price">
+                              <span className="travel_tour-Price-amount amount">${deal.price.toFixed(2)}</span>
+                            </span>
+                          )}
+                          <img src={deal.image} alt={deal.title} title={deal.title} />
+                          <div className="group-icon">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="River Cruise" className="frist">
+                              <i className="flaticon-transport-2"></i>
+                            </a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Wildlife">
+                              <i className="flaticon-island"></i>
+                            </a>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="wrapper_content">
+                        <div className="post_title">
+                          <h4><a href={`/tours/${deal.id}`} rel="bookmark">{deal.title}</a></h4>
+                        </div>
+                        <span className="post_date">5 DAYS 4 NIGHTS</span>
+                        <p>Aliquam lacus nisl, viverra convallis sit amet&nbsp;penatibus nunc&nbsp;luctus</p>
+                      </div>
+                    </div>
+                    <div className="read_more">
+                      <div className="item_rating">
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                        <i className="fa fa-star"></i>
+                      </div>
+                      <a href={`/tours/${deal.id}`} className="read_more_button">
+                        VIEW MORE <i className="fa fa-long-arrow-right"></i>
+                      </a>
+                      <div className="clear"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Special Offer */}
+      <div className="bg__shadow padding-top-6x padding-bottom-6x section-background" style={{backgroundImage: 'url(/assets/img/home/bg-pallarax.jpg)'}}>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-2"></div>
+            <div className="col-sm-8">
+              <div className="discounts-tour">
+                <h3 style={{color:'#ffffff'}} className="discounts-title"> 
+                  Special Tour in April, Discover Australia for 100 customers with
+                  <span> discount 50%</span>
+                </h3>
+                <span className="line" style={{color:'#ffffff'}}></span>
+                <p style={{color:'#ffffff'}}>It’s limited seating! Hurry up</p>
+                <div className="row centered text-center" id="myCounter"></div>
+                <div className="col-sm-12 text-center padding-top-2x">
+                  <a href="/tours/special" className="icon-btn">
+                    <i className="flaticon-airplane-4"></i> Get tour 
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-2"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Reviews & Latest Posts */}
+      <div className="section-white padding-top-6x padding-bottom-6x">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-4">
+              <div className="shortcode_title title-center title-decoration-bottom-center">
+                <h2 className="title_primary">Tours Reviews</h2>
+                <span className="line_after_title"></span>
+              </div>
+              <div className="shortcode-tour-reviews wrapper-tours-slider">
+                <div 
+                  className="tours-type-slider" 
+                  data-autoplay="true" 
+                  data-dots="true" 
+                  data-nav="false" 
+                  data-responsive='{"0":{"items":1}, "480":{"items":1}, "768":{"items":1}, "992":{"items":1}, "1200":{"items":1}}'
+                >
+                  {[
+                    { name: 'Jessica', tour: 'Canadian Rockies', comment: 'The sightseeing and activities were better than we even thought! I still can’t believe we did so much in such a short time' },
+                    { name: 'Michael', tour: 'Maasai Mara Safari', comment: 'Absolutely amazing safari experience! Saw all the Big Five and the guides were incredibly knowledgeable.' },
+                    { name: 'Sarah', tour: 'Diani Beach Paradise', comment: 'Our family beach getaway was perfect. The kids loved the activities and we adults enjoyed the relaxation.' }
+                  ].map((review, index) => (
+                    <div key={index} className="tour-reviews-item">
+                      <div className="reviews-item-info">
+                        <img alt={review.name} src="/assets/img/avata.jpg" className="avatar avatar-95 photo" height="90" width="90" />
+                        <div className="reviews-item-info-name">{review.name}</div>
+                        <div className="reviews-item-rating">
+                          <i className="fa fa-star"></i>
+                          <i className="fa fa-star"></i>
+                          <i className="fa fa-star"></i>
+                          <i className="fa fa-star"></i>
+                          <i className="fa fa-star"></i>
+                        </div>
+                      </div>
+                      <div className="reviews-item-content">
+                        <h3 className="reviews-item-title">
+                          <a href="#">{review.tour}</a>
+                        </h3>
+                        <div className="reviews-item-description">{review.comment}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-8">
+              <div className="shortcode_title title-center title-decoration-bottom-center">
+                <h2 className="title_primary">Latest Post</h2>
+                <span className="line_after_title"></span>
+              </div>
+              <div className="row">
+                <div className="post_list_content_unit col-sm-6">
+                  <div className="feature-image">
+                    <a href="#" className="entry-thumbnail">
+                      <img width="370" height="260" src="/assets/img/blog/201H.jpg" alt="Love advice from experts" />
+                    </a>
+                  </div>
+                  <div className="post-list-content">
+                    <div className="post_list_inner_content_unit">
+                      <h3 className="post_list_title">
+                        <a href="/blog/single" rel="bookmark">Love advice from experts</a>
+                      </h3>
+                      <div className="wrapper-meta">
+                        <div className="date-time">September 6, 2016</div>
+                        <div className="post_list_cats">
+                          <a href="#" rel="category tag">Travel Tips</a>
+                        </div>
+                      </div>
+                      <div className="post_list_item_excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam efficitur</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="post_list_content_unit col-sm-6">
+                  <div className="feature-image">
+                    <a href="#" className="entry-thumbnail">
+                      <img width="370" height="260" src="/assets/img/blog/86H.jpg" alt="The perfect summer body" />
+                    </a>
+                  </div>
+                  <div className="post-list-content">
+                    <div className="post_list_inner_content_unit">
+                      <h3 className="post_list_title">
+                        <a href="/blog/single" rel="bookmark">The perfect summer body</a>
+                      </h3>
+                      <div className="wrapper-meta">
+                        <div className="date-time">September 6, 2016</div>
+                        <div className="post_list_cats">
+                          <a href="#" rel="category tag">Health</a>
+                        </div>
+                      </div>
+                      <div className="post_list_item_excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam efficitur</div>
                     </div>
                   </div>
                 </div>
@@ -71,104 +489,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
-        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-          <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Travel destinations collage" />
-        </div>
       </div>
-      
-      {/* Stats Section */}
-      <Stats stats={stats} />
-      
-      {/* Featured Packages */}
-      <div className="py-16 bg-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              Featured Tour Packages
-            </h2>
-            <p className="mt-4 text-xl text-gray-500 max-w-3xl mx-auto">
-              Handpicked experiences for the most discerning travelers
-            </p>
-          </div>
-          
-          {featuredError && (
-            <div className="text-center text-red-500 py-4">
-              {featuredError}
-            </div>
-          )}
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredPackages.map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} />
-            ))}
-          </div>
-          
-          <div className="text-center mt-12">
-            <Link to="/tours" className="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium text-lg">
-              View All Tours
-              <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
-      </div>
-      
-      {/* Popular Destinations */}
-      <div className="py-16 bg-gray-50">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              Popular Destinations
-            </h2>
-            <p className="mt-4 text-xl text-gray-500 max-w-3xl mx-auto">
-              Discover our most sought-after travel destinations
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {['Maasai Mara Safari', 'Malindi Beach Getaway', 'Mount Kenya Adventure', 'Lamu Island Cultural Tour'].map((destination, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
-                <img
-                  src={`https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80&${index}`}
-                  alt={destination}
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-xl font-bold">{destination}</h3>
-                    <button className="mt-4 bg-white text-primary-600 font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                      Explore
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      
-      {/* Testimonials */}
-      <Testimonials />
-      
-      {/* CTA Section */}
-      <div className="bg-primary-600">
-        <div className="container py-16">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">
-              Ready to Start Your Journey?
-            </h2>
-            <p className="mt-4 text-xl text-primary-100 max-w-3xl mx-auto">
-              Book your next adventure today and experience the world like never before.
-            </p>
-            <div className="mt-8">
-              <Link to="/tours" className="inline-flex items-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors">
-                Book Now
-                <ArrowRightIcon className="ml-2 h-6 w-6" aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   )
 }

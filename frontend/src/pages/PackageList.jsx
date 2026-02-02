@@ -9,6 +9,7 @@ import Spinner from '../components/Spinner'
 export default function PackageList() {
   const dispatch = useDispatch()
   const { data: packages, loading, error } = useSelector((state) => state.packages)
+  console.log(packages) 
 
   useEffect(() => {
     dispatch(fetchPackages())
