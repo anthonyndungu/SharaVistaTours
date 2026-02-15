@@ -1,5 +1,5 @@
 import { TourPackage, PackageImage, Review } from '../models/index.js';
-import { Op, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 import logger from '../utils/logger.js';
 
 // @desc    Get all tour packages
@@ -270,7 +270,7 @@ export const getPackageStats = async (req, res) => {
     const stats = await TourPackage.findAll({
       attributes: [
         'category',
-        [Sequelize.fn('COUNT', sequelize.col('id')), 'count'],
+        [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
         [sequelize.fn('AVG', sequelize.col('price_adult')), 'avgPrice'],
         [sequelize.fn('MAX', sequelize.col('price_adult')), 'maxPrice'],
         [sequelize.fn('MIN', sequelize.col('price_adult')), 'minPrice']

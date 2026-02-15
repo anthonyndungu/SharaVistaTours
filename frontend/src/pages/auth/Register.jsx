@@ -183,9 +183,11 @@ export default function Register() {
         name: values.name,
         email: values.email,
         phone: values.phone,
-        password: values.password
+        password: values.password,
+        confirmPassword: values.confirmPassword
       }
       await dispatch(register(userData))
+     
       navigate('/dashboard', { replace: true })
     } catch (err) {
       console.error('Registration error:', err)

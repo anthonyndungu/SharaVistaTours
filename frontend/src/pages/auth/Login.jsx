@@ -119,7 +119,8 @@ export default function Login() {
   const handleSubmit = async (values, { setSubmitting }) => {
     dispatch(clearError())
     try {
-      await dispatch(login(values))
+      const response = await dispatch(login(values))
+      console.log('Login response:', response)
       const from = location.state?.from?.pathname || '/dashboard'
       navigate(from, { replace: true })
     } catch (err) {

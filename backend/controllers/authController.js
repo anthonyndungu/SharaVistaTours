@@ -11,6 +11,8 @@ export const signup = async (req, res) => {
   try {
     const { name, email, phone, password, confirmPassword } = req.body;
 
+    console.log('*********************************************************Signup request body:', req.body);
+
     // Check if passwords match
     if (password !== confirmPassword) {
       return res.status(400).json({
