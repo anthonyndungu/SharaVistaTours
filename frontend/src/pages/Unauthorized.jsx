@@ -9,7 +9,7 @@ export default function Unauthorized() {
   const handleLogout = () => {
     dispatch(logout())
     dispatch(clearAuthState())
-    navigate('/auth/login', { replace: true })
+    navigate('/', { replace: true })
   }
 
   return (

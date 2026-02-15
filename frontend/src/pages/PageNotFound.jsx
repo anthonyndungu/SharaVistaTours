@@ -34,7 +34,7 @@ export default function PageNotFound() {
             <Link to="/contact" className="block text-primary-600 hover:text-primary-700">
               Contact Us
             </Link>
-            <Link to="/auth/login" className="block text-primary-600 hover:text-primary-700">
+            <Link to="/" className="block text-primary-600 hover:text-primary-700">
               Sign In
             </Link>
           </div>

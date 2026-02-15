@@ -34,7 +34,7 @@ export default function ForgotPassword() {
           Please check your inbox and spam folder.
         </p>
         <button
-          onClick={() => navigate('/auth/login')}
+          onClick={() => navigate('/')}
           className="text-primary-600 hover:text-primary-700 font-medium"
         >
           Back to sign in
@@ -76,7 +76,7 @@ export default function ForgotPassword() {
         <div className="flex space-x-4">
           <button
             type="button"
-            onClick={() => navigate('/auth/login')}
+            onClick={() => navigate('/')}
             className="flex-1 bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg hover:bg-gray-50"
           >
             Cancel

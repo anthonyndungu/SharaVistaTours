@@ -7,6 +7,7 @@ import Gallery from './pages/Gallery'
 import TravelTips from './pages/TravelTips'
 import Contact from './pages/Contact'
 import SingleTour from './pages/SingleTour'
+import AdminDashboard from './pages/admin/AdminDashboard'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         {/* ✅ CORRECT: MainLayout as parent route with nested children */}
         <Route path="/" element={<MainLayout />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route index element={<Home />} />
           <Route path="tours" element={<Tours />} />
           <Route path="destinations" element={<Destinations />} />

@@ -170,3 +170,64 @@
 2026-02-02 13:46:23:4623 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
 2026-02-02 13:46:23:4623 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
 2026-02-02 13:46:23:4623 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-02 20:12:57:1257 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-02 20:12:58:1258 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-02 20:12:58:1258 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-02 20:12:58:1258 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-03 09:49:52:4952 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-03 09:49:53:4953 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-03 09:49:53:4953 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-03 09:49:53:4953 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-15 12:10:40:1040 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-15 12:10:42:1042 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-15 12:10:42:1042 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-15 12:10:42:1042 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-15 12:43:22:4322 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 12:43:22:4322 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 12:43:22:4322 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 12:43:22:4322 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 12:43:22:4322 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 12:43:23:4323 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 12:43:53:4353 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 12:43:53:4353 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 12:43:53:4353 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 12:43:54:4354 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 12:43:54:4354 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 12:43:54:4354 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:24:36:2436 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-15 13:24:56:2456 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-15 13:24:59:2459 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-15 13:24:59:2459 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-15 13:24:59:2459 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-15 13:28:11:2811 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-15 13:28:29:2829 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:28:29:2829 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:28:29:2829 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:28:29:2829 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:28:29:2829 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:28:29:2829 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:30:51:3051 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-15 13:30:51:3051 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:30:51:3051 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:30:51:3051 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:31:52:3152 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-15 13:33:13:3313 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:33:13:3313 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:33:13:3313 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:33:13:3313 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:33:13:3313 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:33:13:3313 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:34:53:3453 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:34:53:3453 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:34:53:3453 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:34:53:3453 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:34:53:3453 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:34:53:3453 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:51:31:5131 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-15 13:51:31:5131 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:51:31:5131 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:51:31:5131 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:52:04:524 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-15 13:52:04:524 [31merror[39m: [31mGet package stats error: sequelize is not defined[39m
+2026-02-15 13:52:04:524 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-15 13:52:04:524 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m

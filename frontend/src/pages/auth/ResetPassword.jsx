@@ -41,7 +41,7 @@ export default function ResetPassword() {
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
-        navigate('/auth/login')
+        navigate('/')
       }, 3000)
       return () => clearTimeout(timer)
     }

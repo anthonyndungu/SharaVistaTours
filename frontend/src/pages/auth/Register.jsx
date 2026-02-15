@@ -1,188 +1,304 @@
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+// import { Link, useNavigate } from 'react-router-dom'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { Formik, Form, Field, ErrorMessage } from 'formik'
+// import * as Yup from 'yup'
+// import { register, clearError } from '../../features/auth/authSlice'
+
+// export default function Register() {
+//   const dispatch = useDispatch()
+//   const navigate = useNavigate()
+//   const { loading, error } = useSelector((state) => state.auth)
+
+//   const validationSchema = Yup.object({
+//     name: Yup.string().required('Full name is required'),
+//     email: Yup.string().email('Invalid email address').required('Email is required'),
+//     phone: Yup.string()
+//       .matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number')
+//       .required('Phone number is required'),
+//     password: Yup.string()
+//       .min(6, 'Password must be at least 6 characters')
+//       .required('Password is required'),
+//     confirmPassword: Yup.string()
+//       .oneOf([Yup.ref('password')], 'Passwords must match')
+//       .required('Please confirm your password')
+//   })
+
+//   const handleSubmit = async (values, { setSubmitting }) => {
+//     dispatch(clearError())
+//     try {
+//       const userData = {
+//         name: values.name,
+//         email: values.email,
+//         phone: values.phone,
+//         password: values.password
+//       }
+//       await dispatch(register(userData))
+//       navigate('/dashboard', { replace: true })
+//     } catch (err) {
+//       console.error('Registration error:', err)
+//     } finally {
+//       setSubmitting(false)
+//     }
+//   }
+
+//   return (
+//     <div className="register-form-container">
+//       <h3>Register</h3>
+      
+//       {error && (
+//         <div className="alert alert-danger">
+//           {error}
+//         </div>
+//       )}
+
+//       <Formik
+//         initialValues={{ 
+//           name: '', 
+//           email: '', 
+//           phone: '', 
+//           password: '', 
+//           confirmPassword: '' 
+//         }}
+//         validationSchema={validationSchema}
+//         onSubmit={handleSubmit}
+//       >
+//         {({ isSubmitting }) => (
+//           <Form className="register-form">
+//             <p className="form-row">
+//               <label htmlFor="name">Username <span className="required">*</span></label>
+//               <Field 
+//                 type="text" 
+//                 name="name" 
+//                 id="name" 
+//                 className="input" 
+//                 placeholder="Enter your full name"
+//               />
+//               <ErrorMessage name="name" component="div" className="error-message" />
+//             </p>
+            
+//             <p className="form-row">
+//               <label htmlFor="email">Email address <span className="required">*</span></label>
+//               <Field 
+//                 type="email" 
+//                 name="email" 
+//                 id="email" 
+//                 className="input" 
+//                 placeholder="Enter your email"
+//               />
+//               <ErrorMessage name="email" component="div" className="error-message" />
+//             </p>
+            
+//             <p className="form-row">
+//               <label htmlFor="phone">Phone Number <span className="required">*</span></label>
+//               <Field 
+//                 type="tel" 
+//                 name="phone" 
+//                 id="phone" 
+//                 className="input" 
+//                 placeholder="+254 712 345 678"
+//               />
+//               <ErrorMessage name="phone" component="div" className="error-message" />
+//             </p>
+            
+//             <p className="form-row">
+//               <label htmlFor="password">Password <span className="required">*</span></label>
+//               <Field 
+//                 type="password" 
+//                 name="password" 
+//                 id="password" 
+//                 className="input" 
+//                 placeholder="Create a password"
+//               />
+//               <ErrorMessage name="password" component="div" className="error-message" />
+//             </p>
+            
+//             <p className="form-row">
+//               <label htmlFor="confirmPassword">Confirm Password <span className="required">*</span></label>
+//               <Field 
+//                 type="password" 
+//                 name="confirmPassword" 
+//                 id="confirmPassword" 
+//                 className="input" 
+//                 placeholder="Confirm your password"
+//               />
+//               <ErrorMessage name="confirmPassword" component="div" className="error-message" />
+//             </p>
+            
+//             {/* Anti-spam field */}
+//             <div style={{left: '-999em', position: 'absolute'}}>
+//               <label htmlFor="trap">Anti-spam</label>
+//               <Field type="text" name="email_2" id="trap" tabIndex="-1" autoComplete="off" />
+//             </div>
+            
+//             <p className="form-row">
+//               <button 
+//                 type="submit" 
+//                 className="button" 
+//                 disabled={isSubmitting || loading}
+//               >
+//                 {loading ? 'Creating account...' : 'Register'}
+//               </button>
+//             </p>
+//           </Form>
+//         )}
+//       </Formik>
+      
+//       <p className="login-link">
+//         Already have an account? <Link to="/auth/login">Login</Link>
+//       </p>
+//     </div>
+//   )
+// }
+
+
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 import { register, clearError } from '../../features/auth/authSlice'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import Spinner from '../../components/Spinner'
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: ''
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading, error } = useSelector((state) => state.auth)
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Full name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    phone: Yup.string()
+      .matches(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number')
+      .required('Phone number is required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')], 'Passwords must match')
+      .required('Please confirm your password')
+  })
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (values, { setSubmitting }) => {
     dispatch(clearError())
-    
-    if (formData.password !== formData.confirmPassword) {
-      // Handle password mismatch
-      return
+    try {
+      const userData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        password: values.password
+      }
+      await dispatch(register(userData))
+      navigate('/dashboard', { replace: true })
+    } catch (err) {
+      console.error('Registration error:', err)
+    } finally {
+      setSubmitting(false)
     }
-    
-    const userData = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      password: formData.password
-    }
-    
-    await dispatch(register(userData))
-    navigate('/dashboard', { replace: true })
   }
 
   return (
-    <div className="bg-white p-8 rounded-xl shadow-card">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900">Create your account</h2>
-        <p className="text-gray-600 mt-2">Already have an account? <Link to="/auth/login" className="text-primary-600 hover:text-primary-700 font-medium">Sign in</Link></p>
-      </div>
-
+    <div className="register-form-container">
+      <h3>Register</h3>
+      
       {error && (
-        <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-6 text-sm">
+        <div className="alert alert-danger">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email address
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Phone Number
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            required
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            placeholder="+254 712 345 678"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              id="password"
-              name="password"
-              type={showPassword ? 'text' : 'password'}
-              required
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 pr-10"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            >
-              {showPassword ? (
-                <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-              ) : (
-                <EyeIcon className="h-5 w-5 text-gray-400" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-            Confirm Password
-          </label>
-          <div className="relative">
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type={showConfirmPassword ? 'text' : 'password'}
-              required
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 pr-10"
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center"
-            >
-              {showConfirmPassword ? (
-                <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-              ) : (
-                <EyeIcon className="h-5 w-5 text-gray-400" />
-              )}
-            </button>
-          </div>
-          {formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword && (
-            <p className="mt-1 text-sm text-red-600">Passwords do not match</p>
-          )}
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            disabled={loading || (formData.password !== formData.confirmPassword)}
-            className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-75 disabled:cursor-not-allowed flex justify-center items-center"
-          >
-            {loading ? <Spinner size="sm" /> : 'Create account'}
-          </button>
-        </div>
-      </form>
-
-      <div className="mt-6 text-center text-sm text-gray-600">
-        By creating an account, you agree to our{' '}
-        <Link to="/terms" className="text-primary-600 hover:text-primary-700">Terms of Service</Link> and{' '}
-        <Link to="/privacy" className="text-primary-600 hover:text-primary-700">Privacy Policy</Link>.
-      </div>
+      <Formik
+        initialValues={{ 
+          name: '', 
+          email: '', 
+          phone: '', 
+          password: '', 
+          confirmPassword: '' 
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className="register-form">
+            <p className="form-row">
+              <label htmlFor="name">Username <span className="required">*</span></label>
+              <Field 
+                type="text" 
+                name="name" 
+                id="name" 
+                className="input" 
+                placeholder="Enter your full name"
+              />
+              <ErrorMessage name="name" component="div" className="error-message" />
+            </p>
+            
+            <p className="form-row">
+              <label htmlFor="email">Email address <span className="required">*</span></label>
+              <Field 
+                type="email" 
+                name="email" 
+                id="email" 
+                className="input" 
+                placeholder="Enter your email"
+              />
+              <ErrorMessage name="email" component="div" className="error-message" />
+            </p>
+            
+            <p className="form-row">
+              <label htmlFor="phone">Phone Number <span className="required">*</span></label>
+              <Field 
+                type="tel" 
+                name="phone" 
+                id="phone" 
+                className="input" 
+                placeholder="+254 712 345 678"
+              />
+              <ErrorMessage name="phone" component="div" className="error-message" />
+            </p>
+            
+            <p className="form-row">
+              <label htmlFor="password">Password <span className="required">*</span></label>
+              <Field 
+                type="password" 
+                name="password" 
+                id="password" 
+                className="input" 
+                placeholder="Create a password"
+              />
+              <ErrorMessage name="password" component="div" className="error-message" />
+            </p>
+            
+            <p className="form-row">
+              <label htmlFor="confirmPassword">Confirm Password <span className="required">*</span></label>
+              <Field 
+                type="password" 
+                name="confirmPassword" 
+                id="confirmPassword" 
+                className="input" 
+                placeholder="Confirm your password"
+              />
+              <ErrorMessage name="confirmPassword" component="div" className="error-message" />
+            </p>
+            
+            {/* Anti-spam field */}
+            <div style={{left: '-999em', position: 'absolute'}}>
+              <label htmlFor="trap">Anti-spam</label>
+              <Field type="text" name="email_2" id="trap" tabIndex="-1" autoComplete="off" />
+            </div>
+            
+            <p className="form-row">
+              <button 
+                type="submit" 
+                className="button" 
+                disabled={isSubmitting || loading}
+              >
+                {loading ? 'Creating account...' : 'Register'}
+              </button>
+            </p>
+          </Form>
+        )}
+      </Formik>
+      
+      <p className="login-link">
+        Already have an account? <Link to="/auth/login">Login</Link>
+      </p>
     </div>
   )
 }
