@@ -27,7 +27,7 @@ export const protect = async (req, res, next) => {
     const currentUser = await User.findByPk(decoded.id, {
       attributes: { exclude: ['password', 'password_changed_at', 'password_reset_token', 'password_reset_expires'] }
     });
-    
+
     if (!currentUser) {
       return res.status(401).json({
         status: 'fail',
