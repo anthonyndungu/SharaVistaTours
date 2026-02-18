@@ -1,139 +1,368 @@
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { logout, clearAuthState } from '../features/auth/authSlice'
+import { useState, useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, clearAuthState } from '../features/auth/authSlice';
 import { 
-  HomeIcon, 
-  UserCircleIcon, 
-  DocumentTextIcon, 
-  CreditCardIcon, 
-  Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
-  XMarkIcon,
   Bars3Icon
-} from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+} from '@heroicons/react/24/outline';
+import { Link } from 'react-router-dom';
 
+// Brand colors
+const COLORS = {
+  primary: '#1976d2',
+  primaryLight: '#e3f2fd',
+  text: '#000',
+  textSecondary: '#555',
+  background: '#fff',
+  sidebarBg: '#ffffff',
+  border: '#e0e0e0',
+  cardShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  hoverBg: '#f8f9fa'
+};
+
+// Navigation items
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  { name: 'My Bookings', href: '/dashboard/bookings', icon: DocumentTextIcon },
-  { name: 'Profile', href: '/dashboard/profile', icon: UserCircleIcon },
-  { name: 'Payment History', href: '/dashboard/payments', icon: CreditCardIcon },
-]
+  { name: 'Dashboard', href: '/dashboard', icon: '📊' },
+  { name: 'My Bookings', href: '/dashboard/bookings', icon: '📅' },
+  { name: 'Profile', href: '/dashboard/profile', icon: '👤' },
+  { name: 'Payment History', href: '/dashboard/payments', icon: '💰' },
+];
 
 export default function DashboardLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.auth)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    setMobileSidebarOpen(false);
+  }, [location.pathname]);
+
+  // Handle window resize to close mobile sidebar on desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileSidebarOpen(false);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogout = () => {
-    dispatch(logout())
-    dispatch(clearAuthState())
-  }
+    dispatch(logout());
+    dispatch(clearAuthState());
+    navigate('/');
+  };
+
+  // ✅ Check if we're on mobile
+  const isMobile = window.innerWidth < 768;
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Mobile sidebar */}
-      <div className={`fixed inset-0 z-40 lg:hidden ${sidebarOpen ? 'block' : 'hidden'}`}>
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)}></div>
-        <div className="relative flex w-full max-w-xs flex-1 flex-col bg-white">
-          <div className="absolute top-0 right-0 -mr-12 pt-2">
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
+      {/* Mobile sidebar overlay */}
+      {mobileSidebarOpen && isMobile && (
+        <>
+          <div
+            onClick={() => setMobileSidebarOpen(false)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              zIndex: 99
+            }}
+          ></div>
+          <div
+            style={{
+              width: '260px',
+              backgroundColor: COLORS.sidebarBg,
+              boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
+              zIndex: 100,
+              position: 'fixed',
+              height: '100vh',
+              overflowY: 'auto'
+            }}
+          >
+            {/* Logo/Header */}
+            <div style={{
+              padding: '24px 20px',
+              borderBottom: `1px solid ${COLORS.border}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  backgroundColor: COLORS.primary,
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  fontSize: '18px'
+                }}>
+                  T
+                </div>
+                <h1 style={{
+                  marginLeft: '12px',
+                  fontSize: '18px',
+                  fontWeight: '700',
+                  color: COLORS.text
+                }}>
+                  TravelEase
+                </h1>
+              </div>
+              <button
+                onClick={() => setMobileSidebarOpen(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                  color: COLORS.text
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Navigation */}
+            <nav style={{ padding: '20px 0', flex: 1 }}>
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setMobileSidebarOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '14px 24px',
+                    textDecoration: 'none',
+                    color: location.pathname === item.href ? COLORS.primary : COLORS.textSecondary,
+                    backgroundColor: location.pathname === item.href ? COLORS.primaryLight : 'transparent',
+                    fontWeight: location.pathname === item.href ? '600' : 'normal',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <span style={{ marginRight: '12px', fontSize: '18px' }}>{item.icon}</span>
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* User Info & Logout */}
+            <div style={{
+              padding: '16px 24px',
+              borderTop: `1px solid ${COLORS.border}`,
+              color: COLORS.textSecondary,
+              fontSize: '14px'
+            }}>
+              <button
+                onClick={handleLogout}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: COLORS.textSecondary,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontWeight: '500'
+                }}
+              >
+                <ArrowLeftOnRectangleIcon style={{ height: '16px', width: '16px', marginRight: '8px' }} />
+                Logout
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Desktop sidebar - ONLY SHOW ON DESKTOP */}
+      {!isMobile && (
+        <div
+          style={{
+            width: '260px',
+            backgroundColor: COLORS.sidebarBg,
+            boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'fixed',
+            height: '100vh',
+            overflowY: 'auto',
+            zIndex: 100
+          }}
+        >
+          {/* Logo/Header */}
+          <div style={{
+            padding: '24px 20px',
+            borderBottom: `1px solid ${COLORS.border}`,
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <div style={{
+              width: '36px',
+              height: '36px',
+              backgroundColor: COLORS.primary,
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontWeight: 'bold',
+              fontSize: '18px'
+            }}>
+              T
+            </div>
+            <h1 style={{
+              marginLeft: '12px',
+              fontSize: '18px',
+              fontWeight: '700',
+              color: COLORS.text
+            }}>
+              TravelEase
+            </h1>
+          </div>
+
+          {/* Navigation */}
+          <nav style={{ padding: '20px 0', flex: 1 }}>
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '14px 24px',
+                  textDecoration: 'none',
+                  color: location.pathname === item.href ? COLORS.primary : COLORS.textSecondary,
+                  backgroundColor: location.pathname === item.href ? COLORS.primaryLight : 'transparent',
+                  fontWeight: location.pathname === item.href ? '600' : 'normal',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  if (location.pathname !== item.href) {
+                    e.target.style.backgroundColor = COLORS.hoverBg;
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (location.pathname !== item.href) {
+                    e.target.style.backgroundColor = 'transparent';
+                  }
+                }}
+              >
+                <span style={{ marginRight: '12px', fontSize: '18px' }}>{item.icon}</span>
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* User Info & Logout */}
+          <div style={{
+            padding: '16px 24px',
+            borderTop: `1px solid ${COLORS.border}`,
+            color: COLORS.textSecondary,
+            fontSize: '14px'
+          }}>
             <button
-              type="button"
-              className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              onClick={() => setSidebarOpen(false)}
+              onClick={handleLogout}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: COLORS.textSecondary,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                fontWeight: '500'
+              }}
             >
-              <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+              <ArrowLeftOnRectangleIcon style={{ height: '16px', width: '16px', marginRight: '8px' }} />
+              Logout
             </button>
           </div>
-
-          <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-            <div className="flex flex-shrink-0 items-center px-4">
-              <div className="text-primary-600 font-bold text-xl">TravelEase</div>
-            </div>
-            <nav className="mt-5 flex-1 px-2 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                >
-                  <item.icon className="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
         </div>
-      </div>
-
-      {/* Static sidebar for desktop */}
-      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-        <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto bg-white border-r">
-          <div className="flex items-center flex-shrink-0 px-4">
-            <div className="text-primary-600 font-bold text-xl">TravelEase</div>
-          </div>
-          <div className="mt-5 flex-1 flex flex-col">
-            <nav className="flex-1 px-2 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                >
-                  <item.icon className="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Main content */}
-      <div className="lg:pl-64 flex flex-col">
-        {/* Top bar */}
-        <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
-          <button
-            type="button"
-            className="px-4 border-r lg:hidden text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
-          <div className="flex-1 flex justify-between px-4">
-            <div className="flex items-center">
-              <h1 className="text-lg font-semibold text-gray-900">Dashboard</h1>
-            </div>
-            <div className="ml-4 flex items-center md:ml-6">
-              <div className="relative ml-3">
-                <div className="flex items-center space-x-3">
-                  <div className="text-right hidden md:block">
-                    <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-                    <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center text-sm text-gray-700 hover:text-gray-900"
-                  >
-                    <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-1" />
-                    <span className="hidden md:inline">Sign out</span>
-                  </button>
-                </div>
-              </div>
+      <div style={{
+        flex: 1,
+        marginLeft: !isMobile ? '260px' : '0', // ✅ Only add margin on desktop
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        {/* Top header */}
+        <header style={{
+          backgroundColor: COLORS.background,
+          padding: '16px 24px',
+          borderBottom: `1px solid ${COLORS.border}`,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'sticky',
+          top: 0,
+          zIndex: 90
+        }}>
+          {/* ✅ MOBILE MENU BUTTON - ALWAYS VISIBLE BUT ONLY NEEDED ON MOBILE */}
+          {isMobile && (
+            <button
+              onClick={() => setMobileSidebarOpen(true)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: COLORS.text
+              }}
+            >
+              <Bars3Icon style={{ height: '24px', width: '24px' }} />
+            </button>
+          )}
+          
+          {/* On desktop, show empty div to maintain spacing */}
+          {!isMobile && <div style={{ width: '24px' }}></div>}
+          
+          <h1 style={{
+            fontSize: '20px',
+            fontWeight: '700',
+            color: COLORS.text
+          }}>
+            Dashboard
+          </h1>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px'
+          }}>
+            <div style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: COLORS.primaryLight,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: COLORS.primary,
+              fontWeight: 'bold'
+            }}>
+              {user?.name?.charAt(0).toUpperCase() || 'U'}
             </div>
           </div>
-        </div>
+        </header>
 
         {/* Page content */}
-        <main className="flex-1">
-          <div className="py-6">
-            <div className="container">
-              <Outlet />
-            </div>
-          </div>
+        <main style={{ padding: '24px', flex: 1 }}>
+          <Outlet />
         </main>
       </div>
     </div>
-  )
+  );
 }

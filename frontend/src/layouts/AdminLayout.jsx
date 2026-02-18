@@ -1,6 +1,5 @@
-// src/layouts/AdminLayout.jsx
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, clearAuthState } from '../features/auth/authSlice';
 import { 
@@ -36,11 +35,13 @@ const COLORS = {
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // ✅ Added for redirect after logout
   const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearAuthState());
+    navigate('/'); // ✅ Redirect to home after logout
   };
 
   return (
@@ -266,18 +267,17 @@ export default function AdminLayout() {
         display: 'flex',
         flexDirection: 'column'
       }}>
-        {/* Top mobile header */}
+        {/* Top mobile header - FIXED: removed duplicate display property */}
         <header style={{
           backgroundColor: COLORS.background,
           padding: '16px 24px',
           borderBottom: `1px solid ${COLORS.border}`,
-          display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           position: 'sticky',
           top: 0,
           zIndex: 90,
-          display: 'none'
+          display: 'none' // ✅ Only ONE display property now
         }}>
           <button
             onClick={() => setSidebarOpen(true)}

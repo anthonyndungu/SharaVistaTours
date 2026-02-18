@@ -8,7 +8,7 @@ export default function AuthLayout() {
       <header className="bg-white shadow-sm">
         <div className="container py-4">
           <Link to="/" className="text-primary-600 font-bold text-xl">
-            TravelEase
+            Sharavista Tours & Travel
           </Link>
         </div>
       </header>
