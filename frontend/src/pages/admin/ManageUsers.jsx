@@ -1,115 +1,331 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllUsers } from '../../features/auth/authSlice'
-import { UserIcon } from '@heroicons/react/24/outline'
-import Spinner from '../../components/Spinner'
+// import { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { fetchAllUsers } from '../../features/auth/authSlice';
+// import Spinner from '../../components/Spinner';
 
-// Note: You'll need to implement fetchAllUsers in your authSlice
-// For now, we'll create a basic implementation
+// const COLORS = {
+//   primary: '#1976d2',
+//   text: '#000',
+//   textSecondary: '#555',
+//   background: '#fff',
+//   border: '#e0e0e0',
+//   cardShadow: '0 2px 8px rgba(0,0,0,0.1)'
+// };
+
+// export default function ManageUsers() {
+//   const dispatch = useDispatch();
+//   const { users, loading } = useSelector((state) => state.auth);
+//   const [searchTerm, setSearchTerm] = useState('');
+
+//   useEffect(() => {
+//     dispatch(fetchAllUsers());
+//   }, [dispatch]);
+
+//   if (loading) {
+//     return (
+//       <div style={{ padding: '48px 0', textAlign: 'center' }}>
+//         <Spinner />
+//       </div>
+//     );
+//   }
+
+//   const filteredUsers = (users || []).filter(user =>
+//     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     user.email.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+
+//   return (
+//     <div>
+//       <div style={{
+//         display: 'flex',
+//         justifyContent: 'space-between',
+//         alignItems: 'center',
+//         marginBottom: '24px'
+//       }}>
+//         <h1 style={{
+//           fontSize: '24px',
+//           fontWeight: '700',
+//           color: COLORS.text
+//         }}>
+//           Manage Clients
+//         </h1>
+//         <div style={{ display: 'flex', gap: '12px' }}>
+//           <input
+//             type="text"
+//             placeholder="Search clients..."
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//             style={{
+//               padding: '8px 12px',
+//               border: `1px solid ${COLORS.border}`,
+//               borderRadius: '4px',
+//               fontSize: '14px',
+//               minWidth: '200px'
+//             }}
+//           />
+//         </div>
+//       </div>
+
+//       {/* Stats Summary */}
+//       <div style={{
+//         display: 'grid',
+//         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+//         gap: '16px',
+//         marginBottom: '24px'
+//       }}>
+//         <div style={{
+//           backgroundColor: COLORS.background,
+//           padding: '16px',
+//           borderRadius: '8px',
+//           boxShadow: COLORS.cardShadow
+//         }}>
+//           <p style={{ color: COLORS.textSecondary, fontSize: '14px', marginBottom: '4px' }}>Total Users</p>
+//           <p style={{ fontSize: '20px', fontWeight: '700', color: COLORS.text }}>{users?.length || 0}</p>
+//         </div>
+//         <div style={{
+//           backgroundColor: COLORS.background,
+//           padding: '16px',
+//           borderRadius: '8px',
+//           boxShadow: COLORS.cardShadow
+//         }}>
+//           <p style={{ color: COLORS.textSecondary, fontSize: '14px', marginBottom: '4px' }}>Admins</p>
+//           <p style={{ fontSize: '20px', fontWeight: '700', color: COLORS.text }}>
+//             {(users || []).filter(u => u.role === 'admin' || u.role === 'super_admin').length}
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* Users Table */}
+//       {filteredUsers.length > 0 ? (
+//         <div style={{ overflowX: 'auto', backgroundColor: COLORS.background, borderRadius: '8px', boxShadow: COLORS.cardShadow }}>
+//           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+//             <thead>
+//               <tr style={{ backgroundColor: '#f8f9fa' }}>
+//                 <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: COLORS.textSecondary }}>Name</th>
+//                 <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: COLORS.textSecondary }}>Email</th>
+//                 <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: COLORS.textSecondary }}>Phone</th>
+//                 <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: COLORS.textSecondary }}>Role</th>
+//                 <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: COLORS.textSecondary }}>Status</th>
+//                 <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: COLORS.textSecondary }}>Actions</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {filteredUsers.map((user) => (
+//                 <tr key={user.id} style={{ borderBottom: `1px solid ${COLORS.border}` }}>
+//                   <td style={{ padding: '12px 16px', color: COLORS.text, fontWeight: '600' }}>
+//                     {user.name}
+//                   </td>
+//                   <td style={{ padding: '12px 16px', color: COLORS.text }}>
+//                     {user.email}
+//                   </td>
+//                   <td style={{ padding: '12px 16px', color: COLORS.text }}>
+//                     {user.phone}
+//                   </td>
+//                   <td style={{ padding: '12px 16px' }}>
+//                     <span style={{
+//                       padding: '4px 8px',
+//                       borderRadius: '12px',
+//                       fontSize: '12px',
+//                       fontWeight: '600',
+//                       backgroundColor: user.role === 'admin' || user.role === 'super_admin' ? '#e3f2fd' : '#f5f5f5',
+//                       color: user.role === 'admin' || user.role === 'super_admin' ? COLORS.primary : COLORS.textSecondary
+//                     }}>
+//                       {user.role}
+//                     </span>
+//                   </td>
+//                   <td style={{ padding: '12px 16px' }}>
+//                     <span style={{
+//                       padding: '4px 8px',
+//                       borderRadius: '12px',
+//                       fontSize: '12px',
+//                       fontWeight: '600',
+//                       backgroundColor: user.is_verified ? '#e8f5e9' : '#fff3e0',
+//                       color: user.is_verified ? '#2e7d32' : '#e65100'
+//                     }}>
+//                       {user.is_verified ? 'Verified' : 'Pending'}
+//                     </span>
+//                   </td>
+//                   <td style={{ padding: '12px 16px' }}>
+//                     <button
+//                       style={{
+//                         padding: '6px 12px',
+//                         backgroundColor: COLORS.primary,
+//                         color: '#fff',
+//                         border: 'none',
+//                         borderRadius: '4px',
+//                         fontSize: '12px',
+//                         cursor: 'pointer'
+//                       }}
+//                     >
+//                       Edit
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       ) : (
+//         <div style={{
+//           textAlign: 'center',
+//           padding: '48px 0',
+//           color: COLORS.textSecondary,
+//           backgroundColor: COLORS.background,
+//           borderRadius: '8px',
+//           boxShadow: COLORS.cardShadow
+//         }}>
+//           No users found
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+
+// src/pages/admin/ManageUsers.jsx
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllUsers } from '../../features/auth/authSlice';
+import AdminTable from '../../components/AdminTable';
+import { 
+  Box, 
+  Typography, 
+  Chip,
+  Avatar
+} from '@mui/material';
+
+const COLORS = {
+  primary: '#1976d2',
+  success: '#2e7d32',
+  error: '#c62828',
+  warning: '#e65100'
+};
 
 export default function ManageUsers() {
-  const dispatch = useDispatch()
-  // const { users, loading, error } = useSelector((state) => state.auth)
-
-  // Since we don't have fetchAllUsers implemented yet, we'll show a placeholder
-  // In a real app, you would implement this endpoint in your backend
+  const dispatch = useDispatch();
+  const { users, loading } = useSelector((state) => state.auth);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // dispatch(fetchAllUsers())
-  }, [dispatch])
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
 
-  // Mock data for demonstration
-  const mockUsers = [
-    { id: '1', name: 'Admin User', email: 'admin@travelease.com', role: 'super_admin', createdAt: '2024-01-15' },
-    { id: '2', name: 'John Doe', email: 'john@example.com', role: 'client', createdAt: '2024-01-20' },
-    { id: '3', name: 'Sarah Johnson', email: 'sarah@example.com', role: 'client', createdAt: '2024-01-25' },
-    { id: '4', name: 'Mike Wilson', email: 'mike@example.com', role: 'admin', createdAt: '2024-02-01' }
-  ]
+  const columns = [
+    { id: 'name', label: 'Name', minWidth: 180 },
+    { id: 'email', label: 'Email', minWidth: 200 },
+    { id: 'phone', label: 'Phone', minWidth: 150 },
+    { id: 'role', label: 'Role', minWidth: 120 },
+    { id: 'status', label: 'Status', minWidth: 120 },
+    { id: 'actions', label: 'Actions', minWidth: 120, align: 'right' }
+  ];
 
-  // const loading = false
-  // const error = null
-
-  // if (loading) return <div className="py-12"><Spinner /></div>
+  const renderRow = (user) => (
+    <TableRow 
+      key={user.id} 
+      hover 
+      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      <TableCell>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Avatar 
+            sx={{ 
+              width: 32, 
+              height: 32, 
+              bgcolor: COLORS.primary,
+              fontSize: '0.875rem'
+            }}
+          >
+            {user.name.charAt(0).toUpperCase()}
+          </Avatar>
+          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+            {user.name}
+          </Typography>
+        </Box>
+      </TableCell>
+      <TableCell>{user.email}</TableCell>
+      <TableCell>{user.phone}</TableCell>
+      <TableCell>
+        <Chip 
+          label={user.role}
+          size="small"
+          sx={{
+            backgroundColor: user.role === 'admin' || user.role === 'super_admin' 
+              ? '#e3f2fd' 
+              : '#f5f5f5',
+            color: user.role === 'admin' || user.role === 'super_admin' 
+              ? COLORS.primary 
+              : '#666'
+          }}
+        />
+      </TableCell>
+      <TableCell>
+        <Chip 
+          label={user.is_verified ? 'Verified' : 'Pending'}
+          size="small"
+          sx={{
+            backgroundColor: user.is_verified ? '#e8f5e9' : '#fff3e0',
+            color: user.is_verified ? COLORS.success : COLORS.warning
+          }}
+        />
+      </TableCell>
+      <TableCell align="right">
+        {/* Add edit button if needed */}
+        <Typography variant="body2" color="textSecondary">
+          View Profile
+        </Typography>
+      </TableCell>
+    </TableRow>
+  );
 
   return (
-    <div className="py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">Manage Users</h1>
+    <Box sx={{ p: 0 }}>
+      <Typography variant="h5" sx={{ fontWeight: 700, color: '#000', mb: 3 }}>
+        Manage Clients
+      </Typography>
 
-      {/* Note about implementation */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
-        <p className="text-yellow-800">
-          <strong>Note:</strong> User management functionality requires additional backend endpoints 
-          (GET /api/v1/users, PATCH /api/v1/users/:id/role, DELETE /api/v1/users/:id). 
-          This is a placeholder implementation showing the UI structure.
-        </p>
-      </div>
+      {/* Stats Summary */}
+      <Box sx={{ 
+        display: 'grid', 
+        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, 
+        gap: 2, 
+        mb: 3 
+      }}>
+        <Box sx={{ 
+          p: 2, 
+          backgroundColor: '#fff', 
+          borderRadius: '8px', 
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          border: '1px solid #e0e0e0'
+        }}>
+          <Typography variant="body2" color="textSecondary">Total Users</Typography>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            {users?.length || 0}
+          </Typography>
+        </Box>
+        <Box sx={{ 
+          p: 2, 
+          backgroundColor: '#fff', 
+          borderRadius: '8px', 
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          border: '1px solid #e0e0e0'
+        }}>
+          <Typography variant="body2" color="textSecondary">Admin Users</Typography>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            {(users || []).filter(u => u.role === 'admin' || u.role === 'super_admin').length}
+          </Typography>
+        </Box>
+      </Box>
 
-      <div className="bg-white rounded-xl shadow-card overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  User
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Created At
-                </th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {mockUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                          <UserIcon className="h-6 w-6 text-gray-600" />
-                        </div>
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {user.email}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      user.role === 'super_admin' ? 'bg-red-100 text-red-800' :
-                      user.role === 'admin' ? 'bg-blue-100 text-blue-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
-                      {user.role.replace('_', ' ').toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {user.createdAt}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-primary-600 hover:text-primary-900 mr-4">
-                      Edit Role
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  )
+      {/* Table */}
+      <AdminTable
+        columns={columns}
+        data={users || []}
+        renderRow={renderRow}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        initialRowsPerPage={10}
+      />
+    </Box>
+  );
 }

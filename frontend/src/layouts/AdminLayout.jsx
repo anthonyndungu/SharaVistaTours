@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, clearAuthState } from '../features/auth/authSlice';
 import { 
@@ -33,24 +33,52 @@ const COLORS = {
 };
 
 export default function AdminLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // ✅ Initialize with current width
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // ✅ Added for redirect after logout
+  const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector((state) => state.auth);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newIsMobile = window.innerWidth < 768;
+      setIsMobile(newIsMobile);
+      
+      // Close mobile sidebar when switching to desktop
+      if (!newIsMobile) {
+        setMobileSidebarOpen(false);
+      }
+    };
+
+    // Add resize event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    if (isMobile) {
+      setMobileSidebarOpen(false);
+    }
+  }, [location.pathname, isMobile]);
 
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearAuthState());
-    navigate('/'); // ✅ Redirect to home after logout
+    navigate('/');
   };
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
       {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
+      {mobileSidebarOpen && isMobile && (
         <>
           <div
-            onClick={() => setSidebarOpen(false)}
+            onClick={() => setMobileSidebarOpen(false)}
             style={{
               position: 'fixed',
               top: 0,
@@ -101,11 +129,11 @@ export default function AdminLayout() {
                   fontWeight: '700',
                   color: COLORS.text
                 }}>
-                  SharaVista Admin
+                  SharaVista Tours Admin
                 </h1>
               </div>
               <button
-                onClick={() => setSidebarOpen(false)}
+                onClick={() => setMobileSidebarOpen(false)}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -124,7 +152,7 @@ export default function AdminLayout() {
                 <Link
                   key={item.name}
                   to={item.href}
-                  onClick={() => setSidebarOpen(false)}
+                  onClick={() => setMobileSidebarOpen(false)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -168,129 +196,145 @@ export default function AdminLayout() {
         </>
       )}
 
-      {/* Desktop sidebar */}
-      <div
-        style={{
-          width: '260px',
-          backgroundColor: COLORS.sidebarBg,
-          boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'fixed',
-          height: '100vh',
-          overflowY: 'auto',
-          zIndex: 100
-        }}
-      >
-        {/* Logo/Header */}
-        <div style={{
-          padding: '24px 20px',
-          borderBottom: `1px solid ${COLORS.border}`,
-          display: 'flex',
-          alignItems: 'center'
-        }}>
-          <div style={{
-            width: '36px',
-            height: '36px',
-            backgroundColor: COLORS.primary,
-            borderRadius: '8px',
+      {/* Desktop sidebar - ONLY SHOW ON DESKTOP */}
+      {!isMobile && (
+        <div
+          style={{
+            width: '260px',
+            backgroundColor: COLORS.sidebarBg,
+            boxShadow: '2px 0 10px rgba(0,0,0,0.1)',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontWeight: 'bold',
-            fontSize: '18px'
+            flexDirection: 'column',
+            position: 'fixed',
+            height: '100vh',
+            overflowY: 'auto',
+            zIndex: 100
+          }}
+        >
+          {/* Logo/Header */}
+          <div style={{
+            padding: '24px 20px',
+            borderBottom: `1px solid ${COLORS.border}`,
+            display: 'flex',
+            alignItems: 'center'
           }}>
-            T
-          </div>
-          <h1 style={{
-            marginLeft: '12px',
-            fontSize: '18px',
-            fontWeight: '700',
-            color: COLORS.text
-          }}>
-            SharaVista Admin
-          </h1>
-        </div>
-
-        {/* Navigation */}
-        <nav style={{ padding: '20px 0', flex: 1 }}>
-          {adminNavigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '14px 24px',
-                textDecoration: 'none',
-                color: COLORS.textSecondary,
-                fontWeight: 'normal',
-                transition: 'all 0.2s'
-              }}
-            >
-              <span style={{ marginRight: '12px', fontSize: '18px' }}>{item.icon}</span>
-              {item.name}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Logout */}
-        <div style={{
-          padding: '16px 24px',
-          borderTop: `1px solid ${COLORS.border}`,
-          color: COLORS.textSecondary,
-          fontSize: '14px'
-        }}>
-          <button
-            onClick={handleLogout}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: COLORS.textSecondary,
-              cursor: 'pointer',
+            <div style={{
+              width: '36px',
+              height: '36px',
+              backgroundColor: COLORS.primary,
+              borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
-              fontWeight: '500'
-            }}
-          >
-            <ArrowLeftOnRectangleIcon style={{ height: '16px', width: '16px', marginRight: '8px' }} />
-            Logout
-          </button>
+              justifyContent: 'center',
+              color: '#fff',
+              fontWeight: 'bold',
+              fontSize: '18px'
+            }}>
+              T
+            </div>
+            <h1 style={{
+              marginLeft: '12px',
+              fontSize: '18px',
+              fontWeight: '700',
+              color: COLORS.text
+            }}>
+              SharaVista Admin
+            </h1>
+          </div>
+
+          {/* Navigation */}
+          <nav style={{ padding: '20px 0', flex: 1 }}>
+            {adminNavigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '14px 24px',
+                  textDecoration: 'none',
+                  color: COLORS.textSecondary,
+                  fontWeight: 'normal',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <span style={{ marginRight: '12px', fontSize: '18px' }}>{item.icon}</span>
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Logout */}
+          <div style={{
+            padding: '16px 24px',
+            borderTop: `1px solid ${COLORS.border}`,
+            color: COLORS.textSecondary,
+            fontSize: '14px'
+          }}>
+            <button
+              onClick={handleLogout}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: COLORS.textSecondary,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                fontWeight: '500'
+              }}
+            >
+              <ArrowLeftOnRectangleIcon style={{ height: '16px', width: '16px', marginRight: '8px' }} />
+              Logout
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main content */}
       <div style={{
         flex: 1,
-        marginLeft: '260px',
+        marginLeft: !isMobile ? '260px' : '0',
         display: 'flex',
         flexDirection: 'column'
       }}>
-        {/* Top mobile header - FIXED: removed duplicate display property */}
+        {/* Top header */}
         <header style={{
           backgroundColor: COLORS.background,
           padding: '16px 24px',
           borderBottom: `1px solid ${COLORS.border}`,
+          display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           position: 'sticky',
           top: 0,
-          zIndex: 90,
-          display: 'none' // ✅ Only ONE display property now
+          zIndex: 90
         }}>
-          <button
-            onClick={() => setSidebarOpen(true)}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '20px',
-              cursor: 'pointer',
-              color: COLORS.text
-            }}
-          >
-            <Bars3Icon style={{ height: '20px', width: '20px' }} />
-          </button>
+          {/* Mobile menu button */}
+          {isMobile && (
+            <button
+              onClick={() => setMobileSidebarOpen(true)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: COLORS.text
+              }}
+            >
+              <Bars3Icon style={{ height: '24px', width: '24px' }} />
+            </button>
+          )}
+          
+          {/* Desktop spacing */}
+          {!isMobile && <div style={{ width: '24px' }}></div>}
+          
+          <h1 style={{
+            fontSize: '20px',
+            fontWeight: '700',
+            color: COLORS.text
+          }}>
+            Admin Dashboard
+          </h1>
           <div style={{
             display: 'flex',
             alignItems: 'center',

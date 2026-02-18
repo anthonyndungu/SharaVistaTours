@@ -500,3 +500,141 @@
 2026-02-18 23:47:36:4736 [32minfo[39m: [32mGET /api/v1/bookings[39m
 2026-02-18 23:47:40:4740 [32minfo[39m: [32mGET /api/v1/bookings[39m
 2026-02-18 23:47:40:4740 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:51:59:5159 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:52:00:520 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:52:20:5220 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:52:21:5221 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:13:5413 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-18 23:54:13:5413 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-18 23:54:14:5414 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:14:5414 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:15:5415 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:15:5415 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:22:5422 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:22:5422 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:30:5430 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:30:5430 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:34:5434 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-18 23:54:34:5434 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-18 23:54:36:5436 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:54:36:5436 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:59:55:5955 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-18 23:59:56:5956 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-18 23:59:56:5956 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-18 23:59:57:5957 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:00:09:09 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:00:09:09 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:00:23:023 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-19 00:00:23:023 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-19 00:05:00:50 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:05:01:51 [32minfo[39m: [32mUser logged in: admin@travelease.com[39m
+2026-02-19 00:05:01:51 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:05:01:51 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:05:01:51 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:05:01:51 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:05:53:553 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:05:54:554 [32minfo[39m: [32mUser logged in: admin@travelease.com[39m
+2026-02-19 00:05:54:554 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:05:54:554 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:05:54:554 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:05:54:554 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:06:27:627 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:06:28:628 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:07:23:723 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:07:24:724 [32minfo[39m: [32mUser logged in: admin@travelease.com[39m
+2026-02-19 00:07:24:724 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:07:24:724 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:07:24:724 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:07:24:724 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:07:37:737 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:07:37:737 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:07:37:737 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:07:37:737 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:08:04:84 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:08:04:84 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:08:05:85 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:08:05:85 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:12:27:1227 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:12:28:1228 [32minfo[39m: [32mUser logged in: admin@travelease.com[39m
+2026-02-19 00:12:28:1228 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:12:28:1228 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:12:28:1228 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:12:28:1228 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:14:51:1451 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:14:51:1451 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:15:03:153 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:15:03:153 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:15:03:153 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:15:03:153 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:17:03:173 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:17:05:175 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-19 00:17:05:175 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:17:05:175 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:18:22:1822 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:18:22:1822 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:19:20:1920 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:19:35:1935 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:19:35:1935 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:19:44:1944 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:19:44:1944 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:19:51:1951 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-19 00:19:51:1951 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-19 00:19:55:1955 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-19 00:19:55:1955 [31merror[39m: [31mGet payment history error: Op is not defined[39m
+2026-02-19 00:19:55:1955 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-19 00:19:55:1955 [31merror[39m: [31mGet payment history error: Op is not defined[39m
+2026-02-19 00:20:45:2045 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:20:46:2046 [32minfo[39m: [32mUser logged in: admin@travelease.com[39m
+2026-02-19 00:20:47:2047 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:20:47:2047 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:20:47:2047 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:20:47:2047 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:21:08:218 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:21:08:218 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:26:02:262 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:26:14:2614 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:26:15:2615 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-19 00:26:16:2616 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:26:16:2616 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:27:00:270 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:27:00:270 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:01:301 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:30:02:302 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-19 00:30:02:302 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:02:302 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:45:3045 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:46:3046 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:56:3056 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:56:3056 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:30:59:3059 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:31:00:310 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:31:05:315 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:31:05:315 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-19 00:32:50:3250 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-19 00:32:50:3250 [32minfo[39m: [32mUser logged in: admin@travelease.com[39m
+2026-02-19 00:32:51:3251 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:32:51:3251 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:32:51:3251 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-19 00:32:51:3251 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:32:56:3256 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:32:56:3256 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:33:31:3331 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:33:47:3347 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:33:47:3347 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:34:00:340 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:34:00:340 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:34:11:3411 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:34:11:3411 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:35:24:3524 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:35:25:3525 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:35:38:3538 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-19 00:36:45:3645 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-19 00:36:45:3645 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-19 00:38:32:3832 [32minfo[39m: [32mGET /api/v1/reviews/admin[39m
+2026-02-19 00:38:32:3832 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-19 00:38:32:3832 [32minfo[39m: [32mGET /api/v1/reviews/admin[39m
+2026-02-19 00:38:32:3832 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-19 00:42:31:4231 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:42:31:4231 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:47:50:4750 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-19 00:47:50:4750 [32minfo[39m: [32mGET /api/v1/packages[39m

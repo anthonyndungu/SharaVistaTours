@@ -31,36 +31,43 @@ const navigation = [
 
 export default function DashboardLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // ✅ Initialize with current width
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  // Close mobile sidebar on route change
-  useEffect(() => {
-    setMobileSidebarOpen(false);
-  }, [location.pathname]);
-
-  // Handle window resize to close mobile sidebar on desktop
+  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      const newIsMobile = window.innerWidth < 768;
+      setIsMobile(newIsMobile);
+      
+      // Close mobile sidebar when switching to desktop
+      if (!newIsMobile) {
         setMobileSidebarOpen(false);
       }
     };
-    
+
+    // Add resize event listener
     window.addEventListener('resize', handleResize);
+    
+    // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Close mobile sidebar on route change
+  useEffect(() => {
+    if (isMobile) {
+      setMobileSidebarOpen(false);
+    }
+  }, [location.pathname, isMobile]);
 
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearAuthState());
     navigate('/');
   };
-
-  // ✅ Check if we're on mobile
-  const isMobile = window.innerWidth < 768;
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f5f7fa' }}>
@@ -119,7 +126,7 @@ export default function DashboardLayout() {
                   fontWeight: '700',
                   color: COLORS.text
                 }}>
-                  TravelEase
+                  SharaVista Tours Client
                 </h1>
               </div>
               <button
@@ -311,7 +318,7 @@ export default function DashboardLayout() {
           top: 0,
           zIndex: 90
         }}>
-          {/* ✅ MOBILE MENU BUTTON - ALWAYS VISIBLE BUT ONLY NEEDED ON MOBILE */}
+          {/* ✅ MOBILE MENU BUTTON - ONLY VISIBLE ON MOBILE */}
           {isMobile && (
             <button
               onClick={() => setMobileSidebarOpen(true)}
@@ -335,7 +342,7 @@ export default function DashboardLayout() {
             fontWeight: '700',
             color: COLORS.text
           }}>
-            Dashboard
+            Dashboard 
           </h1>
           <div style={{
             display: 'flex',
