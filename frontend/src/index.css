@@ -269,3 +269,44 @@
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+
+
+/* MUI STYLING */
+/* Ensure consistent sizing */
+input, textarea, select {
+  min-height: 40px !important;
+}
+
+/* Mobile Safari fix */
+input, textarea {
+  -webkit-appearance: none !important;
+}
+
+/* Only increase text content font size - leave form inputs unchanged */
+.MuiTypography-root,
+.MuiTableCell-root,
+.MuiTableHead-root .MuiTableCell-root,
+.MuiTableBody-root .MuiTableCell-root,
+.MuiListItemText-primary,
+.MuiListItemText-secondary,
+.MuiFormLabel-root,
+.MuiInputLabel-root {
+  font-size: 14px !important;
+}
+.MuiButton-root {
+  font-size: 14px !important;
+}
+
+/* Headings */
+.MuiTypography-h5,
+.MuiTypography-h6 {
+  font-size: 20px !important;
+}
+
+/* Stats cards and labels */
+.MuiCard-root .MuiTypography-body1,
+.MuiPaper-root .MuiTypography-body2 {
+  font-size: 14px !important;
+}
+
+

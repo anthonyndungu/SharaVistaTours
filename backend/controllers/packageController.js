@@ -143,15 +143,75 @@ export const getPackageById = async (req, res) => {
 // @desc    Create new tour package
 // @route   POST /api/v1/packages
 // @access  Private/Admin
+// export const createPackage = async (req, res) => {
+//   try {
+//     const packageData = await TourPackage.create({
+//       ...req.body,
+//       created_by: req.user.id
+//     });
+
+//     // Handle images if provided
+//     if (req.body.images && Array.isArray(req.body.images)) {
+//       const images = req.body.images.map(img => ({
+//         ...img,
+//         package_id: packageData.id
+//       }));
+//       await PackageImage.bulkCreate(images);
+//     }
+
+//     const newPackage = await TourPackage.findByPk(packageData.id, {
+//       include: [{
+//         model: PackageImage,
+//         attributes: ['id', 'url', 'is_primary', 'caption']
+//       }]
+//     });
+
+//     logger.info(`Package created by ${req.user.email}: ${newPackage.title}`);
+
+//     res.status(201).json({
+//       status: 'success',
+//       message: 'Package created successfully',
+//       data: { package: newPackage }
+//     });
+//   } catch (err) {
+//     logger.error('Create package error:', err);
+//     res.status(400).json({
+//       status: 'fail',
+//       message: err.message
+//     });
+//   }
+// };
+
 export const createPackage = async (req, res) => {
+  const { title, destination } = req.body;
+
   try {
+    // 1. CHECK FOR DUPLICATES
+    // We check if a package with the same Title (and optionally Destination) already exists.
+    // You can adjust the 'where' clause based on your specific uniqueness rules.
+    const existingPackage = await TourPackage.findOne({
+      where: {
+        title: { [Op.iLike]: title.trim() } // Case-insensitive check for Title
+        // Optional: Add destination to make the check stricter
+        // destination: { [Op.iLike]: destination.trim() } 
+      }
+    });
+
+    if (existingPackage) {
+      return res.status(409).json({
+        status: 'fail',
+        message: `A package with the title "${title}" already exists. Please choose a unique title.`
+      });
+    }
+
+    // 2. CREATE THE PACKAGE
     const packageData = await TourPackage.create({
       ...req.body,
       created_by: req.user.id
     });
 
-    // Handle images if provided
-    if (req.body.images && Array.isArray(req.body.images)) {
+    // 3. HANDLE IMAGES
+    if (req.body.images && Array.isArray(req.body.images) && req.body.images.length > 0) {
       const images = req.body.images.map(img => ({
         ...img,
         package_id: packageData.id
@@ -159,6 +219,7 @@ export const createPackage = async (req, res) => {
       await PackageImage.bulkCreate(images);
     }
 
+    // 4. FETCH FULL DATA WITH IMAGES
     const newPackage = await TourPackage.findByPk(packageData.id, {
       include: [{
         model: PackageImage,
@@ -173,8 +234,18 @@ export const createPackage = async (req, res) => {
       message: 'Package created successfully',
       data: { package: newPackage }
     });
+
   } catch (err) {
     logger.error('Create package error:', err);
+    
+    // Handle specific Sequelize errors if needed (e.g., unique constraint violations at DB level)
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({
+        status: 'fail',
+        message: 'A package with these details already exists.'
+      });
+    }
+
     res.status(400).json({
       status: 'fail',
       message: err.message

@@ -95,6 +95,7 @@ const TourPackage = sequelize.define('TourPackage', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
+    // unique: true ,
     validate: {
       notEmpty: true,
       len: [5, 200]

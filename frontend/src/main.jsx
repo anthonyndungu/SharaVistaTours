@@ -6,12 +6,28 @@ import './index.css'
 import { store } from './app/store.js'
 import { Provider } from 'react-redux'
 import { HelmetProvider } from 'react-helmet-async'
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import theme from './theme/theme';
+
+
+// Create a cache with a higher precedence key (e.g., 'mui')
+const cache = createCache({
+  key: 'mui',
+  prepend: true, // This forces MUI styles to be injected BEFORE global CSS
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <CacheProvider value={cache}>
+            <CssBaseline /> {/* Resets browser defaults */}
+            <App />
+          </CacheProvider>
+        </ThemeProvider>
       </Provider>
     </HelmetProvider>
   </React.StrictMode>
