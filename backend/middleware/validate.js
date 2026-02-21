@@ -6,21 +6,38 @@ export const validate = (req, res, next) => {
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {
-    logger.warn('Validation errors:', errors.array());
-    return res.status(400).json({
+    // Convert to array to easily access the first error
+    const errorArray = errors.array();
+    
+    // Log the raw mapped object for your debugging (this is what you saw in logs)
+    logger.warn('Validation errors (Mapped):', errors.mapped());
+    logger.warn('Validation errors (Array):', errorArray);
+
+    // ✅ CRITICAL FIX: Extract the specific message from the FIRST error
+    const specificMessage = errorArray.length > 0 ? errorArray[0].msg : 'Validation failed';
+
+    // Construct the response explicitly
+    const responseBody = {
       status: 'fail',
-      message: 'Validation failed',
-      errors: errors.array().map(err => ({
+      message: specificMessage, // This MUST be the specific string "New passwords do not match"
+      errors: errorArray.map(err => ({
         field: err.param,
-        message: err.msg
-      }))
-    });
+        message: err.msg,
+        location: err.location
+      })),
+      timestamp: new Date().toISOString()
+    };
+
+    // Log what we are actually sending to the client
+    logger.info('Sending validation response:', responseBody);
+
+    return res.status(400).json(responseBody);
   }
   
   next();
 };
 
-// Validate file upload
+// Validate file upload (Unchanged)
 export const validateFileUpload = (fieldName = 'image') => {
   return (req, res, next) => {
     if (!req.file) {

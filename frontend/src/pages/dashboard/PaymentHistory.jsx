@@ -1,98 +1,205 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchPaymentHistory } from '../../features/payments/paymentSlice'
-import { format } from 'date-fns'
-import Spinner from '../../components/Spinner'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPaymentHistory } from '../../features/payments/paymentSlice';
+import { format } from 'date-fns';
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  CircularProgress,
+  Alert,
+  useTheme,
+  useMediaQuery
+} from '@mui/material';
+import {
+  ReceiptLong as ReceiptIcon,
+  CalendarToday as CalendarIcon,
+  Payment as PaymentIcon
+} from '@mui/icons-material';
+
+const COLORS = {
+  primary: '#1976d2',
+  success: '#2e7d32',
+  error: '#c62828',
+  warning: '#ed6c02',
+  info: '#0288d1',
+  background: '#f5f7fa'
+};
+
+// Helper to get status color config
+const getStatusConfig = (status) => {
+  switch (status) {
+    case 'completed':
+      return { label: 'Completed', bg: '#e8f5e9', text: '#2e7d32' };
+    case 'failed':
+      return { label: 'Failed', bg: '#ffebee', text: '#c62828' };
+    case 'refunded':
+      return { label: 'Refunded', bg: '#f3e5f5', text: '#7b1fa2' };
+    case 'pending':
+    default:
+      return { label: 'Pending', bg: '#fff3e0', text: '#ef6c00' };
+  }
+};
 
 export default function PaymentHistory() {
-  const dispatch = useDispatch()
-  const { payments, loading, error } = useSelector((state) => state.payments)
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  
+  const { payments, loading, error } = useSelector((state) => state.payments);
 
   useEffect(() => {
-    dispatch(fetchPaymentHistory())
-  }, [dispatch])
+    dispatch(fetchPaymentHistory());
+  }, [dispatch]);
 
-  if (loading) return <div className="py-12"><Spinner /></div>
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <div className="py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">Payment History</h1>
+    <Box sx={{ 
+      p: { xs: 1.5, sm: 2, md: 3 }, 
+      maxWidth: '1200px', 
+      margin: '0 auto', 
+      width: '100%',
+      boxSizing: 'border-box'
+    }}>
+      {/* Header */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#000', mb: 0.5, fontSize: { xs: '1.5rem', sm: '2.125rem' } }}>
+          Payment History
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          View all your transaction records and receipts
+        </Typography>
+      </Box>
 
+      {/* Error Alert */}
       {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6">
+        <Alert severity="error" sx={{ mb: 3, width: '100%' }} variant="filled">
           {error}
-        </div>
+        </Alert>
       )}
 
+      {/* Content Area */}
       {payments.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-card p-12 text-center">
-          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <h3 className="mt-2 text-lg font-medium text-gray-900">No payments found</h3>
-          <p className="mt-1 text-gray-500">You haven't made any payments yet.</p>
-        </div>
+        /* Empty State */
+        <Paper sx={{ p: { xs: 4, sm: 6, md: 8 }, textAlign: 'center', borderRadius: '12px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ 
+              width: { xs: 60, sm: 80 }, 
+              height: { xs: 60, sm: 80 }, 
+              borderRadius: '50%', 
+              backgroundColor: '#f5f5f5', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center' 
+            }}>
+              <ReceiptIcon sx={{ fontSize: { xs: 30, sm: 40 }, color: 'text.secondary' }} />
+            </Box>
+            <Typography variant="h6" sx={{ fontWeight: 600, mt: 2, fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>
+              No payments found
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 400, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+              You haven't made any payments yet. Once you book a tour and pay, your transaction history will appear here.
+            </Typography>
+          </Box>
+        </Paper>
       ) : (
-        <div className="bg-white rounded-xl shadow-card overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Transaction ID
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Booking
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Method
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Amount
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {payments.map((payment) => (
-                  <tr key={payment.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {payment.transaction_id || payment.id}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {payment.Booking?.booking_number || 'N/A'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
-                      {payment.payment_method}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      KES {payment.amount.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        payment.status === 'completed' ? 'bg-green-100 text-green-800' :
-                        payment.status === 'failed' ? 'bg-red-100 text-red-800' :
-                        payment.status === 'refunded' ? 'bg-purple-100 text-purple-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {payment.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {format(new Date(payment.created_at), 'MMM dd, yyyy')}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        /* Data Table */
+        <Paper sx={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+          <TableContainer sx={{ 
+            overflowX: 'auto', 
+            '&::-webkit-scrollbar': { height: '6px' },
+            '&::-webkit-scrollbar-track': { background: '#f1f1f1' },
+            '&::-webkit-scrollbar-thumb': { background: '#bdbdbd', borderRadius: '3px' }
+          }}>
+            <Table sx={{ minWidth: isMobile ? 650 : 800 }}>
+              <TableHead>
+                <TableRow sx={{ backgroundColor: '#f8f9fa' }}>
+                  <TableCell sx={{ fontWeight: 700, color: '#555', textTransform: 'uppercase', fontSize: { xs: '10px', sm: '12px' }, whiteSpace: 'nowrap' }}>Transaction ID</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#555', textTransform: 'uppercase', fontSize: { xs: '10px', sm: '12px' }, whiteSpace: 'nowrap' }}>Booking Ref</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#555', textTransform: 'uppercase', fontSize: { xs: '10px', sm: '12px' }, whiteSpace: 'nowrap' }}>Method</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#555', textTransform: 'uppercase', fontSize: { xs: '10px', sm: '12px' }, whiteSpace: 'nowrap', align: 'right' }}>Amount</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#555', textTransform: 'uppercase', fontSize: { xs: '10px', sm: '12px' }, whiteSpace: 'nowrap' }}>Status</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#555', textTransform: 'uppercase', fontSize: { xs: '10px', sm: '12px' }, whiteSpace: 'nowrap' }}>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {payments.map((payment) => {
+                  const statusConfig = getStatusConfig(payment.status);
+                  return (
+                    <TableRow 
+                      key={payment.id} 
+                      hover
+                      sx={{ 
+                        '&:last-child td, &:last-child th': { border: 0 },
+                        '&:hover': { backgroundColor: '#f9fafb' }
+                      }}
+                    >
+                      <TableCell>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: COLORS.primary, fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                          {payment.transaction_id || `#${payment.id}`}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' }, color: '#000' }}>
+                          {payment.Booking?.booking_number || 'N/A'}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <PaymentIcon sx={{ fontSize: { xs: 14, sm: 16 }, color: 'text.secondary' }} />
+                          <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' }, textTransform: 'capitalize' }}>
+                            {payment.payment_method}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography variant="body2" sx={{ fontWeight: 700, color: '#000', fontSize: { xs: '0.8rem', sm: '0.875rem' }, whiteSpace: 'nowrap' }}>
+                          KES {parseFloat(payment.amount).toLocaleString()}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={statusConfig.label}
+                          size="small"
+                          sx={{
+                            backgroundColor: statusConfig.bg,
+                            color: statusConfig.text,
+                            fontWeight: 600,
+                            fontSize: { xs: '0.65rem', sm: '0.75rem' },
+                            height: { xs: 22, sm: 24 }
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <CalendarIcon sx={{ fontSize: { xs: 14, sm: 16 }, color: 'text.secondary' }} />
+                          <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, color: 'text.secondary', whiteSpace: 'nowrap' }}>
+                            {format(new Date(payment.created_at), 'MMM dd, yyyy')}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
       )}
-    </div>
-  )
+    </Box>
+  );
 }

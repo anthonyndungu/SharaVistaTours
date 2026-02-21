@@ -9,9 +9,10 @@ import {
   resetPassword,
   logout,
   resendVerificationOTP,
-  verifyOTP
+  verifyOTP,
+  verifyUser
 } from '../controllers/authController.js';
-import { protect } from '../middleware/auth.js';
+import { protect, restrictTo } from '../middleware/auth.js';
 import { body, validationResult } from 'express-validator';
 import { validate } from '../middleware/validate.js';
 
@@ -44,6 +45,7 @@ const updatePasswordValidation = [
     .isLength({ min: 8 })
     .withMessage('New password must be at least 8 characters'),
   body('confirmNewPassword').custom((value, { req }) => {
+    console.log('Validating confirmNewPassword:', { value, newPassword: req.body.newPassword });
     if (value !== req.body.newPassword) {
       throw new Error('New passwords do not match');
     }
@@ -70,6 +72,7 @@ router.post('/forgot-password', body('email').isEmail().withMessage('Please prov
 router.patch('/reset-password/:token', resetPasswordValidation, validate, resetPassword);
 router.post('/resend-otp', resendVerificationOTP);
 router.post('/verify-otp', verifyOTP);
+router.patch('/users/:id/verify', protect, restrictTo('admin', 'super_admin'), verifyUser);
 
 // Protected routes
 router.get('/me', protect, getMe);

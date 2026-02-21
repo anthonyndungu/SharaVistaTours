@@ -70,14 +70,14 @@ export const signup = async (req, res) => {
   } catch (err) {
     await t.rollback();
     logger.error('Signup error:', err);
-    
+
     if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(409).json({
         status: 'fail',
         message: 'Email already exists. Please use a different email.'
       });
     }
-    
+
     res.status(400).json({
       status: 'fail',
       message: err.message
@@ -107,7 +107,7 @@ export const signup = async (req, res) => {
 //       where: { email },
 //       attributes: { include: ['password'] } 
 //     });
-    
+
 //     if (!user || !(await user.correctPassword(password, user.password))) {
 //       return res.status(401).json({
 //         status: 'fail',
@@ -152,11 +152,11 @@ export const login = async (req, res) => {
     }
 
     // 2) Check if user exists && password is correct
-    const user = await User.findOne({ 
+    const user = await User.findOne({
       where: { email },
-      attributes: { include: ['password', 'is_verified'] } 
+      attributes: { include: ['password', 'is_verified'] }
     });
-    
+
     if (!user || !(await user.correctPassword(password, user.password))) {
       return res.status(401).json({
         status: 'fail',
@@ -198,8 +198,8 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      attributes: { 
-        exclude: ['password', 'password_changed_at', 'password_reset_token', 'password_reset_expires'] 
+      attributes: {
+        exclude: ['password', 'password_changed_at', 'password_reset_token', 'password_reset_expires']
       }
     });
 
@@ -235,13 +235,13 @@ export const updateMe = async (req, res) => {
     if (req.body.email) filteredBody.email = req.body.email;
     if (req.body.phone) filteredBody.phone = req.body.phone;
     if (req.body.profile_picture) filteredBody.profile_picture = req.body.profile_picture;
-    
+
     // Do NOT allow updating password here (use updateMyPassword)
     // Do NOT allow updating role
 
     // 2) Update user
     const user = await User.findByPk(req.user.id, { transaction: t });
-    
+
     if (!user) {
       await t.rollback();
       return res.status(404).json({ status: 'fail', message: 'User not found' });
@@ -265,7 +265,7 @@ export const updateMe = async (req, res) => {
   } catch (err) {
     await t.rollback();
     logger.error('Update me error:', err);
-    
+
     if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(409).json({
         status: 'fail',
@@ -283,12 +283,90 @@ export const updateMe = async (req, res) => {
 // @desc    Update current user password
 // @route   PATCH /api/v1/auth/updateMyPassword
 // @access  Private
+// export const updateMyPassword = async (req, res) => {
+//   const t = await sequelize.transaction();
+//   try {
+//     const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+//     // 1) Validate passwords
+//     if (!currentPassword || !newPassword || !confirmNewPassword) {
+//       await t.rollback();
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: 'Please provide current password, new password, and confirmation'
+//       });
+//     }
+
+//       //  Check current password with old password (This is the critical fix to ensure we are comparing the correct values)
+//     if (currentPassword === newPassword) {
+//       await t.rollback();
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: 'Current password cannot be same as old one!'
+//       });
+//     }
+
+//     if (newPassword !== confirmNewPassword) {
+//       await t.rollback();
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: 'New passwords do not match*******'
+//       });
+//     }
+
+//     // 2) Get current user (include password)
+//     const user = await User.findByPk(req.user.id, {
+//       attributes: { include: ['password'] },
+//       transaction: t
+//     });
+
+//     if (!user) {
+//       await t.rollback();
+//       return res.status(404).json({ status: 'fail', message: 'User not found' });
+//     }
+
+//     // 3) Check current password
+//     if (!(await user.correctPassword(currentPassword, user.password))) {
+//       await t.rollback();
+//       return res.status(401).json({
+//         status: 'fail',
+//         message: 'Current password is incorrect'
+//       });
+//     }
+
+//     // 4) Update password (Hook will hash it)
+//     user.password = newPassword;
+//     await user.save({ transaction: t });
+
+//     await t.commit();
+
+//     // 5) Log user in with new token
+//     const token = signToken(user.id);
+
+//     logger.info(`Password updated for user: ${user.email}`);
+
+//     res.status(200).json({
+//       status: 'success',
+//       message: 'Password updated successfully',
+//       token,
+//       data: { user: filterUser(user) }
+//     });
+//   } catch (err) {
+//     await t.rollback();
+//     logger.error('Update password error:', err);
+//     res.status(400).json({
+//       status: 'fail',
+//       message: err.message
+//     });
+//   }
+// };
+
 export const updateMyPassword = async (req, res) => {
   const t = await sequelize.transaction();
   try {
     const { currentPassword, newPassword, confirmNewPassword } = req.body;
 
-    // 1) Validate passwords
+    // 1) Basic Validation: Ensure all fields are present
     if (!currentPassword || !newPassword || !confirmNewPassword) {
       await t.rollback();
       return res.status(400).json({
@@ -297,6 +375,7 @@ export const updateMyPassword = async (req, res) => {
       });
     }
 
+    // 2) Validation: Ensure New Password matches Confirmation
     if (newPassword !== confirmNewPassword) {
       await t.rollback();
       return res.status(400).json({
@@ -305,10 +384,20 @@ export const updateMyPassword = async (req, res) => {
       });
     }
 
-    // 2) Get current user (include password)
-    const user = await User.findByPk(req.user.id, { 
+    // 3) Validation: Ensure New Password is NOT the same as Current Password
+    // (No need to hit DB for this, just compare strings)
+    if (currentPassword === newPassword) {
+      await t.rollback();
+      return res.status(400).json({
+        status: 'fail',
+        message: 'New password cannot be the same as your current password'
+      });
+    }
+
+    // 4) Get current user from DB (include password hash for verification)
+    const user = await User.findByPk(req.user.id, {
       attributes: { include: ['password'] },
-      transaction: t 
+      transaction: t
     });
 
     if (!user) {
@@ -316,8 +405,11 @@ export const updateMyPassword = async (req, res) => {
       return res.status(404).json({ status: 'fail', message: 'User not found' });
     }
 
-    // 3) Check current password
-    if (!(await user.correctPassword(currentPassword, user.password))) {
+    // 5) ✅ CRITICAL DB CHECK: Compare entered 'currentPassword' with hashed password in DB
+    // user.correctPassword(candidate, hashed) returns true if they match
+    const isPasswordValid = await user.correctPassword(currentPassword, user.password);
+    
+    if (!isPasswordValid) {
       await t.rollback();
       return res.status(401).json({
         status: 'fail',
@@ -325,16 +417,16 @@ export const updateMyPassword = async (req, res) => {
       });
     }
 
-    // 4) Update password (Hook will hash it)
+    // 6) Update password (Model hook will automatically hash 'newPassword' before saving)
     user.password = newPassword;
     await user.save({ transaction: t });
 
     await t.commit();
 
-    // 5) Log user in with new token
+    // 7) Generate new token (optional, but good practice after security change)
     const token = signToken(user.id);
 
-    logger.info(`Password updated for user: ${user.email}`);
+    logger.info(`Password updated successfully for user: ${user.email}`);
 
     res.status(200).json({
       status: 'success',
@@ -360,7 +452,7 @@ export const forgotPassword = async (req, res) => {
   try {
     // 1) Get user based on POSTed email
     const user = await User.findOne({ where: { email: req.body.email } });
-    
+
     if (!user) {
       await t.rollback();
       // Return success anyway to prevent email enumeration attacks
@@ -372,14 +464,14 @@ export const forgotPassword = async (req, res) => {
 
     // 2) Generate random reset token
     const resetToken = user.createPasswordResetToken();
-    
+
     // Save token to DB within transaction
     await user.save({ validate: false, transaction: t });
 
     // 3) Send reset token to user's email
     try {
       const resetURL = `${process.env.CLIENT_URL}/auth/reset-password/${resetToken}`;
-      
+
       await sendEmail({
         email: user.email,
         subject: 'Your password reset token (valid for 10 minutes)',
@@ -395,14 +487,14 @@ export const forgotPassword = async (req, res) => {
     } catch (err) {
       // If email fails, rollback the token save
       await t.rollback();
-      
+
       // Clear the token fields manually just in case rollback didn't catch something weird
       user.password_reset_token = null;
       user.password_reset_expires = null;
       await user.save({ validate: false });
 
       logger.error('Error sending email:', err);
-      
+
       return res.status(500).json({
         status: 'fail',
         message: 'There was an error sending the email. Try again later!'
@@ -466,7 +558,7 @@ export const resetPassword = async (req, res) => {
     user.password = req.body.password;
     user.password_reset_token = null;
     user.password_reset_expires = null;
-    
+
     await user.save({ transaction: t });
     await t.commit();
 
@@ -529,17 +621,17 @@ export const resendVerificationOTP = async (req, res) => {
     if (!user) {
       await t.rollback();
       // Security: Don't reveal if email exists or not
-      return res.status(200).json({ 
-        status: 'success', 
-        message: 'If an account exists, an OTP has been sent.' 
+      return res.status(200).json({
+        status: 'success',
+        message: 'If an account exists, an OTP has been sent.'
       });
     }
 
     if (user.is_verified) {
       await t.rollback();
-      return res.status(400).json({ 
-        status: 'fail', 
-        message: 'Account is already verified. Please login.' 
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Account is already verified. Please login.'
       });
     }
 
@@ -551,7 +643,7 @@ export const resendVerificationOTP = async (req, res) => {
     // Alternatively, create a separate 'Otp' model. For simplicity, we add to User.
     user.password_reset_token = otp; // Re-using this field for OTP storage temporarily
     user.password_reset_expires = otpExpiry;
-    
+
     await user.save({ transaction: t });
     await t.commit();
 
@@ -589,20 +681,20 @@ export const verifyOTP = async (req, res) => {
       return res.status(400).json({ status: 'fail', message: 'Email and OTP are required' });
     }
 
-    const user = await User.findOne({ 
-      where: { 
+    const user = await User.findOne({
+      where: {
         email,
         password_reset_token: otp, // Check if OTP matches
         password_reset_expires: { [Op.gt]: Date.now() } // Check if not expired
       },
-      transaction: t 
+      transaction: t
     });
 
     if (!user) {
       await t.rollback();
-      return res.status(400).json({ 
-        status: 'fail', 
-        message: 'Invalid or expired OTP. Please request a new one.' 
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid or expired OTP. Please request a new one.'
       });
     }
 
@@ -610,7 +702,7 @@ export const verifyOTP = async (req, res) => {
     user.is_verified = true;
     user.password_reset_token = null; // Clear OTP
     user.password_reset_expires = null;
-    
+
     await user.save({ transaction: t });
     await t.commit();
 
@@ -624,6 +716,68 @@ export const verifyOTP = async (req, res) => {
   } catch (err) {
     await t.rollback();
     logger.error('Verify OTP error:', err);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+};
+
+// @desc    Verify a user manually (Admin only)
+// @route   PATCH /api/v1/users/:id/verify
+// @access  Private/Admin
+export const verifyUser = async (req, res) => {
+  const t = await sequelize.transaction();
+  try {
+    // 1. Check Admin Role
+    if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+      await t.rollback();
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Access denied. Admin privileges required.'
+      });
+    }
+
+    // 2. Find User
+    const user = await User.findByPk(req.params.id, { transaction: t });
+
+    if (!user) {
+      await t.rollback();
+      return res.status(404).json({ status: 'fail', message: 'User not found' });
+    }
+
+    if (user.is_verified) {
+      await t.rollback();
+      return res.status(400).json({
+        status: 'fail',
+        message: 'User is already verified.'
+      });
+    }
+
+    // 3. Update Status
+    user.is_verified = true;
+    // Optional: Clear any pending OTPs if they exist
+    user.password_reset_token = null;
+    user.password_reset_expires = null;
+
+    await user.save({ transaction: t });
+    await t.commit();
+
+    logger.info(`User ${user.email} manually verified by Admin ${req.user.email}`);
+
+    res.status(200).json({
+      status: 'success',
+      message: `User ${user.name} has been verified and can now log in.`,
+      data: {
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          is_verified: user.is_verified
+        }
+      }
+    });
+
+  } catch (err) {
+    await t.rollback();
+    logger.error('Manual verify user error:', err);
     res.status(500).json({ status: 'error', message: err.message });
   }
 };

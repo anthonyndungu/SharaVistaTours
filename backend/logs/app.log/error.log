@@ -1,1 +1,5 @@
 2026-02-21 18:13:07:137 [31merror[39m: [31mError sending email: read ECONNRESET[39m
+2026-02-21 19:25:27:2527 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-21 19:25:27:2527 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-21 22:39:36:3936 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-21 22:39:36:3936 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m

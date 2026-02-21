@@ -125,18 +125,6 @@ export const resendVerification = createAsyncThunk(
   }
 );
 
-export const verifyUser = createAsyncThunk(
-  'users/verifyUser',
-  async (userId, { rejectWithValue }) => {
-    try {
-      const response = await api.patch(`/users/${userId}/verify`);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message);
-    }
-  }
-);
-
 export const resendVerificationOTP = createAsyncThunk(
   'auth/resendOTP',
   async (email, { rejectWithValue }) => {
@@ -158,6 +146,19 @@ export const verifyOTP = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Invalid OTP');
+    }
+  }
+);
+
+// ✅ NEW: Admin Manual Verify Thunk
+export const verifyUser = createAsyncThunk(
+  'auth/verifyUser',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`/auth/users/${userId}/verify`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to verify user');
     }
   }
 );
@@ -234,7 +235,21 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
+      // Admin Verify User
+      .addCase(verifyUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyUser.fulfilled, (state, action) => {
+        state.loading = false;
+        // Optionally update the users list in state if you store it here
+        // Or just let the component re-fetch via fetchAllUsers
+        state.error = null;
+      })
+      .addCase(verifyUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // Fetch Profile
       .addCase(fetchUserProfile.pending, (state) => {
         state.loading = true
@@ -263,9 +278,27 @@ const authSlice = createSlice({
         state.user = action.payload
         state.error = null
       })
+      // .addCase(updateMe.rejected, (state, action) => {
+      //   state.loading = false
+      //   state.error = action.payload
+      // })
       .addCase(updateMe.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.payload
+        state.loading = false;
+        let errorMessage = 'Failed to update profile';
+
+        if (action.payload) {
+          if (typeof action.payload === 'object' && !Array.isArray(action.payload)) {
+            const firstErrorKey = Object.keys(action.payload).find(key => !isNaN(key));
+            if (firstErrorKey && action.payload[firstErrorKey].msg) {
+              errorMessage = action.payload[firstErrorKey].msg;
+            } else if (action.payload.message) {
+              errorMessage = action.payload.message;
+            }
+          } else if (typeof action.payload === 'string') {
+            errorMessage = action.payload;
+          }
+        }
+        state.error = errorMessage;
       })
 
       // Update Password
@@ -277,9 +310,36 @@ const authSlice = createSlice({
         state.loading = false
         state.error = null
       })
+
+      // .addCase(updateMyPassword.rejected, (state, action) => {
+      //   state.loading = false
+      //   state.error = action.payload
+      // })
+      // In authSlice.js (Simplified version)
       .addCase(updateMyPassword.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.payload
+        state.loading = false;
+
+        let errorMessage = 'Failed to update password'; // Default fallback
+
+        if (action.payload) {
+          // ✅ Check for the specific message field first
+          if (typeof action.payload === 'object' && action.payload.message) {
+            errorMessage = action.payload.message;
+          }
+          // Fallback for weird nested structures if any
+          else if (action.payload['0'] && action.payload['0'].msg) {
+            errorMessage = action.payload['0'].msg;
+          }
+          // Fallback if payload is just a string
+          else if (typeof action.payload === 'string') {
+            errorMessage = action.payload;
+          }
+        }
+
+        state.error = errorMessage;
+
+        // Optional: Log to console to debug what the slice received
+        console.log('Redux Error Caught:', errorMessage);
       })
 
       // ✅ ADD THESE MISSING CASES:
