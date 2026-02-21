@@ -1,65 +1,44 @@
-import { TourPackage, PackageImage, Review } from '../models/index.js';
+import { TourPackage, PackageImage, Review, sequelize } from '../models/index.js';
 import { Op } from 'sequelize';
 import logger from '../utils/logger.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // @desc    Get all tour packages
 // @route   GET /api/v1/packages
 // @access  Public
 export const getAllPackages = async (req, res) => {
+  // READ operations do not need transactions unless you need strict isolation levels
   try {
-    // Build query options
     const queryOptions = {
       where: {},
       include: [
-        {
-          model: PackageImage,
-          attributes: ['id', 'url', 'is_primary', 'caption']
-        },
-        {
-          model: Review,
-          attributes: ['id', 'rating', 'comment', 'created_at']
-        }
+        { model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] },
+        { model: Review, attributes: ['id', 'rating', 'comment', 'created_at'] }
       ],
       order: [['created_at', 'DESC']]
     };
 
-    // Filter by category
-    if (req.query.category) {
-      queryOptions.where.category = req.query.category;
-    }
-
-    // Filter by destination
+    // Filters
+    if (req.query.category) queryOptions.where.category = req.query.category;
     if (req.query.destination) {
-      queryOptions.where.destination = {
-        [Op.iLike]: `%${req.query.destination}%`
-      };
+      queryOptions.where.destination = { [Op.iLike]: `%${req.query.destination}%` };
+    }
+    if (req.query.status) queryOptions.where.status = req.query.status;
+    if (req.query.is_featured === 'true') queryOptions.where.is_featured = true;
+    
+    // Price Range
+    if (req.query.min_price || req.query.max_price) {
+      queryOptions.where.price_adult = {};
+      if (req.query.min_price) queryOptions.where.price_adult[Op.gte] = parseFloat(req.query.min_price);
+      if (req.query.max_price) queryOptions.where.price_adult[Op.lte] = parseFloat(req.query.max_price);
     }
 
-    // Filter by status
-    if (req.query.status) {
-      queryOptions.where.status = req.query.status;
-    }
-
-    // Filter featured packages
-    if (req.query.is_featured === 'true') {
-      queryOptions.where.is_featured = true;
-    }
-
-    // Filter by price range
-    if (req.query.min_price) {
-      queryOptions.where.price_adult = {
-        [Op.gte]: parseFloat(req.query.min_price)
-      };
-    }
-
-    if (req.query.max_price) {
-      if (!queryOptions.where.price_adult) {
-        queryOptions.where.price_adult = {};
-      }
-      queryOptions.where.price_adult[Op.lte] = parseFloat(req.query.max_price);
-    }
-
-    // Search by title or description
+    // Search
     if (req.query.search) {
       queryOptions.where[Op.or] = [
         { title: { [Op.iLike]: `%${req.query.search}%` } },
@@ -75,7 +54,6 @@ export const getAllPackages = async (req, res) => {
     queryOptions.limit = limit;
     queryOptions.offset = offset;
 
-    // Execute query
     const { count, rows: packages } = await TourPackage.findAndCountAll(queryOptions);
 
     res.status(200).json({
@@ -88,10 +66,7 @@ export const getAllPackages = async (req, res) => {
     });
   } catch (err) {
     logger.error('Get all packages error:', err);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
 };
 
@@ -100,156 +75,126 @@ export const getAllPackages = async (req, res) => {
 // @access  Public
 export const getPackageById = async (req, res) => {
   try {
-    // ⚠️ Note: You're including `User` in Review, but `User` is not imported.
-    // If you need user data in reviews, import User or remove the include.
     const packageData = await TourPackage.findByPk(req.params.id, {
       include: [
-        {
-          model: PackageImage,
-          attributes: ['id', 'url', 'is_primary', 'caption']
-        },
-        {
-          model: Review,
-          attributes: ['id', 'rating', 'comment', 'created_at', 'is_verified_booking'],
-          // 👇 Uncomment only if you import User
-          // include: [{
-          //   model: User,
-          //   attributes: ['name', 'profile_picture']
-          // }]
-        }
+        { model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] },
+        { model: Review, attributes: ['id', 'rating', 'comment', 'created_at', 'is_verified_booking'] }
       ]
     });
 
     if (!packageData) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Package not found'
-      });
+      return res.status(404).json({ status: 'fail', message: 'Package not found' });
     }
 
-    res.status(200).json({
-      status: 'success',
-      data: { package: packageData }
-    });
+    res.status(200).json({ status: 'success', data: { package: packageData } });
   } catch (err) {
     logger.error('Get package by ID error:', err);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
 };
 
 // @desc    Create new tour package
 // @route   POST /api/v1/packages
 // @access  Private/Admin
-// export const createPackage = async (req, res) => {
-//   try {
-//     const packageData = await TourPackage.create({
-//       ...req.body,
-//       created_by: req.user.id
-//     });
-
-//     // Handle images if provided
-//     if (req.body.images && Array.isArray(req.body.images)) {
-//       const images = req.body.images.map(img => ({
-//         ...img,
-//         package_id: packageData.id
-//       }));
-//       await PackageImage.bulkCreate(images);
-//     }
-
-//     const newPackage = await TourPackage.findByPk(packageData.id, {
-//       include: [{
-//         model: PackageImage,
-//         attributes: ['id', 'url', 'is_primary', 'caption']
-//       }]
-//     });
-
-//     logger.info(`Package created by ${req.user.email}: ${newPackage.title}`);
-
-//     res.status(201).json({
-//       status: 'success',
-//       message: 'Package created successfully',
-//       data: { package: newPackage }
-//     });
-//   } catch (err) {
-//     logger.error('Create package error:', err);
-//     res.status(400).json({
-//       status: 'fail',
-//       message: err.message
-//     });
-//   }
-// };
-
 export const createPackage = async (req, res) => {
-  const { title, destination } = req.body;
+  // Start a transaction
+  const t = await sequelize.transaction();
 
   try {
-    // 1. CHECK FOR DUPLICATES
-    // We check if a package with the same Title (and optionally Destination) already exists.
-    // You can adjust the 'where' clause based on your specific uniqueness rules.
+    let { title, destination, images, ...packageFields } = req.body;
+
+    // Parse images if stringified
+    let parsedImages = [];
+    if (typeof images === 'string') {
+      try { parsedImages = JSON.parse(images); } 
+      catch (e) { throw new Error('Invalid images data format.'); }
+    } else if (Array.isArray(images)) {
+      parsedImages = images;
+    }
+
+    // Validation
+    if (!title) throw new Error('Package title is required.');
+
+    // Check Duplicate
     const existingPackage = await TourPackage.findOne({
-      where: {
-        title: { [Op.iLike]: title.trim() } // Case-insensitive check for Title
-        // Optional: Add destination to make the check stricter
-        // destination: { [Op.iLike]: destination.trim() } 
-      }
+      where: { title: { [Op.iLike]: title.trim() } },
+      transaction: t // Use transaction for consistency check
     });
 
     if (existingPackage) {
+      await t.rollback();
       return res.status(409).json({
         status: 'fail',
-        message: `A package with the title "${title}" already exists. Please choose a unique title.`
+        message: `A package with the title "${title}" already exists.`
       });
     }
 
-    // 2. CREATE THE PACKAGE
-    const packageData = await TourPackage.create({
-      ...req.body,
-      created_by: req.user.id
-    });
+    // 1. Create Package
+    const newPackage = await TourPackage.create({
+      ...packageFields,
+      title,
+      destination,
+      created_by: req.user ? req.user.id : null
+    }, { transaction: t });
 
-    // 3. HANDLE IMAGES
-    if (req.body.images && Array.isArray(req.body.images) && req.body.images.length > 0) {
-      const images = req.body.images.map(img => ({
-        ...img,
-        package_id: packageData.id
-      }));
-      await PackageImage.bulkCreate(images);
+    // 2. Handle Images
+    if (parsedImages.length > 0) {
+      const imagesToSave = [];
+      const uploadedFiles = req.files || [];
+      let fileIndex = 0;
+
+      for (const img of parsedImages) {
+        let imageUrl = img.url;
+
+        // If new image (no ID) and file exists
+        if (!img.id && uploadedFiles[fileIndex]) {
+          const file = uploadedFiles[fileIndex];
+          // Save relative path: packages/filename.jpg
+          imageUrl = `packages/${file.filename}`; 
+          fileIndex++;
+        }
+
+        if (imageUrl) {
+          imagesToSave.push({
+            tourPackageId: newPackage.id, // Match your FK name
+            url: imageUrl,
+            caption: img.caption || '',
+            is_primary: img.is_primary || (fileIndex === 1) // First uploaded is primary
+          });
+        }
+      }
+
+      if (imagesToSave.length > 0) {
+        await PackageImage.bulkCreate(imagesToSave, { transaction: t });
+      }
     }
 
-    // 4. FETCH FULL DATA WITH IMAGES
-    const newPackage = await TourPackage.findByPk(packageData.id, {
-      include: [{
-        model: PackageImage,
-        attributes: ['id', 'url', 'is_primary', 'caption']
-      }]
+    // Commit Transaction
+    await t.commit();
+
+    // Fetch full data (outside transaction to avoid locking issues on read)
+    const createdPackageWithImages = await TourPackage.findByPk(newPackage.id, {
+      include: [{ model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] }]
     });
 
-    logger.info(`Package created by ${req.user.email}: ${newPackage.title}`);
+    logger.info(`Package created: ${createdPackageWithImages.title}`);
 
     res.status(201).json({
       status: 'success',
       message: 'Package created successfully',
-      data: { package: newPackage }
+      data: { package: createdPackageWithImages }
     });
 
   } catch (err) {
+    // Rollback on error
+    await t.rollback();
     logger.error('Create package error:', err);
-    
-    // Handle specific Sequelize errors if needed (e.g., unique constraint violations at DB level)
+
     if (err.name === 'SequelizeUniqueConstraintError') {
-      return res.status(409).json({
-        status: 'fail',
-        message: 'A package with these details already exists.'
-      });
+      return res.status(409).json({ status: 'fail', message: 'Duplicate entry detected.' });
     }
 
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
+    res.status(400).json({ status: 'fail', message: err.message });
   }
 };
 
@@ -257,51 +202,79 @@ export const createPackage = async (req, res) => {
 // @route   PATCH /api/v1/packages/:id
 // @access  Private/Admin
 export const updatePackage = async (req, res) => {
+  const t = await sequelize.transaction();
+
   try {
-    const packageData = await TourPackage.findByPk(req.params.id);
+    const { id } = req.params;
+    let { images, ...packageFields } = req.body;
 
+    if (typeof images === 'string') {
+      images = JSON.parse(images);
+    }
+
+    const packageData = await TourPackage.findByPk(id, { transaction: t });
     if (!packageData) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Package not found'
-      });
+      await t.rollback();
+      return res.status(404).json({ status: 'fail', message: 'Package not found' });
     }
 
-    await packageData.update(req.body);
+    // 1. Update Text Fields
+    await packageData.update(packageFields, { transaction: t });
 
-    // Handle images update
-    if (req.body.images && Array.isArray(req.body.images)) {
-      // Delete existing images
-      await PackageImage.destroy({ where: { package_id: packageData.id } });
-      
-      // Create new images
-      const images = req.body.images.map(img => ({
-        ...img,
-        package_id: packageData.id
-      }));
-      await PackageImage.bulkCreate(images);
+    // 2. Handle Images (Replace All)
+    if (images && Array.isArray(images)) {
+      // A. Delete old images from DB
+      await PackageImage.destroy({ where: { tourPackageId: id }, transaction: t });
+
+      // B. Prepare new images
+      const validImages = [];
+      const uploadedFiles = req.files || [];
+      let fileIndex = 0;
+
+      for (const img of images) {
+        let imageUrl = img.url;
+
+        // If new image (no ID) and we have an uploaded file
+        if (!img.id && uploadedFiles[fileIndex]) {
+          const file = uploadedFiles[fileIndex];
+          imageUrl = `packages/${file.filename}`;
+          fileIndex++;
+        } else if (img.id) {
+          // Existing image reference (keep URL)
+          imageUrl = img.url;
+        }
+
+        if (imageUrl) {
+          validImages.push({
+            tourPackageId: id,
+            url: imageUrl,
+            caption: img.caption || '',
+            is_primary: img.is_primary || false
+          });
+        }
+      }
+
+      if (validImages.length > 0) {
+        await PackageImage.bulkCreate(validImages, { transaction: t });
+      }
     }
 
-    const updatedPackage = await TourPackage.findByPk(packageData.id, {
-      include: [{
-        model: PackageImage,
-        attributes: ['id', 'url', 'is_primary', 'caption']
-      }]
+    await t.commit();
+
+    const updatedPackage = await TourPackage.findByPk(id, {
+      include: [{ model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] }]
     });
-
-    logger.info(`Package updated by ${req.user.email}: ${updatedPackage.title}`);
 
     res.status(200).json({
       status: 'success',
       message: 'Package updated successfully',
       data: { package: updatedPackage }
     });
+
   } catch (err) {
+    await t.rollback();
     logger.error('Update package error:', err);
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
+    res.status(400).json({ status: 'fail', message: err.message });
   }
 };
 
@@ -309,30 +282,46 @@ export const updatePackage = async (req, res) => {
 // @route   DELETE /api/v1/packages/:id
 // @access  Private/Admin
 export const deletePackage = async (req, res) => {
+  const t = await sequelize.transaction();
+
   try {
-    const packageData = await TourPackage.findByPk(req.params.id);
+    const packageData = await TourPackage.findByPk(req.params.id, { transaction: t });
 
     if (!packageData) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Package not found'
-      });
+      await t.rollback();
+      return res.status(404).json({ status: 'fail', message: 'Package not found' });
     }
 
-    await packageData.destroy();
+    // Optional: Manually delete files from disk before DB deletion
+    // Note: Since you have onDelete: 'CASCADE' in models, 
+    // deleting the package will automatically delete PackageImage rows.
+    // But it won't delete the physical files. You might want to do that here.
+    
+ 
+    const images = await PackageImage.findAll({ 
+      where: { tourPackageId: packageData.id }, 
+      transaction: t 
+    });
+    images.forEach(img => {
+       const filePath = path.join(__dirname, '../uploads', img.url);
+       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    });
+    
 
-    logger.info(`Package deleted by ${req.user.email}: ${packageData.title}`);
+    await packageData.destroy({ transaction: t });
 
-    res.status(204).json({
+    await t.commit();
+
+    logger.info(`Package deleted: ${packageData.title}`);
+
+    res.status(200).json({
       status: 'success',
       message: 'Package deleted successfully'
     });
   } catch (err) {
+    await t.rollback();
     logger.error('Delete package error:', err);
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
+    res.status(400).json({ status: 'fail', message: err.message });
   }
 };
 
@@ -344,24 +333,18 @@ export const getPackageStats = async (req, res) => {
     const stats = await TourPackage.findAll({
       attributes: [
         'category',
-        [TourPackage.sequelize.fn('COUNT', TourPackage.sequelize.col('id')), 'count'],
-        [TourPackage.sequelize.fn('AVG', TourPackage.sequelize.col('price_adult')), 'avgPrice'],
-        [TourPackage.sequelize.fn('MAX', TourPackage.sequelize.col('price_adult')), 'maxPrice'],
-        [TourPackage.sequelize.fn('MIN', TourPackage.sequelize.col('price_adult')), 'minPrice']
+        [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
+        [sequelize.fn('AVG', sequelize.col('price_adult')), 'avgPrice'],
+        [sequelize.fn('MAX', sequelize.col('price_adult')), 'maxPrice'],
+        [sequelize.fn('MIN', sequelize.col('price_adult')), 'minPrice']
       ],
       group: ['category'],
       raw: true
     });
 
-    res.status(200).json({
-      status: 'success',
-      data: { stats }
-    });
+    res.status(200).json({ status: 'success', data: { stats } });
   } catch (err) {
     logger.error('Get package stats error:', err);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
 };

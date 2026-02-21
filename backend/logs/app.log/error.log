@@ -1,2 +1,1 @@
-2026-02-20 15:35:36:3536 [31merror[39m: [31mCreate package error: notNull Violation: TourPackage.description cannot be null[39m
-2026-02-20 16:13:07:137 [31merror[39m: [31m✗ Unable to start server: Validation error[39m
+2026-02-21 18:13:07:137 [31merror[39m: [31mError sending email: read ECONNRESET[39m

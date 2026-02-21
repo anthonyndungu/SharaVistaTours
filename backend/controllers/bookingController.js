@@ -1,4 +1,370 @@
-import { Booking, BookingPassenger, TourPackage, Payment, User } from '../models/index.js';
+// import { Booking, BookingPassenger, TourPackage, Payment, User } from '../models/index.js';
+// import { Op } from 'sequelize';
+// import logger from '../utils/logger.js';
+// import { generateBookingNumber } from '../utils/helpers.js';
+
+// // @desc    Create new booking
+// // @route   POST /api/v1/bookings
+// // @access  Private
+// export const createBooking = async (req, res) => {
+//   const transaction = await sequelize.transaction();
+  
+//   try {
+//     const { package_id, start_date, end_date, passengers, special_requests, total_amount } = req.body;
+
+//     // Validate package exists
+//     const tourPackage = await TourPackage.findByPk(package_id);
+//     if (!tourPackage) {
+//       await transaction.rollback();
+//       return res.status(404).json({
+//         status: 'fail',
+//         message: 'Tour package not found'
+//       });
+//     }
+
+//     // Generate unique booking number
+//     const bookingNumber = generateBookingNumber();
+
+//     // Create booking
+//     const booking = await Booking.create({
+//       booking_number: bookingNumber,
+//       user_id: req.user.id,
+//       package_id,
+//       start_date,
+//       end_date,
+//       total_amount,
+//       special_requests,
+//       status: 'pending',
+//       payment_status: 'unpaid'
+//     }, { transaction });
+
+//     // Create passengers
+//     if (passengers && passengers.length > 0) {
+//       const passengerRecords = passengers.map(passenger => ({
+//         ...passenger,
+//         booking_id: booking.id
+//       }));
+      
+//       await BookingPassenger.bulkCreate(passengerRecords, { transaction });
+//     }
+
+//     await transaction.commit();
+
+//     // Fetch complete booking with relations
+//     const completeBooking = await Booking.findByPk(booking.id, {
+//       include: [
+//         {
+//           model: TourPackage,
+//           attributes: ['id', 'title', 'destination', 'duration_days', 'price_adult', 'price_child']
+//         },
+//         {
+//           model: BookingPassenger,
+//           attributes: ['id', 'name', 'email', 'phone', 'age', 'passport_number', 'nationality']
+//         },
+//         {
+//           model: User,
+//           attributes: ['id', 'name', 'email', 'phone']
+//         }
+//       ]
+//     });
+
+//     logger.info(`Booking created: ${bookingNumber} by ${req.user.email}`);
+
+//     res.status(201).json({
+//       status: 'success',
+//       message: 'Booking created successfully',
+//       data: { booking: completeBooking }
+//     });
+//   } catch (err) {
+//     await transaction.rollback();
+//     logger.error('Create booking error:', err);
+//     res.status(400).json({
+//       status: 'fail',
+//       message: err.message
+//     });
+//   }
+// };
+
+// // @desc    Get all user bookings
+// // @route   GET /api/v1/bookings
+// // @access  Private
+// export const getUserBookings = async (req, res) => {
+//   try {
+//     const queryOptions = {
+//       where: { user_id: req.user.id },
+//       include: [
+//         {
+//           model: TourPackage,
+//           attributes: ['id', 'title', 'destination', 'duration_days', 'category']
+//         },
+//         {
+//           model: BookingPassenger,
+//           attributes: ['id', 'name', 'email', 'phone', 'age']
+//         },
+//         {
+//           model: Payment,
+//           attributes: ['id', 'payment_method', 'amount', 'status', 'created_at']
+//         }
+//       ],
+//       order: [['created_at', 'DESC']]
+//     };
+
+//     // Filter by status
+//     if (req.query.status) {
+//       queryOptions.where.status = req.query.status;
+//     }
+
+//     // Filter by payment status
+//     if (req.query.payment_status) {
+//       queryOptions.where.payment_status = req.query.payment_status;
+//     }
+
+//     // Pagination
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 10;
+//     const offset = (page - 1) * limit;
+
+//     queryOptions.limit = limit;
+//     queryOptions.offset = offset;
+
+//     const { count, rows: bookings } = await Booking.findAndCountAll(queryOptions);
+
+//     res.status(200).json({
+//       status: 'success',
+//       results: bookings.length,
+//       total: count,
+//       page,
+//       pages: Math.ceil(count / limit),
+//       data: { bookings }
+//     });
+//   } catch (err) {
+//     logger.error('Get user bookings error:', err);
+//     res.status(500).json({
+//       status: 'error',
+//       message: err.message
+//     });
+//   }
+// };
+
+// // @desc    Get single booking
+// // @route   GET /api/v1/bookings/:id
+// // @access  Private
+// export const getBookingById = async (req, res) => {
+//   try {
+//     const booking = await Booking.findByPk(req.params.id, {
+//       include: [
+//         {
+//           model: TourPackage,
+//           attributes: ['id', 'title', 'destination', 'duration_days', 'description', 'price_adult', 'price_child']
+//         },
+//         {
+//           model: BookingPassenger,
+//           attributes: ['id', 'name', 'email', 'phone', 'age', 'passport_number', 'nationality']
+//         },
+//         {
+//           model: Payment,
+//           attributes: ['id', 'payment_method', 'transaction_id', 'amount', 'status', 'created_at']
+//         },
+//         {
+//           model: User,
+//           attributes: ['id', 'name', 'email', 'phone']
+//         }
+//       ]
+//     });
+
+//     if (!booking) {
+//       return res.status(404).json({
+//         status: 'fail',
+//         message: 'Booking not found'
+//       });
+//     }
+
+//     // Check if user owns this booking or is admin
+//     if (booking.user_id !== req.user.id && req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+//       return res.status(403).json({
+//         status: 'fail',
+//         message: 'You do not have permission to view this booking'
+//       });
+//     }
+
+//     res.status(200).json({
+//       status: 'success',
+//       data: { booking }
+//     });
+//   } catch (err) {
+//     logger.error('Get booking by ID error:', err);
+//     res.status(500).json({
+//       status: 'error',
+//       message: err.message
+//     });
+//   }
+// };
+
+// // @desc    Update booking status (Admin)
+// // @route   PATCH /api/v1/bookings/:id/status
+// // @access  Private/Admin
+// export const updateBookingStatus = async (req, res) => {
+//   try {
+//     const booking = await Booking.findByPk(req.params.id);
+
+//     if (!booking) {
+//       return res.status(404).json({
+//         status: 'fail',
+//         message: 'Booking not found'
+//       });
+//     }
+
+//     const { status } = req.body;
+
+//     // Validate status
+//     const validStatuses = ['pending', 'confirmed', 'cancelled', 'completed'];
+//     if (!validStatuses.includes(status)) {
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: 'Invalid status value'
+//       });
+//     }
+
+//     await booking.update({ status });
+
+//     logger.info(`Booking ${booking.booking_number} status updated to ${status} by ${req.user.email}`);
+
+//     res.status(200).json({
+//       status: 'success',
+//       message: 'Booking status updated successfully',
+//       data: { booking }
+//     });
+//   } catch (err) {
+//     logger.error('Update booking status error:', err);
+//     res.status(400).json({
+//       status: 'fail',
+//       message: err.message
+//     });
+//   }
+// };
+
+// // @desc    Cancel booking
+// // @route   PATCH /api/v1/bookings/:id/cancel
+// // @access  Private
+// export const cancelBooking = async (req, res) => {
+//   try {
+//     const booking = await Booking.findByPk(req.params.id);
+
+//     if (!booking) {
+//       return res.status(404).json({
+//         status: 'fail',
+//         message: 'Booking not found'
+//       });
+//     }
+
+//     // Check if user owns this booking
+//     if (booking.user_id !== req.user.id && req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+//       return res.status(403).json({
+//         status: 'fail',
+//         message: 'You do not have permission to cancel this booking'
+//       });
+//     }
+
+//     // Check if booking can be cancelled
+//     if (booking.status === 'completed' || booking.status === 'cancelled') {
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: 'This booking cannot be cancelled'
+//       });
+//     }
+
+//     await booking.update({ status: 'cancelled' });
+
+//     logger.info(`Booking ${booking.booking_number} cancelled by ${req.user.email}`);
+
+//     res.status(200).json({
+//       status: 'success',
+//       message: 'Booking cancelled successfully',
+//       data: { booking }
+//     });
+//   } catch (err) {
+//     logger.error('Cancel booking error:', err);
+//     res.status(400).json({
+//       status: 'fail',
+//       message: err.message
+//     });
+//   }
+// };
+
+// // @desc    Get all bookings (Admin)
+// // @route   GET /api/v1/bookings/admin/all
+// // @access  Private/Admin
+// export const getAllBookings = async (req, res) => {
+//   try {
+//     // Only admins can access this
+//     if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+//       return res.status(403).json({
+//         status: 'fail',
+//         message: 'Access denied'
+//       });
+//     }
+
+//     const queryOptions = {
+//       include: [
+//         {
+//           model: TourPackage,
+//           attributes: ['id', 'title', 'destination']
+//         },
+//         {
+//           model: User,
+//           attributes: ['id', 'name', 'email', 'phone']
+//         },
+//         {
+//           model: Payment,
+//           attributes: ['id', 'payment_method', 'amount', 'status']
+//         }
+//       ],
+//       order: [['created_at', 'DESC']]
+//     };
+
+//     // Filter by status
+//     if (req.query.status) {
+//       queryOptions.where = { status: req.query.status };
+//     }
+
+//     // Filter by date range
+//     if (req.query.start_date && req.query.end_date) {
+//       if (!queryOptions.where) queryOptions.where = {};
+//       queryOptions.where.created_at = {
+//         [Op.between]: [req.query.start_date, req.query.end_date]
+//       };
+//     }
+
+//     // Pagination
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 20;
+//     const offset = (page - 1) * limit;
+
+//     queryOptions.limit = limit;
+//     queryOptions.offset = offset;
+
+//     const { count, rows: bookings } = await Booking.findAndCountAll(queryOptions);
+
+//     res.status(200).json({
+//       status: 'success',
+//       results: bookings.length,
+//       total: count,
+//       page,
+//       pages: Math.ceil(count / limit),
+//       data: { bookings }
+//     });
+//   } catch (err) {
+//     logger.error('Get all bookings error:', err);
+//     res.status(500).json({
+//       status: 'error',
+//       message: err.message
+//     });
+//   }
+// };
+
+
+// backend/controllers/bookingController.js
+import { Booking, BookingPassenger, TourPackage, Payment, User, sequelize } from '../models/index.js'; // ✅ Added sequelize import
 import { Op } from 'sequelize';
 import logger from '../utils/logger.js';
 import { generateBookingNumber } from '../utils/helpers.js';
@@ -7,25 +373,38 @@ import { generateBookingNumber } from '../utils/helpers.js';
 // @route   POST /api/v1/bookings
 // @access  Private
 export const createBooking = async (req, res) => {
-  const transaction = await sequelize.transaction();
+  const t = await sequelize.transaction();
   
   try {
     const { package_id, start_date, end_date, passengers, special_requests, total_amount } = req.body;
 
-    // Validate package exists
-    const tourPackage = await TourPackage.findByPk(package_id);
+    // 1. Validate Inputs
+    if (!package_id || !start_date || !end_date || !total_amount) {
+      await t.rollback();
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Missing required fields: package_id, start_date, end_date, total_amount'
+      });
+    }
+
+    // 2. Validate Package Exists (with lock to prevent race conditions if needed, but standard find is ok here)
+    const tourPackage = await TourPackage.findByPk(package_id, { transaction: t });
+    
     if (!tourPackage) {
-      await transaction.rollback();
+      await t.rollback();
       return res.status(404).json({
         status: 'fail',
         message: 'Tour package not found'
       });
     }
 
-    // Generate unique booking number
+    // 3. Check Capacity (Optional but recommended)
+    // You could count existing confirmed bookings for these dates here if you track capacity strictly
+
+    // 4. Generate unique booking number
     const bookingNumber = generateBookingNumber();
 
-    // Create booking
+    // 5. Create Booking
     const booking = await Booking.create({
       booking_number: bookingNumber,
       user_id: req.user.id,
@@ -33,24 +412,35 @@ export const createBooking = async (req, res) => {
       start_date,
       end_date,
       total_amount,
-      special_requests,
+      special_requests: special_requests || null,
       status: 'pending',
       payment_status: 'unpaid'
-    }, { transaction });
+    }, { transaction: t });
 
-    // Create passengers
-    if (passengers && passengers.length > 0) {
+    // 6. Create Passengers
+    if (passengers && Array.isArray(passengers) && passengers.length > 0) {
       const passengerRecords = passengers.map(passenger => ({
-        ...passenger,
-        booking_id: booking.id
+        booking_id: booking.id,
+        name: passenger.name,
+        email: passenger.email,
+        phone: passenger.phone,
+        age: passenger.age,
+        passport_number: passenger.passport_number,
+        nationality: passenger.nationality || 'Kenyan'
       }));
       
-      await BookingPassenger.bulkCreate(passengerRecords, { transaction });
+      await BookingPassenger.bulkCreate(passengerRecords, { transaction: t });
+    } else {
+      await t.rollback();
+      return res.status(400).json({
+        status: 'fail',
+        message: 'At least one passenger is required'
+      });
     }
 
-    await transaction.commit();
+    await t.commit();
 
-    // Fetch complete booking with relations
+    // 7. Fetch complete booking (outside transaction to avoid locking)
     const completeBooking = await Booking.findByPk(booking.id, {
       include: [
         {
@@ -76,8 +466,17 @@ export const createBooking = async (req, res) => {
       data: { booking: completeBooking }
     });
   } catch (err) {
-    await transaction.rollback();
+    await t.rollback();
     logger.error('Create booking error:', err);
+    
+    // Handle specific errors
+    if (err.name === 'SequelizeValidationError') {
+      return res.status(400).json({
+        status: 'fail',
+        message: err.errors.map(e => e.message).join(', ')
+      });
+    }
+
     res.status(400).json({
       status: 'fail',
       message: err.message
@@ -179,8 +578,9 @@ export const getBookingById = async (req, res) => {
       });
     }
 
-    // Check if user owns this booking or is admin
-    if (booking.user_id !== req.user.id && req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+    // Check permissions: Owner or Admin
+    const isAdmin = req.user.role === 'admin' || req.user.role === 'super_admin';
+    if (booking.user_id !== req.user.id && !isAdmin) {
       return res.status(403).json({
         status: 'fail',
         message: 'You do not have permission to view this booking'
@@ -200,14 +600,25 @@ export const getBookingById = async (req, res) => {
   }
 };
 
-// @desc    Update booking status (Admin)
+// @desc    Update booking status (Admin Only)
 // @route   PATCH /api/v1/bookings/:id/status
 // @access  Private/Admin
 export const updateBookingStatus = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const booking = await Booking.findByPk(req.params.id);
+    // 1. Check Admin Role
+    if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+      await t.rollback();
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Access denied. Admin privileges required.'
+      });
+    }
+
+    const booking = await Booking.findByPk(req.params.id, { transaction: t });
 
     if (!booking) {
+      await t.rollback();
       return res.status(404).json({
         status: 'fail',
         message: 'Booking not found'
@@ -216,25 +627,40 @@ export const updateBookingStatus = async (req, res) => {
 
     const { status } = req.body;
 
-    // Validate status
+    // 2. Validate Status
     const validStatuses = ['pending', 'confirmed', 'cancelled', 'completed'];
-    if (!validStatuses.includes(status)) {
+    if (!status || !validStatuses.includes(status)) {
+      await t.rollback();
       return res.status(400).json({
         status: 'fail',
-        message: 'Invalid status value'
+        message: `Invalid status. Must be one of: ${validStatuses.join(', ')}`
       });
     }
 
-    await booking.update({ status });
+    // 3. Update
+    await booking.update({ status }, { transaction: t });
+    
+    // Optional: If status becomes 'confirmed', you might want to decrement package capacity here
+
+    await t.commit();
+
+    // Fetch updated data
+    const updatedBooking = await Booking.findByPk(booking.id, {
+      include: [
+        { model: TourPackage, attributes: ['title', 'destination'] },
+        { model: User, attributes: ['name', 'email'] }
+      ]
+    });
 
     logger.info(`Booking ${booking.booking_number} status updated to ${status} by ${req.user.email}`);
 
     res.status(200).json({
       status: 'success',
       message: 'Booking status updated successfully',
-      data: { booking }
+      data: { booking: updatedBooking }
     });
   } catch (err) {
+    await t.rollback();
     logger.error('Update booking status error:', err);
     res.status(400).json({
       status: 'fail',
@@ -247,33 +673,43 @@ export const updateBookingStatus = async (req, res) => {
 // @route   PATCH /api/v1/bookings/:id/cancel
 // @access  Private
 export const cancelBooking = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const booking = await Booking.findByPk(req.params.id);
+    const booking = await Booking.findByPk(req.params.id, { transaction: t });
 
     if (!booking) {
+      await t.rollback();
       return res.status(404).json({
         status: 'fail',
         message: 'Booking not found'
       });
     }
 
-    // Check if user owns this booking
-    if (booking.user_id !== req.user.id && req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+    // 1. Check Permissions
+    const isAdmin = req.user.role === 'admin' || req.user.role === 'super_admin';
+    if (booking.user_id !== req.user.id && !isAdmin) {
+      await t.rollback();
       return res.status(403).json({
         status: 'fail',
         message: 'You do not have permission to cancel this booking'
       });
     }
 
-    // Check if booking can be cancelled
+    // 2. Check Validity of Cancellation
     if (booking.status === 'completed' || booking.status === 'cancelled') {
+      await t.rollback();
       return res.status(400).json({
         status: 'fail',
-        message: 'This booking cannot be cancelled'
+        message: `This booking cannot be cancelled because it is already '${booking.status}'`
       });
     }
 
-    await booking.update({ status: 'cancelled' });
+    // 3. Update Status
+    await booking.update({ status: 'cancelled' }, { transaction: t });
+    
+    // Optional: Trigger refund logic here if payment_status is 'paid'
+
+    await t.commit();
 
     logger.info(`Booking ${booking.booking_number} cancelled by ${req.user.email}`);
 
@@ -283,6 +719,7 @@ export const cancelBooking = async (req, res) => {
       data: { booking }
     });
   } catch (err) {
+    await t.rollback();
     logger.error('Cancel booking error:', err);
     res.status(400).json({
       status: 'fail',
@@ -296,7 +733,7 @@ export const cancelBooking = async (req, res) => {
 // @access  Private/Admin
 export const getAllBookings = async (req, res) => {
   try {
-    // Only admins can access this
+    // 1. Admin Check
     if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
       return res.status(403).json({
         status: 'fail',
@@ -305,6 +742,7 @@ export const getAllBookings = async (req, res) => {
     }
 
     const queryOptions = {
+      where: {},
       include: [
         {
           model: TourPackage,
@@ -324,12 +762,11 @@ export const getAllBookings = async (req, res) => {
 
     // Filter by status
     if (req.query.status) {
-      queryOptions.where = { status: req.query.status };
+      queryOptions.where.status = req.query.status;
     }
 
     // Filter by date range
     if (req.query.start_date && req.query.end_date) {
-      if (!queryOptions.where) queryOptions.where = {};
       queryOptions.where.created_at = {
         [Op.between]: [req.query.start_date, req.query.end_date]
       };

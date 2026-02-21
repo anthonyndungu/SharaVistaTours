@@ -10,7 +10,12 @@ export const login = createAsyncThunk(
       localStorage.setItem('token', response.data.token)
       return response.data
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Login failed')
+      // return rejectWithValue(error.response?.data?.message || 'Login failed')
+      const message = error.response?.data?.message || 'Login failed';
+      const code = error.response?.data?.code;
+
+      // Pass both message and code to the UI
+      return rejectWithValue({ message, code });
     }
   }
 )
@@ -108,6 +113,55 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   return null
 })
 
+export const resendVerification = createAsyncThunk(
+  'auth/resendVerification',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/auth/resend-verification', { email });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
+export const verifyUser = createAsyncThunk(
+  'users/verifyUser',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await api.patch(`/users/${userId}/verify`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
+export const resendVerificationOTP = createAsyncThunk(
+  'auth/resendOTP',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/auth/resend-otp', { email });
+      console.log('OTP resend response:', response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to send OTP');
+    }
+  }
+);
+
+export const verifyOTP = createAsyncThunk(
+  'auth/verifyOTP',
+  async ({ email, otp }, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/auth/verify-otp', { email, otp });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Invalid OTP');
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -115,18 +169,20 @@ const authSlice = createSlice({
     token: localStorage.getItem('token') || null,
     isAuthenticated: !!localStorage.getItem('token'),
     loading: false,
-    error: null
+    error: null,
+    users: [],
   },
   reducers: {
     clearError: (state) => {
       state.error = null
     },
     clearAuthState: (state) => {
-      state.user = null
-      state.token = null
-      state.isAuthenticated = false
-      state.loading = false
-      state.error = null
+      state.user = null;
+      state.token = null;
+      state.isAuthenticated = false;
+      state.loading = false;
+      state.error = null;
+      state.users = []; // Clear users on logout too
     }
   },
   extraReducers: (builder) => {
@@ -145,7 +201,7 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false
-        state.error = action.payload
+        state.error = action.payload || 'Login failed'
         state.isAuthenticated = false
       })
 
@@ -165,20 +221,18 @@ const authSlice = createSlice({
         state.loading = false
         state.error = action.payload
       })
-      // Add this with your other extraReducers cases
-      // Fetch all users (admin only)
       .addCase(fetchAllUsers.pending, (state) => {
-        state.loading = true
-        state.error = null
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        state.loading = false
-        // You might want to add a users array to your state
-        state.error = null
+        state.loading = false;
+        state.users = action.payload;
+        state.error = null;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.payload
+        state.loading = false;
+        state.error = action.payload;
       })
 
       // Fetch Profile

@@ -86,6 +86,105 @@ const User = sequelize.define('User', {
 });
 
 // Tour Package Model
+// const TourPackage = sequelize.define('TourPackage', {
+//   id: {
+//     type: DataTypes.UUID,
+//     defaultValue: DataTypes.UUIDV4,
+//     primaryKey: true
+//   },
+//   title: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//     // unique: true ,
+//     validate: {
+//       notEmpty: true,
+//       len: [5, 200]
+//     }
+//   },
+//   description: {
+//     type: DataTypes.TEXT,
+//     allowNull: false,
+//     validate: {
+//       notEmpty: true
+//     }
+//   },
+//   destination: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//     validate: {
+//       notEmpty: true
+//     }
+//   },
+//   duration_days: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false,
+//     validate: {
+//       min: 1,
+//       max: 365
+//     }
+//   },
+//   category: {
+//     type: DataTypes.ENUM('adventure', 'cultural', 'beach', 'wildlife', 'luxury', 'budget'),
+//     allowNull: false
+//   },
+//   price_adult: {
+//     type: DataTypes.DECIMAL(10, 2),
+//     allowNull: false,
+//     validate: {
+//       min: 0
+//     }
+//   },
+//   price_child: {
+//     type: DataTypes.DECIMAL(10, 2),
+//     allowNull: false,
+//     validate: {
+//       min: 0
+//     }
+//   },
+//   max_capacity: {
+//     type: DataTypes.INTEGER,
+//     defaultValue: 20,
+//     validate: {
+//       min: 1,
+//       max: 100
+//     }
+//   },
+//   is_featured: {
+//     type: DataTypes.BOOLEAN,
+//     defaultValue: false
+//   },
+//   status: {
+//     type: DataTypes.ENUM('draft', 'published', 'archived'),
+//     defaultValue: 'published'
+//   },
+//   inclusions: DataTypes.TEXT,
+//   exclusions: DataTypes.TEXT,
+//   itinerary: DataTypes.TEXT
+// });
+
+// // Package Image Model
+// const PackageImage = sequelize.define('PackageImage', {
+//   id: {
+//     type: DataTypes.UUID,
+//     defaultValue: DataTypes.UUIDV4,
+//     primaryKey: true
+//   },
+//   url: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//     validate: {
+//       isUrl: true
+//     }
+//   },
+//   is_primary: {
+//     type: DataTypes.BOOLEAN,
+//     defaultValue: false
+//   },
+//   caption: DataTypes.STRING
+// });
+
+// models/TourPackage.js (or wherever your models are defined)
+// Tour Package Model
 const TourPackage = sequelize.define('TourPackage', {
   id: {
     type: DataTypes.UUID,
@@ -95,7 +194,6 @@ const TourPackage = sequelize.define('TourPackage', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
-    // unique: true ,
     validate: {
       notEmpty: true,
       len: [5, 200]
@@ -149,6 +247,12 @@ const TourPackage = sequelize.define('TourPackage', {
       max: 100
     }
   },
+  // NEW: Field to store the primary/cover image path from Multer
+  cover_image: {
+    type: DataTypes.STRING,
+    allowNull: true, // Allow null initially if no image uploaded
+    comment: 'Path to the primary package image (e.g., /uploads/packages/pkg-123.jpg)'
+  },
   is_featured: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
@@ -162,25 +266,37 @@ const TourPackage = sequelize.define('TourPackage', {
   itinerary: DataTypes.TEXT
 });
 
-// Package Image Model
+// Package Image Model (For gallery/multiple images)
 const PackageImage = sequelize.define('PackageImage', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
+  // UPDATED: Removed isUrl validation because Multer saves local paths
   url: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      isUrl: true
-    }
+    comment: 'Local file path stored by Multer'
+    // Removed: validate: { isUrl: true } 
   },
   is_primary: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
   caption: DataTypes.STRING
+});
+
+// Define Associations
+TourPackage.hasMany(PackageImage, {
+  foreignKey: 'tourPackageId',
+  as: 'images',
+  onDelete: 'CASCADE' // Delete gallery images if package is deleted
+});
+
+PackageImage.belongsTo(TourPackage, {
+  foreignKey: 'tourPackageId',
+  as: 'package'
 });
 
 // Booking Model

@@ -39,26 +39,63 @@ export const fetchFeaturedPackages = createAsyncThunk(
   }
 );
 
+// export const createPackage = createAsyncThunk(
+//   'packages/create',
+//   async (packageData, { rejectWithValue }) => {
+//     try {
+//       const response = await api.post('/packages', packageData);
+//       return response.data.data.package;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || 'Failed to create package');
+//     }
+//   }
+// );
+
+// export const updatePackage = createAsyncThunk(
+//   'packages/update',
+//   async ({ id, packageData }, { rejectWithValue }) => {
+//     try {
+//       const response = await api.put(`/packages/${id}`, packageData);
+//       return response.data.data.package;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || 'Failed to update package');
+//     }
+//   }
+// );
+
+// src/features/packages/packageSlice.js
+
 export const createPackage = createAsyncThunk(
-  'packages/create',
-  async (packageData, { rejectWithValue }) => {
+  'packages/createPackage',
+  async (formData, { rejectWithValue }) => {
     try {
-      const response = await api.post('/packages', packageData);
-      return response.data.data.package;
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to create package');
+      // Axios automatically sets 'multipart/form-data' when it sees FormData
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      const response = await api.post('/packages', formData, config);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
     }
   }
 );
 
 export const updatePackage = createAsyncThunk(
-  'packages/update',
-  async ({ id, packageData }, { rejectWithValue }) => {
+  'packages/updatePackage',
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      const response = await api.patch(`/packages/${id}`, packageData);
-      return response.data.data.package;
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update package');
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      const response = await api.put(`/packages/${id}`, data, config);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
     }
   }
 );
@@ -126,7 +163,7 @@ const packageSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Fetch package by ID
       .addCase(fetchPackageById.pending, (state) => {
         state.loading = true;
@@ -141,7 +178,7 @@ const packageSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Fetch featured packages
       .addCase(fetchFeaturedPackages.pending, (state) => {
         state.loading = true;
@@ -156,7 +193,7 @@ const packageSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Create package
       .addCase(createPackage.pending, (state) => {
         state.loading = true;
@@ -171,7 +208,7 @@ const packageSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Update package
       .addCase(updatePackage.pending, (state) => {
         state.loading = true;
@@ -190,7 +227,7 @@ const packageSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Delete package
       .addCase(deletePackage.pending, (state) => {
         state.loading = true;
@@ -205,7 +242,7 @@ const packageSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // ✅ FIXED: Fetch package stats
       .addCase(fetchPackageStats.pending, (state) => {
         state.loading = true;

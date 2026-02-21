@@ -51,7 +51,7 @@ export default function EditPackage() {
   const { id } = useParams(); // Get UUID from URL
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // Selectors
   const { currentPackage, loading, error, updateLoading } = useSelector((state) => state.packages);
 
@@ -84,7 +84,7 @@ export default function EditPackage() {
     const loadData = async () => {
       try {
         const result = await dispatch(fetchPackageById(id)).unwrap();
-        
+
         // Map API response to form state
         if (result) {
           setFormData({
@@ -181,7 +181,6 @@ export default function EditPackage() {
       existing: false // New upload
     }));
     setImagePreviews(prev => [...prev, ...newImages]);
-    // Note: We don't add to formData.images here, we handle it in submit
   };
 
   const updateImageCaption = (index, caption) => {
@@ -202,10 +201,6 @@ export default function EditPackage() {
     const imageToRemove = imagePreviews[index];
     const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
     setImagePreviews(updatedPreviews);
-    
-    // If removing an existing DB image, you might want to track it for deletion
-    // For now, we just remove from preview. The backend logic should handle 
-    // syncing the final list.
   };
 
   const nextStep = () => { if (activeStep < steps.length - 1) setActiveStep(prev => prev + 1); };
@@ -213,15 +208,15 @@ export default function EditPackage() {
 
   const isStepValid = useCallback((stepIndex) => {
     switch (stepIndex) {
-      case 0: 
-        return !validateField('title', formData.title) && 
-               !validateField('description', formData.description) && 
-               !validateField('destination', formData.destination) && 
-               !validateField('duration_days', formData.duration_days) &&
-               !validateField('category', formData.category);
-      case 1: 
-        return !validateField('price_adult', formData.price_adult) && 
-               !validateField('status', formData.status);
+      case 0:
+        return !validateField('title', formData.title) &&
+          !validateField('description', formData.description) &&
+          !validateField('destination', formData.destination) &&
+          !validateField('duration_days', formData.duration_days) &&
+          !validateField('category', formData.category);
+      case 1:
+        return !validateField('price_adult', formData.price_adult) &&
+          !validateField('status', formData.status);
       default: return true;
     }
   }, [formData, validateField]);
@@ -245,47 +240,104 @@ export default function EditPackage() {
     }
   };
 
+  // const handleSubmit = async () => {
+  //   setIsSubmitting(true);
+  //   try {
+  //     const imagesPayload = imagePreviews.map(img => ({
+  //       id: img.existing ? img.id : undefined,
+  //       url: img.existing ? img.url : undefined,
+  //       caption: img.caption,
+  //       is_primary: img.is_primary,
+  //       file: img.file 
+  //     }));
+
+  //     const packageData = {
+  //       ...formData,
+  //       price_adult: parseFloat(formData.price_adult),
+  //       price_child: formData.price_child ? parseFloat(formData.price_child) : 0,
+  //       duration_days: parseInt(formData.duration_days) || 1,
+  //       max_capacity: parseInt(formData.max_capacity) || 20,
+  //       images: imagesPayload
+  //     };
+
+  //     const resultAction = await dispatch(updatePackage({ id, data: packageData })).unwrap();
+
+  //     setSnackbar({ 
+  //       open: true, 
+  //       message: 'Package updated successfully!', 
+  //       severity: 'success' 
+  //     });
+  //     setTimeout(() => navigate('/admin/packages'), 1500);
+
+  //   } catch (err) {
+  //     setSnackbar({ 
+  //       open: true, 
+  //       message: err.message || 'Failed to update package', 
+  //       severity: 'error' 
+  //     });
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      // Prepare Image Payload
-      // We send the full list of images. 
-      // Backend should: 
-      // 1. Keep images with IDs that are in this list.
-      // 2. Update captions/primary flags.
-      // 3. Upload new images (those without IDs).
-      // 4. Delete images that were in DB but are NOT in this list.
-      const imagesPayload = imagePreviews.map(img => ({
-        id: img.existing ? img.id : undefined, // Send ID only for existing
-        url: img.existing ? img.url : undefined, // URL might be needed for existing if changed, usually not
-        caption: img.caption,
-        is_primary: img.is_primary,
-        file: img.file // Only present for new uploads
+      // 1. Initialize FormData
+      const formDataToSend = new FormData();
+
+      // 2. Append Text Fields
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('destination', formData.destination);
+      formDataToSend.append('duration_days', parseInt(formData.duration_days) || 1);
+      formDataToSend.append('price_adult', parseFloat(formData.price_adult));
+      formDataToSend.append('price_child', formData.price_child ? parseFloat(formData.price_child) : 0);
+      formDataToSend.append('max_capacity', parseInt(formData.max_capacity) || 20);
+      formDataToSend.append('category', formData.category);
+      formDataToSend.append('status', formData.status);
+      formDataToSend.append('is_featured', formData.is_featured);
+      formDataToSend.append('inclusions', formData.inclusions);
+      formDataToSend.append('exclusions', formData.exclusions);
+      formDataToSend.append('itinerary', formData.itinerary);
+
+      // 3. Prepare Image Metadata
+      // Distinguish between Existing (from DB) and New (uploaded now)
+      const imagesPayload = imagePreviews.map((img) => ({
+        id: img.existing ? img.id : null, // Send ID if it exists in DB
+        url: img.existing ? img.url : null, // Send URL if existing
+        caption: img.caption || '',
+        is_primary: img.is_primary || false
       }));
 
-      const packageData = {
-        ...formData,
-        price_adult: parseFloat(formData.price_adult),
-        price_child: formData.price_child ? parseFloat(formData.price_child) : 0,
-        duration_days: parseInt(formData.duration_days) || 1,
-        max_capacity: parseInt(formData.max_capacity) || 20,
-        images: imagesPayload
-      };
+      // Append Image Metadata as JSON String
+      formDataToSend.append('images', JSON.stringify(imagesPayload));
 
-      const resultAction = await dispatch(updatePackage({ id, data: packageData })).unwrap();
-
-      setSnackbar({ 
-        open: true, 
-        message: 'Package updated successfully!', 
-        severity: 'success' 
+      // 4. Append Actual Files (ONLY for NEW images)
+      // We skip files where img.existing is true because they are already on the server
+      imagePreviews.forEach((img) => {
+        if (!img.existing && img.file) {
+          formDataToSend.append('newImages', img.file);
+        }
       });
+
+      // 5. Dispatch Update Action
+      // Pass the ID and the FormData object
+      const resultAction = await dispatch(updatePackage({ id, data: formDataToSend })).unwrap();
+
+      setSnackbar({
+        open: true,
+        message: 'Package updated successfully!',
+        severity: 'success'
+      });
+
       setTimeout(() => navigate('/admin/packages'), 1500);
 
     } catch (err) {
-      setSnackbar({ 
-        open: true, 
-        message: err.message || 'Failed to update package', 
-        severity: 'error' 
+      setSnackbar({
+        open: true,
+        message: err.message || 'Failed to update package',
+        severity: 'error'
       });
     } finally {
       setIsSubmitting(false);
@@ -303,141 +355,141 @@ export default function EditPackage() {
     );
   }
 
-//   const getStepContent = (step) => {
-//     switch (step) {
-//       case 0: // Basic Info
-//         return (
-//           <Grid container spacing={2}>
-//             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
-//               <TextField fullWidth label="Package Title *" name="title" value={formData.title} onChange={handleInputChange} error={!!errors.title} helperText={errors.title} required variant="outlined" />
-//             </Grid>
-//             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
-//               <TextField fullWidth label="Short Description *" name="description" value={formData.description} onChange={handleInputChange} error={!!errors.description} helperText={errors.description} required variant="outlined" multiline rows={3} />
-//             </Grid>
-//             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
-//               <TextField fullWidth label="Destination *" name="destination" value={formData.destination} onChange={handleInputChange} error={!!errors.destination} helperText={errors.destination} required variant="outlined" />
-//             </Grid>
-//             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
-//               <TextField fullWidth label="Duration (Days) *" name="duration_days" type="number" value={formData.duration_days} onChange={handleInputChange} error={!!errors.duration_days} helperText={errors.duration_days} required inputProps={{ min: "1", max: "365" }} variant="outlined" />
-//             </Grid>
-//             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
-//               <FormControl fullWidth error={!!errors.category}>
-//                 <InputLabel>Category *</InputLabel>
-//                 <Select name="category" value={formData.category} label="Category *" onChange={handleInputChange} required>
-//                   <MenuItem value="adventure">Adventure</MenuItem>
-//                   <MenuItem value="cultural">Cultural</MenuItem>
-//                   <MenuItem value="beach">Beach</MenuItem>
-//                   <MenuItem value="wildlife">Wildlife</MenuItem>
-//                   <MenuItem value="luxury">Luxury</MenuItem>
-//                   <MenuItem value="budget">Budget</MenuItem>
-//                 </Select>
-//                 {errors.category && <Typography variant="caption" sx={{ color: '#f44336', mt: '8px' }}>{errors.category}</Typography>}
-//               </FormControl>
-//             </Grid>
-//           </Grid>
-//         );
+  //   const getStepContent = (step) => {
+  //     switch (step) {
+  //       case 0: // Basic Info
+  //         return (
+  //           <Grid container spacing={2}>
+  //             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
+  //               <TextField fullWidth label="Package Title *" name="title" value={formData.title} onChange={handleInputChange} error={!!errors.title} helperText={errors.title} required variant="outlined" />
+  //             </Grid>
+  //             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
+  //               <TextField fullWidth label="Short Description *" name="description" value={formData.description} onChange={handleInputChange} error={!!errors.description} helperText={errors.description} required variant="outlined" multiline rows={3} />
+  //             </Grid>
+  //             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
+  //               <TextField fullWidth label="Destination *" name="destination" value={formData.destination} onChange={handleInputChange} error={!!errors.destination} helperText={errors.destination} required variant="outlined" />
+  //             </Grid>
+  //             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
+  //               <TextField fullWidth label="Duration (Days) *" name="duration_days" type="number" value={formData.duration_days} onChange={handleInputChange} error={!!errors.duration_days} helperText={errors.duration_days} required inputProps={{ min: "1", max: "365" }} variant="outlined" />
+  //             </Grid>
+  //             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
+  //               <FormControl fullWidth error={!!errors.category}>
+  //                 <InputLabel>Category *</InputLabel>
+  //                 <Select name="category" value={formData.category} label="Category *" onChange={handleInputChange} required>
+  //                   <MenuItem value="adventure">Adventure</MenuItem>
+  //                   <MenuItem value="cultural">Cultural</MenuItem>
+  //                   <MenuItem value="beach">Beach</MenuItem>
+  //                   <MenuItem value="wildlife">Wildlife</MenuItem>
+  //                   <MenuItem value="luxury">Luxury</MenuItem>
+  //                   <MenuItem value="budget">Budget</MenuItem>
+  //                 </Select>
+  //                 {errors.category && <Typography variant="caption" sx={{ color: '#f44336', mt: '8px' }}>{errors.category}</Typography>}
+  //               </FormControl>
+  //             </Grid>
+  //           </Grid>
+  //         );
 
-//       case 1: // Pricing
-//         return (
-//           <Grid container spacing={2}>
-//             <Grid item xs={12} sm={6}><TextField fullWidth label="Adult Price (KES) *" name="price_adult" type="number" value={formData.price_adult} onChange={handleInputChange} error={!!errors.price_adult} helperText={errors.price_adult} required variant="outlined" /></Grid>
-//             <Grid item xs={12} sm={6}><TextField fullWidth label="Child Price (KES)" name="price_child" type="number" value={formData.price_child} onChange={handleInputChange} variant="outlined" /></Grid>
-//             <Grid item xs={12} sm={6}><TextField fullWidth label="Max Capacity" name="max_capacity" type="number" value={formData.max_capacity} onChange={handleInputChange} variant="outlined" /></Grid>
-//             <Grid item xs={12} sm={6}>
-//               <FormControl fullWidth error={!!errors.status}>
-//                 <InputLabel>Status *</InputLabel>
-//                 <Select name="status" value={formData.status} label="Status *" onChange={handleInputChange} required>
-//                   <MenuItem value="draft">Draft</MenuItem>
-//                   <MenuItem value="published">Published</MenuItem>
-//                   <MenuItem value="archived">Archived</MenuItem>
-//                 </Select>
-//                 {errors.status && <Typography variant="caption" sx={{ color: '#f44336', mt: '8px' }}>{errors.status}</Typography>}
-//               </FormControl>
-//             </Grid>
-//             <Grid item xs={12}><FormControlLabel control={<Switch checked={formData.is_featured} onChange={handleCheckboxChange} name="is_featured" />} label="Featured Package" /></Grid>
-//           </Grid>
-//         );
+  //       case 1: // Pricing
+  //         return (
+  //           <Grid container spacing={2}>
+  //             <Grid item xs={12} sm={6}><TextField fullWidth label="Adult Price (KES) *" name="price_adult" type="number" value={formData.price_adult} onChange={handleInputChange} error={!!errors.price_adult} helperText={errors.price_adult} required variant="outlined" /></Grid>
+  //             <Grid item xs={12} sm={6}><TextField fullWidth label="Child Price (KES)" name="price_child" type="number" value={formData.price_child} onChange={handleInputChange} variant="outlined" /></Grid>
+  //             <Grid item xs={12} sm={6}><TextField fullWidth label="Max Capacity" name="max_capacity" type="number" value={formData.max_capacity} onChange={handleInputChange} variant="outlined" /></Grid>
+  //             <Grid item xs={12} sm={6}>
+  //               <FormControl fullWidth error={!!errors.status}>
+  //                 <InputLabel>Status *</InputLabel>
+  //                 <Select name="status" value={formData.status} label="Status *" onChange={handleInputChange} required>
+  //                   <MenuItem value="draft">Draft</MenuItem>
+  //                   <MenuItem value="published">Published</MenuItem>
+  //                   <MenuItem value="archived">Archived</MenuItem>
+  //                 </Select>
+  //                 {errors.status && <Typography variant="caption" sx={{ color: '#f44336', mt: '8px' }}>{errors.status}</Typography>}
+  //               </FormControl>
+  //             </Grid>
+  //             <Grid item xs={12}><FormControlLabel control={<Switch checked={formData.is_featured} onChange={handleCheckboxChange} name="is_featured" />} label="Featured Package" /></Grid>
+  //           </Grid>
+  //         );
 
-//       case 2: // Content
-//         return (
-//           <Grid container spacing={2}>
-//             <Grid item xs={12}><TextField fullWidth label="Inclusions" name="inclusions" value={formData.inclusions} onChange={handleInputChange} multiline rows={3} variant="outlined" /></Grid>
-//             <Grid item xs={12}><TextField fullWidth label="Exclusions" name="exclusions" value={formData.exclusions} onChange={handleInputChange} multiline rows={3} variant="outlined" /></Grid>
-//             <Grid item xs={12}><TextField fullWidth label="Itinerary" name="itinerary" value={formData.itinerary} onChange={handleInputChange} multiline rows={4} variant="outlined" /></Grid>
-//           </Grid>
-//         );
+  //       case 2: // Content
+  //         return (
+  //           <Grid container spacing={2}>
+  //             <Grid item xs={12}><TextField fullWidth label="Inclusions" name="inclusions" value={formData.inclusions} onChange={handleInputChange} multiline rows={3} variant="outlined" /></Grid>
+  //             <Grid item xs={12}><TextField fullWidth label="Exclusions" name="exclusions" value={formData.exclusions} onChange={handleInputChange} multiline rows={3} variant="outlined" /></Grid>
+  //             <Grid item xs={12}><TextField fullWidth label="Itinerary" name="itinerary" value={formData.itinerary} onChange={handleInputChange} multiline rows={4} variant="outlined" /></Grid>
+  //           </Grid>
+  //         );
 
-//       case 3: // Media
-//         return (
-//           <Grid container spacing={2}>
-//             <Grid item xs={12}>
-//               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>Package Images</Typography>
-//               <Button variant="outlined" component="label" fullWidth sx={{ borderColor: COLORS.primary, color: COLORS.primary, py: 1.5, borderRadius: '8px', textTransform: 'none', '&:hover': { backgroundColor: COLORS.primaryLight } }}>
-//                 Upload More Images
-//                 <input type="file" multiple accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-//               </Button>
-//             </Grid>
-//             {imagePreviews.length > 0 && (
-//               <Grid item xs={12}>
-//                 <Grid container spacing={2}>
-//                   {imagePreviews.map((preview, index) => (
-//                     <Grid item xs={6} sm={4} key={index} sx={{ display: 'block', width: '100%' }}>
-//                       <Paper sx={{ p: 1, borderRadius: '8px', border: `1px solid ${COLORS.border}`, position: 'relative' }}>
-//                         {preview.existing && (
-//                           <Chip label="Existing" size="small" color="primary" sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1, fontSize: '0.6rem' }} />
-//                         )}
-//                         <img src={preview.url} alt={`Preview ${index}`} style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px' }} />
-//                         <TextField fullWidth size="small" placeholder="Caption" value={preview.caption} onChange={(e) => updateImageCaption(index, e.target.value)} sx={{ mt: 1 }} />
-//                         <Box sx={{ mt: 1, display: 'flex', gap: 1, justifyContent: 'space-between' }}>
-//                           <Button size="small" variant={preview.is_primary ? "contained" : "outlined"} onClick={() => togglePrimaryImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto', ...(preview.is_primary && { backgroundColor: COLORS.primary }) }}>
-//                             {preview.is_primary ? '✓' : 'Set'}
-//                           </Button>
-//                           <Button size="small" variant="outlined" color="error" onClick={() => removeImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto' }}>Remove</Button>
-//                         </Box>
-//                       </Paper>
-//                     </Grid>
-//                   ))}
-//                 </Grid>
-//               </Grid>
-//             )}
-//           </Grid>
-//         );
+  //       case 3: // Media
+  //         return (
+  //           <Grid container spacing={2}>
+  //             <Grid item xs={12}>
+  //               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>Package Images</Typography>
+  //               <Button variant="outlined" component="label" fullWidth sx={{ borderColor: COLORS.primary, color: COLORS.primary, py: 1.5, borderRadius: '8px', textTransform: 'none', '&:hover': { backgroundColor: COLORS.primaryLight } }}>
+  //                 Upload More Images
+  //                 <input type="file" multiple accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
+  //               </Button>
+  //             </Grid>
+  //             {imagePreviews.length > 0 && (
+  //               <Grid item xs={12}>
+  //                 <Grid container spacing={2}>
+  //                   {imagePreviews.map((preview, index) => (
+  //                     <Grid item xs={6} sm={4} key={index} sx={{ display: 'block', width: '100%' }}>
+  //                       <Paper sx={{ p: 1, borderRadius: '8px', border: `1px solid ${COLORS.border}`, position: 'relative' }}>
+  //                         {preview.existing && (
+  //                           <Chip label="Existing" size="small" color="primary" sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1, fontSize: '0.6rem' }} />
+  //                         )}
+  //                         <img src={preview.url} alt={`Preview ${index}`} style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px' }} />
+  //                         <TextField fullWidth size="small" placeholder="Caption" value={preview.caption} onChange={(e) => updateImageCaption(index, e.target.value)} sx={{ mt: 1 }} />
+  //                         <Box sx={{ mt: 1, display: 'flex', gap: 1, justifyContent: 'space-between' }}>
+  //                           <Button size="small" variant={preview.is_primary ? "contained" : "outlined"} onClick={() => togglePrimaryImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto', ...(preview.is_primary && { backgroundColor: COLORS.primary }) }}>
+  //                             {preview.is_primary ? '✓' : 'Set'}
+  //                           </Button>
+  //                           <Button size="small" variant="outlined" color="error" onClick={() => removeImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto' }}>Remove</Button>
+  //                         </Box>
+  //                       </Paper>
+  //                     </Grid>
+  //                   ))}
+  //                 </Grid>
+  //               </Grid>
+  //             )}
+  //           </Grid>
+  //         );
 
-//       case 4: // Review
-//         return (
-//           <Box sx={{ width: '100%' }}>
-//             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>Review Changes</Typography>
-//             <Card sx={{ mb: 2, border: `1px solid ${COLORS.border}` }}>
-//               <CardContent>
-//                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Basic Information</Typography>
-//                 <Grid container spacing={1}>
-//                   <Grid item xs={12}><Typography variant="body2"><strong>Title:</strong> {formData.title}</Typography></Grid>
-//                   <Grid item xs={12}><Typography variant="body2"><strong>Description:</strong> {formData.description}</Typography></Grid>
-//                   <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Destination:</strong> {formData.destination}</Typography></Grid>
-//                   <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Duration:</strong> {formData.duration_days} days</Typography></Grid>
-//                 </Grid>
-//               </CardContent>
-//             </Card>
-//             <Card sx={{ mb: 2, border: `1px solid ${COLORS.border}` }}>
-//               <CardContent>
-//                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Media</Typography>
-//                 <Typography variant="body2"><strong>Total Images:</strong> {imagePreviews.length}</Typography>
-//                 {imagePreviews.length > 0 && (
-//                   <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
-//                     {imagePreviews.slice(0, 5).map((p, i) => (
-//                       <img key={i} src={p.url} alt="" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
-//                     ))}
-//                   </Box>
-//                 )}
-//               </CardContent>
-//             </Card>
-//           </Box>
-//         );
+  //       case 4: // Review
+  //         return (
+  //           <Box sx={{ width: '100%' }}>
+  //             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>Review Changes</Typography>
+  //             <Card sx={{ mb: 2, border: `1px solid ${COLORS.border}` }}>
+  //               <CardContent>
+  //                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Basic Information</Typography>
+  //                 <Grid container spacing={1}>
+  //                   <Grid item xs={12}><Typography variant="body2"><strong>Title:</strong> {formData.title}</Typography></Grid>
+  //                   <Grid item xs={12}><Typography variant="body2"><strong>Description:</strong> {formData.description}</Typography></Grid>
+  //                   <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Destination:</strong> {formData.destination}</Typography></Grid>
+  //                   <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Duration:</strong> {formData.duration_days} days</Typography></Grid>
+  //                 </Grid>
+  //               </CardContent>
+  //             </Card>
+  //             <Card sx={{ mb: 2, border: `1px solid ${COLORS.border}` }}>
+  //               <CardContent>
+  //                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Media</Typography>
+  //                 <Typography variant="body2"><strong>Total Images:</strong> {imagePreviews.length}</Typography>
+  //                 {imagePreviews.length > 0 && (
+  //                   <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
+  //                     {imagePreviews.slice(0, 5).map((p, i) => (
+  //                       <img key={i} src={p.url} alt="" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
+  //                     ))}
+  //                   </Box>
+  //                 )}
+  //               </CardContent>
+  //             </Card>
+  //           </Box>
+  //         );
 
-//       default: return null;
-//     }
-//   };
-const getStepContent = (step) => {
+  //       default: return null;
+  //     }
+  //   };
+  const getStepContent = (step) => {
     switch (step) {
       case 0: // Basic Info
         return (
@@ -558,7 +610,7 @@ const getStepContent = (step) => {
                 <h6 className="card-subtitle mb-3 text-primary fw-bold">Basic Information</h6>
                 <div className="row g-2">
                   <div className="col-12 col-md-6"><p className="mb-1"><strong>Title:</strong> {formData.title || '—'}</p></div>
-                   <div className="col-12 col-md-6"><p className="mb-1"><strong>Description:</strong> <em className="text-muted">{formData.description || '—'}</em></p></div>
+                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Description:</strong> <em className="text-muted">{formData.description || '—'}</em></p></div>
                   <div className="col-12 col-md-6"><p className="mb-1"><strong>Destination:</strong> {formData.destination || '—'}</p></div>
                   <div className="col-12 col-md-6"><p className="mb-1"><strong>Duration:</strong> {formData.duration_days || '—'} days</p></div>
                   <div className="col-12 col-md-6">

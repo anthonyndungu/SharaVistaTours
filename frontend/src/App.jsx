@@ -27,6 +27,7 @@ import AdminSettings from './pages/admin/AdminSettings';
 import Dashboard from './pages/dashboard/Dashboard';
 import CreatePackage from './pages/admin/CreatePackage';
 import EditPackage from './pages/admin/EditPackage';
+import UserProfile from './pages/admin/UserProfile';
 
 function App() {
   return (
@@ -55,10 +56,11 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="packages" element={<AdminPackages />} />
-           <Route path="packages/new" element={<CreatePackage />} />
-           <Route path="/admin/packages/edit/:id" element={<EditPackage />} />
+          <Route path="packages/new" element={<CreatePackage />} />
+          <Route path="/admin/packages/edit/:id" element={<EditPackage />} />
           <Route path="bookings" element={<AdminBookings />} />
           <Route path="clients" element={<AdminClients />} />
+          <Route path="users/:id" element={<UserProfile />} />
           <Route path="reviews" element={<AdminReviews />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>

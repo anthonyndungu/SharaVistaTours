@@ -7,7 +7,9 @@ import {
   updateMyPassword,
   forgotPassword,
   resetPassword,
-  logout
+  logout,
+  resendVerificationOTP,
+  verifyOTP
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 import { body, validationResult } from 'express-validator';
@@ -66,6 +68,8 @@ router.post('/signup', signupValidation, validate, signup);
 router.post('/login', loginValidation, validate, login);
 router.post('/forgot-password', body('email').isEmail().withMessage('Please provide a valid email'), validate, forgotPassword);
 router.patch('/reset-password/:token', resetPasswordValidation, validate, resetPassword);
+router.post('/resend-otp', resendVerificationOTP);
+router.post('/verify-otp', verifyOTP);
 
 // Protected routes
 router.get('/me', protect, getMe);

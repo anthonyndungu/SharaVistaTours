@@ -1,62 +1,88 @@
-2026-02-20 15:35:36:3536 [32minfo[39m: [32mPOST /api/v1/packages[39m
-2026-02-20 15:35:36:3536 [31merror[39m: [31mCreate package error: notNull Violation: TourPackage.description cannot be null[39m
-2026-02-20 15:35:38:3538 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:35:38:3538 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:49:41:4941 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:49:42:4942 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:55:23:5523 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:55:23:5523 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:56:48:5648 [32minfo[39m: [32mPOST /api/v1/packages[39m
-2026-02-20 15:56:48:5648 [32minfo[39m: [32mPackage created by admin@travelease.com: TEST PACKAGE[39m
-2026-02-20 15:57:05:575 [32minfo[39m: [32mPOST /api/v1/packages[39m
-2026-02-20 15:57:05:575 [32minfo[39m: [32mPackage created by admin@travelease.com: TEST PACKAGE[39m
-2026-02-20 15:57:37:5737 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:57:37:5737 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 15:57:44:5744 [32minfo[39m: [32mDELETE /api/v1/packages/f9fcc9c6-6e03-4af9-8359-08471ae3aacb[39m
-2026-02-20 15:57:44:5744 [32minfo[39m: [32mPackage deleted by admin@travelease.com: TEST PACKAGE[39m
-2026-02-20 16:07:33:733 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:07:33:733 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:08:22:822 [32minfo[39m: [32m✓ Database connection established successfully.[39m
-2026-02-20 16:08:23:823 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
-2026-02-20 16:08:23:823 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
-2026-02-20 16:08:23:823 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
-2026-02-20 16:11:34:1134 [32minfo[39m: [32m✓ Database connection established successfully.[39m
-2026-02-20 16:11:35:1135 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
-2026-02-20 16:11:35:1135 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
-2026-02-20 16:11:35:1135 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
-2026-02-20 16:11:51:1151 [32minfo[39m: [32m✓ Database connection established successfully.[39m
-2026-02-20 16:11:52:1152 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
-2026-02-20 16:11:52:1152 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
-2026-02-20 16:11:52:1152 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
-2026-02-20 16:12:00:120 [32minfo[39m: [32m✓ Database connection established successfully.[39m
-2026-02-20 16:12:01:121 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
-2026-02-20 16:12:01:121 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
-2026-02-20 16:12:01:121 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
-2026-02-20 16:13:07:137 [32minfo[39m: [32m✓ Database connection established successfully.[39m
-2026-02-20 16:13:07:137 [31merror[39m: [31m✗ Unable to start server: Validation error[39m
-2026-02-20 16:14:10:1410 [32minfo[39m: [32m✓ Database connection established successfully.[39m
-2026-02-20 16:14:11:1411 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
-2026-02-20 16:14:11:1411 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
-2026-02-20 16:14:11:1411 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
-2026-02-20 16:14:59:1459 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:15:00:150 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:15:26:1526 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:15:26:1526 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:16:51:1651 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:16:51:1651 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:16:55:1655 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:16:55:1655 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:18:08:188 [32minfo[39m: [32mPOST /api/v1/packages[39m
-2026-02-20 16:18:08:188 [32minfo[39m: [32mPackage created by admin@travelease.com: PACKAGE TEST[39m
-2026-02-20 16:18:10:1810 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:18:10:1810 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:18:17:1817 [32minfo[39m: [32mDELETE /api/v1/packages/6f8a7b46-03db-464f-9921-5479c8f7616a[39m
-2026-02-20 16:18:17:1817 [32minfo[39m: [32mPackage deleted by admin@travelease.com: PACKAGE TEST[39m
-2026-02-20 16:23:08:238 [32minfo[39m: [32mGET /api/v1/packages/588ec501-b67c-414c-8bf7-a45bd075afc1[39m
-2026-02-20 16:23:08:238 [32minfo[39m: [32mGET /api/v1/packages/588ec501-b67c-414c-8bf7-a45bd075afc1[39m
-2026-02-20 16:23:16:2316 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:23:16:2316 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:23:48:2348 [32minfo[39m: [32mGET /api/v1/packages/588ec501-b67c-414c-8bf7-a45bd075afc1[39m
-2026-02-20 16:23:48:2348 [32minfo[39m: [32mGET /api/v1/packages/588ec501-b67c-414c-8bf7-a45bd075afc1[39m
-2026-02-20 16:24:16:2416 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-20 16:24:17:2417 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-21 17:31:07:317 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-21 17:31:09:319 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-21 17:31:09:319 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-21 17:31:09:319 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-21 17:36:15:3615 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:36:15:3615 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-21 17:36:15:3615 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-21 17:36:15:3615 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-21 17:36:15:3615 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-21 17:36:16:3616 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-21 17:36:21:3621 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-21 17:36:21:3621 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-21 17:36:25:3625 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-21 17:36:25:3625 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-21 17:37:26:3726 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:37:27:3727 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 17:37:30:3730 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:37:30:3730 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:40:49:4049 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-21 17:40:50:4050 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-21 17:40:50:4050 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-21 17:40:50:4050 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-21 17:44:11:4411 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:44:12:4412 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 17:44:15:4415 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:44:15:4415 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:45:16:4516 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:45:29:4529 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:45:30:4530 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 17:45:33:4533 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:45:33:4533 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:48:08:488 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-21 17:48:09:489 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-21 17:48:09:489 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-21 17:48:09:489 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-21 17:48:38:4838 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:48:39:4839 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 17:48:42:4842 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:48:42:4842 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:51:51:5151 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-21 17:51:52:5152 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-21 17:51:52:5152 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-21 17:51:52:5152 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-21 17:54:26:5426 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 17:54:27:5427 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 17:54:30:5430 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 17:54:30:5430 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:12:47:1247 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:12:48:1248 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 18:13:07:137 [31merror[39m: [31mError sending email: read ECONNRESET[39m
+2026-02-21 18:15:59:1559 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-21 18:16:00:160 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-21 18:16:00:160 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-21 18:16:00:160 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-21 18:19:05:195 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:19:06:196 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 18:19:10:1910 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:19:10:1910 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:19:43:1943 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:19:45:1945 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 18:19:47:1947 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:19:47:1947 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:24:44:2444 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:24:45:2445 [32minfo[39m: [32mPOST /api/v1/auth/resend-otp[39m
+2026-02-21 18:24:48:2448 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:24:48:2448 [32minfo[39m: [32mOTP sent to anthonyndungu069@gmail.com[39m
+2026-02-21 18:25:10:2510 [32minfo[39m: [32mPOST /api/v1/auth/verify-otp[39m
+2026-02-21 18:25:11:2511 [32minfo[39m: [32mAccount verified via OTP: anthonyndungu069@gmail.com[39m
+2026-02-21 18:25:17:2517 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:25:18:2518 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-21 18:25:18:2518 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:25:18:2518 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:25:40:2540 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:25:41:2541 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-21 18:25:41:2541 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:25:41:2541 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:26:10:2610 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:26:10:2610 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:26:12:2612 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:26:12:2612 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 18:27:47:2747 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:27:48:2748 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-21 18:27:49:2749 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-21 18:27:49:2749 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-21 18:27:49:2749 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-21 18:27:49:2749 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-21 18:28:21:2821 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-21 18:28:38:2838 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
