@@ -23,8 +23,7 @@ import {
   Chip,
   Card,
   CardContent,
-  CircularProgress,
-  Backdrop
+  CircularProgress
 } from '@mui/material';
 
 const COLORS = {
@@ -48,11 +47,10 @@ const steps = [
 ];
 
 export default function EditPackage() {
-  const { id } = useParams(); // Get UUID from URL
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Selectors
   const { currentPackage, loading, error, updateLoading } = useSelector((state) => state.packages);
 
   const [activeStep, setActiveStep] = useState(0);
@@ -85,7 +83,6 @@ export default function EditPackage() {
       try {
         const result = await dispatch(fetchPackageById(id)).unwrap();
 
-        // Map API response to form state
         if (result) {
           setFormData({
             title: result.title || '',
@@ -101,18 +98,25 @@ export default function EditPackage() {
             inclusions: result.inclusions || '',
             exclusions: result.exclusions || '',
             itinerary: result.itinerary || '',
-            images: [] // We will handle images separately
+            images: []
           });
-
-          // Map existing images from DB to previews
           if (result.PackageImages && Array.isArray(result.PackageImages)) {
-            const mappedImages = result.PackageImages.map(img => ({
-              id: img.id, // Keep DB ID for updates/deletes
-              url: img.url,
-              caption: img.caption || '',
-              is_primary: img.is_primary || false,
-              existing: true // Flag to identify DB images vs new uploads
-            }));
+            const mappedImages = result.PackageImages.map(img => {
+              // ✅ FIXED LINE BELOW
+              const backendUrl = import.meta.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+              const fullUrl = img.url.startsWith('http')
+                ? img.url
+                : `${backendUrl}/uploads/${img.url.startsWith('/') ? img.url.slice(1) : img.url}`;
+
+              return {
+                id: img.id,
+                url: fullUrl,
+                caption: img.caption || '',
+                is_primary: img.is_primary || false,
+                existing: true
+              };
+            });
             setImagePreviews(mappedImages);
           }
           setIsDataLoaded(true);
@@ -178,7 +182,7 @@ export default function EditPackage() {
       url: URL.createObjectURL(file),
       caption: '',
       is_primary: imagePreviews.length === 0,
-      existing: false // New upload
+      existing: false
     }));
     setImagePreviews(prev => [...prev, ...newImages]);
   };
@@ -240,53 +244,11 @@ export default function EditPackage() {
     }
   };
 
-  // const handleSubmit = async () => {
-  //   setIsSubmitting(true);
-  //   try {
-  //     const imagesPayload = imagePreviews.map(img => ({
-  //       id: img.existing ? img.id : undefined,
-  //       url: img.existing ? img.url : undefined,
-  //       caption: img.caption,
-  //       is_primary: img.is_primary,
-  //       file: img.file 
-  //     }));
-
-  //     const packageData = {
-  //       ...formData,
-  //       price_adult: parseFloat(formData.price_adult),
-  //       price_child: formData.price_child ? parseFloat(formData.price_child) : 0,
-  //       duration_days: parseInt(formData.duration_days) || 1,
-  //       max_capacity: parseInt(formData.max_capacity) || 20,
-  //       images: imagesPayload
-  //     };
-
-  //     const resultAction = await dispatch(updatePackage({ id, data: packageData })).unwrap();
-
-  //     setSnackbar({ 
-  //       open: true, 
-  //       message: 'Package updated successfully!', 
-  //       severity: 'success' 
-  //     });
-  //     setTimeout(() => navigate('/admin/packages'), 1500);
-
-  //   } catch (err) {
-  //     setSnackbar({ 
-  //       open: true, 
-  //       message: err.message || 'Failed to update package', 
-  //       severity: 'error' 
-  //     });
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      // 1. Initialize FormData
       const formDataToSend = new FormData();
 
-      // 2. Append Text Fields
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('destination', formData.destination);
@@ -301,29 +263,22 @@ export default function EditPackage() {
       formDataToSend.append('exclusions', formData.exclusions);
       formDataToSend.append('itinerary', formData.itinerary);
 
-      // 3. Prepare Image Metadata
-      // Distinguish between Existing (from DB) and New (uploaded now)
       const imagesPayload = imagePreviews.map((img) => ({
-        id: img.existing ? img.id : null, // Send ID if it exists in DB
-        url: img.existing ? img.url : null, // Send URL if existing
+        id: img.existing ? img.id : null,
+        url: img.existing ? img.url : null,
         caption: img.caption || '',
         is_primary: img.is_primary || false
       }));
 
-      // Append Image Metadata as JSON String
       formDataToSend.append('images', JSON.stringify(imagesPayload));
 
-      // 4. Append Actual Files (ONLY for NEW images)
-      // We skip files where img.existing is true because they are already on the server
       imagePreviews.forEach((img) => {
         if (!img.existing && img.file) {
           formDataToSend.append('newImages', img.file);
         }
       });
 
-      // 5. Dispatch Update Action
-      // Pass the ID and the FormData object
-      const resultAction = await dispatch(updatePackage({ id, data: formDataToSend })).unwrap();
+      await dispatch(updatePackage({ id, data: formDataToSend })).unwrap();
 
       setSnackbar({
         open: true,
@@ -346,7 +301,6 @@ export default function EditPackage() {
 
   const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
 
-  // Show Loading Spinner while fetching data
   if (!isDataLoaded && loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
@@ -355,143 +309,9 @@ export default function EditPackage() {
     );
   }
 
-  //   const getStepContent = (step) => {
-  //     switch (step) {
-  //       case 0: // Basic Info
-  //         return (
-  //           <Grid container spacing={2}>
-  //             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
-  //               <TextField fullWidth label="Package Title *" name="title" value={formData.title} onChange={handleInputChange} error={!!errors.title} helperText={errors.title} required variant="outlined" />
-  //             </Grid>
-  //             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
-  //               <TextField fullWidth label="Short Description *" name="description" value={formData.description} onChange={handleInputChange} error={!!errors.description} helperText={errors.description} required variant="outlined" multiline rows={3} />
-  //             </Grid>
-  //             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
-  //               <TextField fullWidth label="Destination *" name="destination" value={formData.destination} onChange={handleInputChange} error={!!errors.destination} helperText={errors.destination} required variant="outlined" />
-  //             </Grid>
-  //             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
-  //               <TextField fullWidth label="Duration (Days) *" name="duration_days" type="number" value={formData.duration_days} onChange={handleInputChange} error={!!errors.duration_days} helperText={errors.duration_days} required inputProps={{ min: "1", max: "365" }} variant="outlined" />
-  //             </Grid>
-  //             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
-  //               <FormControl fullWidth error={!!errors.category}>
-  //                 <InputLabel>Category *</InputLabel>
-  //                 <Select name="category" value={formData.category} label="Category *" onChange={handleInputChange} required>
-  //                   <MenuItem value="adventure">Adventure</MenuItem>
-  //                   <MenuItem value="cultural">Cultural</MenuItem>
-  //                   <MenuItem value="beach">Beach</MenuItem>
-  //                   <MenuItem value="wildlife">Wildlife</MenuItem>
-  //                   <MenuItem value="luxury">Luxury</MenuItem>
-  //                   <MenuItem value="budget">Budget</MenuItem>
-  //                 </Select>
-  //                 {errors.category && <Typography variant="caption" sx={{ color: '#f44336', mt: '8px' }}>{errors.category}</Typography>}
-  //               </FormControl>
-  //             </Grid>
-  //           </Grid>
-  //         );
-
-  //       case 1: // Pricing
-  //         return (
-  //           <Grid container spacing={2}>
-  //             <Grid item xs={12} sm={6}><TextField fullWidth label="Adult Price (KES) *" name="price_adult" type="number" value={formData.price_adult} onChange={handleInputChange} error={!!errors.price_adult} helperText={errors.price_adult} required variant="outlined" /></Grid>
-  //             <Grid item xs={12} sm={6}><TextField fullWidth label="Child Price (KES)" name="price_child" type="number" value={formData.price_child} onChange={handleInputChange} variant="outlined" /></Grid>
-  //             <Grid item xs={12} sm={6}><TextField fullWidth label="Max Capacity" name="max_capacity" type="number" value={formData.max_capacity} onChange={handleInputChange} variant="outlined" /></Grid>
-  //             <Grid item xs={12} sm={6}>
-  //               <FormControl fullWidth error={!!errors.status}>
-  //                 <InputLabel>Status *</InputLabel>
-  //                 <Select name="status" value={formData.status} label="Status *" onChange={handleInputChange} required>
-  //                   <MenuItem value="draft">Draft</MenuItem>
-  //                   <MenuItem value="published">Published</MenuItem>
-  //                   <MenuItem value="archived">Archived</MenuItem>
-  //                 </Select>
-  //                 {errors.status && <Typography variant="caption" sx={{ color: '#f44336', mt: '8px' }}>{errors.status}</Typography>}
-  //               </FormControl>
-  //             </Grid>
-  //             <Grid item xs={12}><FormControlLabel control={<Switch checked={formData.is_featured} onChange={handleCheckboxChange} name="is_featured" />} label="Featured Package" /></Grid>
-  //           </Grid>
-  //         );
-
-  //       case 2: // Content
-  //         return (
-  //           <Grid container spacing={2}>
-  //             <Grid item xs={12}><TextField fullWidth label="Inclusions" name="inclusions" value={formData.inclusions} onChange={handleInputChange} multiline rows={3} variant="outlined" /></Grid>
-  //             <Grid item xs={12}><TextField fullWidth label="Exclusions" name="exclusions" value={formData.exclusions} onChange={handleInputChange} multiline rows={3} variant="outlined" /></Grid>
-  //             <Grid item xs={12}><TextField fullWidth label="Itinerary" name="itinerary" value={formData.itinerary} onChange={handleInputChange} multiline rows={4} variant="outlined" /></Grid>
-  //           </Grid>
-  //         );
-
-  //       case 3: // Media
-  //         return (
-  //           <Grid container spacing={2}>
-  //             <Grid item xs={12}>
-  //               <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>Package Images</Typography>
-  //               <Button variant="outlined" component="label" fullWidth sx={{ borderColor: COLORS.primary, color: COLORS.primary, py: 1.5, borderRadius: '8px', textTransform: 'none', '&:hover': { backgroundColor: COLORS.primaryLight } }}>
-  //                 Upload More Images
-  //                 <input type="file" multiple accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-  //               </Button>
-  //             </Grid>
-  //             {imagePreviews.length > 0 && (
-  //               <Grid item xs={12}>
-  //                 <Grid container spacing={2}>
-  //                   {imagePreviews.map((preview, index) => (
-  //                     <Grid item xs={6} sm={4} key={index} sx={{ display: 'block', width: '100%' }}>
-  //                       <Paper sx={{ p: 1, borderRadius: '8px', border: `1px solid ${COLORS.border}`, position: 'relative' }}>
-  //                         {preview.existing && (
-  //                           <Chip label="Existing" size="small" color="primary" sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1, fontSize: '0.6rem' }} />
-  //                         )}
-  //                         <img src={preview.url} alt={`Preview ${index}`} style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px' }} />
-  //                         <TextField fullWidth size="small" placeholder="Caption" value={preview.caption} onChange={(e) => updateImageCaption(index, e.target.value)} sx={{ mt: 1 }} />
-  //                         <Box sx={{ mt: 1, display: 'flex', gap: 1, justifyContent: 'space-between' }}>
-  //                           <Button size="small" variant={preview.is_primary ? "contained" : "outlined"} onClick={() => togglePrimaryImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto', ...(preview.is_primary && { backgroundColor: COLORS.primary }) }}>
-  //                             {preview.is_primary ? '✓' : 'Set'}
-  //                           </Button>
-  //                           <Button size="small" variant="outlined" color="error" onClick={() => removeImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto' }}>Remove</Button>
-  //                         </Box>
-  //                       </Paper>
-  //                     </Grid>
-  //                   ))}
-  //                 </Grid>
-  //               </Grid>
-  //             )}
-  //           </Grid>
-  //         );
-
-  //       case 4: // Review
-  //         return (
-  //           <Box sx={{ width: '100%' }}>
-  //             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>Review Changes</Typography>
-  //             <Card sx={{ mb: 2, border: `1px solid ${COLORS.border}` }}>
-  //               <CardContent>
-  //                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Basic Information</Typography>
-  //                 <Grid container spacing={1}>
-  //                   <Grid item xs={12}><Typography variant="body2"><strong>Title:</strong> {formData.title}</Typography></Grid>
-  //                   <Grid item xs={12}><Typography variant="body2"><strong>Description:</strong> {formData.description}</Typography></Grid>
-  //                   <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Destination:</strong> {formData.destination}</Typography></Grid>
-  //                   <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Duration:</strong> {formData.duration_days} days</Typography></Grid>
-  //                 </Grid>
-  //               </CardContent>
-  //             </Card>
-  //             <Card sx={{ mb: 2, border: `1px solid ${COLORS.border}` }}>
-  //               <CardContent>
-  //                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Media</Typography>
-  //                 <Typography variant="body2"><strong>Total Images:</strong> {imagePreviews.length}</Typography>
-  //                 {imagePreviews.length > 0 && (
-  //                   <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
-  //                     {imagePreviews.slice(0, 5).map((p, i) => (
-  //                       <img key={i} src={p.url} alt="" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
-  //                     ))}
-  //                   </Box>
-  //                 )}
-  //               </CardContent>
-  //             </Card>
-  //           </Box>
-  //         );
-
-  //       default: return null;
-  //     }
-  //   };
   const getStepContent = (step) => {
     switch (step) {
-      case 0: // Basic Info
+      case 0:
         return (
           <Grid container spacing={2}>
             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
@@ -523,7 +343,7 @@ export default function EditPackage() {
           </Grid>
         );
 
-      case 1: // Pricing
+      case 1:
         return (
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} sx={{ display: 'block', width: '100%' }}>
@@ -552,7 +372,7 @@ export default function EditPackage() {
           </Grid>
         );
 
-      case 2: // Content
+      case 2:
         return (
           <Grid container spacing={2}>
             <Grid item xs={12} sx={{ display: 'block', width: '100%' }}>
@@ -582,8 +402,20 @@ export default function EditPackage() {
                 <Grid container spacing={2}>
                   {imagePreviews.map((preview, index) => (
                     <Grid item xs={6} sm={4} key={index} sx={{ display: 'block', width: '100%' }}>
-                      <Paper sx={{ p: 1, borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
-                        <img src={preview.url} alt={`Preview ${index}`} style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px' }} />
+                      <Paper sx={{ p: 1, borderRadius: '8px', border: `1px solid ${COLORS.border}`, position: 'relative' }}>
+                        {preview.existing && (
+                          <Chip label="Existing" size="small" color="primary" sx={{ position: 'absolute', top: 4, right: 4, zIndex: 1, fontSize: '0.6rem', height: 20 }} />
+                        )}
+                        <img src={preview.url} alt={`Preview ${index}`} crossOrigin="anonymous"  
+                          referrerPolicy="no-referrer" style={{ width: '100%', height: '100px', objectFit: 'cover', borderRadius: '4px' }} onError={(e) => {
+                          console.error('❌ IMAGE FAILED TO LOAD:', preview.url);
+                        console.error('Status:', e.target.statusText);
+                        // Optional: Show a broken image icon temporarily
+                        e.target.style.display = 'none';
+                        }}
+                        onLoad={() => {
+                          console.log('✅ Image loaded successfully:', preview.url);
+                        }} />
                         <TextField fullWidth size="small" placeholder="Caption" value={preview.caption} onChange={(e) => updateImageCaption(index, e.target.value)} sx={{ mt: 1 }} />
                         <Box sx={{ mt: 1, display: 'flex', gap: 1, justifyContent: 'space-between' }}>
                           <Button size="small" variant={preview.is_primary ? "contained" : "outlined"} onClick={() => togglePrimaryImage(index)} sx={{ fontSize: '0.65rem', px: 1, minWidth: 'auto', ...(preview.is_primary && { backgroundColor: COLORS.primary }) }}>
@@ -599,58 +431,57 @@ export default function EditPackage() {
             )}
           </Grid>
         );
+
       case 4: // Review
         return (
-          <div className="w-100">
-            <h4 className="mb-4">Review Your Package</h4>
+          <Box sx={{ width: '100%' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>Review Your Package</Typography>
 
             {/* Basic Info Card */}
-            <div className="card mb-3 border">
-              <div className="card-body">
-                <h6 className="card-subtitle mb-3 text-primary fw-bold">Basic Information</h6>
-                <div className="row g-2">
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Title:</strong> {formData.title || '—'}</p></div>
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Description:</strong> <em className="text-muted">{formData.description || '—'}</em></p></div>
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Destination:</strong> {formData.destination || '—'}</p></div>
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Duration:</strong> {formData.duration_days || '—'} days</p></div>
-                  <div className="col-12 col-md-6">
-                    <strong>Category:</strong> <span className="badge bg-secondary ms-1">{formData.category}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Card sx={{ mb: 3, border: `1px solid ${COLORS.border}` }}>
+              <CardContent>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Basic Information</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Title:</strong> {formData.title || '—'}</Typography></Grid>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Description:</strong> <em>{formData.description || '—'}</em></Typography></Grid>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Destination:</strong> {formData.destination || '—'}</Typography></Grid>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Duration:</strong> {formData.duration_days || '—'} days</Typography></Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="body2"><strong>Category:</strong> </Typography>
+                    <Chip label={formData.category} size="small" sx={{ ml: 1 }} />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
 
             {/* Pricing Card */}
-            <div className="card mb-3 border">
-              <div className="card-body">
-                <h6 className="card-subtitle mb-3 text-primary fw-bold">Pricing & Details</h6>
-                <div className="row g-2">
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Adult Price:</strong> KES {formData.price_adult ? parseFloat(formData.price_adult).toLocaleString() : '—'}</p></div>
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Child Price:</strong> KES {formData.price_child ? parseFloat(formData.price_child).toLocaleString() : '—'}</p></div>
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Max Capacity:</strong> {formData.max_capacity}</p></div>
-                  <div className="col-12 col-md-6"><p className="mb-1"><strong>Inclusions:</strong> <em className="text-muted">{formData.inclusions || 'None specified'}</em></p></div>
-                </div>
-              </div>
-            </div>
+            <Card sx={{ mb: 3, border: `1px solid ${COLORS.border}` }}>
+              <CardContent>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Pricing & Details</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Adult Price:</strong> KES {formData.price_adult ? parseFloat(formData.price_adult).toLocaleString() : '—'}</Typography></Grid>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Child Price:</strong> KES {formData.price_child ? parseFloat(formData.price_child).toLocaleString() : '—'}</Typography></Grid>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Max Capacity:</strong> {formData.max_capacity}</Typography></Grid>
+                  <Grid item xs={12} sm={6}><Typography variant="body2"><strong>Inclusions:</strong> <em>{formData.inclusions || 'None specified'}</em></Typography></Grid>
+                </Grid>
+              </CardContent>
+            </Card>
 
-            {/* Media Card - FIXED IMAGE HANDLING */}
-            <div className="card mb-3 border">
-              <div className="card-body">
-                <h6 className="card-subtitle mb-3 text-primary fw-bold">Media</h6>
-                <p className="mb-2"><strong>Images Uploaded:</strong> {imagePreviews.length}</p>
+            {/* Media Card */}
+            <Card sx={{ mb: 3, border: `1px solid ${COLORS.border}` }}>
+              <CardContent>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2, color: COLORS.primary }}>Media</Typography>
+                <Typography variant="body2" sx={{ mb: 2 }}><strong>Images Uploaded:</strong> {imagePreviews.length}</Typography>
 
                 {imagePreviews.length > 0 ? (
-                  <div className="d-flex gap-2 flex-wrap">
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                     {imagePreviews.map((preview, index) => (
-                      <div key={index} style={{ position: 'relative' }}>
+                      <Box key={index} sx={{ position: 'relative' }}>
                         <img
                           src={preview.url}
                           alt={`Preview ${index}`}
-                          onError={(e) => {
-                            // FALLBACK: If blob URL fails, show a placeholder icon
-                            e.target.onerror = null;
-                            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E";
-                          }}
+                          crossOrigin="anonymous"  // ✅ Crucial for cross-origin images
+                          referrerPolicy="no-referrer" // ✅ Prevents referrer blocking
                           style={{
                             width: '60px',
                             height: '60px',
@@ -659,35 +490,46 @@ export default function EditPackage() {
                             border: '1px solid #ddd',
                             backgroundColor: '#f9f9f9'
                           }}
+
+                          onError={(e) => {
+                            console.error('❌ IMAGE FAILED TO LOAD:', preview.url);
+                            console.error('Status:', e);
+                            // Optional: Show a broken image icon temporarily
+                            e.target.style.display = 'none';
+                          }}
+                          onLoad={() => {
+                            console.log('✅ Image loaded successfully:', preview.url);
+                          }}
                         />
                         {preview.is_primary && (
-                          <span style={{
+                          <Box sx={{
                             position: 'absolute',
                             top: '-5px',
                             right: '-5px',
-                            background: '#1976d2',
+                            background: COLORS.primary,
                             color: 'white',
                             borderRadius: '50%',
                             width: '20px',
                             height: '20px',
-                            fontSize: '10px',
+                            fontSize: '12px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
-                          }}>✓</span>
+                          }}>✓</Box>
                         )}
-                      </div>
+                      </Box>
                     ))}
-                  </div>
+                  </Box>
                 ) : (
-                  <p className="text-muted fst-italic">No images uploaded.</p>
+                  <Typography variant="body2" color="text.secondary" fontStyle="italic">No images uploaded.</Typography>
                 )}
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
-            <p className="text-muted fst-italic small">Please review all information before submitting.</p>
-          </div>
+            <Typography variant="body2" color="text.secondary" fontStyle="italic">Please review all information before submitting.</Typography>
+          </Box>
         );
+
       default: return null;
     }
   };

@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
-import crypto from 'crypto'; // ✅ Static import (no dynamic import)
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -85,7 +85,6 @@ const User = sequelize.define('User', {
   }
 });
 
-// models/TourPackage.js (or wherever your models are defined)
 // Tour Package Model
 const TourPackage = sequelize.define('TourPackage', {
   id: {
@@ -149,11 +148,10 @@ const TourPackage = sequelize.define('TourPackage', {
       max: 100
     }
   },
-  // NEW: Field to store the primary/cover image path from Multer
   cover_image: {
     type: DataTypes.STRING,
-    allowNull: true, // Allow null initially if no image uploaded
-    comment: 'Path to the primary package image (e.g., /uploads/packages/pkg-123.jpg)'
+    allowNull: true,
+    comment: 'Path to the primary package image'
   },
   is_featured: {
     type: DataTypes.BOOLEAN,
@@ -168,19 +166,17 @@ const TourPackage = sequelize.define('TourPackage', {
   itinerary: DataTypes.TEXT
 });
 
-// Package Image Model (For gallery/multiple images)
+// Package Image Model
 const PackageImage = sequelize.define('PackageImage', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  // UPDATED: Removed isUrl validation because Multer saves local paths
   url: {
     type: DataTypes.STRING,
     allowNull: false,
     comment: 'Local file path stored by Multer'
-    // Removed: validate: { isUrl: true } 
   },
   is_primary: {
     type: DataTypes.BOOLEAN,
@@ -189,15 +185,16 @@ const PackageImage = sequelize.define('PackageImage', {
   caption: DataTypes.STRING
 });
 
-// Define Associations
+// ✅ CORRECT ASSOCIATION DEFINITION (Defined early)
+// This uses 'tour_package_id' which matches your database column
 TourPackage.hasMany(PackageImage, {
-  foreignKey: 'tourPackageId',
-  as: 'images',
-  onDelete: 'CASCADE' // Delete gallery images if package is deleted
+  foreignKey: 'tour_package_id',
+  as: 'PackageImages',
+  onDelete: 'CASCADE'
 });
 
 PackageImage.belongsTo(TourPackage, {
-  foreignKey: 'tourPackageId',
+  foreignKey: 'tour_package_id',
   as: 'package'
 });
 
@@ -341,7 +338,7 @@ const Review = sequelize.define('Review', {
   }
 });
 
-// ===== INSTANCE METHODS (ADDED AFTER MODEL DEFINITION) =====
+// ===== INSTANCE METHODS =====
 User.prototype.correctPassword = async function(candidatePassword, userPassword) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
@@ -354,7 +351,6 @@ User.prototype.changedPasswordAfter = function(JWTTimestamp) {
   return false;
 };
 
-// ✅ FIXED: Synchronous method using top-level crypto import
 User.prototype.createPasswordResetToken = function() {
   const resetToken = crypto.randomBytes(32).toString('hex');
   
@@ -363,21 +359,22 @@ User.prototype.createPasswordResetToken = function() {
     .update(resetToken)
     .digest('hex');
   
-  this.password_reset_expires = Date.now() + 10 * 60 * 1000; // 10 minutes
+  this.password_reset_expires = Date.now() + 10 * 60 * 1000;
   
   return resetToken;
 };
-// =========================================================
 
-// Associations
+// ===== GLOBAL ASSOCIATIONS =====
+// Note: We do NOT re-define TourPackage <-> PackageImage here to avoid overwriting the correct one above.
+
 User.hasMany(Booking, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 Booking.belongsTo(User, { foreignKey: 'user_id' });
 
 TourPackage.hasMany(Booking, { foreignKey: 'package_id', onDelete: 'CASCADE' });
 Booking.belongsTo(TourPackage, { foreignKey: 'package_id' });
 
-TourPackage.hasMany(PackageImage, { foreignKey: 'package_id', onDelete: 'CASCADE' });
-PackageImage.belongsTo(TourPackage, { foreignKey: 'package_id' });
+// ❌ REMOVED DUPLICATE: This was overwriting the correct association with 'package_id'
+// TourPackage.hasMany(PackageImage, { foreignKey: 'package_id' ... }); 
 
 Booking.hasMany(BookingPassenger, { foreignKey: 'booking_id', onDelete: 'CASCADE' });
 BookingPassenger.belongsTo(Booking, { foreignKey: 'booking_id' });

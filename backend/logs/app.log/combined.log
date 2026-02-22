@@ -660,3 +660,516 @@
 2026-02-21 23:39:39:3939 [32minfo[39m: [32mGET /api/v1/bookings[39m
 2026-02-21 23:39:45:3945 [32minfo[39m: [32mGET /api/v1/bookings[39m
 2026-02-21 23:39:46:3946 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:41:21:4121 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-21 23:41:21:4121 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-21 23:42:03:423 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-21 23:42:04:424 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-21 23:43:29:4329 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:43:29:4329 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:43:33:4333 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:43:33:4333 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:43:40:4340 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-21 23:43:40:4340 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-21 23:47:45:4745 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-21 23:47:46:4746 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-21 23:49:16:4916 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:49:16:4916 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:49:19:4919 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-21 23:49:20:4920 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-21 23:50:43:5043 [32minfo[39m: [32mPATCH /api/v1/auth/updateMe[39m
+2026-02-21 23:50:43:5043 [32minfo[39m: [32mUser updated: anthonyndungu069@gmail.com[39m
+2026-02-21 23:51:37:5137 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:51:38:5138 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-21 23:53:39:5339 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-21 23:53:39:5339 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-21 23:59:58:5958 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:00:40:040 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:00:41:041 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:00:47:047 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:00:47:047 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:01:40:140 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:40:140 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:42:142 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:43:143 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:49:149 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:49:149 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:52:152 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:01:52:152 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:02:00:20 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:02:00:20 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:03:43:343 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:03:43:343 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:10:49:1049 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:10:49:1049 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:11:01:111 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 00:11:01:111 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 00:11:08:118 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:11:08:118 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:14:51:1451 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 00:14:52:1452 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-22 00:14:52:1452 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:14:52:1452 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:16:13:1613 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 00:16:13:1613 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 00:16:13:1613 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:16:13:1613 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:16:16:1616 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:16:16:1616 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:16:19:1619 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:16:19:1619 [32minfo[39m: [32mGET /api/v1/payments/history[39m
+2026-02-22 00:18:08:188 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:18:08:188 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-22 00:18:47:1847 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 00:19:09:199 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 00:19:09:199 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-22 00:19:10:1910 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 00:19:10:1910 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 00:19:10:1910 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 00:19:10:1910 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 00:22:34:2234 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 00:22:35:2235 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-22 00:22:35:2235 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 00:22:35:2235 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 00:22:35:2235 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 00:22:35:2235 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 00:22:41:2241 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:22:41:2241 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:27:33:2733 [32minfo[39m: [32mPOST /api/v1/packages[39m
+2026-02-22 00:27:34:2734 [32minfo[39m: [32mPackage created: TEST PACKAGE[39m
+2026-02-22 00:29:21:2921 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:29:23:2923 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:29:36:2936 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 00:29:37:2937 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 00:30:49:3049 [32minfo[39m: [32mGET /api/v1/reviews/admin[39m
+2026-02-22 00:30:49:3049 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-22 00:30:49:3049 [32minfo[39m: [32mGET /api/v1/reviews/admin[39m
+2026-02-22 00:30:49:3049 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-22 00:30:50:3050 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-22 00:30:51:3051 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-22 00:30:53:3053 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 00:30:53:3053 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 00:30:55:3055 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:30:55:3055 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:32:02:322 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:32:02:322 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:32:24:3224 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:32:44:3244 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:41:49:4149 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:41:49:4149 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:46:08:468 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:46:09:469 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:50:14:5014 [32minfo[39m: [32mPUT /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:50:16:5016 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:50:16:5016 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:50:20:5020 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:50:20:5020 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:50:31:5031 [32minfo[39m: [32mPUT /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 00:50:34:5034 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 00:50:34:5034 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:18:37:1837 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:18:39:1839 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:18:39:1839 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:18:39:1839 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:19:38:1938 [32minfo[39m: [32mGET /favicon.ico[39m
+2026-02-22 09:19:38:1938 [31merror[39m: [31mError: Can't find /favicon.ico on this server![39m
+2026-02-22 09:21:54:2154 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:21:55:2155 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:27:03:273 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 09:27:04:274 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-22 09:27:04:274 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 09:27:04:274 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 09:27:04:274 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 09:27:05:275 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 09:27:35:2735 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:27:35:2735 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:30:52:3052 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:30:53:3053 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:34:26:3426 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:34:27:3427 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:34:27:3427 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:34:27:3427 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:36:38:3638 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:36:38:3638 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:37:49:3749 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:37:50:3750 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:39:08:398 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:39:10:3910 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:39:10:3910 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:39:10:3910 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:42:48:4248 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:42:50:4250 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:42:50:4250 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:42:50:4250 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:42:54:4254 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:42:57:4257 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:42:57:4257 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:42:57:4257 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:43:06:436 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:43:06:436 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:44:11:4411 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:44:12:4412 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:44:12:4412 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:44:12:4412 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:45:56:4556 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:46:03:463 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 09:46:04:464 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 09:46:04:464 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 09:46:04:464 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 09:46:57:4657 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 09:46:57:4657 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 09:47:39:4739 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:47:39:4739 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:47:43:4743 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 09:47:43:4743 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:02:09:29 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:02:10:210 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:04:04:44 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:04:04:44 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:04:44:444 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 10:04:44:444 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 10:05:12:512 [32minfo[39m: [32mPUT /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 10:05:14:514 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:05:15:515 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:05:59:559 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 10:05:59:559 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 16:59:09:599 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 16:59:11:5911 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 16:59:11:5911 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 16:59:11:5911 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:01:03:13 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 17:01:30:130 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 17:01:31:131 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-22 17:01:31:131 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 17:01:31:131 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:01:31:131 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 17:01:31:131 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:01:39:139 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:01:39:139 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:01:44:144 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:01:44:144 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:05:40:540 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:05:41:541 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:08:21:821 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:08:22:822 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:08:25:825 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 17:08:25:825 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 17:10:40:1040 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:10:43:1043 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:10:43:1043 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:10:43:1043 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:22:04:224 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:22:06:226 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:22:06:226 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:22:06:226 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:22:21:2221 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:22:21:2221 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:22:24:2224 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:22:24:2224 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:24:12:2412 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-22 17:24:13:2413 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-22 17:24:13:2413 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 17:24:13:2413 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:24:13:2413 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 17:24:13:2413 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:24:17:2417 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:24:17:2417 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:25:09:259 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:25:10:2510 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:25:24:2524 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:25:24:2524 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:28:34:2834 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:28:35:2835 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:28:35:2835 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:28:35:2835 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:35:16:3516 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:35:24:3524 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:35:26:3526 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:35:26:3526 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:35:26:3526 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:35:43:3543 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:35:44:3544 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:35:44:3544 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:35:44:3544 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:36:22:3622 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:36:24:3624 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:36:24:3624 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:36:24:3624 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:36:24:3624 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:36:24:3624 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:36:31:3631 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:36:31:3631 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:39:03:393 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:39:04:394 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:39:41:3941 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:39:43:3943 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:39:43:3943 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:39:43:3943 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:40:10:4010 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:40:12:4012 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:40:12:4012 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:40:12:4012 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:40:37:4037 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:40:37:4037 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:44:00:440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:44:00:440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:44:07:447 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:44:07:447 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:44:08:448 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:44:08:448 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:44:11:4411 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-22 17:44:11:4411 [32minfo[39m: [32mGET /api/v1/users[39m
+2026-02-22 17:44:18:4418 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:44:18:4418 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:46:35:4635 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:46:35:4635 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:46:38:4638 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:46:38:4638 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 17:46:38:4638 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 17:46:38:4638 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 17:48:42:4842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:48:42:4842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:48:45:4845 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:48:46:4846 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:49:33:4933 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:49:34:4934 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:49:34:4934 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:49:34:4934 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:49:48:4948 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:49:49:4949 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:49:49:4949 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:49:49:4949 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:53:42:5342 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:53:42:5342 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:54:08:548 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:54:11:5411 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:54:11:5411 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:54:11:5411 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:54:11:5411 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:54:11:5411 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:54:43:5443 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:54:43:5443 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 17:55:58:5558 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-22 17:56:11:5611 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:56:12:5612 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:56:12:5612 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:56:12:5612 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:56:18:5618 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:56:18:5618 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:56:22:5622 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:56:22:5622 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 17:57:00:570 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:57:01:571 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:57:01:571 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:57:01:571 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:57:11:5711 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:57:13:5713 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:57:13:5713 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:57:13:5713 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:59:09:599 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:59:11:5911 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:59:11:5911 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:59:11:5911 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 17:59:33:5933 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 17:59:35:5935 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 17:59:35:5935 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 17:59:35:5935 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 18:00:52:052 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 18:00:53:053 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 18:00:53:053 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 18:00:53:053 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 18:01:13:113 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:01:13:113 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:02:56:256 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:02:56:256 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:02:58:258 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:02:58:258 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:06:50:650 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:06:51:651 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:06:53:653 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 18:06:53:653 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-22 18:07:13:713 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:07:14:714 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:07:54:754 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:07:54:754 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:07:59:759 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:07:59:759 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:09:109 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:09:109 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:30:1030 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:30:1030 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:40:1040 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:40:1040 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:49:1049 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:49:1049 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:10:54:1054 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 18:10:54:1054 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 18:10:55:1055 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:10:56:1056 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:11:07:117 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 18:11:07:117 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 18:11:08:118 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 18:11:08:118 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 18:11:22:1122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:11:22:1122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:11:25:1125 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:11:25:1125 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:15:53:1553 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:15:53:1553 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:16:04:164 [32minfo[39m: [32mGET /api/v1/packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:16:05:165 [31merror[39m: [31mGet package by ID error: invalid input syntax for type uuid: "pkg-1771743912878-193025694.png"[39m
+2026-02-22 18:16:18:1618 [32minfo[39m: [32mGET /api/v1/packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:16:18:1618 [31merror[39m: [31mGet package by ID error: invalid input syntax for type uuid: "pkg-1771743912878-193025694.png"[39m
+2026-02-22 18:17:48:1748 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:17:49:1749 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:18:15:1815 [32minfo[39m: [32mGET /packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:18:15:1815 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:18:19:1819 [32minfo[39m: [32mGET /packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:18:19:1819 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:19:50:1950 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:19:51:1951 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:19:57:1957 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:19:57:1957 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:20:09:209 [32minfo[39m: [32mGET /packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:20:09:209 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:20:13:2013 [32minfo[39m: [32mGET /packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:20:13:2013 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:21:43:2143 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:21:43:2143 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:22:21:2221 [32minfo[39m: [32mGET /favicon.ico[39m
+2026-02-22 18:22:21:2221 [31merror[39m: [31mError: Can't find /favicon.ico on this server![39m
+2026-02-22 18:22:45:2245 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:22:45:2245 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:24:25:2425 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:24:25:2425 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:27:11:2711 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:27:11:2711 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:07:287 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:07:287 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:14:2814 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:14:2814 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:49:2849 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:50:2850 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:28:58:2858 [32minfo[39m: [32mGET /api/v1/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:28:58:2858 [31merror[39m: [31mError: Can't find /api/v1/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:29:01:291 [32minfo[39m: [32mGET /api/v1/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:29:01:291 [31merror[39m: [31mError: Can't find /api/v1/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:29:24:2924 [32minfo[39m: [32mGET /api/v1/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-22 18:29:24:2924 [31merror[39m: [31mError: Can't find /api/v1/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:30:29:3029 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:30:29:3029 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:33:05:335 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:33:05:335 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:35:20:3520 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:35:20:3520 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:35:27:3527 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-22 18:35:41:3541 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 18:35:42:3542 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 18:35:42:3542 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 18:35:42:3542 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 18:39:04:394 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 18:39:05:395 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 18:39:05:395 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 18:39:05:395 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 18:39:05:395 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 18:39:05:395 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 18:39:19:3919 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:39:20:3920 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:39:23:3923 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:39:23:3923 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:39:33:3933 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:39:33:3933 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:40:51:4051 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:40:52:4052 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:41:18:4118 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 18:41:18:4118 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-22 18:41:33:4133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:41:33:4133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 18:41:36:4136 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:41:36:4136 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:47:53:4753 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 18:47:53:4753 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:05:59:559 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:06:00:60 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:09:06:96 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:09:06:96 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:19:14:1914 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:19:15:1915 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:19:15:1915 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:19:15:1915 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:22:52:2252 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:22:53:2253 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:31:26:3126 [32minfo[39m: [32mPUT /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:31:26:3126 [31merror[39m: [31mUpdate package error: column "tourPackageId" does not exist[39m
+2026-02-22 19:33:16:3316 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:33:18:3318 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:33:18:3318 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:33:18:3318 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:34:17:3417 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:34:19:3419 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:34:19:3419 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:34:19:3419 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:34:21:3421 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 19:34:21:3421 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 19:34:21:3421 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-22 19:34:21:3421 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-22 19:34:22:3422 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:34:22:3422 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:36:05:365 [32minfo[39m: [32mPOST /api/v1/packages[39m
+2026-02-22 19:36:05:365 [32minfo[39m: [32mPackage created: TEST 123[39m
+2026-02-22 19:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:36:39:3639 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:36:39:3639 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:38:35:3835 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:38:36:3836 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:39:07:397 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:39:08:398 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:40:13:4013 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:40:14:4014 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-22 19:40:27:4027 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:40:27:4027 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-22 19:40:30:4030 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:40:30:4030 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:43:30:4330 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:43:33:4333 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:43:33:4333 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:43:33:4333 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:44:52:4452 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:44:53:4453 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:44:53:4453 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:44:53:4453 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:45:03:453 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:45:04:454 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:45:04:454 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:45:04:454 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:45:09:459 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:45:11:4511 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:45:11:4511 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:45:11:4511 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:45:40:4540 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:45:42:4542 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:45:42:4542 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:45:42:4542 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:45:45:4545 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:45:46:4546 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:45:46:4546 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:45:46:4546 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:45:50:4550 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:45:56:4556 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:45:58:4558 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:45:58:4558 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:45:58:4558 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:47:15:4715 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:47:15:4715 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-22 19:49:22:4922 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:49:24:4924 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:49:24:4924 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:49:24:4924 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:49:29:4929 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:49:30:4930 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:49:30:4930 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:49:30:4930 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-22 19:53:45:5345 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-22 19:53:46:5346 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-22 19:53:46:5346 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-22 19:53:46:5346 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m

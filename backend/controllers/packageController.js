@@ -12,13 +12,20 @@ const __dirname = path.dirname(__filename);
 // @route   GET /api/v1/packages
 // @access  Public
 export const getAllPackages = async (req, res) => {
-  // READ operations do not need transactions unless you need strict isolation levels
   try {
     const queryOptions = {
       where: {},
       include: [
-        { model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] },
-        { model: Review, attributes: ['id', 'rating', 'comment', 'created_at'] }
+        { 
+          model: PackageImage, 
+          as: 'PackageImages', // ✅ MUST MATCH MODEL ASSOCIATION
+          attributes: ['id', 'url', 'is_primary', 'caption'] 
+        },
+        { 
+          model: Review, 
+          as: 'Reviews', 
+          attributes: ['id', 'rating', 'comment', 'created_at'] 
+        }
       ],
       order: [['created_at', 'DESC']]
     };
@@ -55,7 +62,7 @@ export const getAllPackages = async (req, res) => {
     queryOptions.offset = offset;
 
     const { count, rows: packages } = await TourPackage.findAndCountAll(queryOptions);
-
+  
     res.status(200).json({
       status: 'success',
       results: packages.length,
@@ -77,10 +84,20 @@ export const getPackageById = async (req, res) => {
   try {
     const packageData = await TourPackage.findByPk(req.params.id, {
       include: [
-        { model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] },
-        { model: Review, attributes: ['id', 'rating', 'comment', 'created_at', 'is_verified_booking'] }
+        { 
+          model: PackageImage, 
+          as: 'PackageImages', // ✅ MUST MATCH MODEL ASSOCIATION
+          attributes: ['id', 'url', 'is_primary', 'caption'] 
+        },
+        { 
+          model: Review, 
+          as: 'Reviews',
+          attributes: ['id', 'rating', 'comment', 'created_at', 'is_verified_booking'] 
+        }
       ]
     });
+
+    console.log('*************************Package fetched by ID:', JSON.stringify(packageData, null, 2));
 
     if (!packageData) {
       return res.status(404).json({ status: 'fail', message: 'Package not found' });
@@ -97,7 +114,6 @@ export const getPackageById = async (req, res) => {
 // @route   POST /api/v1/packages
 // @access  Private/Admin
 export const createPackage = async (req, res) => {
-  // Start a transaction
   const t = await sequelize.transaction();
 
   try {
@@ -118,7 +134,7 @@ export const createPackage = async (req, res) => {
     // Check Duplicate
     const existingPackage = await TourPackage.findOne({
       where: { title: { [Op.iLike]: title.trim() } },
-      transaction: t // Use transaction for consistency check
+      transaction: t
     });
 
     if (existingPackage) {
@@ -133,6 +149,7 @@ export const createPackage = async (req, res) => {
     const newPackage = await TourPackage.create({
       ...packageFields,
       title,
+      cover_image: parsedImages.length > 0 ? parsedImages[0].url : null, // Set first image as cover if exists
       destination,
       created_by: req.user ? req.user.id : null
     }, { transaction: t });
@@ -156,10 +173,10 @@ export const createPackage = async (req, res) => {
 
         if (imageUrl) {
           imagesToSave.push({
-            tourPackageId: newPackage.id, // Match your FK name
+            tour_package_id: newPackage.id,
             url: imageUrl,
             caption: img.caption || '',
-            is_primary: img.is_primary || (fileIndex === 1) // First uploaded is primary
+            is_primary: img.is_primary || (fileIndex === 1)
           });
         }
       }
@@ -169,12 +186,17 @@ export const createPackage = async (req, res) => {
       }
     }
 
-    // Commit Transaction
     await t.commit();
 
-    // Fetch full data (outside transaction to avoid locking issues on read)
+    // ✅ FIXED: Added 'as: PackageImages' to fetch related images immediately
     const createdPackageWithImages = await TourPackage.findByPk(newPackage.id, {
-      include: [{ model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] }]
+      include: [
+        { 
+          model: PackageImage, 
+          as: 'PackageImages', 
+          attributes: ['id', 'url', 'is_primary', 'caption'] 
+        }
+      ]
     });
 
     logger.info(`Package created: ${createdPackageWithImages.title}`);
@@ -186,7 +208,6 @@ export const createPackage = async (req, res) => {
     });
 
   } catch (err) {
-    // Rollback on error
     await t.rollback();
     logger.error('Create package error:', err);
 
@@ -224,7 +245,7 @@ export const updatePackage = async (req, res) => {
     // 2. Handle Images (Replace All)
     if (images && Array.isArray(images)) {
       // A. Delete old images from DB
-      await PackageImage.destroy({ where: { tourPackageId: id }, transaction: t });
+      await PackageImage.destroy({ where: { tour_package_id: id }, transaction: t });
 
       // B. Prepare new images
       const validImages = [];
@@ -246,7 +267,7 @@ export const updatePackage = async (req, res) => {
 
         if (imageUrl) {
           validImages.push({
-            tourPackageId: id,
+            tour_package_id: id,
             url: imageUrl,
             caption: img.caption || '',
             is_primary: img.is_primary || false
@@ -261,8 +282,15 @@ export const updatePackage = async (req, res) => {
 
     await t.commit();
 
+    // ✅ FIXED: Added 'as: PackageImages' to fetch related images immediately
     const updatedPackage = await TourPackage.findByPk(id, {
-      include: [{ model: PackageImage, attributes: ['id', 'url', 'is_primary', 'caption'] }]
+      include: [
+        { 
+          model: PackageImage, 
+          as: 'PackageImages', 
+          attributes: ['id', 'url', 'is_primary', 'caption'] 
+        }
+      ]
     });
 
     res.status(200).json({
@@ -293,20 +321,15 @@ export const deletePackage = async (req, res) => {
     }
 
     // Optional: Manually delete files from disk before DB deletion
-    // Note: Since you have onDelete: 'CASCADE' in models, 
-    // deleting the package will automatically delete PackageImage rows.
-    // But it won't delete the physical files. You might want to do that here.
-    
- 
     const images = await PackageImage.findAll({ 
-      where: { tourPackageId: packageData.id }, 
+      where: { tour_package_id: packageData.id }, 
       transaction: t 
     });
+    
     images.forEach(img => {
        const filePath = path.join(__dirname, '../uploads', img.url);
        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     });
-    
 
     await packageData.destroy({ transaction: t });
 

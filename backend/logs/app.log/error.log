@@ -3,3 +3,17 @@
 2026-02-21 19:25:27:2527 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
 2026-02-21 22:39:36:3936 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
 2026-02-21 22:39:36:3936 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-22 00:30:49:3049 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-22 00:30:49:3049 [31merror[39m: [31mError: Can't find /api/v1/reviews/admin on this server![39m
+2026-02-22 09:19:38:1938 [31merror[39m: [31mError: Can't find /favicon.ico on this server![39m
+2026-02-22 18:16:05:165 [31merror[39m: [31mGet package by ID error: invalid input syntax for type uuid: "pkg-1771743912878-193025694.png"[39m
+2026-02-22 18:16:18:1618 [31merror[39m: [31mGet package by ID error: invalid input syntax for type uuid: "pkg-1771743912878-193025694.png"[39m
+2026-02-22 18:18:15:1815 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:18:19:1819 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:20:09:209 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:20:13:2013 [31merror[39m: [31mError: Can't find /packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:22:21:2221 [31merror[39m: [31mError: Can't find /favicon.ico on this server![39m
+2026-02-22 18:28:58:2858 [31merror[39m: [31mError: Can't find /api/v1/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:29:01:291 [31merror[39m: [31mError: Can't find /api/v1/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 18:29:24:2924 [31merror[39m: [31mError: Can't find /api/v1/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-22 19:31:26:3126 [31merror[39m: [31mUpdate package error: column "tourPackageId" does not exist[39m
