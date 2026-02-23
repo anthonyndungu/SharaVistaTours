@@ -7,7 +7,8 @@
 //   login, 
 //   clearError, 
 //   resendVerificationOTP, 
-//   verifyOTP 
+//   verifyOTP,
+//   fetchUserProfile
 // } from '../../features/auth/authSlice';
 
 // import { 
@@ -18,22 +19,25 @@
 //   Box, 
 //   Paper,
 //   CircularProgress,
-//   LinearProgress
+//   Container
 // } from '@mui/material';
 
 // export default function Login() {
 //   const dispatch = useDispatch();
 //   const navigate = useNavigate();
-//   const { loading, error } = useSelector((state) => state.auth);
-  
+
+//   // Select auth state
+//   const { loading, error, isAuthenticated, user, token } = useSelector((state) => state.auth);
+
 //   const [unverifiedEmail, setUnverifiedEmail] = useState(null);
-  
-//   // State for OTP Overlay
 //   const [showOTPOverlay, setShowOTPOverlay] = useState(false);
 //   const [otpValue, setOtpValue] = useState('');
 //   const [otpLoading, setOtpLoading] = useState(false);
-//   const [resendLoading, setResendLoading] = useState(false); // Separate loading for resend
+//   const [resendLoading, setResendLoading] = useState(false);
 //   const [otpMessage, setOtpMessage] = useState({ type: '', text: '' });
+
+//   // ✅ 2. Local state for initial session check
+//   const [checkingSession, setCheckingSession] = useState(true);
 
 //   const otpInputRef = useRef(null);
 
@@ -42,10 +46,52 @@
 //     password: Yup.string().required('Password is required')
 //   });
 
+//   // ✅ 3. PERSISTENCE LOGIC: Run on mount
+//   useEffect(() => {
+//     const storedToken = localStorage.getItem('token');
+
+//     if (storedToken) {
+//       // Token exists, try to fetch user profile to validate it
+//       dispatch(fetchUserProfile())
+//         .unwrap()
+//         .then((userData) => {
+//           // If successful, redirect based on role
+//           if (userData.role === 'admin' || userData.role === 'super_admin') {
+//             navigate('/admin', { replace: true });
+//           } else {
+//             navigate('/dashboard', { replace: true });
+//           }
+//         })
+//         .catch((err) => {
+//           // Token invalid or expired
+//           console.log('Session invalid, clearing storage');
+//           localStorage.removeItem('token');
+//           dispatch(clearError());
+//         })
+//         .finally(() => {
+//           setCheckingSession(false);
+//         });
+//     } else {
+//       // No token, stop checking immediately
+//       setCheckingSession(false);
+//     }
+//   }, [dispatch, navigate]);
+
+//   // ✅ 4. Redirect if authentication happens during component life (e.g. after login)
+//   useEffect(() => {
+//     if (!checkingSession && isAuthenticated && user) {
+//       if (user.role === 'admin' || user.role === 'super_admin') {
+//         navigate('/admin', { replace: true });
+//       } else {
+//         navigate('/dashboard', { replace: true });
+//       }
+//     }
+//   }, [isAuthenticated, user, checkingSession, navigate]);
+
 //   const handleSubmit = async (values, { setSubmitting }) => {
 //     const isErrorObject = error && typeof error === 'object';
 //     const currentCode = isErrorObject ? error.code : null;
-    
+
 //     if (currentCode !== 'ACCOUNT_NOT_VERIFIED') {
 //       dispatch(clearError());
 //     }
@@ -55,16 +101,17 @@
 //     try {
 //       const result = await dispatch(login(values)).unwrap();
 //       const { user } = result.data;
-      
+
+//       // Redundant safety check, mostly handled by the useEffect above
 //       if (user.role === 'admin' || user.role === 'super_admin') {
 //         navigate('/admin', { replace: true });
 //       } else {
 //         navigate('/dashboard', { replace: true });
 //       }
-      
+
 //     } catch (err) {
 //       console.error('Login error:', err);
-      
+
 //       if (err && err.code === 'ACCOUNT_NOT_VERIFIED') {
 //         setUnverifiedEmail(values.email);
 //         handleRequestOTP(values.email);
@@ -74,37 +121,23 @@
 //     }
 //   };
 
-//   // ✅ Unified Handler for Initial Send & Resend
 //   const handleRequestOTP = async (email) => {
 //     if (!email) return;
-
-//     // Set specific loading state for resend action
 //     setResendLoading(true);
-//     setOtpMessage({ type: '', text: '' }); // Clear old messages
-    
+//     setOtpMessage({ type: '', text: '' });
+
 //     try {
 //       await dispatch(resendVerificationOTP(email)).unwrap();
-      
-//       setOtpMessage({ 
-//         type: 'success', 
-//         text: 'New OTP sent! Please check your email.' 
-//       });
-      
+//       setOtpMessage({ type: 'success', text: 'New OTP sent! Please check your email.' });
 //       setShowOTPOverlay(true);
-      
-//       // Force focus back to input after sending
 //       setTimeout(() => {
 //         if (otpInputRef.current) {
 //           otpInputRef.current.focus();
 //           otpInputRef.current.select();
 //         }
 //       }, 100);
-
 //     } catch (err) {
-//       setOtpMessage({ 
-//         type: 'error', 
-//         text: err || 'Failed to send. Try again.' 
-//       });
+//       setOtpMessage({ type: 'error', text: err || 'Failed to send. Try again.' });
 //       setShowOTPOverlay(true);
 //     } finally {
 //       setResendLoading(false);
@@ -120,25 +153,19 @@
 //     setOtpLoading(true);
 //     try {
 //       await dispatch(verifyOTP({ email: unverifiedEmail, otp: otpValue })).unwrap();
-      
-//       setOtpMessage({ 
-//         type: 'success', 
-//         text: 'Verified! Logging in...' 
-//       });
-      
+//       setOtpMessage({ type: 'success', text: 'Verified! Logging in...' });
+
 //       setTimeout(() => {
 //         setShowOTPOverlay(false);
 //         setOtpValue('');
 //         setUnverifiedEmail(null);
 //         setOtpMessage({ type: '', text: '' });
 //         dispatch(clearError()); 
+//         // fetchUserProfile will trigger via the isAuthenticated effect or you can manually call it here if needed
 //       }, 1500);
-      
+
 //     } catch (err) {
-//       setOtpMessage({ 
-//         type: 'error', 
-//         text: err || 'Invalid or expired OTP.' 
-//       });
+//       setOtpMessage({ type: 'error', text: err || 'Invalid or expired OTP.' });
 //     } finally {
 //       setOtpLoading(false);
 //     }
@@ -152,7 +179,17 @@
 //       }, 50);
 //       return () => clearTimeout(timer);
 //     }
-//   }, [showOTPOverlay, otpMessage]); // Re-run focus when message changes (e.g., after resend)
+//   }, [showOTPOverlay, otpMessage]);
+
+//   // ✅ 5. Show Loading Spinner while checking session
+//   if (checkingSession) {
+//     return (
+//       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+//         <CircularProgress size={60} />
+//         <Typography sx={{ ml: 2 }}>Checking session...</Typography>
+//       </Box>
+//     );
+//   }
 
 //   const isErrorObject = error && typeof error === 'object';
 //   const errorMessage = isErrorObject ? (error.message || 'Login failed') : (error || '');
@@ -160,7 +197,6 @@
 
 //   return (
 //     <Box sx={{ position: 'relative', width: '100%' }}>
-      
 //       {/* ✅ Main Login Form */}
 //       <div className="login-form-container" style={{ 
 //         maxWidth: '400px', 
@@ -250,7 +286,7 @@
 //             </Form>
 //           )}
 //         </Formik>
-        
+
 //         <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
 //           Don't have an account? <Link to="/auth/register" style={{ color: '#1976d2' }}>Register</Link>
 //         </p>
@@ -274,44 +310,20 @@
 //             backdropFilter: 'blur(2px)'
 //           }}
 //         >
-//           <Paper
-//             elevation={6}
-//             sx={{
-//               p: 3,
-//               width: '90%',
-//               maxWidth: '350px',
-//               textAlign: 'center',
-//               position: 'relative',
-//               animation: 'fadeIn 0.3s ease-out'
-//             }}
-//           >
-//             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, color: '#1976d2' }}>
-//               Verify Email
-//             </Typography>
+//           <Paper elevation={6} sx={{ p: 3, width: '90%', maxWidth: '350px', textAlign: 'center', position: 'relative' }}>
+//             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, color: '#1976d2' }}>Verify Email</Typography>
 //             <Typography variant="body2" sx={{ mb: 2, color: '#555' }}>
-//               Enter the 6-digit code sent to:<br/>
-//               <strong>{unverifiedEmail}</strong>
+//               Enter the 6-digit code sent to:<br/><strong>{unverifiedEmail}</strong>
 //             </Typography>
 
 //             {otpMessage.text && (
-//               <Alert severity={otpMessage.type} sx={{ mb: 2, fontSize: '0.8rem' }}>
-//                 {otpMessage.text}
-//               </Alert>
+//               <Alert severity={otpMessage.type} sx={{ mb: 2, fontSize: '0.8rem' }}>{otpMessage.text}</Alert>
 //             )}
 
 //             <TextField
 //               inputRef={otpInputRef}
 //               type="text"
-//               inputProps={{
-//                 maxLength: 6,
-//                 style: {
-//                   letterSpacing: '10px',
-//                   fontSize: '1.5rem',
-//                   textAlign: 'center',
-//                   fontWeight: 'bold',
-//                   padding: '10px'
-//                 }
-//               }}
+//               inputProps={{ maxLength: 6, style: { letterSpacing: '10px', fontSize: '1.5rem', textAlign: 'center', fontWeight: 'bold', padding: '10px' } }}
 //               fullWidth
 //               value={otpValue}
 //               onChange={(e) => setOtpValue(e.target.value.replace(/[^0-9]/g, ''))}
@@ -322,44 +334,13 @@
 
 //             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexDirection: 'column' }}>
 //               <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
-//                 <Button
-//                   size="small"
-//                   onClick={() => setShowOTPOverlay(false)}
-//                   disabled={otpLoading || resendLoading}
-//                   color="inherit"
-//                 >
-//                   Cancel
-//                 </Button>
-//                 <Button
-//                   variant="contained"
-//                   onClick={handleVerifyOTP}
-//                   disabled={otpLoading || resendLoading || otpValue.length !== 6}
-//                   size="large"
-//                   sx={{ minWidth: '120px' }}
-//                 >
+//                 <Button size="small" onClick={() => setShowOTPOverlay(false)} disabled={otpLoading || resendLoading} color="inherit">Cancel</Button>
+//                 <Button variant="contained" onClick={handleVerifyOTP} disabled={otpLoading || resendLoading || otpValue.length !== 6} size="large" sx={{ minWidth: '120px' }}>
 //                   {otpLoading ? <CircularProgress size={24} color="inherit" /> : 'Verify'}
 //                 </Button>
 //               </Box>
-              
-//               {/* ✅ Improved Resend Button inside Overlay */}
-//               <Button 
-//                 size="small" 
-//                 onClick={() => handleRequestOTP(unverifiedEmail)} 
-//                 disabled={resendLoading || otpLoading}
-//                 sx={{ 
-//                   mt: 1, 
-//                   textTransform: 'none', 
-//                   color: '#1976d2',
-//                   fontWeight: 'bold'
-//                 }}
-//               >
-//                 {resendLoading ? (
-//                   <>
-//                     <CircularProgress size={14} sx={{ mr: 1 }} /> Sending...
-//                   </>
-//                 ) : (
-//                   'Didn\'t receive code? Resend'
-//                 )}
+//               <Button size="small" onClick={() => handleRequestOTP(unverifiedEmail)} disabled={resendLoading || otpLoading} sx={{ mt: 1, textTransform: 'none', color: '#1976d2', fontWeight: 'bold' }}>
+//                 {resendLoading ? <><CircularProgress size={14} sx={{ mr: 1 }} /> Sending...</> : "Didn't receive code? Resend"}
 //               </Button>
 //             </Box>
 //           </Paper>
@@ -370,26 +351,26 @@
 // }
 
 
-// features/auth/Login.jsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { 
-  login, 
-  clearError, 
-  resendVerificationOTP, 
+import {
+  login,
+  clearError,
+  resendVerificationOTP,
   verifyOTP,
-  fetchUserProfile // ✅ 1. Import this to validate existing session
+  fetchUserProfile // Needed for OTP flow
 } from '../../features/auth/authSlice';
 
-import { 
-  Button, 
-  TextField, 
-  Typography, 
-  Alert, 
-  Box, 
+import {
+  Button,
+  TextField,
+  Typography,
+  Alert,
+  Box,
   Paper,
   CircularProgress,
   Container
@@ -398,20 +379,18 @@ import {
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // Select auth state
   const { loading, error, isAuthenticated, user, token } = useSelector((state) => state.auth);
-  
+
   const [unverifiedEmail, setUnverifiedEmail] = useState(null);
   const [showOTPOverlay, setShowOTPOverlay] = useState(false);
   const [otpValue, setOtpValue] = useState('');
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [otpMessage, setOtpMessage] = useState({ type: '', text: '' });
-  
-  // ✅ 2. Local state for initial session check
-  const [checkingSession, setCheckingSession] = useState(true);
 
+  const [checkingSession, setCheckingSession] = useState(true);
   const otpInputRef = useRef(null);
 
   const validationSchema = Yup.object({
@@ -419,72 +398,54 @@ export default function Login() {
     password: Yup.string().required('Password is required')
   });
 
-  // ✅ 3. PERSISTENCE LOGIC: Run on mount
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-
-    if (storedToken) {
-      // Token exists, try to fetch user profile to validate it
-      dispatch(fetchUserProfile())
-        .unwrap()
-        .then((userData) => {
-          // If successful, redirect based on role
-          if (userData.role === 'admin' || userData.role === 'super_admin') {
-            navigate('/admin', { replace: true });
-          } else {
-            navigate('/dashboard', { replace: true });
-          }
-        })
-        .catch((err) => {
-          // Token invalid or expired
-          console.log('Session invalid, clearing storage');
-          localStorage.removeItem('token');
-          dispatch(clearError());
-        })
-        .finally(() => {
-          setCheckingSession(false);
-        });
-    } else {
-      // No token, stop checking immediately
-      setCheckingSession(false);
-    }
-  }, [dispatch, navigate]);
-
-  // ✅ 4. Redirect if authentication happens during component life (e.g. after login)
-  useEffect(() => {
-    if (!checkingSession && isAuthenticated && user) {
-      if (user.role === 'admin' || user.role === 'super_admin') {
-        navigate('/admin', { replace: true });
-      } else {
-        navigate('/dashboard', { replace: true });
-      }
-    }
-  }, [isAuthenticated, user, checkingSession, navigate]);
+  // src/pages/auth/Login.jsx
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const isErrorObject = error && typeof error === 'object';
     const currentCode = isErrorObject ? error.code : null;
-    
+
     if (currentCode !== 'ACCOUNT_NOT_VERIFIED') {
       dispatch(clearError());
     }
-
     setOtpMessage({ type: '', text: '' });
 
     try {
+      console.log('🚀 Attempting login...');
+      // 1. Dispatch Login
       const result = await dispatch(login(values)).unwrap();
-      const { user } = result.data;
-      
-      // Redundant safety check, mostly handled by the useEffect above
+
+      console.log('✅ Login Success! Full Result:', result);
+
+      // 2. Extract User Directly from Result
+      // Based on your log: result.data.user exists
+      const user = result.data?.user;
+
+      if (!user) {
+        console.error('❌ CRITICAL: Login succeeded but no user object found in response!');
+        // Fallback: Try to fetch profile manually if user is missing
+        const userData = await dispatch(fetchUserProfile()).unwrap();
+        if (userData.role === 'admin' || userData.role === 'super_admin') {
+          navigate('/admin', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
+        return;
+      }
+
+      console.log('👤 User Role Detected:', user.role);
+
+      // 3. FORCE REDIRECT IMMEDIATELY
       if (user.role === 'admin' || user.role === 'super_admin') {
+        console.log('🚀 Redirecting to Admin Dashboard...');
         navigate('/admin', { replace: true });
       } else {
+        console.log('🚀 Redirecting to Client Dashboard...');
         navigate('/dashboard', { replace: true });
       }
-      
+
     } catch (err) {
-      console.error('Login error:', err);
-      
+      console.error('❌ Login FAILED:', err);
+
       if (err && err.code === 'ACCOUNT_NOT_VERIFIED') {
         setUnverifiedEmail(values.email);
         handleRequestOTP(values.email);
@@ -494,11 +455,120 @@ export default function Login() {
     }
   };
 
+  // const handleSubmit = async (values, { setSubmitting }) => {
+  //   const isErrorObject = error && typeof error === 'object';
+  //   const currentCode = isErrorObject ? error.code : null;
+
+  //   if (currentCode !== 'ACCOUNT_NOT_VERIFIED') {
+  //     dispatch(clearError());
+  //   }
+  //   setOtpMessage({ type: '', text: '' });
+
+  //   try {
+  //     // ✅ Dispatch login. Do NOT navigate here.
+  //     const result = await dispatch(login(values)).unwrap();
+  //     console.log('**********************************8✅ Login Success! Result:', result);
+  //     // The useEffect above will catch the state change and redirect automatically.
+
+  //   } catch (err) {
+  //     console.error('Login error:', err);
+
+  //     // Handle Unverified Account
+  //     if (err && err.code === 'ACCOUNT_NOT_VERIFIED') {
+  //       setUnverifiedEmail(values.email);
+  //       handleRequestOTP(values.email);
+  //     }
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+
+  // ✅ DEBUG VERSION OF REDIRECT LOGIC
+  useEffect(() => {
+    console.log('--- Redirect Check ---');
+    console.log('checkingSession:', checkingSession);
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('user:', user);
+
+    if (checkingSession) {
+      console.log('⏳ Still checking session...');
+      return;
+    }
+
+    if (!isAuthenticated) {
+      console.log('❌ Not authenticated');
+      return;
+    }
+
+    if (!user) {
+      console.log('❌ Authenticated but NO user object found!');
+      // FIX: If authenticated but no user, try fetching profile manually
+      console.log('🔄 Attempting to fetch user profile manually...');
+      dispatch(fetchUserProfile());
+      return;
+    }
+
+    console.log('✅ All checks passed! Redirecting...');
+    console.log('Role detected:', user.role);
+
+    if (user.role === 'admin' || user.role === 'super_admin') {
+      console.log('🚀 Navigating to /admin');
+      navigate('/admin', { replace: true });
+    } else {
+      console.log('🚀 Navigating to /dashboard');
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, user, checkingSession, navigate, dispatch]);
+
+  // ✅ 1. SESSION CHECK (On Mount)
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+
+    if (storedToken && !user) {
+      // Only fetch if we don't have user data yet
+      dispatch(fetchUserProfile())
+        .unwrap()
+        .then((userData) => {
+          console.log('Session valid, user data loaded', userData);
+          if (userData.role === 'admin' || userData.role === 'super_admin') {
+            navigate('/admin', { replace: true });
+          } else {
+            navigate('/dashboard', { replace: true });
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem('token');
+          dispatch(clearError());
+        })
+        .finally(() => {
+          setCheckingSession(false);
+        });
+    } else {
+      setCheckingSession(false);
+    }
+  }, [dispatch, navigate, user]);
+
+  // ✅ 2. REDIRECT LOGIC (The ONLY place we redirect after login)
+  useEffect(() => {
+    // Only redirect if:
+    // 1. We are done checking initial session
+    // 2. User is authenticated
+    // 3. We have user data
+    // 4. We are not already on the correct page (optional safety)
+    if (!checkingSession && isAuthenticated && user) {
+      if (user.role === 'admin' || user.role === 'super_admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, checkingSession, navigate]);
+
   const handleRequestOTP = async (email) => {
     if (!email) return;
     setResendLoading(true);
     setOtpMessage({ type: '', text: '' });
-    
+
     try {
       await dispatch(resendVerificationOTP(email)).unwrap();
       setOtpMessage({ type: 'success', text: 'New OTP sent! Please check your email.' });
@@ -527,16 +597,25 @@ export default function Login() {
     try {
       await dispatch(verifyOTP({ email: unverifiedEmail, otp: otpValue })).unwrap();
       setOtpMessage({ type: 'success', text: 'Verified! Logging in...' });
-      
+
+      // ✅ CRITICAL FIX FOR OTP:
+      // After verifying, we must log in automatically OR fetch profile to trigger the redirect effect.
+      // Since verifyOTP usually doesn't return a token, we assume the user must now login manually,
+      // OR if your backend returns a token on verify, we dispatch login here.
+
+      // OPTION A: If backend returns token on verify (Uncomment if applicable)
+      // const result = await dispatch(login({ email: unverifiedEmail, password: ... })).unwrap(); 
+
+      // OPTION B: Close overlay and let user login (Current behavior)
       setTimeout(() => {
         setShowOTPOverlay(false);
         setOtpValue('');
         setUnverifiedEmail(null);
         setOtpMessage({ type: '', text: '' });
-        dispatch(clearError()); 
-        // fetchUserProfile will trigger via the isAuthenticated effect or you can manually call it here if needed
+        dispatch(clearError());
+        // User will now type password and login normally
       }, 1500);
-      
+
     } catch (err) {
       setOtpMessage({ type: 'error', text: err || 'Invalid or expired OTP.' });
     } finally {
@@ -554,7 +633,6 @@ export default function Login() {
     }
   }, [showOTPOverlay, otpMessage]);
 
-  // ✅ 5. Show Loading Spinner while checking session
   if (checkingSession) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -570,13 +648,13 @@ export default function Login() {
 
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
-      {/* ✅ Main Login Form */}
-      <div className="login-form-container" style={{ 
-        maxWidth: '400px', 
-        margin: '2rem auto', 
-        padding: '2rem', 
-        border: '1px solid #ddd', 
-        borderRadius: '8px', 
+      {/* Main Login Form */}
+      <div className="login-form-container" style={{
+        maxWidth: '400px',
+        margin: '2rem auto',
+        padding: '2rem',
+        border: '1px solid #ddd',
+        borderRadius: '8px',
         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
         opacity: showOTPOverlay ? 0.3 : 1,
         pointerEvents: showOTPOverlay ? 'none' : 'auto',
@@ -593,10 +671,10 @@ export default function Login() {
         {errorCode === 'ACCOUNT_NOT_VERIFIED' && (
           <Alert severity="warning" sx={{ mb: 2 }}>
             {errorMessage}
-            <Button 
-              size="small" 
-              color="inherit" 
-              onClick={() => handleRequestOTP(unverifiedEmail)} 
+            <Button
+              size="small"
+              color="inherit"
+              onClick={() => handleRequestOTP(unverifiedEmail)}
               disabled={resendLoading}
               sx={{ ml: 1, fontWeight: 'bold', minWidth: 'auto' }}
             >
@@ -642,13 +720,13 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={isSubmitting || loading || otpLoading}
-                  style={{ 
-                    width: '100%', 
-                    padding: '0.75rem', 
-                    backgroundColor: (isSubmitting || loading || otpLoading) ? '#ccc' : '#1976d2', 
-                    color: 'white', 
-                    border: 'none', 
-                    borderRadius: '4px', 
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    backgroundColor: (isSubmitting || loading || otpLoading) ? '#ccc' : '#1976d2',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
                     cursor: (isSubmitting || loading || otpLoading) ? 'not-allowed' : 'pointer',
                     fontWeight: '600'
                   }}
@@ -659,13 +737,13 @@ export default function Login() {
             </Form>
           )}
         </Formik>
-        
+
         <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
           Don't have an account? <Link to="/auth/register" style={{ color: '#1976d2' }}>Register</Link>
         </p>
       </div>
 
-      {/* ✅ OTP OVERLAY */}
+      {/* OTP OVERLAY */}
       {showOTPOverlay && (
         <Box
           sx={{
@@ -686,7 +764,7 @@ export default function Login() {
           <Paper elevation={6} sx={{ p: 3, width: '90%', maxWidth: '350px', textAlign: 'center', position: 'relative' }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, color: '#1976d2' }}>Verify Email</Typography>
             <Typography variant="body2" sx={{ mb: 2, color: '#555' }}>
-              Enter the 6-digit code sent to:<br/><strong>{unverifiedEmail}</strong>
+              Enter the 6-digit code sent to:<br /><strong>{unverifiedEmail}</strong>
             </Typography>
 
             {otpMessage.text && (

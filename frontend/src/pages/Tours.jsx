@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 export default function Tours() {
@@ -9,6 +10,10 @@ export default function Tours() {
       $('[data-toggle="tooltip"]').tooltip()
     }
   }, [])
+
+   const { loading, packages } = useSelector((state) => state.packages);
+
+   console.warn("Packages",packages)
 
   return (
     <div className="archive travel_tour travel_tour-page">
