@@ -3,20 +3,20 @@
 // import { useDispatch, useSelector } from 'react-redux';
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
 // import * as Yup from 'yup';
-// import { 
-//   login, 
-//   clearError, 
-//   resendVerificationOTP, 
+// import {
+//   login,
+//   clearError,
+//   resendVerificationOTP,
 //   verifyOTP,
 //   fetchUserProfile
 // } from '../../features/auth/authSlice';
 
-// import { 
-//   Button, 
-//   TextField, 
-//   Typography, 
-//   Alert, 
-//   Box, 
+// import {
+//   Button,
+//   TextField,
+//   Typography,
+//   Alert,
+//   Box,
 //   Paper,
 //   CircularProgress,
 //   Container
@@ -36,58 +36,14 @@
 //   const [resendLoading, setResendLoading] = useState(false);
 //   const [otpMessage, setOtpMessage] = useState({ type: '', text: '' });
 
-//   // ✅ 2. Local state for initial session check
 //   const [checkingSession, setCheckingSession] = useState(true);
-
 //   const otpInputRef = useRef(null);
 
 //   const validationSchema = Yup.object({
 //     email: Yup.string().email('Invalid email address').required('Email is required'),
 //     password: Yup.string().required('Password is required')
 //   });
-
-//   // ✅ 3. PERSISTENCE LOGIC: Run on mount
-//   useEffect(() => {
-//     const storedToken = localStorage.getItem('token');
-
-//     if (storedToken) {
-//       // Token exists, try to fetch user profile to validate it
-//       dispatch(fetchUserProfile())
-//         .unwrap()
-//         .then((userData) => {
-//           // If successful, redirect based on role
-//           if (userData.role === 'admin' || userData.role === 'super_admin') {
-//             navigate('/admin', { replace: true });
-//           } else {
-//             navigate('/dashboard', { replace: true });
-//           }
-//         })
-//         .catch((err) => {
-//           // Token invalid or expired
-//           console.log('Session invalid, clearing storage');
-//           localStorage.removeItem('token');
-//           dispatch(clearError());
-//         })
-//         .finally(() => {
-//           setCheckingSession(false);
-//         });
-//     } else {
-//       // No token, stop checking immediately
-//       setCheckingSession(false);
-//     }
-//   }, [dispatch, navigate]);
-
-//   // ✅ 4. Redirect if authentication happens during component life (e.g. after login)
-//   useEffect(() => {
-//     if (!checkingSession && isAuthenticated && user) {
-//       if (user.role === 'admin' || user.role === 'super_admin') {
-//         navigate('/admin', { replace: true });
-//       } else {
-//         navigate('/dashboard', { replace: true });
-//       }
-//     }
-//   }, [isAuthenticated, user, checkingSession, navigate]);
-
+  
 //   const handleSubmit = async (values, { setSubmitting }) => {
 //     const isErrorObject = error && typeof error === 'object';
 //     const currentCode = isErrorObject ? error.code : null;
@@ -95,22 +51,39 @@
 //     if (currentCode !== 'ACCOUNT_NOT_VERIFIED') {
 //       dispatch(clearError());
 //     }
-
 //     setOtpMessage({ type: '', text: '' });
 
 //     try {
+//       // 1. Dispatch Login
 //       const result = await dispatch(login(values)).unwrap();
-//       const { user } = result.data;
 
-//       // Redundant safety check, mostly handled by the useEffect above
+//       // 2. Extract User Directly from Result
+//       // Based on your log: result.data.user exists
+//       const user = result.data?.user;
+
+//       if (!user) {
+//         const userData = await dispatch(fetchUserProfile()).unwrap();
+//         if (userData.role === 'admin' || userData.role === 'super_admin') {
+//           navigate('/admin', { replace: true });
+//         } else {
+//           navigate('/dashboard', { replace: true });
+//         }
+//         return;
+//       }
+
+//       console.log('👤 User Role Detected:', user.role);
+
+//       // 3. FORCE REDIRECT IMMEDIATELY
 //       if (user.role === 'admin' || user.role === 'super_admin') {
+//         console.log('🚀 Redirecting to Admin Dashboard...');
 //         navigate('/admin', { replace: true });
 //       } else {
+//         console.log('🚀 Redirecting to Client Dashboard...');
 //         navigate('/dashboard', { replace: true });
 //       }
 
 //     } catch (err) {
-//       console.error('Login error:', err);
+//       console.error('❌ Login FAILED:', err);
 
 //       if (err && err.code === 'ACCOUNT_NOT_VERIFIED') {
 //         setUnverifiedEmail(values.email);
@@ -120,6 +93,115 @@
 //       setSubmitting(false);
 //     }
 //   };
+
+//   // const handleSubmit = async (values, { setSubmitting }) => {
+//   //   const isErrorObject = error && typeof error === 'object';
+//   //   const currentCode = isErrorObject ? error.code : null;
+
+//   //   if (currentCode !== 'ACCOUNT_NOT_VERIFIED') {
+//   //     dispatch(clearError());
+//   //   }
+//   //   setOtpMessage({ type: '', text: '' });
+
+//   //   try {
+//   //     // ✅ Dispatch login. Do NOT navigate here.
+//   //     const result = await dispatch(login(values)).unwrap();
+//   //     console.log('**********************************8✅ Login Success! Result:', result);
+//   //     // The useEffect above will catch the state change and redirect automatically.
+
+//   //   } catch (err) {
+//   //     console.error('Login error:', err);
+
+//   //     // Handle Unverified Account
+//   //     if (err && err.code === 'ACCOUNT_NOT_VERIFIED') {
+//   //       setUnverifiedEmail(values.email);
+//   //       handleRequestOTP(values.email);
+//   //     }
+//   //   } finally {
+//   //     setSubmitting(false);
+//   //   }
+//   // };
+
+//   // ✅ DEBUG VERSION OF REDIRECT LOGIC
+//   useEffect(() => {
+//     console.log('--- Redirect Check ---');
+//     console.log('checkingSession:', checkingSession);
+//     console.log('isAuthenticated:', isAuthenticated);
+//     console.log('user:', user);
+
+//     if (checkingSession) {
+//       console.log('⏳ Still checking session...');
+//       return;
+//     }
+
+//     if (!isAuthenticated) {
+//       console.log('❌ Not authenticated');
+//       return;
+//     }
+
+//     if (!user) {
+//       console.log('❌ Authenticated but NO user object found!');
+//       // FIX: If authenticated but no user, try fetching profile manually
+//       console.log('🔄 Attempting to fetch user profile manually...');
+//       dispatch(fetchUserProfile());
+//       return;
+//     }
+
+//     console.log('✅ All checks passed! Redirecting...');
+//     console.log('Role detected:', user.role);
+
+//     if (user.role === 'admin' || user.role === 'super_admin') {
+//       console.log('🚀 Navigating to /admin');
+//       navigate('/admin', { replace: true });
+//     } else {
+//       console.log('🚀 Navigating to /dashboard');
+//       navigate('/dashboard', { replace: true });
+//     }
+//   }, [isAuthenticated, user, checkingSession, navigate, dispatch]);
+
+//   // ✅ 1. SESSION CHECK (On Mount)
+//   useEffect(() => {
+//     const storedToken = localStorage.getItem('token');
+
+//     if (storedToken && !user) {
+//       // Only fetch if we don't have user data yet
+//       dispatch(fetchUserProfile())
+//         .unwrap()
+//         .then((userData) => {
+//           console.log('Session valid, user data loaded', userData);
+//           if (userData.role === 'admin' || userData.role === 'super_admin') {
+//             navigate('/admin', { replace: true });
+//           } else {
+//             navigate('/dashboard', { replace: true });
+//           }
+//         })
+//         .catch(() => {
+//           localStorage.removeItem('token');
+//           dispatch(clearError());
+//         })
+//         .finally(() => {
+//           setCheckingSession(false);
+//         });
+//     } else {
+//       setCheckingSession(false);
+//     }
+//   }, [dispatch, navigate, user]);
+
+//   // ✅ 2. REDIRECT LOGIC (The ONLY place we redirect after login)
+//   useEffect(() => {
+//     // Only redirect if:
+//     // 1. We are done checking initial session
+//     // 2. User is authenticated
+//     // 3. We have user data
+//     // 4. We are not already on the correct page (optional safety)
+//     if (!checkingSession && isAuthenticated && user) {
+//       if (user.role === 'admin' || user.role === 'super_admin') {
+//         navigate('/admin', { replace: true });
+//       } else {
+//         navigate('/dashboard', { replace: true });
+//       }
+//     }
+//   }, [isAuthenticated, user, checkingSession, navigate]);
 
 //   const handleRequestOTP = async (email) => {
 //     if (!email) return;
@@ -155,13 +237,22 @@
 //       await dispatch(verifyOTP({ email: unverifiedEmail, otp: otpValue })).unwrap();
 //       setOtpMessage({ type: 'success', text: 'Verified! Logging in...' });
 
+//       // ✅ CRITICAL FIX FOR OTP:
+//       // After verifying, we must log in automatically OR fetch profile to trigger the redirect effect.
+//       // Since verifyOTP usually doesn't return a token, we assume the user must now login manually,
+//       // OR if your backend returns a token on verify, we dispatch login here.
+
+//       // OPTION A: If backend returns token on verify (Uncomment if applicable)
+//       // const result = await dispatch(login({ email: unverifiedEmail, password: ... })).unwrap(); 
+
+//       // OPTION B: Close overlay and let user login (Current behavior)
 //       setTimeout(() => {
 //         setShowOTPOverlay(false);
 //         setOtpValue('');
 //         setUnverifiedEmail(null);
 //         setOtpMessage({ type: '', text: '' });
-//         dispatch(clearError()); 
-//         // fetchUserProfile will trigger via the isAuthenticated effect or you can manually call it here if needed
+//         dispatch(clearError());
+//         // User will now type password and login normally
 //       }, 1500);
 
 //     } catch (err) {
@@ -181,7 +272,6 @@
 //     }
 //   }, [showOTPOverlay, otpMessage]);
 
-//   // ✅ 5. Show Loading Spinner while checking session
 //   if (checkingSession) {
 //     return (
 //       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -197,13 +287,13 @@
 
 //   return (
 //     <Box sx={{ position: 'relative', width: '100%' }}>
-//       {/* ✅ Main Login Form */}
-//       <div className="login-form-container" style={{ 
-//         maxWidth: '400px', 
-//         margin: '2rem auto', 
-//         padding: '2rem', 
-//         border: '1px solid #ddd', 
-//         borderRadius: '8px', 
+//       {/* Main Login Form */}
+//       <div className="login-form-container" style={{
+//         maxWidth: '400px',
+//         margin: '2rem auto',
+//         padding: '2rem',
+//         border: '1px solid #ddd',
+//         borderRadius: '8px',
 //         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
 //         opacity: showOTPOverlay ? 0.3 : 1,
 //         pointerEvents: showOTPOverlay ? 'none' : 'auto',
@@ -220,10 +310,10 @@
 //         {errorCode === 'ACCOUNT_NOT_VERIFIED' && (
 //           <Alert severity="warning" sx={{ mb: 2 }}>
 //             {errorMessage}
-//             <Button 
-//               size="small" 
-//               color="inherit" 
-//               onClick={() => handleRequestOTP(unverifiedEmail)} 
+//             <Button
+//               size="small"
+//               color="inherit"
+//               onClick={() => handleRequestOTP(unverifiedEmail)}
 //               disabled={resendLoading}
 //               sx={{ ml: 1, fontWeight: 'bold', minWidth: 'auto' }}
 //             >
@@ -269,13 +359,13 @@
 //                 <button
 //                   type="submit"
 //                   disabled={isSubmitting || loading || otpLoading}
-//                   style={{ 
-//                     width: '100%', 
-//                     padding: '0.75rem', 
-//                     backgroundColor: (isSubmitting || loading || otpLoading) ? '#ccc' : '#1976d2', 
-//                     color: 'white', 
-//                     border: 'none', 
-//                     borderRadius: '4px', 
+//                   style={{
+//                     width: '100%',
+//                     padding: '0.75rem',
+//                     backgroundColor: (isSubmitting || loading || otpLoading) ? '#ccc' : '#1976d2',
+//                     color: 'white',
+//                     border: 'none',
+//                     borderRadius: '4px',
 //                     cursor: (isSubmitting || loading || otpLoading) ? 'not-allowed' : 'pointer',
 //                     fontWeight: '600'
 //                   }}
@@ -292,7 +382,7 @@
 //         </p>
 //       </div>
 
-//       {/* ✅ OTP OVERLAY */}
+//       {/* OTP OVERLAY */}
 //       {showOTPOverlay && (
 //         <Box
 //           sx={{
@@ -313,7 +403,7 @@
 //           <Paper elevation={6} sx={{ p: 3, width: '90%', maxWidth: '350px', textAlign: 'center', position: 'relative' }}>
 //             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1, color: '#1976d2' }}>Verify Email</Typography>
 //             <Typography variant="body2" sx={{ mb: 2, color: '#555' }}>
-//               Enter the 6-digit code sent to:<br/><strong>{unverifiedEmail}</strong>
+//               Enter the 6-digit code sent to:<br /><strong>{unverifiedEmail}</strong>
 //             </Typography>
 
 //             {otpMessage.text && (
@@ -351,7 +441,6 @@
 // }
 
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -362,7 +451,7 @@ import {
   clearError,
   resendVerificationOTP,
   verifyOTP,
-  fetchUserProfile // Needed for OTP flow
+  fetchUserProfile
 } from '../../features/auth/authSlice';
 
 import {
@@ -397,9 +486,7 @@ export default function Login() {
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string().required('Password is required')
   });
-
-  // src/pages/auth/Login.jsx
-
+  
   const handleSubmit = async (values, { setSubmitting }) => {
     const isErrorObject = error && typeof error === 'object';
     const currentCode = isErrorObject ? error.code : null;
@@ -410,19 +497,13 @@ export default function Login() {
     setOtpMessage({ type: '', text: '' });
 
     try {
-      console.log('🚀 Attempting login...');
       // 1. Dispatch Login
       const result = await dispatch(login(values)).unwrap();
 
-      console.log('✅ Login Success! Full Result:', result);
-
       // 2. Extract User Directly from Result
-      // Based on your log: result.data.user exists
       const user = result.data?.user;
 
       if (!user) {
-        console.error('❌ CRITICAL: Login succeeded but no user object found in response!');
-        // Fallback: Try to fetch profile manually if user is missing
         const userData = await dispatch(fetchUserProfile()).unwrap();
         if (userData.role === 'admin' || userData.role === 'super_admin') {
           navigate('/admin', { replace: true });
@@ -455,34 +536,6 @@ export default function Login() {
     }
   };
 
-  // const handleSubmit = async (values, { setSubmitting }) => {
-  //   const isErrorObject = error && typeof error === 'object';
-  //   const currentCode = isErrorObject ? error.code : null;
-
-  //   if (currentCode !== 'ACCOUNT_NOT_VERIFIED') {
-  //     dispatch(clearError());
-  //   }
-  //   setOtpMessage({ type: '', text: '' });
-
-  //   try {
-  //     // ✅ Dispatch login. Do NOT navigate here.
-  //     const result = await dispatch(login(values)).unwrap();
-  //     console.log('**********************************8✅ Login Success! Result:', result);
-  //     // The useEffect above will catch the state change and redirect automatically.
-
-  //   } catch (err) {
-  //     console.error('Login error:', err);
-
-  //     // Handle Unverified Account
-  //     if (err && err.code === 'ACCOUNT_NOT_VERIFIED') {
-  //       setUnverifiedEmail(values.email);
-  //       handleRequestOTP(values.email);
-  //     }
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
-
   // ✅ DEBUG VERSION OF REDIRECT LOGIC
   useEffect(() => {
     console.log('--- Redirect Check ---');
@@ -502,8 +555,6 @@ export default function Login() {
 
     if (!user) {
       console.log('❌ Authenticated but NO user object found!');
-      // FIX: If authenticated but no user, try fetching profile manually
-      console.log('🔄 Attempting to fetch user profile manually...');
       dispatch(fetchUserProfile());
       return;
     }
@@ -525,7 +576,6 @@ export default function Login() {
     const storedToken = localStorage.getItem('token');
 
     if (storedToken && !user) {
-      // Only fetch if we don't have user data yet
       dispatch(fetchUserProfile())
         .unwrap()
         .then((userData) => {
@@ -548,13 +598,8 @@ export default function Login() {
     }
   }, [dispatch, navigate, user]);
 
-  // ✅ 2. REDIRECT LOGIC (The ONLY place we redirect after login)
+  // ✅ 2. REDIRECT LOGIC
   useEffect(() => {
-    // Only redirect if:
-    // 1. We are done checking initial session
-    // 2. User is authenticated
-    // 3. We have user data
-    // 4. We are not already on the correct page (optional safety)
     if (!checkingSession && isAuthenticated && user) {
       if (user.role === 'admin' || user.role === 'super_admin') {
         navigate('/admin', { replace: true });
@@ -598,22 +643,12 @@ export default function Login() {
       await dispatch(verifyOTP({ email: unverifiedEmail, otp: otpValue })).unwrap();
       setOtpMessage({ type: 'success', text: 'Verified! Logging in...' });
 
-      // ✅ CRITICAL FIX FOR OTP:
-      // After verifying, we must log in automatically OR fetch profile to trigger the redirect effect.
-      // Since verifyOTP usually doesn't return a token, we assume the user must now login manually,
-      // OR if your backend returns a token on verify, we dispatch login here.
-
-      // OPTION A: If backend returns token on verify (Uncomment if applicable)
-      // const result = await dispatch(login({ email: unverifiedEmail, password: ... })).unwrap(); 
-
-      // OPTION B: Close overlay and let user login (Current behavior)
       setTimeout(() => {
         setShowOTPOverlay(false);
         setOtpValue('');
         setUnverifiedEmail(null);
         setOtpMessage({ type: '', text: '' });
         dispatch(clearError());
-        // User will now type password and login normally
       }, 1500);
 
     } catch (err) {
@@ -714,6 +749,23 @@ export default function Login() {
                   style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ccc', boxSizing: 'border-box' }}
                 />
                 <ErrorMessage name="password" component="div" style={{ color: 'red', fontSize: '0.8rem', marginTop: '0.25rem' }} />
+                
+                {/* ✅ FORGOT PASSWORD LINK */}
+                <div style={{ textAlign: 'right', marginTop: '0.5rem' }}>
+                  <Link 
+                    to="/forgot-password" 
+                    style={{ 
+                      color: '#1976d2', 
+                      fontSize: '0.85rem', 
+                      textDecoration: 'none', 
+                      fontWeight: '500' 
+                    }}
+                    onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+                    onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
               </p>
 
               <p className="login-submit">
