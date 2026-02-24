@@ -185,8 +185,6 @@ const PackageImage = sequelize.define('PackageImage', {
   caption: DataTypes.STRING
 });
 
-// ✅ CORRECT ASSOCIATION DEFINITION (Defined early)
-// This uses 'tour_package_id' which matches your database column
 TourPackage.hasMany(PackageImage, {
   foreignKey: 'tour_package_id',
   as: 'PackageImages',
@@ -364,17 +362,11 @@ User.prototype.createPasswordResetToken = function() {
   return resetToken;
 };
 
-// ===== GLOBAL ASSOCIATIONS =====
-// Note: We do NOT re-define TourPackage <-> PackageImage here to avoid overwriting the correct one above.
-
 User.hasMany(Booking, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 Booking.belongsTo(User, { foreignKey: 'user_id' });
 
 TourPackage.hasMany(Booking, { foreignKey: 'package_id', onDelete: 'CASCADE' });
 Booking.belongsTo(TourPackage, { foreignKey: 'package_id' });
-
-// ❌ REMOVED DUPLICATE: This was overwriting the correct association with 'package_id'
-// TourPackage.hasMany(PackageImage, { foreignKey: 'package_id' ... }); 
 
 Booking.hasMany(BookingPassenger, { foreignKey: 'booking_id', onDelete: 'CASCADE' });
 BookingPassenger.belongsTo(Booking, { foreignKey: 'booking_id' });

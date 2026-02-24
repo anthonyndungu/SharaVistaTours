@@ -880,3 +880,741 @@
 2026-02-24 00:58:28:5828 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
 2026-02-24 00:58:28:5828 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
 2026-02-24 00:58:28:5828 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:34:49:3449 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-24 08:34:50:3450 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-24 08:34:50:3450 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-24 08:34:50:3450 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-24 08:35:23:3523 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:35:23:3523 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:35:39:3539 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:35:40:3540 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:41:34:4134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:41:34:4134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:44:39:4439 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-24 08:44:39:4439 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:44:39:4439 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:44:39:4439 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:44:40:4440 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:44:40:4440 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:44:40:4440 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:44:40:4440 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:44:40:4440 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 08:44:40:4440 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:44:42:4442 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:44:42:4442 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:45:02:452 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-24 08:45:04:454 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-24 08:45:04:454 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 08:45:04:454 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 08:45:04:454 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 08:45:04:454 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 08:45:09:459 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:45:09:459 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:45:31:4531 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-24 08:45:31:4531 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-24 08:45:46:4546 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-24 08:45:46:4546 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:45:47:4547 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:45:47:4547 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-24 08:45:47:4547 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 08:45:47:4547 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 08:45:47:4547 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 08:45:47:4547 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 08:46:54:4654 [32minfo[39m: [32mPUT /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-24 08:46:57:4657 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:46:57:4657 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:47:01:471 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 08:47:01:471 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 08:47:14:4714 [32minfo[39m: [32mPUT /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 08:47:17:4717 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:47:17:4717 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png[39m
+2026-02-24 08:48:27:4827 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png on this server![39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 08:48:27:4827 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:48:27:4827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:48:27:4827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:48:27:4827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:27:4827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 08:48:27:4827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png[39m
+2026-02-24 08:48:28:4828 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png on this server![39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 08:48:28:4828 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:48:28:4828 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:48:28:4828 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:48:28:4828 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:48:28:4828 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 08:48:28:4828 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:53:19:5319 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:53:19:5319 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:53:19:5319 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png[39m
+2026-02-24 08:53:20:5320 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png on this server![39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 08:53:20:5320 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:53:20:5320 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:53:20:5320 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:53:20:5320 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 08:53:20:5320 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:53:20:5320 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:44:5644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:44:5644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:44:5644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png[39m
+2026-02-24 08:56:45:5645 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771778165876-20574344.png on this server![39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 08:56:45:5645 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 08:56:45:5645 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 08:56:45:5645 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 08:56:45:5645 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:56:45:5645 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 08:56:45:5645 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 08:58:30:5830 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 08:58:30:5830 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:29:429 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:04:30:430 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:04:30:430 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:04:30:430 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:04:30:430 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:04:30:430 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:04:31:431 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:04:31:431 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:20:620 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:06:20:620 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:06:20:620 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:06:20:620 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:06:20:620 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:20:620 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:06:20:620 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:20:620 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:06:20:620 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:06:21:621 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:06:21:621 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:06:21:621 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:06:21:621 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:06:21:621 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:21:621 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:06:21:621 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:06:54:654 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:06:54:654 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:06:54:654 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:06:54:654 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:06:54:654 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:06:54:654 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:06:54:654 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:06:55:655 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:06:55:655 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:55:655 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:06:55:655 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:55:655 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:06:55:655 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:06:55:655 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:06:55:655 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:26:826 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:27:827 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:08:27:827 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:08:38:838 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 09:08:38:838 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 09:08:38:838 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 09:08:39:839 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 09:08:42:842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:08:42:842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:08:47:847 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 09:08:47:847 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 09:09:16:916 [32minfo[39m: [32mPUT /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 09:09:19:919 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:09:19:919 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:09:24:924 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-24 09:09:24:924 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-24 09:09:47:947 [32minfo[39m: [32mPUT /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
+2026-02-24 09:09:49:949 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:09:49:949 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:09:54:954 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-24 09:09:54:954 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-24 09:11:15:1115 [32minfo[39m: [32mPUT /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-24 09:11:17:1117 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:11:17:1117 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:11:23:1123 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-24 09:11:23:1123 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-24 09:11:29:1129 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:11:29:1129 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:12:12:1212 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:12:12:1212 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:12:14:1214 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:12:14:1214 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:12:14:1214 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:12:14:1214 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:12:14:1214 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:12:14:1214 [32minfo[39m: [32mGET /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png[39m
+2026-02-24 09:12:14:1214 [31merror[39m: [31mError: Can't find /uploads/http://localhost:5000/uploads/packages/pkg-1771743912878-193025694.png on this server![39m
+2026-02-24 09:12:31:1231 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 09:12:31:1231 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 09:12:54:1254 [32minfo[39m: [32mPUT /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-24 09:12:56:1256 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:12:56:1256 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:03:133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:03:133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:03:133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:03:133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:03:133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:03:133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:13:04:134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634[39m
+2026-02-24 09:13:04:134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1586861767866-7e87a2e8a634?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:13:04:134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 09:13:04:134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:13:04:134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 09:13:04:134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:13:04:134 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 09:13:04:134 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 09:14:46:1446 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 09:14:46:1446 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 09:15:04:154 [32minfo[39m: [32mPUT /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 09:15:06:156 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:15:06:156 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 09:15:12:1512 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 09:15:12:1512 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 09:23:24:2324 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-24 22:06:07:67 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-24 22:06:09:69 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-24 22:06:09:69 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-24 22:06:09:69 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-24 22:08:02:82 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:08:02:82 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:08:05:85 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:08:05:85 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:08:05:85 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:08:05:85 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:08:06:86 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:08:06:86 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:08:06:86 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:08:06:86 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:09:16:916 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:09:16:916 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:09:16:916 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:09:16:916 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:09:16:916 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:09:16:916 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:09:16:916 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:10:17:1017 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-24 22:10:47:1047 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-24 22:10:49:1049 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-24 22:10:49:1049 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-24 22:10:49:1049 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-24 22:11:03:113 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:11:04:114 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:11:04:114 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:11:04:114 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:11:04:114 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:11:04:114 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:11:04:114 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:11:04:114 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:11:05:115 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:11:05:115 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:11:05:115 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:11:05:115 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:12:28:1228 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:12:29:1229 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:12:29:1229 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:12:29:1229 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:12:29:1229 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:12:29:1229 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:12:30:1230 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:12:30:1230 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:12:30:1230 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:12:30:1230 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:12:46:1246 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 22:12:46:1246 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 22:12:46:1246 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 22:12:47:1247 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 22:12:49:1249 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:12:49:1249 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:13:42:1342 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-24 22:13:42:1342 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:13:43:1343 [32minfo[39m: [32mGET /api/v1/auth/me[39m
+2026-02-24 22:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 22:13:43:1343 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 22:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-24 22:13:43:1343 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-24 22:14:01:141 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:14:01:141 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:14:01:141 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:14:02:142 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:14:02:142 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:14:02:142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:14:02:142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:14:02:142 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:14:02:142 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:14:02:142 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:14:02:142 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:14:03:143 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:15:07:157 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:15:07:157 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:15:07:157 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f[39m
+2026-02-24 22:15:07:157 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1464822759085-2f3662c7ba4f?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:15:07:157 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:15:07:157 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:15:07:157 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:15:29:1529 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 22:15:29:1529 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 22:15:57:1557 [32minfo[39m: [32mPUT /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-24 22:15:59:1559 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:16:00:160 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:16:35:1635 [32minfo[39m: [32mGET /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-24 22:16:36:1636 [32minfo[39m: [32mGET /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-24 22:17:10:1710 [32minfo[39m: [32mPUT /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-24 22:17:12:1712 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:13:1713 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:21:1721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:21:1721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:21:1721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:21:1721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:21:1721 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:22:1722 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:17:22:1722 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1540206395-688085723adb[39m
+2026-02-24 22:17:22:1722 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1540206395-688085723adb?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:17:22:1722 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:17:22:1722 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:17:42:1742 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-24 22:17:43:1743 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-24 22:19:03:193 [32minfo[39m: [32mPUT /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-24 22:19:05:195 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:05:195 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:38:1938 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:39:1939 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:39:1939 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:39:1939 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:39:1939 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:39:1939 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:19:39:1939 [32minfo[39m: [32mGET /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801[39m
+2026-02-24 22:19:39:1939 [31merror[39m: [31mError: Can't find /uploads/https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80 on this server![39m
+2026-02-24 22:20:01:201 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-24 22:20:02:202 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-24 22:20:21:2021 [32minfo[39m: [32mPUT /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-24 22:20:23:2023 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:20:23:2023 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:20:35:2035 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:22:33:2233 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-24 22:22:49:2249 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-24 22:22:50:2250 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-24 22:22:50:2250 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-24 22:22:50:2250 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-24 22:23:13:2313 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:14:2314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:14:2314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:14:2314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:14:2314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:14:2314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:16:2316 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:16:2316 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:35:2335 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:23:36:2336 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:25:08:258 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:25:09:259 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:25:23:2523 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:25:23:2523 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:26:16:2616 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:26:16:2616 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:26:16:2616 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:26:16:2616 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:26:16:2616 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:26:17:2617 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:27:35:2735 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:27:35:2735 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:27:37:2737 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:27:37:2737 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:28:13:2813 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:28:13:2813 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:29:30:2930 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:29:30:2930 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:30:19:3019 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:30:19:3019 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:20:5820 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:21:5821 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:27:5827 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:27:5827 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:27:5827 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:28:5828 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:28:5828 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:58:28:5828 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:59:24:5924 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:59:24:5924 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:59:57:5957 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 22:59:57:5957 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:00:18:018 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:00:18:018 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:12:112 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:12:112 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:14:114 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:14:114 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:27:127 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:27:127 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:32:132 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:01:32:132 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:02:01:21 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:02:01:21 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:02:37:237 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:02:37:237 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:02:38:238 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:02:39:239 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:03:04:34 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:03:04:34 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:03:14:314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:03:14:314 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:03:55:355 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:03:55:355 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:10:410 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:11:411 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:28:428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:28:428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:42:442 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:42:442 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:53:453 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:53:453 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:57:457 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:04:57:457 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:07:37:737 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:07:38:738 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:12:16:1216 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:12:16:1216 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:13:41:1341 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:13:42:1342 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:14:03:143 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:14:03:143 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:31:3131 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:32:3132 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:32:3132 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:32:3132 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:31:33:3133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:33:49:3349 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:33:50:3350 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:34:20:3420 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:34:20:3420 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:35:21:3521 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:35:21:3521 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:35:34:3534 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:35:34:3534 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:37:27:3727 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:37:27:3727 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:38:49:3849 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:38:50:3850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:39:16:3916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:39:16:3916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:39:16:3916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:39:16:3916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:39:16:3916 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:39:17:3917 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:40:29:4029 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:40:29:4029 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:41:46:4146 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:41:47:4147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:43:24:4324 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:43:24:4324 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:43:24:4324 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:43:24:4324 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:43:24:4324 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:43:24:4324 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:53:32:5332 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:53:33:5333 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:54:38:5438 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:54:39:5439 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:58:44:5844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:58:44:5844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:58:54:5854 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-24 23:58:54:5854 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:04:54:454 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:04:54:454 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:05:33:533 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:05:36:536 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:05:52:552 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:05:52:552 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:07:58:758 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:07:59:759 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:08:41:841 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:08:42:842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:10:00:100 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:10:01:101 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:10:01:101 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:10:01:101 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:10:01:101 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:10:01:101 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:20:1120 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:21:1121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:22:1122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:22:1122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:23:1123 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:23:1123 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:25:1125 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:25:1125 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:58:1158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:11:58:1158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:21:57:2157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:21:58:2158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:21:58:2158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:21:58:2158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:21:58:2158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:21:58:2158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:23:53:2353 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:23:53:2353 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:25:00:250 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:25:01:251 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:26:25:2625 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:26:25:2625 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:27:14:2714 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:27:15:2715 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:27:24:2724 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:27:25:2725 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:28:47:2847 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:28:47:2847 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:32:06:326 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:32:06:326 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:33:43:3343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:33:43:3343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:23:3423 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:26:3426 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:26:3426 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:26:3426 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:26:3426 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:26:3426 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:26:3426 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:28:3428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:28:3428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:28:3428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:28:3428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:28:3428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:34:28:3428 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:35:14:3514 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:35:14:3514 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:35:51:3551 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:35:51:3551 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:36:34:3634 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:39:10:3910 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:39:10:3910 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:42:30:4230 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:42:30:4230 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:43:23:4323 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:43:23:4323 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:50:03:503 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:50:11:5011 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:50:11:5011 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:51:06:516 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:51:06:516 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:52:35:5235 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:52:36:5236 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:52:41:5241 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 00:52:41:5241 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:18:418 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:19:419 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:45:445 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:45:445 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:45:445 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:45:445 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:45:445 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:45:445 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:54:454 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:04:54:454 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:05:13:513 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:05:39:539 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:05:59:559 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:00:60 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:00:60 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:00:60 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:00:60 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:00:60 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:06:66 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:06:66 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:43:643 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:43:643 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:43:643 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:44:644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:44:644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:44:644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:46:646 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:06:46:646 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:13:43:1343 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:13:44:1344 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:13:44:1344 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:14:16:1416 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:14:17:1417 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:14:22:1422 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:14:22:1422 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:05:155 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:05:155 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:05:155 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:05:155 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:05:155 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:06:156 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:07:157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:15:07:157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:16:19:1619 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:16:19:1619 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:16:19:1619 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:16:19:1619 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:16:19:1619 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:16:19:1619 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:22:59:2259 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:22:59:2259 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:23:06:236 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:23:06:236 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:24:39:2439 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:24:40:2440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:24:40:2440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:24:40:2440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:24:40:2440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:24:40:2440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:18:2518 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:18:2518 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:18:2518 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:18:2518 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:18:2518 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:18:2518 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:21:2521 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:21:2521 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:26:2526 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:25:26:2526 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:27:23:2723 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:27:23:2723 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:27:24:2724 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:27:24:2724 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:34:2834 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:35:2835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:35:2835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:35:2835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:35:2835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:35:2835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:42:2842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:42:2842 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:44:2844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:44:2844 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:50:2850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:28:50:2850 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:35:09:359 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:35:10:3510 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:35:21:3521 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:35:21:3521 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:35:26:3526 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:35:26:3526 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 01:37:21:3721 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 01:37:23:3723 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 01:37:23:3723 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 01:37:23:3723 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-25 01:37:50:3750 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 01:37:52:3752 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 01:37:52:3752 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 01:37:52:3752 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m

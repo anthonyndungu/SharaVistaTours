@@ -38,6 +38,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import { fetchPackages } from './features/packages/packageSlice';
 import ForgotPassword from './pages/auth/ForgotPassword';
+import About from './pages/About';
 
 function App() {
   // ✅ 1. ALL HOOKS MUST BE AT THE TOP
@@ -84,6 +85,7 @@ function App() {
           <Route path="destinations" element={<Destinations />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="travel-tips" element={<TravelTips />} />
+          <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="tours/:tourId" element={<SingleTour />} />
         </Route>

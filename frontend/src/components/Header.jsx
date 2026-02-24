@@ -360,6 +360,7 @@ export default function Header() {
               <li><Link to="/destinations" onClick={closeMobileDrawer}>Destinations</Link></li>
               <li><Link to="/gallery" onClick={closeMobileDrawer}>Gallery</Link></li>
               <li><Link to="/travel-tips" onClick={closeMobileDrawer}>Travel Tips</Link></li>
+              <li><Link to="/about" onClick={closeMobileDrawer}>About</Link></li>
               <li><Link to="/contact" onClick={closeMobileDrawer}>Contact</Link></li>
 
               {/* 3. BOTTOM: Auth Actions (Mobile Only) */}
