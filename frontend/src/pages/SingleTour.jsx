@@ -1,1148 +1,1119 @@
-// import { useEffect, useState } from 'react'
-// import { useParams, Link } from 'react-router-dom'
-
-// export default function SingleTour() {
-//   const { tourId } = useParams()
-//   const [activeTab, setActiveTab] = useState('description')
-//   const [bookingForm, setBookingForm] = useState({
-//     firstName: '',
-//     lastName: '',
-//     email: '',
-//     phone: '',
-//     dateBook: '',
-//     adults: 1,
-//     children: 0
-//   })
-//   const [reviewForm, setReviewForm] = useState({
-//     name: '',
-//     email: '',
-//     rating: 5,
-//     comment: ''
-//   })
-
-//   // Mock tour data - replace with API call in production
-//   const tourData = {
-//     id: tourId,
-//     title: 'Discover Brazil',
-//     code: 'LMJUYH',
-//     duration: '5 DAYS 4 NIGHTS',
-//     categories: ['Escorted Tour', 'Rail Tour'],
-//     price: 93.00,
-//     priceChild: 65.10,
-//     images: [
-//       '/assets/img/tour/tour-1.jpg',
-//       '/assets/img/tour/tour-2.jpg',
-//       '/assets/img/tour/tour-3.jpg',
-//       '/assets/img/tour/tour-4.jpg',
-//       '/assets/img/tour/tour-5.jpg',
-//       '/assets/img/tour/tour-6.jpg'
-//     ],
-//     description: 'Mattis interdum nunc massa. Velit. Nonummy penatibus luctus. Aliquam. Massa aptent senectus elementum taciti.Id sodales morbi felis eu mus auctor ullamcorper. Litora. In nostra tempus, habitant. Nam tristique.',
-//     details: 'Felis venenatis metus placerat taciti malesuada ultricies bibendum nunc hymenaeos orci erat mollis pretium ligula ligulamus pellentesque urna. Sagittis bibendum justo congue facilisi. Aliquam potenti sagittis etiam facilisis vehicula. Id.',
-//     departureLocation: 'San Francisco International Airport',
-//     departureTime: 'Please arrive at least 2 hours before the flight.',
-//     included: [
-//       'Airfare',
-//       'Accommodations', 
-//       '2 days cruise',
-//       'Professional guide'
-//     ],
-//     notIncluded: [
-//       'Entrance fees',
-//       'Guide gratuity'
-//     ],
-//     itinerary: [
-//       {
-//         day: 1,
-//         title: 'Day 1: Departure',
-//         description: 'Ornare proin neque tempus cubilia cubilia blandit netus.',
-//         activities: [
-//           'Pretium vitae tempus sem enim enim.',
-//           'Tempus, leo, taciti augue aliquam hendrerit.',
-//           'Accumsan pharetra eros justo augue posuere felis elit cras montes fames.',
-//           'Vulputate dictumst egestas etiam dictum varius.'
-//         ]
-//       },
-//       {
-//         day: 2,
-//         title: 'Day 2',
-//         description: 'Tortor elementum egestas metus potenti habitasse tempus natoque senectus commodo rutrum quisque fermentum. Nisi velit primis dapibus odio consequat facilisi sollicitudin porta nulla tellus sagittis platea tempor sed parturient convallis consectetuer Vulputate curae; pharetra.'
-//       },
-//       {
-//         day: 3,
-//         title: 'Day 3',
-//         description: 'Fusce sagittis viverra lorem proin porttitor conubia risus vivamus. Mollis. Luctus curabitur porta nibh penatibus aliquet nec conubia magnis semper, sem feugiat scelerisque molestie. Nibh proin dapibus phasellus lacus. Facilisi.'
-//       },
-//       {
-//         day: 4,
-//         title: 'Day 4',
-//         description: 'Pretium consequat, facilisis sem in malesuada sodales et ipsum proin eleifend tincidunt, urna morbi metus quisque. Lacinia habitasse ridiculus sapien platea a cursus hendrerit tempor facilisi orci at tempor, senectus.'
-//       },
-//       {
-//         day: 5,
-//         title: 'Day 5',
-//         description: 'Egestas maecenas hac nullam integer at. Lacinia habitasse ridiculus sapien platea a cursus hendrerit tempor facilisi orci at tempor, senectus.'
-//       },
-//       {
-//         day: 6,
-//         title: 'Day 6: Return',
-//         description: ''
-//       }
-//     ],
-//     reviews: [
-//       {
-//         id: 1,
-//         author: 'physcode',
-//         rating: 4,
-//         date: 'January 24, 2017',
-//         comment: 'Mattis interdum nunc massa. Velit. Nonummy penatibus luctus'
-//       }
-//     ],
-//     relatedTours: [
-//       { id: 1, title: 'Discover Brazil', price: 93.00, duration: '5 DAYS 4 NIGHTS', image: '/assets/img/tour/430x305/tour-1.jpg' },
-//       { id: 2, title: 'Kiwiana Panorama', price: 82.00, originalPrice: 87.00, duration: '5 DAYS 4 NIGHTS', image: '/assets/img/tour/430x305/tour-2.jpg', sale: true },
-//       { id: 3, title: 'Anchorage to Quito', price: 64.00, duration: '5 DAYS 4 NIGHTS', image: '/assets/img/tour/430x305/tour-3.jpg' }
-//     ]
-//   }
-
-//   const handleBookingSubmit = (e) => {
-//     e.preventDefault()
-//     console.log('Booking submitted:', bookingForm)
-//     alert('Booking form submitted! In production, this would connect to your backend.')
-//   }
-
-//   const handleReviewSubmit = (e) => {
-//     e.preventDefault()
-//     console.log('Review submitted:', reviewForm)
-//     alert('Review submitted! In production, this would connect to your backend.')
-//   }
-
-//   const calculateTotalPrice = () => {
-//     const adultTotal = bookingForm.adults * tourData.price
-//     const childTotal = bookingForm.children * tourData.priceChild
-//     return adultTotal + childTotal
-//   }
-
-//   // Initialize jQuery plugins after render
-//   useEffect(() => {
-//     if (window.$ && window.$.fn.swipebox) {
-//       $('.swipebox').swipebox()
-//     }
-//     if (window.$ && window.$.fn.tooltip) {
-//       $('[data-toggle="tooltip"]').tooltip()
-//     }
-//   }, [])
-
-//   return (
-//     <div className="single-product travel_tour-page travel_tour">
-//       {/* Breadcrumb */}
-//       <div className="top_site_main" style={{ backgroundImage: 'url(/assets/img/banner/top-heading.jpg)' }}>
-//         <div className="banner-wrapper container article_heading">
-//           <div className="breadcrumbs-wrapper">
-//             <ul className="phys-breadcrumb">
-//               <li><Link to="/" className="home">Home</Link></li>
-//               <li><Link to="/blog">Business</Link></li>
-//               <li>Love advice from experts</li>
-//             </ul>
-//           </div>
-//           <h2 className="heading_primary">Business</h2>
-//         </div>
-//       </div>
-
-//       {/* Main Content */}
-//       <section className="content-area single-woo-tour">
-//         <div className="container">
-//           <div className="tb_single_tour product">
-//             <div className="top_content_single row">
-//               {/* Left Column - Images & Tabs */}
-//               <div className="images images_single_left">
-//                 <div className="title-single">
-//                   <div className="title">
-//                     <h1>{tourData.title}</h1>
-//                   </div>
-//                   <div className="tour_code">
-//                     <strong>Code: </strong>{tourData.code}
-//                   </div>
-//                 </div>
-//                 <div className="tour_after_title">
-//                   <div className="meta_date">
-//                     <span>{tourData.duration}</span>
-//                   </div>
-//                   <div className="meta_values">
-//                     <span>Category:</span>
-//                     <div className="value">
-//                       {tourData.categories.map((cat, idx) => (
-//                         <span key={idx}>
-//                           <Link to="/tours" rel="tag">{cat}</Link>
-//                           {idx < tourData.categories.length - 1 && ', '}
-//                         </span>
-//                       ))}
-//                     </div>
-//                   </div>
-//                   <div className="tour-share">
-//                     <ul className="share-social">
-//                       <li>
-//                         <a target="_blank" className="facebook" href="#"><i className="fa fa-facebook"></i></a>
-//                       </li>
-//                       <li>
-//                         <a target="_blank" className="twitter" href="#"><i className="fa fa-twitter"></i></a>
-//                       </li>
-//                       <li>
-//                         <a target="_blank" className="pinterest" href="#"><i className="fa fa-pinterest"></i></a>
-//                       </li>
-//                       <li>
-//                         <a target="_blank" className="googleplus" href="#"><i className="fa fa-google"></i></a>
-//                       </li>
-//                     </ul>
-//                   </div>
-//                 </div>
-
-//                 {/* Image Gallery */}
-//                 <div id="slider" className="flexslider">
-//                   <ul className="slides">
-//                     {tourData.images.map((image, index) => (
-//                       <li key={index}>
-//                         <a href={image} className="swipebox" title="">
-//                           <img 
-//                             width="950" 
-//                             height="700" 
-//                             src={image} 
-//                             alt={tourData.title} 
-//                             title={tourData.title}
-//                             onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
-//                           />
-//                         </a>
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </div>
-//                 <div id="carousel" className="flexslider thumbnail_product">
-//                   <ul className="slides">
-//                     {tourData.images.map((image, index) => (
-//                       <li key={index}>
-//                         <img 
-//                           width="150" 
-//                           height="100" 
-//                           src={image} 
-//                           alt={tourData.title} 
-//                           title={tourData.title}
-//                           onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
-//                         />
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </div>
-//                 <div className="clear"></div>
-
-//                 {/* Tabs */}
-//                 <div className="single-tour-tabs wc-tabs-wrapper">
-//                   <ul className="tabs wc-tabs" role="tablist">
-//                     <li 
-//                       className={`description_tab ${activeTab === 'description' ? 'active' : ''}`} 
-//                       role="presentation"
-//                     >
-//                       <a 
-//                         href="#tab-description" 
-//                         role="tab" 
-//                         data-toggle="tab"
-//                         onClick={(e) => {
-//                           e.preventDefault()
-//                           setActiveTab('description')
-//                         }}
-//                       >
-//                         Description
-//                       </a>
-//                     </li>
-//                     <li 
-//                       className={`itinerary_tab_tab ${activeTab === 'itinerary' ? 'active' : ''}`} 
-//                       role="presentation"
-//                     >
-//                       <a 
-//                         href="#tab-itinerary_tab" 
-//                         role="tab" 
-//                         data-toggle="tab"
-//                         onClick={(e) => {
-//                           e.preventDefault()
-//                           setActiveTab('itinerary')
-//                         }}
-//                       >
-//                         Itinerary
-//                       </a>
-//                     </li>
-//                     <li 
-//                       className={`location_tab_tab ${activeTab === 'location' ? 'active' : ''}`} 
-//                       role="presentation"
-//                     >
-//                       <a 
-//                         href="#tab-location_tab" 
-//                         role="tab" 
-//                         data-toggle="tab"
-//                         onClick={(e) => {
-//                           e.preventDefault()
-//                           setActiveTab('location')
-//                         }}
-//                       >
-//                         Location
-//                       </a>
-//                     </li>
-//                     <li 
-//                       className={`reviews_tab ${activeTab === 'reviews' ? 'active' : ''}`} 
-//                       role="presentation"
-//                     >
-//                       <a 
-//                         href="#tab-reviews" 
-//                         role="tab" 
-//                         data-toggle="tab"
-//                         onClick={(e) => {
-//                           e.preventDefault()
-//                           setActiveTab('reviews')
-//                         }}
-//                       >
-//                         Reviews ({tourData.reviews.length})
-//                       </a>
-//                     </li>
-//                   </ul>
-
-//                   <div className="tab-content">
-//                     {/* Description Tab */}
-//                     {activeTab === 'description' && (
-//                       <div 
-//                         role="tabpanel" 
-//                         className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab active" 
-//                         id="tab-description"
-//                       >
-//                         <h2>Product Description</h2>
-//                         <p>{tourData.description}</p>
-//                         <p>{tourData.details}</p>
-                        
-//                         <table className="tours-tabs_table">
-//                           <tbody>
-//                             <tr>
-//                               <td><strong>DEPARTURE/RETURN LOCATION</strong></td>
-//                               <td>{tourData.departureLocation}</td>
-//                             </tr>
-//                             <tr>
-//                               <td><strong>DEPARTURE TIME</strong></td>
-//                               <td>{tourData.departureTime}</td>
-//                             </tr>
-//                             <tr>
-//                               <td><strong>INCLUDED</strong></td>
-//                               <td>
-//                                 <table>
-//                                   <tbody>
-//                                     <tr>
-//                                       <td><i className="fa fa-check icon-tick icon-tick--on"></i>{tourData.included[0]}</td>
-//                                       <td><i className="fa fa-check icon-tick icon-tick--on"></i>{tourData.included[1]}</td>
-//                                     </tr>
-//                                     <tr>
-//                                       <td><i className="fa fa-check icon-tick icon-tick--on"></i>{tourData.included[2]}</td>
-//                                       <td><i className="fa fa-check icon-tick icon-tick--on"></i>{tourData.included[3]}</td>
-//                                     </tr>
-//                                   </tbody>
-//                                 </table>
-//                               </td>
-//                             </tr>
-//                             <tr>
-//                               <td><b>NOT INCLUDED</b></td>
-//                               <td>
-//                                 <table>
-//                                   <tbody>
-//                                     <tr>
-//                                       <td><i className="fa fa-times icon-tick icon-tick--off"></i>{tourData.notIncluded[0]}</td>
-//                                     </tr>
-//                                     <tr>
-//                                       <td><i className="fa fa-times icon-tick icon-tick--off"></i>{tourData.notIncluded[1]}</td>
-//                                     </tr>
-//                                   </tbody>
-//                                 </table>
-//                               </td>
-//                             </tr>
-//                           </tbody>
-//                         </table>
-//                         <p>Ridiculus sociis dui eu vivamus tempor justo diam aliquam. Ipsum nunc purus, pede sed placerat sit habitasse potenti eleifend magna mus sociosqu hymenaeos cras metus mi donec tortor nisi leo dignissim turpis sit torquent.</p>
-//                         <p>Potenti mattis ad mollis eleifend Phasellus adipiscing ullamcorper interdum faucibus orci litora ornare aliquam. Ligula feugiat scelerisque. Molestie. Facilisi hac.</p>
-//                       </div>
-//                     )}
-
-//                     {/* Itinerary Tab */}
-//                     {activeTab === 'itinerary' && (
-//                       <div 
-//                         role="tabpanel" 
-//                         className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab" 
-//                         id="-itinerary_tab"
-//                       >
-//                         {tourData.itinerary.map((item, index) => (
-//                           <div key={item.day} className="interary-item">
-//                             <p><span className="icon-left">{item.day}</span></p>
-//                             <div className="item_content">
-//                               <h2><strong>{item.title}</strong></h2>
-//                               <p>{item.description}</p>
-//                               {item.activities && (
-//                                 <ul>
-//                                   {item.activities.map((activity, idx) => (
-//                                     <li key={idx}>{activity}</li>
-//                                   ))}
-//                                 </ul>
-//                               )}
-//                             </div>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     )}
-
-//                     {/* Location Tab */}
-//                     {activeTab === 'location' && (
-//                       <div 
-//                         role="tabpanel" 
-//                         className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--location_tab panel entry-content wc-tab" 
-//                         id="tab-location_tab"
-//                       >
-//                         <div className="wrapper-gmap">
-//                           <div 
-//                             id="googleMapCanvas" 
-//                             className="google-map" 
-//                             data-lat="50.893577" 
-//                             data-long="-1.393483" 
-//                             data-address="European Way, Southampton, United Kingdom"
-//                           ></div>
-//                         </div>
-//                       </div>
-//                     )}
-
-//                     {/* Reviews Tab */}
-//                     {activeTab === 'reviews' && (
-//                       <div 
-//                         role="tabpanel" 
-//                         className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--reviews panel entry-content wc-tab" 
-//                         id="tab-reviews"
-//                       >
-//                         <div id="reviews" className="travel_tour-Reviews">
-//                           <div id="comments">
-//                             <h2 className="travel_tour-Reviews-title">
-//                               {tourData.reviews.length} review for
-//                               <span> {tourData.title}</span>
-//                             </h2>
-//                             <ol className="commentlist">
-//                               {tourData.reviews.map((review) => (
-//                                 <li 
-//                                   key={review.id} 
-//                                   itemscope="" 
-//                                   itemtype="http://schema.org/Review" 
-//                                   className="comment byuser comment-author-physcode bypostauthor even thread-even depth-1"
-//                                   id={`li-comment-${review.id}`}
-//                                 >
-//                                   <div id={`comment-${review.id}`} className="comment_container">
-//                                     <img 
-//                                       alt="" 
-//                                       src="/assets/img/avata.jpg" 
-//                                       className="avatar avatar-60 photo" 
-//                                       height="60" 
-//                                       width="60"
-//                                     />
-//                                     <div className="comment-text">
-//                                       <div className="star-rating" title={`Rated ${review.rating} out of 5`}>
-//                                         {[...Array(5)].map((_, i) => (
-//                                           <i key={i} className={`fa fa-star${i < review.rating ? '' : '-o'}`}></i>
-//                                         ))}
-//                                       </div>
-//                                       <p className="meta">
-//                                         <strong>{review.author}</strong> –
-//                                         <time dateTime="2017-01-24T03:54:04+00:00">{review.date}</time>
-//                                         :
-//                                       </p>
-//                                       <div className="description">
-//                                         <p>{review.comment}</p>
-//                                       </div>
-//                                     </div>
-//                                   </div>
-//                                 </li>
-//                               ))}
-//                             </ol>
-//                           </div>
-
-//                           {/* Review Form */}
-//                           <div id="review_form_wrapper">
-//                             <div id="review_form">
-//                               <div id="respond" className="comment-respond">
-//                                 <h3 id="reply-title" className="comment-reply-title">Add a review</h3>
-//                                 <form 
-//                                   onSubmit={handleReviewSubmit}
-//                                   className="comment-form" 
-//                                   noValidate=""
-//                                 >
-//                                   <p className="comment-notes">
-//                                     <span id="email-notes">Your email address will not be published.</span> Required fields are marked
-//                                     <span className="required">*</span>
-//                                   </p>
-//                                   <p className="comment-form-author">
-//                                     <label htmlFor="author">Name <span className="required">*</span></label>
-//                                     <input 
-//                                       id="author" 
-//                                       name="author" 
-//                                       type="text" 
-//                                       value={reviewForm.name}
-//                                       onChange={(e) => setReviewForm({...reviewForm, name: e.target.value})}
-//                                       size="30" 
-//                                       required=""
-//                                     />
-//                                   </p>
-//                                   <p className="comment-form-email">
-//                                     <label htmlFor="email">Email <span className="required">*</span></label>
-//                                     <input 
-//                                       id="email" 
-//                                       name="email" 
-//                                       type="email" 
-//                                       value={reviewForm.email}
-//                                       onChange={(e) => setReviewForm({...reviewForm, email: e.target.value})}
-//                                       size="30" 
-//                                       required=""
-//                                     />
-//                                   </p>
-//                                   <p className="comment-form-rating">
-//                                     <label>Your Rating</label>
-//                                   </p>
-//                                   <p className="stars">
-//                                     <span>
-//                                       {[...Array(5)].map((_, i) => (
-//                                         <i 
-//                                           key={i} 
-//                                           className={`fa fa-star${i < reviewForm.rating ? '' : '-o'}`}
-//                                           onClick={() => setReviewForm({...reviewForm, rating: i + 1})}
-//                                         ></i>
-//                                       ))}
-//                                     </span>
-//                                   </p>
-//                                   <p className="comment-form-comment">
-//                                     <label htmlFor="comment">Your Review <span className="required">*</span></label>
-//                                     <textarea 
-//                                       id="comment" 
-//                                       name="comment" 
-//                                       cols="45" 
-//                                       rows="8" 
-//                                       value={reviewForm.comment}
-//                                       onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
-//                                       required=""
-//                                     ></textarea>
-//                                   </p>
-//                                   <p className="form-submit">
-//                                     <input 
-//                                       name="submit" 
-//                                       type="submit" 
-//                                       id="submit" 
-//                                       className="submit" 
-//                                       value="Submit"
-//                                     />
-//                                   </p>
-//                                 </form>
-//                               </div>
-//                             </div>
-//                           </div>
-//                           <div className="clear"></div>
-//                         </div>
-//                       </div>
-//                     )}
-//                   </div>
-//                 </div>
-
-//                 {/* Related Tours */}
-//                 <div className="related tours">
-//                   <h2>Related Tours</h2>
-//                   <ul className="tours products wrapper-tours-slider">
-//                     {tourData.relatedTours.map((tour) => (
-//                       <li key={tour.id} className="item-tour col-md-4 col-sm-6 product">
-//                         <div className="item_border item-product">
-//                           <div className="post_images">
-//                             <Link to={`/tours/${tour.id}`}>
-//                               {tour.sale ? (
-//                                 <>
-//                                   <span className="price">
-//                                     <del>${tour.originalPrice.toFixed(2)}</del>
-//                                     <ins>${tour.price.toFixed(2)}</ins>
-//                                   </span>
-//                                   <span className="onsale">Sale!</span>
-//                                 </>
-//                               ) : (
-//                                 <span className="price">${tour.price.toFixed(2)}</span>
-//                               )}
-//                               <img 
-//                                 width="430" 
-//                                 height="305" 
-//                                 src={tour.image} 
-//                                 alt={tour.title} 
-//                                 title={tour.title}
-//                                 onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
-//                               />
-//                             </Link>
-//                             <div className="group-icon">
-//                               <a href="/tours" data-toggle="tooltip" data-placement="top" title="Escorted Tour" className="frist">
-//                                 <i className="flaticon-airplane-4"></i>
-//                               </a>
-//                               <a href="/tours" data-toggle="tooltip" data-placement="top" title="Rail Tour">
-//                                 <i className="flaticon-cart-1"></i>
-//                               </a>
-//                             </div>
-//                           </div>
-//                           <div className="wrapper_content">
-//                             <div className="post_title">
-//                               <h4>
-//                                 <Link to={`/tours/${tour.id}`} rel="bookmark">{tour.title}</Link>
-//                               </h4>
-//                             </div>
-//                             <span className="post_date">{tour.duration}</span>
-//                             <div className="description">
-//                               <p>Aliquam lacus nisl, viverra convallis sit amet&nbsp;penatibus nunc&nbsp;luctus</p>
-//                             </div>
-//                           </div>
-//                           <div className="read_more">
-//                             <div className="item_rating">
-//                               <i className="fa fa-star"></i>
-//                               <i className="fa fa-star"></i>
-//                               <i className="fa fa-star"></i>
-//                               <i className="fa fa-star"></i>
-//                               <i className="fa fa-star-o"></i>
-//                             </div>
-//                             <Link to={`/tours/${tour.id}`} className="button product_type_tour_phys add_to_cart_button">
-//                               Read more
-//                             </Link>
-//                           </div>
-//                         </div>
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </div>
-//               </div>
-
-//               {/* Right Column - Booking & Sidebar */}
-//               <div className="summary entry-summary description_single">
-//                 <div className="affix-sidebar">
-//                   <div className="entry-content-tour">
-//                     <p className="price">
-//                       <span className="text">Price:</span>
-//                       <span className="travel_tour-Price-amount amount">${tourData.price.toFixed(2)}</span>
-//                     </p>
-//                     <div className="clear"></div>
-                    
-//                     {/* Booking Form */}
-//                     <div className="booking">
-//                       <div className="">
-//                         <div className="form-block__title">
-//                           <h4>Book the tour</h4>
-//                         </div>
-//                         <form onSubmit={handleBookingSubmit} id="tourBookingForm" method="POST">
-//                           <div className="">
-//                             <input 
-//                               name="first_name" 
-//                               value={bookingForm.firstName}
-//                               onChange={(e) => setBookingForm({...bookingForm, firstName: e.target.value})}
-//                               placeholder="First name" 
-//                               type="text"
-//                             />
-//                           </div>
-//                           <div className="">
-//                             <input 
-//                               name="last_name" 
-//                               value={bookingForm.lastName}
-//                               onChange={(e) => setBookingForm({...bookingForm, lastName: e.target.value})}
-//                               placeholder="Last name" 
-//                               type="text"
-//                             />
-//                           </div>
-//                           <div className="">
-//                             <input 
-//                               name="email_tour" 
-//                               value={bookingForm.email}
-//                               onChange={(e) => setBookingForm({...bookingForm, email: e.target.value})}
-//                               placeholder="Email" 
-//                               type="text"
-//                             />
-//                           </div>
-//                           <div className="">
-//                             <input 
-//                               name="phone" 
-//                               value={bookingForm.phone}
-//                               onChange={(e) => setBookingForm({...bookingForm, phone: e.target.value})}
-//                               placeholder="Phone" 
-//                               type="text"
-//                             />
-//                           </div>
-//                           <div className="">
-//                             <input 
-//                               type="text" 
-//                               name="date_book" 
-//                               value={bookingForm.dateBook}
-//                               onChange={(e) => setBookingForm({...bookingForm, dateBook: e.target.value})}
-//                               placeholder="Date Book" 
-//                               className="hasDatepicker"
-//                             />
-//                           </div>
-//                           <div className="from-group">
-//                             <div className="total_price_arrow">
-//                               <div className="st_adults_children">
-//                                 <span className="label">Adults</span>
-//                                 <div className="input-number-ticket">
-//                                   <input 
-//                                     type="number" 
-//                                     name="number_ticket" 
-//                                     value={bookingForm.adults}
-//                                     onChange={(e) => setBookingForm({...bookingForm, adults: parseInt(e.target.value) || 1})}
-//                                     min="1" 
-//                                     max="10" 
-//                                     placeholder="Number ticket of Adults"
-//                                   />
-//                                 </div>
-//                                 ×
-//                                 ${tourData.price.toFixed(2)}
-//                                 =
-//                                 <span className="total_price_adults">${(bookingForm.adults * tourData.price).toFixed(2)}</span>
-//                               </div>
-//                               <div className="st_adults_children">
-//                                 <span className="label">Children</span>
-//                                 <div className="input-number-ticket">
-//                                   <input 
-//                                     type="number" 
-//                                     name="number_children" 
-//                                     value={bookingForm.children}
-//                                     onChange={(e) => setBookingForm({...bookingForm, children: parseInt(e.target.value) || 0})}
-//                                     min="0" 
-//                                     max="10" 
-//                                     placeholder="Number ticket of Children"
-//                                   />
-//                                   <input type="hidden" name="price_child" value={tourData.priceChild} />
-//                                   <input type="hidden" name="price_child_set_on_tour" value="0" />
-//                                 </div>
-//                                 ×
-//                                 ${tourData.priceChild.toFixed(2)}
-//                                 =
-//                                 <span className="total_price_children">${(bookingForm.children * tourData.priceChild).toFixed(2)}</span>
-//                               </div>
-//                               <div>
-//                                 Total =
-//                                 <span className="total_price_adults_children">${calculateTotalPrice().toFixed(2)}</span>
-//                               </div>
-//                               <input type="hidden" name="price_children_percent" value="70" />
-//                             </div>
-//                           </div>
-//                           <div className="spinner">
-//                             <div className="rect1"></div>
-//                             <div className="rect2"></div>
-//                             <div className="rect3"></div>
-//                             <div className="rect4"></div>
-//                             <div className="rect5"></div>
-//                           </div>
-//                           <input className="btn-booking btn" value="Booking now" type="submit" />
-//                         </form>
-//                       </div>
-//                     </div>
-
-//                     {/* Enquiry Form */}
-//                     <div className="form-block__title custom-form-title"><h4>Or</h4></div>
-//                     <div className="custom_from">
-//                       <div role="form" className="wpcf7" lang="en-US" dir="ltr">
-//                         <div className="screen-reader-response"></div>
-//                         <form onSubmit={(e) => {
-//                           e.preventDefault()
-//                           alert('Enquiry form submitted!')
-//                         }} className="wpcf7-form" novalidate="novalidate">
-//                           <p>Fill up the form below to tell us what you're looking for</p>
-//                           <p>
-//                             <span className="wpcf7-form-control-wrap your-name">
-//                               <input 
-//                                 type="text" 
-//                                 name="your-name" 
-//                                 value=""
-//                                 placeholder="Your name*" 
-//                                 className="wpcf7-form-control" 
-//                                 aria-invalid="false"
-//                               />
-//                             </span>
-//                           </p>
-//                           <p>
-//                             <span className="wpcf7-form-control-wrap your-email">
-//                               <input 
-//                                 type="email" 
-//                                 name="your-email" 
-//                                 value=""
-//                                 placeholder="Email*" 
-//                                 className="wpcf7-form-control" 
-//                                 aria-invalid="false"
-//                               />
-//                             </span>
-//                           </p>
-//                           <p>
-//                             <span className="wpcf7-form-control-wrap your-message">
-//                               <textarea 
-//                                 name="your-message" 
-//                                 cols="40" 
-//                                 rows="10" 
-//                                 className="wpcf7-form-control" 
-//                                 aria-invalid="false" 
-//                                 placeholder="Message"
-//                               ></textarea>
-//                             </span>
-//                           </p>
-//                           <p>
-//                             <input 
-//                               type="submit" 
-//                               value="Send Enquiry" 
-//                               className="wpcf7-form-control wpcf7-submit"
-//                             />
-//                           </p>
-//                         </form>
-//                       </div>
-//                     </div>
-//                   </div>
-
-//                   {/* Special Tours Widget */}
-//                   <aside className="widget widget_travel_tour">
-//                     <div className="wrapper-special-tours">
-//                       {tourData.relatedTours.slice(0, 3).map((tour, index) => (
-//                         <div key={index} className="inner-special-tours">
-//                           <Link to={`/tours/${tour.id}`}>
-//                             {tour.sale && <span className="onsale">Sale!</span>}
-//                             <img 
-//                               width="430" 
-//                               height="305" 
-//                               src={tour.image} 
-//                               alt={tour.title} 
-//                               title={tour.title}
-//                               onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
-//                             />
-//                           </Link>
-//                           <div className="item_rating">
-//                             {[...Array(5)].map((_, i) => (
-//                               <i key={i} className={`fa fa-star${i < 4 ? '' : '-o'}`}></i>
-//                             ))}
-//                           </div>
-//                           <div className="post_title">
-//                             <h3>
-//                               <Link to={`/tours/${tour.id}`} rel="bookmark">{tour.title}</Link>
-//                             </h3>
-//                           </div>
-//                           <div className="item_price">
-//                             {tour.sale ? (
-//                               <span className="price">
-//                                 <del>${tour.originalPrice.toFixed(2)}</del>
-//                                 <ins>${tour.price.toFixed(2)}</ins>
-//                               </span>
-//                             ) : (
-//                               <span className="price">${tour.price.toFixed(2)}</span>
-//                             )}
-//                           </div>
-//                         </div>
-//                       ))}
-//                     </div>
-//                   </aside>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </div>
-//   )
-// }
-
-
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchPackages } from '../features/packages/packageSlice';
-import Spinner from '../components/Spinner';
+import { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import Carousel from 'react-material-ui-carousel'
+import { Paper, Box } from '@mui/material'
+import { fetchPackageById, fetchPackages } from '../features/packages/packageSlice'
+import { createBooking } from '../features/bookings/bookingSlice'
+import { createMPESAPayment, createCardPayment } from '../features/payments/paymentSlice'
 
 export default function SingleTour() {
-  const { tourId } = useParams();
-  const dispatch = useDispatch();
-  const { loading, packages, error } = useSelector((state) => state.packages);
-
-  const [activeTab, setActiveTab] = useState('description');
-  const [mainImageIndex, setMainImageIndex] = useState(0);
+  const { tourId } = useParams()
+  const dispatch = useDispatch()
   
-  // Booking Form State
+  // Redux selectors
+  const { selectedPackage, packages, loading, error } = useSelector(state => state.packages)
+  const { selectedBooking, loading: bookingLoading, error: bookingError, successMessage: bookingSuccess } = useSelector(state => state.bookings)
+  const { mpesaTransaction, loading: paymentLoading, error: paymentError } = useSelector(state => state.payments)
+  
+  // Local state
+  const [activeTab, setActiveTab] = useState('description')
+  const [submitting, setSubmitting] = useState(false)
+  const [tourData, setTourData] = useState(null)
+  const [relatedTours, setRelatedTours] = useState([])
+  const [carouselIndex, setCarouselIndex] = useState(0)
+  
   const [bookingForm, setBookingForm] = useState({
-    firstName: '',
-    lastName: '',
+    // Passenger info
+    name: '',
     email: '',
     phone: '',
-    dateBook: '',
+    age: '',
+    passport_number: '',
+    nationality: 'Kenyan',
+    // Booking details
+    start_date: '',
+    end_date: '',
     adults: 1,
-    children: 0
-  });
-
-  // Review Form State
+    children: 0,
+    special_requests: ''
+  })
+  
   const [reviewForm, setReviewForm] = useState({
     name: '',
     email: '',
     rating: 5,
     comment: ''
-  });
+  })
+  
+  const [enquiryForm, setEnquiryForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
 
-  useEffect(() => {
-    dispatch(fetchPackages());
-    window.scrollTo(0, 0);
-  }, [dispatch, tourId]);
-
-  const pkg = packages.find(p => p.id === tourId);
-
-  // Prepare Images
-  const images = pkg?.PackageImages?.map(img => {
-    let url = img.url;
-    if (!url.startsWith('/')) url = `/uploads/${url}`;
-    return url;
-  }) || ['/assets/img/placeholder.jpg'];
-
-  const mainImage = images[mainImageIndex] || '/assets/img/placeholder.jpg';
-
-  // ✅ SAFE PARSING FOR ITINERARY
-  const getItinerary = () => {
-    if (!pkg?.itinerary) return [];
-    try {
-      if (typeof pkg.itinerary === 'string') {
-        return JSON.parse(pkg.itinerary);
+  // Transform Redux package data to component format
+  const transformPackageData = (packageData) => {
+    if (!packageData) return null
+    
+    const parseJSONField = (field) => {
+      if (!field) return []
+      if (Array.isArray(field)) return field
+      if (typeof field === 'string') {
+        try {
+          const parsed = JSON.parse(field)
+          return Array.isArray(parsed) ? parsed : []
+        } catch (e) {
+          if (field.includes(',')) {
+            return field.split(',').map(item => item.trim()).filter(item => item)
+          }
+          return []
+        }
       }
-      return pkg.itinerary;
-    } catch (e) {
-      console.warn("Itinerary is not valid JSON:", pkg.itinerary);
-      return [];
+      return []
     }
-  };
+    
+    const itinerary = parseJSONField(packageData.itinerary)
+    const inclusions = parseJSONField(packageData.inclusions)
+    const exclusions = parseJSONField(packageData.exclusions)
 
-  const itineraryData = getItinerary();
+    return {
+      id: packageData.id,
+      title: packageData.title,
+      code: packageData.id.substring(0, 6).toUpperCase(),
+      duration: `${packageData.duration_days} DAYS`,
+      categories: [packageData.category],
+      price: parseFloat(packageData.price_adult),
+      priceChild: parseFloat(packageData.price_child),
+      description: packageData.description,
+      destination: packageData.destination,
+      duration_days: packageData.duration_days,
+      images: packageData.PackageImages && packageData.PackageImages.length > 0 
+        ? packageData.PackageImages.map(img => {
+            if (!img.url) return '/assets/img/placeholder.jpg'
+            if (img.url.startsWith('http')) return img.url
+            return `/uploads/${img.url}`
+          })
+        : ['/assets/img/placeholder.jpg'],
+      itinerary: itinerary,
+      reviews: packageData.Reviews || [],
+      inclusions: inclusions,
+      exclusions: exclusions,
+      departureLocation: packageData.destination,
+      departureTime: 'Please arrive at least 2 hours before departure.',
+      included: Array.isArray(inclusions) ? inclusions : [],
+      notIncluded: Array.isArray(exclusions) ? exclusions : [],
+      relatedTours: []
+    }
+  }
 
-  // Calculate Total Price
-  const adultPrice = parseFloat(pkg?.price_adult || 0);
-  const childPrice = parseFloat(pkg?.price_child || 0);
-  const totalAdult = bookingForm.adults * adultPrice;
-  const totalChild = bookingForm.children * childPrice;
-  const grandTotal = totalAdult + totalChild;
+  // Fetch package data on mount
+  useEffect(() => {
+    if (tourId) {
+      dispatch(fetchPackageById(tourId))
+    }
+  }, [tourId, dispatch])
 
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
-    alert(`Booking Request Sent!\nTotal: $${grandTotal.toFixed(2)}`);
-  };
+  // Transform and set tour data when Redux package data updates
+  useEffect(() => {
+    if (selectedPackage) {
+      const transformed = transformPackageData(selectedPackage)
+      setTourData(transformed)
+    }
+  }, [selectedPackage])
 
-  const handleReviewSubmit = (e) => {
-    e.preventDefault();
-    alert('Thank you for your review!');
-    setReviewForm({ name: '', email: '', rating: 5, comment: '' });
-  };
+  // Fetch related tours
+  useEffect(() => {
+    if (tourData && tourData.categories.length > 0) {
+      dispatch(fetchPackages()).then((action) => {
+        const relatedPackages = action.payload
+          .filter(pkg => pkg.category === tourData.categories[0] && pkg.id !== tourId)
+          .slice(0, 3)
+          .map(pkg => ({
+            id: pkg.id,
+            title: pkg.title,
+            price: parseFloat(pkg.price_adult),
+            duration: `${pkg.duration_days} DAYS`,
+            image: pkg.PackageImages && pkg.PackageImages.length > 0
+              ? (pkg.PackageImages[0].url.startsWith('http') 
+                  ? pkg.PackageImages[0].url 
+                  : `/uploads/${pkg.PackageImages[0].url}`)
+              : '/assets/img/placeholder.jpg'
+          }))
+        
+        setTourData(prev => ({
+          ...prev,
+          relatedTours: relatedPackages
+        }))
+        setRelatedTours(relatedPackages)
+      })
+    }
+  }, [tourData?.id, tourId, dispatch])
 
-  if (loading && !pkg) return <div style={{padding: '50px', textAlign: 'center'}}><Spinner size="lg" /><p>Loading...</p></div>;
-  if (error) return <div style={{padding: '50px', textAlign: 'center', color: 'red'}}>Error: {error}</div>;
-  if (!pkg) return <div style={{padding: '50px', textAlign: 'center'}}>Tour not found.</div>;
+  // Initialize jQuery plugins (swipebox and tooltips)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // Initialize swipebox for lightbox
+      if (window.$ && window.$.fn.swipebox) {
+        $('.swipebox').swipebox()
+      }
+      
+      // Initialize tooltips
+      if (window.$ && window.$.fn.tooltip) {
+        $('[data-toggle="tooltip"]').tooltip()
+      }
+    }, 100)
+    
+    return () => clearTimeout(timer)
+  }, [tourData])
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      setSubmitting(true)
+      
+      // Validate required fields
+      if (!bookingForm.name || !bookingForm.email || !bookingForm.start_date) {
+        alert('Please fill in all required fields')
+        return
+      }
+
+      // Calculate end date if not provided
+      const endDate = bookingForm.end_date || new Date(new Date(bookingForm.start_date).getTime() + tourData.duration_days * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      
+      const totalAmount = (bookingForm.adults * tourData.price) + (bookingForm.children * tourData.priceChild)
+
+      // Dispatch Redux action for booking
+      const result = await dispatch(createBooking({
+        package_id: tourId,
+        start_date: bookingForm.start_date,
+        end_date: endDate,
+        total_amount: totalAmount,
+        special_requests: bookingForm.special_requests || null
+      }))
+
+      if (result.payload?.data?.booking) {
+        const bookingId = result.payload.data.booking.id
+        
+        // Note: Add passengers endpoint would be called here
+        // await dispatch(addBookingPassenger({
+        //   booking_id: bookingId,
+        //   ...passenger_data
+        // }))
+        
+        alert('Booking submitted successfully! Check your email for confirmation.')
+        setBookingForm({
+          name: '',
+          email: '',
+          phone: '',
+          age: '',
+          passport_number: '',
+          nationality: 'Kenyan',
+          start_date: '',
+          end_date: '',
+          adults: 1,
+          children: 0,
+          special_requests: ''
+        })
+      }
+    } catch (err) {
+      alert('Error submitting booking: ' + (err.message || 'Unknown error'))
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      setSubmitting(true)
+      
+      if (!reviewForm.comment || reviewForm.comment.length < 10) {
+        alert('Please write a review of at least 10 characters')
+        return
+      }
+
+      // In a real implementation, dispatch createReview action from reviewSlice
+      // For now, using direct API call
+      const response = await fetch(`/api/v1/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          package_id: tourId,
+          rating: reviewForm.rating,
+          comment: reviewForm.comment
+        })
+      })
+
+      if (response.ok) {
+        alert('Review submitted successfully!')
+        setReviewForm({
+          name: '',
+          email: '',
+          rating: 5,
+          comment: ''
+        })
+        
+        // Refresh package data to show new review
+        dispatch(fetchPackageById(tourId))
+      }
+    } catch (err) {
+      alert('Error submitting review: ' + (err.message || 'Unknown error'))
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const calculateTotalPrice = () => {
+    if (!tourData) return 0
+    const adultTotal = bookingForm.adults * tourData.price
+    const childTotal = bookingForm.children * tourData.priceChild
+    return adultTotal + childTotal
+  }
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="single-product travel_tour-page travel_tour">
+        <section className="content-area single-woo-tour">
+          <div className="container">
+            <div className="text-center" style={{ padding: '60px 20px' }}>
+              <div className="spinner">
+                <div className="rect1"></div>
+                <div className="rect2"></div>
+                <div className="rect3"></div>
+                <div className="rect4"></div>
+                <div className="rect5"></div>
+              </div>
+              <p style={{ marginTop: '20px' }}>Loading tour details...</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error || !tourData) {
+    return (
+      <div className="single-product travel_tour-page travel_tour">
+        <section className="content-area single-woo-tour">
+          <div className="container">
+            <div className="alert alert-danger" style={{ padding: '20px', marginTop: '20px' }}>
+              <h3>Error Loading Tour</h3>
+              <p>{error || 'Tour not found'}</p>
+              <Link to="/tours" className="btn">Back to Tours</Link>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
 
   return (
     <div className="single-product travel_tour-page travel_tour">
-      
       {/* Breadcrumb */}
       <div className="top_site_main" style={{ backgroundImage: 'url(/assets/img/banner/top-heading.jpg)' }}>
         <div className="banner-wrapper container article_heading">
           <div className="breadcrumbs-wrapper">
             <ul className="phys-breadcrumb">
               <li><Link to="/" className="home">Home</Link></li>
-              <li><Link to="/tours">Tours</Link></li>
-              <li>{pkg.title}</li>
+              <li><Link to="/blog">Business</Link></li>
+              <li>Love advice from experts</li>
             </ul>
           </div>
-          <h2 className="heading_primary">{pkg.title}</h2>
+          <h2 className="heading_primary">Business</h2>
         </div>
       </div>
 
+      {/* Main Content */}
       <section className="content-area single-woo-tour">
         <div className="container">
           <div className="tb_single_tour product">
             <div className="top_content_single row">
-              
-              {/* LEFT COLUMN */}
-              <div className="images images_single_left col-sm-8">
-                
-                {/* Title & Meta */}
+              {/* Left Column - Images & Tabs */}
+              <div className="images images_single_left">
                 <div className="title-single">
-                  <div className="title"><h1>{pkg.title}</h1></div>
-                  <div className="tour_code"><strong>Code: </strong>{pkg.id}</div>
+                  <div className="title">
+                    <h1>{tourData.title}</h1>
+                  </div>
+                  <div className="tour_code">
+                    <strong>Code: </strong>{tourData.code}
+                  </div>
                 </div>
                 <div className="tour_after_title">
-                  <div className="meta_date"><span>{pkg.duration_days} DAYS {pkg.duration_nights} NIGHTS</span></div>
+                  <div className="meta_date">
+                    <span>{tourData.duration}</span>
+                  </div>
                   <div className="meta_values">
                     <span>Category:</span>
-                    <div className="value">{pkg.category && <Link to={`/tours?type=${pkg.category}`}>{pkg.category}</Link>}</div>
+                    <div className="value">
+                      {tourData.categories.map((cat, idx) => (
+                        <span key={idx}>
+                          <Link to="/tours" rel="tag">{cat}</Link>
+                          {idx < tourData.categories.length - 1 && ', '}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   <div className="tour-share">
                     <ul className="share-social">
-                      <li><a href="#" className="facebook"><i className="fa fa-facebook"></i></a></li>
-                      <li><a href="#" className="twitter"><i className="fa fa-twitter"></i></a></li>
-                      <li><a href="#" className="pinterest"><i className="fa fa-pinterest"></i></a></li>
+                      <li>
+                        <a target="_blank" className="facebook" href="#"><i className="fa fa-facebook"></i></a>
+                      </li>
+                      <li>
+                        <a target="_blank" className="twitter" href="#"><i className="fa fa-twitter"></i></a>
+                      </li>
+                      <li>
+                        <a target="_blank" className="pinterest" href="#"><i className="fa fa-pinterest"></i></a>
+                      </li>
+                      <li>
+                        <a target="_blank" className="googleplus" href="#"><i className="fa fa-google"></i></a>
+                      </li>
                     </ul>
                   </div>
                 </div>
 
-                {/* Images */}
-                <div id="slider" className="flexslider">
-                  <ul className="slides">
-                    <li><a href={mainImage} className="swipebox"><img src={mainImage} alt={pkg.title} /></a></li>
-                  </ul>
-                </div>
-                <div id="carousel" className="flexslider thumbnail_product">
-                  <ul className="slides">
-                    {images.map((img, idx) => (
-                      <li key={idx} onClick={() => setMainImageIndex(idx)} style={{cursor:'pointer'}}>
-                        <img src={img} alt="thumb" />
-                      </li>
+                {/* Image Gallery */}
+                <Box sx={{ marginBottom: 2 }}>
+                  <Carousel 
+                    index={carouselIndex}
+                    onChange={(now) => setCarouselIndex(now)}
+                    interval={5000}
+                    navButtonsAlwaysVisible={true}
+                  >
+                    {tourData.images.map((image, index) => (
+                      <Paper key={index} sx={{ position: 'relative', overflow: 'hidden' }}>
+                        <a href={image} className="swipebox" title="">
+                          <img 
+                            width="100%" 
+                            height="700" 
+                            src={image} 
+                            alt={`${tourData.title} - ${index + 1}`}
+                            title={tourData.title}
+                            style={{ objectFit: 'cover', display: 'block' }}
+                            onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
+                          />
+                        </a>
+                      </Paper>
                     ))}
-                  </ul>
-                </div>
+                  </Carousel>
+                </Box>
+
+                {/* Thumbnail Carousel */}
+                <Box sx={{ display: 'flex', gap: 1, overflowX: 'auto', paddingBottom: 2 }}>
+                  {tourData.images.map((image, index) => (
+                    <Box
+                      key={index}
+                      onClick={() => setCarouselIndex(index)}
+                      sx={{
+                        minWidth: 120,
+                        height: 100,
+                        cursor: 'pointer',
+                        border: carouselIndex === index ? '3px solid #007bff' : '2px solid #ddd',
+                        transition: 'all 0.3s ease',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                        '&:hover': {
+                          borderColor: '#007bff'
+                        }
+                      }}
+                    >
+                      <img 
+                        width="100%" 
+                        height="100%" 
+                        src={image} 
+                        alt={`Thumbnail ${index + 1}`}
+                        title={tourData.title}
+                        style={{ objectFit: 'cover', display: 'block' }}
+                        onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+
                 <div className="clear"></div>
 
-                {/* TABS SECTION */}
+                {/* Tabs */}
                 <div className="single-tour-tabs wc-tabs-wrapper">
                   <ul className="tabs wc-tabs" role="tablist">
-                    <li className={`description_tab ${activeTab === 'description' ? 'active' : ''}`}>
-                      <a href="#tab-description" onClick={(e) => { e.preventDefault(); setActiveTab('description'); }}>Description</a>
+                    <li 
+                      className={`description_tab ${activeTab === 'description' ? 'active' : ''}`} 
+                      role="presentation"
+                    >
+                      <a 
+                        href="#tab-description" 
+                        role="tab" 
+                        data-toggle="tab"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setActiveTab('description')
+                        }}
+                      >
+                        Description
+                      </a>
                     </li>
-                    <li className={`itinerary_tab_tab ${activeTab === 'itinerary' ? 'active' : ''}`}>
-                      {/* ✅ FIXED: href matches the id below */}
-                      <a href="#tab-itinerary_tab" onClick={(e) => { e.preventDefault(); setActiveTab('itinerary'); }}>Itinerary</a>
+                    <li 
+                      className={`itinerary_tab_tab ${activeTab === 'itinerary' ? 'active' : ''}`} 
+                      role="presentation"
+                    >
+                      <a 
+                        href="#tab-itinerary_tab" 
+                        role="tab" 
+                        data-toggle="tab"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setActiveTab('itinerary')
+                        }}
+                      >
+                        Itinerary
+                      </a>
                     </li>
-                    <li className={`location_tab_tab ${activeTab === 'location' ? 'active' : ''}`}>
-                      <a href="#tab-location_tab" onClick={(e) => { e.preventDefault(); setActiveTab('location'); }}>Location</a>
+                    <li 
+                      className={`location_tab_tab ${activeTab === 'location' ? 'active' : ''}`} 
+                      role="presentation"
+                    >
+                      <a 
+                        href="#tab-location_tab" 
+                        role="tab" 
+                        data-toggle="tab"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setActiveTab('location')
+                        }}
+                      >
+                        Location
+                      </a>
                     </li>
-                    <li className={`reviews_tab ${activeTab === 'reviews' ? 'active' : ''}`}>
-                      <a href="#tab-reviews" onClick={(e) => { e.preventDefault(); setActiveTab('reviews'); }}>Reviews</a>
+                    <li 
+                      className={`reviews_tab ${activeTab === 'reviews' ? 'active' : ''}`} 
+                      role="presentation"
+                    >
+                      <a 
+                        href="#tab-reviews" 
+                        role="tab" 
+                        data-toggle="tab"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setActiveTab('reviews')
+                        }}
+                      >
+                        Reviews ({tourData.reviews.length})
+                      </a>
                     </li>
                   </ul>
 
                   <div className="tab-content">
-                    
-                    {/* DESCRIPTION */}
+                    {/* Description Tab */}
                     {activeTab === 'description' && (
-                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab active" id="tab-description">
+                      <div 
+                        role="tabpanel" 
+                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab active" 
+                        id="tab-description"
+                      >
                         <h2>Product Description</h2>
-                        <p>{pkg.description}</p>
+                        <p>{tourData.description}</p>
+                        <p>{tourData.details}</p>
+                        
                         <table className="tours-tabs_table">
                           <tbody>
-                            <tr><td><strong>DEPARTURE LOCATION</strong></td><td>{pkg.departure_location || 'N/A'}</td></tr>
-                            <tr><td><strong>INCLUDED</strong></td><td>{pkg.inclusions}</td></tr>
-                            <tr><td><strong>NOT INCLUDED</strong></td><td>{pkg.exclusions}</td></tr>
+                            <tr>
+                              <td><strong>DEPARTURE/RETURN LOCATION</strong></td>
+                              <td>{tourData.departureLocation}</td>
+                            </tr>
+                            <tr>
+                              <td><strong>DEPARTURE TIME</strong></td>
+                              <td>{tourData.departureTime}</td>
+                            </tr>
+                            <tr>
+                              <td><strong>INCLUDED</strong></td>
+                              <td>
+                                <table>
+                                  <tbody>
+                                    {tourData.included && tourData.included.length > 0 ? (
+                                      tourData.included.map((item, idx) => (
+                                        <tr key={idx}>
+                                          <td><i className="fa fa-check icon-tick icon-tick--on"></i> {item}</td>
+                                        </tr>
+                                      ))
+                                    ) : (
+                                      <tr><td><em>No inclusions listed</em></td></tr>
+                                    )}
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><b>NOT INCLUDED</b></td>
+                              <td>
+                                <table>
+                                  <tbody>
+                                    {tourData.notIncluded && tourData.notIncluded.length > 0 ? (
+                                      tourData.notIncluded.map((item, idx) => (
+                                        <tr key={idx}>
+                                          <td><i className="fa fa-times icon-tick icon-tick--off"></i> {item}</td>
+                                        </tr>
+                                      ))
+                                    ) : (
+                                      <tr><td><em>No exclusions listed</em></td></tr>
+                                    )}
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
+                        <p>Ridiculus sociis dui eu vivamus tempor justo diam aliquam. Ipsum nunc purus, pede sed placerat sit habitasse potenti eleifend magna mus sociosqu hymenaeos cras metus mi donec tortor nisi leo dignissim turpis sit torquent.</p>
+                        <p>Potenti mattis ad mollis eleifend Phasellus adipiscing ullamcorper interdum faucibus orci litora ornare aliquam. Ligula feugiat scelerisque. Molestie. Facilisi hac.</p>
                       </div>
                     )}
 
-                    {/* ITINERARY */}
+                    {/* Itinerary Tab */}
                     {activeTab === 'itinerary' && (
-                      /* ✅ FIXED: ID now matches the href "#tab-itinerary_tab" */
-                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab" id="tab-itinerary_tab">
-                        {itineraryData.length > 0 ? (
-                          itineraryData.map((item, index) => (
-                            <div key={index} className="interary-item">
-                              <p><span className="icon-left">{item.day || index + 1}</span></p>
+                      <div 
+                        role="tabpanel" 
+                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab active" 
+                        id="tab-itinerary_tab"
+                      >
+                        {tourData.itinerary && tourData.itinerary.length > 0 ? (
+                          tourData.itinerary.map((item, index) => (
+                            <div key={item.day || index} className="interary-item">
+                              <p><span className="icon-left">{item.day}</span></p>
                               <div className="item_content">
                                 <h2><strong>{item.title}</strong></h2>
                                 <p>{item.description}</p>
+                                {item.activities && Array.isArray(item.activities) && (
+                                  <ul>
+                                    {item.activities.map((activity, idx) => (
+                                      <li key={idx}>{activity}</li>
+                                    ))}
+                                  </ul>
+                                )}
                               </div>
                             </div>
                           ))
                         ) : (
-                          <p>No itinerary available.</p>
+                          <p>No itinerary information available.</p>
                         )}
                       </div>
                     )}
 
-                    {/* LOCATION */}
+                    {/* Location Tab */}
                     {activeTab === 'location' && (
-                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--location_tab panel entry-content wc-tab" id="tab-location_tab">
+                      <div 
+                        role="tabpanel" 
+                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--location_tab panel entry-content wc-tab active" 
+                        id="tab-location_tab"
+                      >
                         <div className="wrapper-gmap">
-                          <div id="googleMapCanvas" className="google-map" style={{width:'100%', height:'400px', background:'#eee', display:'flex', alignItems:'center', justifyContent:'center'}}>
-                            Map Placeholder
-                          </div>
+                          <div 
+                            id="googleMapCanvas" 
+                            className="google-map" 
+                            data-lat="50.893577" 
+                            data-long="-1.393483" 
+                            data-address="European Way, Southampton, United Kingdom"
+                          ></div>
                         </div>
                       </div>
                     )}
 
-                    {/* REVIEWS */}
+                    {/* Reviews Tab */}
                     {activeTab === 'reviews' && (
-                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--reviews panel entry-content wc-tab" id="tab-reviews">
+                      <div 
+                        role="tabpanel" 
+                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--reviews panel entry-content wc-tab active" 
+                        id="tab-reviews"
+                      >
                         <div id="reviews" className="travel_tour-Reviews">
-                          <h2>Reviews for {pkg.title}</h2>
-                          <form onSubmit={handleReviewSubmit} className="comment-form">
-                            <p><label>Name</label><input type="text" value={reviewForm.name} onChange={e=>setReviewForm({...reviewForm, name:e.target.value})} required style={{width:'100%', padding:'8px'}} /></p>
-                            <p><label>Email</label><input type="email" value={reviewForm.email} onChange={e=>setReviewForm({...reviewForm, email:e.target.value})} required style={{width:'100%', padding:'8px'}} /></p>
-                            <p><label>Rating</label>
-                              <span>
-                                {[1,2,3,4,5].map(s => <i key={s} className={`fa fa-star${s<=reviewForm.rating?'':'-o'}`} onClick={()=>setReviewForm({...reviewForm, rating:s})} style={{cursor:'pointer'}}></i>)}
-                              </span>
-                            </p>
-                            <p><label>Review</label><textarea value={reviewForm.comment} onChange={e=>setReviewForm({...reviewForm, comment:e.target.value})} required style={{width:'100%', padding:'8px'}}></textarea></p>
-                            <p><input type="submit" value="Submit" className="submit" /></p>
-                          </form>
+                          <div id="comments">
+                            <h2 className="travel_tour-Reviews-title">
+                              {tourData.reviews.length} review for
+                              <span> {tourData.title}</span>
+                            </h2>
+                            <ol className="commentlist">
+                              {tourData.reviews && tourData.reviews.length > 0 ? (
+                                tourData.reviews.map((review) => (
+                                  <li 
+                                    key={review.id} 
+                                    itemscope="" 
+                                    itemtype="http://schema.org/Review" 
+                                    className="comment byuser comment-author-physcode bypostauthor even thread-even depth-1"
+                                    id={`li-comment-${review.id}`}
+                                  >
+                                    <div id={`comment-${review.id}`} className="comment_container">
+                                      <img 
+                                        alt="" 
+                                        src="/assets/img/avata.jpg" 
+                                        className="avatar avatar-60 photo" 
+                                        height="60" 
+                                        width="60"
+                                      />
+                                      <div className="comment-text">
+                                        <div className="star-rating" title={`Rated ${review.rating} out of 5`}>
+                                          {[...Array(5)].map((_, i) => (
+                                            <i key={i} className={`fa fa-star${i < review.rating ? '' : '-o'}`}></i>
+                                          ))}
+                                        </div>
+                                        <p className="meta">
+                                          <strong>{review.User?.name || 'Anonymous'}</strong> –
+                                          <time dateTime={review.created_at}>
+                                            {new Date(review.created_at).toLocaleDateString()}
+                                          </time>
+                                          :
+                                        </p>
+                                        <div className="description">
+                                          <p>{review.comment}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                ))
+                              ) : (
+                                <li style={{ padding: '20px' }}>No reviews yet. Be the first to review!</li>
+                              )}
+                            </ol>
+                          </div>
+
+                          {/* Review Form */}
+                          <div id="review_form_wrapper">
+                            <div id="review_form">
+                              <div id="respond" className="comment-respond">
+                                <h3 id="reply-title" className="comment-reply-title">Add a review</h3>
+                                <form 
+                                  onSubmit={handleReviewSubmit}
+                                  className="comment-form" 
+                                  noValidate
+                                >
+                                  <p className="comment-notes">
+                                    <span id="email-notes">Your email address will not be published.</span> Required fields are marked
+                                    <span className="required">*</span>
+                                  </p>
+                                  <p className="comment-form-author">
+                                    <label htmlFor="author">Name <span className="required">*</span></label>
+                                    <input 
+                                      id="author" 
+                                      name="author" 
+                                      type="text" 
+                                      value={reviewForm.name}
+                                      onChange={(e) => setReviewForm({...reviewForm, name: e.target.value})}
+                                      size="30" 
+                                      required=""
+                                    />
+                                  </p>
+                                  <p className="comment-form-email">
+                                    <label htmlFor="email">Email <span className="required">*</span></label>
+                                    <input 
+                                      id="email" 
+                                      name="email" 
+                                      type="email" 
+                                      value={reviewForm.email}
+                                      onChange={(e) => setReviewForm({...reviewForm, email: e.target.value})}
+                                      size="30" 
+                                      required=""
+                                    />
+                                  </p>
+                                  <p className="comment-form-rating">
+                                    <label>Your Rating</label>
+                                  </p>
+                                  <p className="stars">
+                                    <span>
+                                      {[...Array(5)].map((_, i) => (
+                                        <i 
+                                          key={i} 
+                                          className={`fa fa-star${i < reviewForm.rating ? '' : '-o'}`}
+                                          onClick={() => setReviewForm({...reviewForm, rating: i + 1})}
+                                          style={{cursor: 'pointer'}}
+                                        ></i>
+                                      ))}
+                                    </span>
+                                  </p>
+                                  <p className="comment-form-comment">
+                                    <label htmlFor="comment">Your Review <span className="required">*</span></label>
+                                    <textarea 
+                                      id="comment" 
+                                      name="comment" 
+                                      cols="45" 
+                                      rows="8" 
+                                      value={reviewForm.comment}
+                                      onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
+                                      required=""
+                                    ></textarea>
+                                  </p>
+                                  <p className="form-submit">
+                                    <input 
+                                      name="submit" 
+                                      type="submit" 
+                                      id="submit" 
+                                      className="submit" 
+                                      value={submitting ? "Submitting..." : "Submit"}
+                                      disabled={submitting}
+                                    />
+                                  </p>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="clear"></div>
                         </div>
                       </div>
                     )}
-
                   </div>
                 </div>
 
-                {/* RELATED TOURS (Outside Tabs) */}
+                {/* Related Tours */}
                 <div className="related tours">
                   <h2>Related Tours</h2>
                   <ul className="tours products wrapper-tours-slider">
-                    {packages.filter(p => p.id !== tourId && p.category === pkg.category).slice(0, 3).map(related => (
-                      <li key={related.id} className="item-tour col-md-4 col-sm-6 product">
+                    {tourData.relatedTours.map((tour) => (
+                      <li key={tour.id} className="item-tour col-md-4 col-sm-6 product">
                         <div className="item_border item-product">
                           <div className="post_images">
-                            <Link to={`/tours/${related.id}`}>
-                              <span className="price">${parseFloat(related.price_adult).toFixed(2)}</span>
-                              <img src={related.PackageImages?.[0]?.url.startsWith('/') ? related.PackageImages[0].url : `/uploads/${related.PackageImages?.[0]?.url}`} alt={related.title} onError={(e)=>e.target.src='/assets/img/placeholder.jpg'} />
+                            <Link to={`/tours/${tour.id}`}>
+                              {tour.sale ? (
+                                <>
+                                  <span className="price">
+                                    <del>${tour.originalPrice.toFixed(2)}</del>
+                                    <ins>${tour.price.toFixed(2)}</ins>
+                                  </span>
+                                  <span className="onsale">Sale!</span>
+                                </>
+                              ) : (
+                                <span className="price">KES {tour.price.toFixed(2)}</span>
+                              )}
+                              <img 
+                                width="430" 
+                                height="305" 
+                                src={tour.image} 
+                                alt={tour.title} 
+                                title={tour.title}
+                                onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
+                              />
                             </Link>
+                            <div className="group-icon">
+                              <a href="/tours" data-toggle="tooltip" data-placement="top" title="Escorted Tour" className="frist">
+                                <i className="flaticon-airplane-4"></i>
+                              </a>
+                              <a href="/tours" data-toggle="tooltip" data-placement="top" title="Rail Tour">
+                                <i className="flaticon-cart-1"></i>
+                              </a>
+                            </div>
                           </div>
                           <div className="wrapper_content">
-                            <h4><Link to={`/tours/${related.id}`}>{related.title}</Link></h4>
-                            <Link to={`/tours/${related.id}`} className="button">Read more</Link>
+                            <div className="post_title">
+                              <h4>
+                                <Link to={`/tours/${tour.id}`} rel="bookmark">{tour.title}</Link>
+                              </h4>
+                            </div>
+                            <span className="post_date">{tour.duration}</span>
+                            <div className="description">
+                              <p>Aliquam lacus nisl, viverra convallis sit amet&nbsp;penatibus nunc&nbsp;luctus</p>
+                            </div>
+                          </div>
+                          <div className="read_more">
+                            <div className="item_rating">
+                              <i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i>
+                              <i className="fa fa-star-o"></i>
+                            </div>
+                            <Link to={`/tours/${tour.id}`} className="button product_type_tour_phys add_to_cart_button">
+                              Read more
+                            </Link>
                           </div>
                         </div>
                       </li>
                     ))}
                   </ul>
                 </div>
-
               </div>
 
-              {/* RIGHT COLUMN: Booking */}
-              <div className="summary entry-summary description_single col-sm-4">
+              {/* Right Column - Booking & Sidebar */}
+              <div className="summary entry-summary description_single">
                 <div className="affix-sidebar">
-                  <p className="price"><span>${adultPrice.toFixed(2)}</span></p>
-                  <div className="booking">
-                    <h4>Book the tour</h4>
-                    <form onSubmit={handleBookingSubmit}>
-                      <input placeholder="First Name" value={bookingForm.firstName} onChange={e=>setBookingForm({...bookingForm, firstName:e.target.value})} style={{width:'100%', marginBottom:'10px', padding:'8px'}} required />
-                      <input placeholder="Last Name" value={bookingForm.lastName} onChange={e=>setBookingForm({...bookingForm, lastName:e.target.value})} style={{width:'100%', marginBottom:'10px', padding:'8px'}} required />
-                      <input placeholder="Email" value={bookingForm.email} onChange={e=>setBookingForm({...bookingForm, email:e.target.value})} style={{width:'100%', marginBottom:'10px', padding:'8px'}} required />
-                      <input placeholder="Phone" value={bookingForm.phone} onChange={e=>setBookingForm({...bookingForm, phone:e.target.value})} style={{width:'100%', marginBottom:'10px', padding:'8px'}} />
-                      <input type="date" value={bookingForm.dateBook} onChange={e=>setBookingForm({...bookingForm, dateBook:e.target.value})} style={{width:'100%', marginBottom:'10px', padding:'8px'}} required />
-                      
-                      <div style={{background:'#f9f9f9', padding:'10px', marginBottom:'10px'}}>
-                        <div style={{display:'flex', justifyContent:'space-between', marginBottom:'5px'}}>
-                          <span>Adults:</span>
-                          <input type="number" min="1" value={bookingForm.adults} onChange={e=>setBookingForm({...bookingForm, adults:parseInt(e.target.value)||1})} style={{width:'60px'}} />
-                          <span>= ${totalAdult.toFixed(2)}</span>
+                  <div className="entry-content-tour">
+                    <p className="price">
+                      <span className="text">Price:</span>
+                      <span className="travel_tour-Price-amount amount">KES {tourData.price.toFixed(2)}</span>
+                    </p>
+                    <div className="clear"></div>
+                    
+                    {/* Booking Form */}
+                    <div className="booking">
+                      <div className="">
+                        <div className="form-block__title">
+                          <h4>Book the tour</h4>
                         </div>
-                        <div style={{display:'flex', justifyContent:'space-between'}}>
-                          <span>Children:</span>
-                          <input type="number" min="0" value={bookingForm.children} onChange={e=>setBookingForm({...bookingForm, children:parseInt(e.target.value)||0})} style={{width:'60px'}} />
-                          <span>= ${totalChild.toFixed(2)}</span>
-                        </div>
-                        <div style={{fontWeight:'bold', marginTop:'5px', borderTop:'1px solid #ddd', paddingTop:'5px'}}>Total: ${grandTotal.toFixed(2)}</div>
+                        <form onSubmit={handleBookingSubmit} id="tourBookingForm" method="POST">
+                          <div className="">
+                            <input 
+                              name="name" 
+                              value={bookingForm.name}
+                              onChange={(e) => setBookingForm({...bookingForm, name: e.target.value})}
+                              placeholder="Full name *" 
+                              type="text"
+                              required
+                            />
+                          </div>
+                          <div className="">
+                            <input 
+                              name="email" 
+                              value={bookingForm.email}
+                              onChange={(e) => setBookingForm({...bookingForm, email: e.target.value})}
+                              placeholder="Email *" 
+                              type="email"
+                              required
+                            />
+                          </div>
+                          <div className="">
+                            <input 
+                              name="phone" 
+                              value={bookingForm.phone}
+                              onChange={(e) => setBookingForm({...bookingForm, phone: e.target.value})}
+                              placeholder="Phone" 
+                              type="text"
+                            />
+                          </div>
+                          <div className="">
+                            <input 
+                              name="age" 
+                              value={bookingForm.age}
+                              onChange={(e) => setBookingForm({...bookingForm, age: e.target.value})}
+                              placeholder="Age" 
+                              type="number"
+                              min="0"
+                              max="120"
+                            />
+                          </div>
+                          <div className="">
+                            <input 
+                              name="passport_number" 
+                              value={bookingForm.passport_number}
+                              onChange={(e) => setBookingForm({...bookingForm, passport_number: e.target.value})}
+                              placeholder="Passport Number" 
+                              type="text"
+                            />
+                          </div>
+                          <div className="">
+                            <select 
+                              name="nationality" 
+                              value={bookingForm.nationality}
+                              onChange={(e) => setBookingForm({...bookingForm, nationality: e.target.value})}
+                              style={{width: '100%', padding: '8px', marginBottom: '10px'}}
+                            >
+                              <option value="Kenyan">Kenyan</option>
+                              <option value="Other">Other</option>
+                            </select>
+                          </div>
+                          <div className="">
+                            <label>Start Date *</label>
+                            <input 
+                              type="date" 
+                              name="start_date" 
+                              value={bookingForm.start_date}
+                              onChange={(e) => setBookingForm({...bookingForm, start_date: e.target.value})}
+                              required
+                            />
+                          </div>
+                          <div className="">
+                            <label>End Date</label>
+                            <input 
+                              type="date" 
+                              name="end_date" 
+                              value={bookingForm.end_date}
+                              onChange={(e) => setBookingForm({...bookingForm, end_date: e.target.value})}
+                            />
+                          </div>
+                          <div className="from-group">
+                            <div className="total_price_arrow">
+                              <div className="st_adults_children">
+                                <span className="label">Adults</span>
+                                <div className="input-number-ticket">
+                                  <input 
+                                    type="number" 
+                                    name="number_ticket" 
+                                    value={bookingForm.adults}
+                                    onChange={(e) => setBookingForm({...bookingForm, adults: parseInt(e.target.value) || 1})}
+                                    min="1" 
+                                    max="10" 
+                                    placeholder="Number ticket of Adults"
+                                  />
+                                </div>
+                                ×
+                                KES {tourData.price.toFixed(2)}
+                                =
+                                <span className="total_price_adults">KES {(bookingForm.adults * tourData.price).toFixed(2)}</span>
+                              </div>
+                              <div className="st_adults_children">
+                                <span className="label">Children</span>
+                                <div className="input-number-ticket">
+                                  <input 
+                                    type="number" 
+                                    name="number_children" 
+                                    value={bookingForm.children}
+                                    onChange={(e) => setBookingForm({...bookingForm, children: parseInt(e.target.value) || 0})}
+                                    min="0" 
+                                    max="10" 
+                                    placeholder="Number ticket of Children"
+                                  />
+                                  <input type="hidden" name="price_child" value={tourData.priceChild} />
+                                  <input type="hidden" name="price_child_set_on_tour" value="0" />
+                                </div>
+                                ×
+                                KES {tourData.priceChild.toFixed(2)}
+                                =
+                                <span className="total_price_children">KES {(bookingForm.children * tourData.priceChild).toFixed(2)}</span>
+                              </div>
+                              <div>
+                                Total =
+                                <span className="total_price_adults_children">KES {calculateTotalPrice().toFixed(2)}</span>
+                              </div>
+                              <input type="hidden" name="price_children_percent" value="70" />
+                            </div>
+                          </div>
+                          <div className="">
+                            <label>Special Requests</label>
+                            <textarea 
+                              name="special_requests" 
+                              value={bookingForm.special_requests}
+                              onChange={(e) => setBookingForm({...bookingForm, special_requests: e.target.value})}
+                              placeholder="Any special requests or requirements?" 
+                              rows="3"
+                              style={{width: '100%', padding: '8px'}}
+                            />
+                          </div>
+                          <div className="spinner">
+                            <div className="rect1"></div>
+                            <div className="rect2"></div>
+                            <div className="rect3"></div>
+                            <div className="rect4"></div>
+                            <div className="rect5"></div>
+                          </div>
+                          <input 
+                            className="btn-booking btn" 
+                            value={submitting ? "Booking..." : "Booking now"} 
+                            type="submit"
+                            disabled={submitting}
+                          />
+                        </form>
                       </div>
+                    </div>
 
-                      <button type="submit" style={{width:'100%', background:'#ffb300', border:'none', padding:'10px', fontWeight:'bold', cursor:'pointer'}}>Booking Now</button>
-                    </form>
+                    {/* Enquiry Form */}
+                    <div className="form-block__title custom-form-title"><h4>Or</h4></div>
+                    <div className="custom_from">
+                      <div role="form" className="wpcf7" lang="en-US" dir="ltr">
+                        <div className="screen-reader-response"></div>
+                        <form onSubmit={(e) => {
+                          e.preventDefault()
+                          alert('Enquiry form submitted!')
+                          setEnquiryForm({ name: '', email: '', message: '' })
+                        }} className="wpcf7-form" noValidate>
+                          <p>Fill up the form below to tell us what you're looking for</p>
+                          <p>
+                            <span className="wpcf7-form-control-wrap your-name">
+                              <input 
+                                type="text" 
+                                name="your-name" 
+                                value={enquiryForm.name}
+                                onChange={(e) => setEnquiryForm({...enquiryForm, name: e.target.value})}
+                                placeholder="Your name*" 
+                                className="wpcf7-form-control" 
+                                aria-invalid="false"
+                              />
+                            </span>
+                          </p>
+                          <p>
+                            <span className="wpcf7-form-control-wrap your-email">
+                              <input 
+                                type="email" 
+                                name="your-email" 
+                                value={enquiryForm.email}
+                                onChange={(e) => setEnquiryForm({...enquiryForm, email: e.target.value})}
+                                placeholder="Email*" 
+                                className="wpcf7-form-control" 
+                                aria-invalid="false"
+                              />
+                            </span>
+                          </p>
+                          <p>
+                            <span className="wpcf7-form-control-wrap your-message">
+                              <textarea 
+                                name="your-message" 
+                                cols="40" 
+                                rows="10" 
+                                value={enquiryForm.message}
+                                onChange={(e) => setEnquiryForm({...enquiryForm, message: e.target.value})}
+                                className="wpcf7-form-control" 
+                                aria-invalid="false" 
+                                placeholder="Message"
+                              ></textarea>
+                            </span>
+                          </p>
+                          <p>
+                            <input 
+                              type="submit" 
+                              value="Send Enquiry" 
+                              className="wpcf7-form-control wpcf7-submit"
+                            />
+                          </p>
+                        </form>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Special Tours Widget */}
+                  <aside className="widget widget_travel_tour">
+                    <div className="wrapper-special-tours">
+                      {tourData.relatedTours.slice(0, 3).map((tour, index) => (
+                        <div key={index} className="inner-special-tours">
+                          <Link to={`/tours/${tour.id}`}>
+                            {tour.sale && <span className="onsale">Sale!</span>}
+                            <img 
+                              width="430" 
+                              height="305" 
+                              src={tour.image} 
+                              alt={tour.title} 
+                              title={tour.title}
+                              onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
+                            />
+                          </Link>
+                          <div className="item_rating">
+                            {[...Array(5)].map((_, i) => (
+                              <i key={i} className={`fa fa-star${i < 4 ? '' : '-o'}`}></i>
+                            ))}
+                          </div>
+                          <div className="post_title">
+                            <h3>
+                              <Link to={`/tours/${tour.id}`} rel="bookmark">{tour.title}</Link>
+                            </h3>
+                          </div>
+                          <div className="item_price">
+                            {tour.sale ? (
+                              <span className="price">
+                                <del>KES {tour.originalPrice.toFixed(2)}</del>
+                                <ins>KES {tour.price.toFixed(2)}</ins>
+                              </span>
+                            ) : (
+                              <span className="price">KES {tour.price.toFixed(2)}</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </aside>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </section>
     </div>
-  );
+  )
 }
+
+
+
+
+
+
