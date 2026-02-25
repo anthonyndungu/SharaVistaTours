@@ -13,6 +13,8 @@ import Gallery from './pages/Gallery';
 import TravelTips from './pages/TravelTips';
 import Contact from './pages/Contact';
 import SingleTour from './pages/SingleTour';
+import BookingSuccess from './pages/booking/BookingSuccess';
+import BookingConfirmation from './pages/booking/BookingConfirmation';
 
 // Client dashboard
 import DashboardLayout from './layouts/DashboardLayout';
@@ -88,6 +90,8 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
           <Route path="tours/:tourId" element={<SingleTour />} />
+          <Route path="bookings/success/:bookingId" element={<BookingSuccess />} />
+          <Route path="bookings/confirmation/:bookingId" element={<BookingConfirmation />} />
         </Route>
 
         {/* 👤 CLIENT DASHBOARD (Protected) */}
@@ -112,6 +116,7 @@ function App() {
           <Route path="packages/new" element={<CreatePackage />} />
           <Route path="packages/edit/:id" element={<EditPackage />} /> {/* ✅ Fixed Path */}
           <Route path="bookings" element={<AdminBookings />} />
+          <Route path="bookings/:bookingId" element={<BookingDetails />} /> {/* ✅ Reuse BookingDetails for admin view */}  
           <Route path="clients" element={<AdminClients />} />
           <Route path="users/:id" element={<UserProfile />} />
           <Route path="reviews" element={<AdminReviews />} />

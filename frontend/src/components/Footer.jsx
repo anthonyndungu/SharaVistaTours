@@ -65,9 +65,9 @@ export default function Footer() {
                   <li>|</li>
                   <li><a href="/privacy">Privacy Policy</a></li>
                   <li>|</li>
-                  <li><a href="https://twitter.com/sharavista"><i className="fa fa-twitter"></i></a></li>
-                  <li><a href="https://www.facebook.com/sharavista/"><i className="fa fa-facebook"></i></a></li>
-                  <li><a href="https://www.instagram.com/sharavista/"><i className="fa fa-instagram"></i></a></li>
+                  <li><a href="https://twitter.com/sharavista" target="blank"><i className="fa fa-twitter"></i></a></li>
+                  <li><a href="https://www.facebook.com/people/Sharavista-Tours/61582686912041/#" target="blank"><i className="fa fa-facebook"></i></a></li>
+                  <li><a href="https://www.instagram.com/sharavistatours/" target="blank"><i className="fa fa-instagram"></i></a></li>
                 </ul>
               </div>
             </aside>

@@ -1,188 +1,24 @@
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:54:36:5436 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:55:39:5539 [32minfo[39m: [32mGET /api/v1/packages/45eae555-10ee-40f8-9cb2-fda253f813f2[39m
-2026-02-25 11:56:47:5647 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:56:48:5648 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:56:51:5651 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:56:51:5651 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
-2026-02-25 11:56:51:5651 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
-2026-02-25 11:56:51:5651 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:56:59:5659 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:56:59:5659 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:57:05:575 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:57:05:575 [32minfo[39m: [32mGET /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
-2026-02-25 11:57:05:575 [32minfo[39m: [32mGET /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
-2026-02-25 11:57:05:575 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:57:14:5714 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:57:15:5715 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:57:39:5739 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 11:57:39:5739 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 11:57:40:5740 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 11:57:40:5740 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:24:58:2458 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:24:58:2458 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:24:59:2459 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:24:59:2459 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:25:03:253 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:25:03:253 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:25:03:253 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:25:28:2528 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:25:28:2528 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:25:36:2536 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:25:36:2536 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:25:36:2536 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:25:40:2540 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:25:40:2540 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:26:15:2615 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:26:15:2615 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:26:15:2615 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:26:15:2615 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:08:298 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:08:298 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:27:2927 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:27:2927 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:29:2929 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
-2026-02-25 12:29:29:2929 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:29:2929 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
-2026-02-25 12:29:29:2929 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:38:2938 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:38:2938 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:41:2941 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:29:41:2941 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:29:41:2941 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:29:41:2941 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:30:25:3025 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
-2026-02-25 12:30:25:3025 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:30:25:3025 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/auth/me[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/auth/me[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
-2026-02-25 12:30:52:3052 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
-2026-02-25 12:32:47:3247 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:32:48:3248 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:32:58:3258 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:32:59:3259 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:33:03:333 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
-2026-02-25 12:33:03:333 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
-2026-02-25 12:33:09:339 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:33:09:339 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:33:13:3313 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:33:13:3313 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:33:30:3330 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:33:30:3330 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:33:30:3330 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:33:30:3330 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:34:25:3425 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:34:25:3425 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:35:26:3526 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:35:27:3527 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:35:33:3533 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:35:33:3533 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:35:33:3533 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:35:34:3534 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:39:03:393 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:39:03:393 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:40:27:4027 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:40:27:4027 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:40:37:4037 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:40:37:4037 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:40:37:4037 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 12:40:37:4037 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:44:33:4433 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:44:33:4433 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:45:07:457 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:45:07:457 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:45:07:457 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:45:07:457 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:47:02:472 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:52:43:5243 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:52:43:5243 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:52:57:5257 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:52:57:5257 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:52:57:5257 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 12:53:37:5337 [32minfo[39m: [32mPOST /api/v1/bookings[39m
-2026-02-25 12:53:40:5340 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:53:40:5340 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:54:53:5453 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:54:53:5453 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:54:53:5453 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:54:53:5453 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:54:53:5453 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 12:54:53:5453 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:04:59:459 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:04:59:459 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:05:10:510 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:05:10:510 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:05:10:510 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:05:51:551 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:05:51:551 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:05:51:551 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:05:51:551 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:05:51:551 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:05:51:551 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:05:52:552 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:08:58:858 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:08:59:859 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:08:59:859 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:08:59:859 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:02:92 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
-2026-02-25 13:09:02:92 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:02:92 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
-2026-02-25 13:09:02:92 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:17:917 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:18:918 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:19:919 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 13:09:19:919 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:19:919 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 13:09:20:920 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:22:922 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:22:922 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:24:924 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:09:24:924 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:09:24:924 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:09:24:924 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:16:43:1643 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:16:44:1644 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:20:17:2017 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:20:18:2018 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:21:11:2111 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:21:12:2112 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:21:14:2114 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:21:14:2114 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:21:15:2115 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:22:25:2225 [32minfo[39m: [32mPUT /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:22:27:2227 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:22:27:2227 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:22:30:2230 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 13:22:30:2230 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 13:22:51:2251 [32minfo[39m: [32mPUT /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
-2026-02-25 13:22:53:2253 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:22:53:2253 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:23:03:233 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:23:03:233 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:23:03:233 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:23:03:233 [32minfo[39m: [32mGET /api/v1/packages[39m
-2026-02-25 13:23:03:233 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:23:03:233 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
-2026-02-25 13:23:04:234 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-25 16:25:55:2555 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 16:25:56:2556 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 16:25:56:2556 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 16:25:56:2556 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-25 16:30:07:307 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 16:30:08:308 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 16:30:08:308 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 16:30:08:308 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-25 16:30:20:3020 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 16:30:22:3022 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 16:30:22:3022 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 16:30:22:3022 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-25 16:30:28:3028 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 16:30:30:3030 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 16:30:30:3030 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 16:30:30:3030 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-25 16:30:38:3038 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 16:30:40:3040 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 16:30:40:3040 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 16:30:40:3040 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-25 16:31:30:3130 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-25 16:31:31:3131 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-25 16:31:31:3131 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-25 16:31:31:3131 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m

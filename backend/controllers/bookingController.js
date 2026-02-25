@@ -2,6 +2,7 @@ import { Booking, BookingPassenger, TourPackage, Payment, User, sequelize } from
 import { Op } from 'sequelize';
 import logger from '../utils/logger.js';
 import { generateBookingNumber } from '../utils/helpers.js';
+import { sendBookingConfirmation, sendMpesaPaymentReminder } from '../utils/email.js';
 
 // @desc    Create new booking
 // @route   POST /api/v1/bookings
@@ -10,6 +11,7 @@ export const createBooking = async (req, res) => {
   const t = await sequelize.transaction();
   
   try {
+    console.log('Create booking request body:', req.body); // Debug log
     const { package_id, start_date, end_date, passengers, special_requests, total_amount } = req.body;
 
     // 1. Validate Inputs
@@ -92,17 +94,44 @@ export const createBooking = async (req, res) => {
       ]
     });
 
+    // 8. Send confirmation email with payment instructions
+    const emailSent = await sendBookingConfirmation(completeBooking, completeBooking.User);
+    
+    if (!emailSent) {
+      logger.warn(`Booking created but confirmation email failed for ${completeBooking.booking_number}`);
+    }
+
     logger.info(`Booking created: ${bookingNumber} by ${req.user.email}`);
+
+    // 9. Prepare response with payment instructions
+    const paymentInstructions = {
+      method: 'MPESA',
+      tillNumber: '7915503',
+      phoneNumber: '+254 712 345 678',
+      amount: completeBooking.total_amount,
+      bookingNumber: completeBooking.booking_number,
+      instructions: [
+        'Open M-Pesa on your phone',
+        'Select "Send Money" or "Lipa Na M-Pesa Online"',
+        `Enter Till Number: 7915503`,
+        `Enter amount: KES ${completeBooking.total_amount.toLocaleString()}`,
+        `Include booking number in message: ${completeBooking.booking_number}`,
+        'Complete the transaction'
+      ],
+      note: 'Your booking is pending payment. You will receive a confirmation email with payment details.'
+    };
 
     res.status(201).json({
       status: 'success',
-      message: 'Booking created successfully',
-      data: { booking: completeBooking }
+      message: 'Booking created successfully. Confirmation email sent with payment instructions.',
+      data: { 
+        booking: completeBooking,
+        paymentInstructions
+      }
     });
   } catch (err) {
     await t.rollback();
     logger.error('Create booking error:', err);
-    
     // Handle specific errors
     if (err.name === 'SequelizeValidationError') {
       return res.status(400).json({

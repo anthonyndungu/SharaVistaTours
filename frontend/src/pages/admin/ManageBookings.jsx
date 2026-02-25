@@ -11,7 +11,9 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel
+  InputLabel,
+  TableRow,
+  TableCell  
 } from '@mui/material';
 
 const COLORS = {

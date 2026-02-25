@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Carousel from 'react-material-ui-carousel'
 import { Paper, Box } from '@mui/material'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
 import { fetchPackageById, fetchPackages } from '../features/packages/packageSlice'
 import { createBooking } from '../features/bookings/bookingSlice'
 import { createMPESAPayment, createCardPayment } from '../features/payments/paymentSlice'
@@ -11,10 +13,13 @@ export default function SingleTour() {
   const { tourId } = useParams()
   const dispatch = useDispatch()
   
+  const navigate = useNavigate()
+  
   // Redux selectors
   const { selectedPackage, packages, loading, error } = useSelector(state => state.packages)
   const { selectedBooking, loading: bookingLoading, error: bookingError, successMessage: bookingSuccess } = useSelector(state => state.bookings)
   const { mpesaTransaction, loading: paymentLoading, error: paymentError } = useSelector(state => state.payments)
+  const { user, isAuthenticated } = useSelector(state => state.auth)
   
   // Local state
   const [activeTab, setActiveTab] = useState('description')
@@ -23,11 +28,11 @@ export default function SingleTour() {
   const [relatedTours, setRelatedTours] = useState([])
   const [carouselIndex, setCarouselIndex] = useState(0)
   
-  const [bookingForm, setBookingForm] = useState({
+  const initialBookingValues = () => ({
     // Passenger info
-    name: '',
-    email: '',
-    phone: '',
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
     age: '',
     passport_number: '',
     nationality: 'Kenyan',
@@ -37,6 +42,20 @@ export default function SingleTour() {
     adults: 1,
     children: 0,
     special_requests: ''
+  })
+
+  const BookingSchema = Yup.object().shape({
+    name: Yup.string().required('Full name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    start_date: Yup.date().required('Start date is required'),
+    end_date: Yup.date().nullable(),
+    adults: Yup.number().min(1, 'At least 1 adult').required('Adults field is required'),
+    children: Yup.number().min(0, 'Must be 0 or more').required(),
+    phone: Yup.string(),
+    age: Yup.number().min(0).max(120).nullable(),
+    passport_number: Yup.string(),
+    nationality: Yup.string(),
+    special_requests: Yup.string()
   })
   
   const [reviewForm, setReviewForm] = useState({
@@ -167,59 +186,46 @@ export default function SingleTour() {
     return () => clearTimeout(timer)
   }, [tourData])
 
-  const handleBookingSubmit = async (e) => {
-    e.preventDefault()
+  const handleBookingSubmit = async (values, formikHelpers) => {
     try {
       setSubmitting(true)
-      
-      // Validate required fields
-      if (!bookingForm.name || !bookingForm.email || !bookingForm.start_date) {
-        alert('Please fill in all required fields')
-        return
-      }
 
       // Calculate end date if not provided
-      const endDate = bookingForm.end_date || new Date(new Date(bookingForm.start_date).getTime() + tourData.duration_days * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-      
-      const totalAmount = (bookingForm.adults * tourData.price) + (bookingForm.children * tourData.priceChild)
+      const endDate = values.end_date || new Date(new Date(values.start_date).getTime() + tourData.duration_days * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+
+      const totalAmount = (parseInt(values.adults || 0) * tourData.price) + (parseInt(values.children || 0) * tourData.priceChild)
 
       // Dispatch Redux action for booking
       const result = await dispatch(createBooking({
         package_id: tourId,
-        start_date: bookingForm.start_date,
+        start_date: values.start_date,
         end_date: endDate,
         total_amount: totalAmount,
-        special_requests: bookingForm.special_requests || null
+        special_requests: values.special_requests || null,
+        passengers: [
+          {
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+            age: values.age || null,
+            passport_number: values.passport_number,
+            nationality: values.nationality
+          }
+        ]
       }))
 
       if (result.payload?.data?.booking) {
         const bookingId = result.payload.data.booking.id
-        
-        // Note: Add passengers endpoint would be called here
-        // await dispatch(addBookingPassenger({
-        //   booking_id: bookingId,
-        //   ...passenger_data
-        // }))
-        
-        alert('Booking submitted successfully! Check your email for confirmation.')
-        setBookingForm({
-          name: '',
-          email: '',
-          phone: '',
-          age: '',
-          passport_number: '',
-          nationality: 'Kenyan',
-          start_date: '',
-          end_date: '',
-          adults: 1,
-          children: 0,
-          special_requests: ''
-        })
+        // Redirect to success page with booking ID
+        navigate(`/bookings/success/${bookingId}`)
+      } else {
+        alert('Booking submission failed. Please try again.')
       }
     } catch (err) {
       alert('Error submitting booking: ' + (err.message || 'Unknown error'))
     } finally {
       setSubmitting(false)
+      formikHelpers.setSubmitting(false)
     }
   }
 
@@ -264,10 +270,12 @@ export default function SingleTour() {
     }
   }
 
-  const calculateTotalPrice = () => {
-    if (!tourData) return 0
-    const adultTotal = bookingForm.adults * tourData.price
-    const childTotal = bookingForm.children * tourData.priceChild
+  const calculateTotalPrice = (values) => {
+    if (!tourData || !values) return 0
+    const adults = parseInt(values.adults) || 0
+    const children = parseInt(values.children) || 0
+    const adultTotal = adults * tourData.price
+    const childTotal = children * tourData.priceChild
     return adultTotal + childTotal
   }
 
@@ -844,158 +852,221 @@ export default function SingleTour() {
                         <div className="form-block__title">
                           <h4>Book the tour</h4>
                         </div>
-                        <form onSubmit={handleBookingSubmit} id="tourBookingForm" method="POST">
-                          <div className="">
-                            <input 
-                              name="name" 
-                              value={bookingForm.name}
-                              onChange={(e) => setBookingForm({...bookingForm, name: e.target.value})}
-                              placeholder="Full name *" 
-                              type="text"
-                              required
-                            />
-                          </div>
-                          <div className="">
-                            <input 
-                              name="email" 
-                              value={bookingForm.email}
-                              onChange={(e) => setBookingForm({...bookingForm, email: e.target.value})}
-                              placeholder="Email *" 
-                              type="email"
-                              required
-                            />
-                          </div>
-                          <div className="">
-                            <input 
-                              name="phone" 
-                              value={bookingForm.phone}
-                              onChange={(e) => setBookingForm({...bookingForm, phone: e.target.value})}
-                              placeholder="Phone" 
-                              type="text"
-                            />
-                          </div>
-                          <div className="">
-                            <input 
-                              name="age" 
-                              value={bookingForm.age}
-                              onChange={(e) => setBookingForm({...bookingForm, age: e.target.value})}
-                              placeholder="Age" 
-                              type="number"
-                              min="0"
-                              max="120"
-                            />
-                          </div>
-                          <div className="">
-                            <input 
-                              name="passport_number" 
-                              value={bookingForm.passport_number}
-                              onChange={(e) => setBookingForm({...bookingForm, passport_number: e.target.value})}
-                              placeholder="Passport Number" 
-                              type="text"
-                            />
-                          </div>
-                          <div className="">
-                            <select 
-                              name="nationality" 
-                              value={bookingForm.nationality}
-                              onChange={(e) => setBookingForm({...bookingForm, nationality: e.target.value})}
-                              style={{width: '100%', padding: '8px', marginBottom: '10px'}}
+                        {!isAuthenticated ? (
+                          <div style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '4px', textAlign: 'center' }}>
+                            <p style={{ marginBottom: '15px' }}>You must be logged in to book this tour.</p>
+                            <button 
+                              onClick={() => navigate('/login', { state: { from: window.location.pathname } })}
+                              style={{
+                                padding: '10px 20px',
+                                backgroundColor: '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontSize: '14px'
+                              }}
                             >
-                              <option value="Kenyan">Kenyan</option>
-                              <option value="Other">Other</option>
-                            </select>
+                              Login to Book
+                            </button>
                           </div>
-                          <div className="">
-                            <label>Start Date *</label>
-                            <input 
-                              type="date" 
-                              name="start_date" 
-                              value={bookingForm.start_date}
-                              onChange={(e) => setBookingForm({...bookingForm, start_date: e.target.value})}
-                              required
-                            />
-                          </div>
-                          <div className="">
-                            <label>End Date</label>
-                            <input 
-                              type="date" 
-                              name="end_date" 
-                              value={bookingForm.end_date}
-                              onChange={(e) => setBookingForm({...bookingForm, end_date: e.target.value})}
-                            />
-                          </div>
-                          <div className="from-group">
-                            <div className="total_price_arrow">
-                              <div className="st_adults_children">
-                                <span className="label">Adults</span>
-                                <div className="input-number-ticket">
-                                  <input 
-                                    type="number" 
-                                    name="number_ticket" 
-                                    value={bookingForm.adults}
-                                    onChange={(e) => setBookingForm({...bookingForm, adults: parseInt(e.target.value) || 1})}
-                                    min="1" 
-                                    max="10" 
-                                    placeholder="Number ticket of Adults"
+                        ) : (
+                          <Formik
+                            initialValues={initialBookingValues()}
+                            validationSchema={BookingSchema}
+                            onSubmit={handleBookingSubmit}
+                          >
+                            {({ values, handleChange, handleBlur, handleSubmit, isSubmitting, errors, touched }) => (
+                              <form onSubmit={handleSubmit} id="tourBookingForm" method="POST" noValidate>
+                                <div className="">
+                                  <input
+                                    name="name"
+                                    placeholder="Full name *"
+                                    type="text"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    style={{
+                                      borderColor: errors.name && touched.name ? '#dc3545' : '',
+                                      border: errors.name && touched.name ? '1px solid #dc3545' : ''
+                                    }}
+                                  />
+                                  {errors.name && touched.name && (
+                                    <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '4px' }}>
+                                      {errors.name}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="">
+                                  <input
+                                    name="email"
+                                    placeholder="Email *"
+                                    type="email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    style={{
+                                      borderColor: errors.email && touched.email ? '#dc3545' : '',
+                                      border: errors.email && touched.email ? '1px solid #dc3545' : ''
+                                    }}
+                                  />
+                                  {errors.email && touched.email && (
+                                    <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '4px' }}>
+                                      {errors.email}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="">
+                                  <input
+                                    name="phone"
+                                    placeholder="Phone"
+                                    type="text"
+                                    value={values.phone}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                   />
                                 </div>
-                                ×
-                                KES {tourData.price.toFixed(2)}
-                                =
-                                <span className="total_price_adults">KES {(bookingForm.adults * tourData.price).toFixed(2)}</span>
-                              </div>
-                              <div className="st_adults_children">
-                                <span className="label">Children</span>
-                                <div className="input-number-ticket">
-                                  <input 
-                                    type="number" 
-                                    name="number_children" 
-                                    value={bookingForm.children}
-                                    onChange={(e) => setBookingForm({...bookingForm, children: parseInt(e.target.value) || 0})}
-                                    min="0" 
-                                    max="10" 
-                                    placeholder="Number ticket of Children"
+                                <div className="">
+                                  <input
+                                    name="age"
+                                    placeholder="Age"
+                                    type="number"
+                                    min="0"
+                                    max="120"
+                                    value={values.age}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                   />
-                                  <input type="hidden" name="price_child" value={tourData.priceChild} />
-                                  <input type="hidden" name="price_child_set_on_tour" value="0" />
                                 </div>
-                                ×
-                                KES {tourData.priceChild.toFixed(2)}
-                                =
-                                <span className="total_price_children">KES {(bookingForm.children * tourData.priceChild).toFixed(2)}</span>
-                              </div>
-                              <div>
-                                Total =
-                                <span className="total_price_adults_children">KES {calculateTotalPrice().toFixed(2)}</span>
-                              </div>
-                              <input type="hidden" name="price_children_percent" value="70" />
-                            </div>
-                          </div>
-                          <div className="">
-                            <label>Special Requests</label>
-                            <textarea 
-                              name="special_requests" 
-                              value={bookingForm.special_requests}
-                              onChange={(e) => setBookingForm({...bookingForm, special_requests: e.target.value})}
-                              placeholder="Any special requests or requirements?" 
-                              rows="3"
-                              style={{width: '100%', padding: '8px'}}
-                            />
-                          </div>
-                          <div className="spinner">
-                            <div className="rect1"></div>
-                            <div className="rect2"></div>
-                            <div className="rect3"></div>
-                            <div className="rect4"></div>
-                            <div className="rect5"></div>
-                          </div>
-                          <input 
-                            className="btn-booking btn" 
-                            value={submitting ? "Booking..." : "Booking now"} 
-                            type="submit"
-                            disabled={submitting}
-                          />
-                        </form>
+                                <div className="">
+                                  <input
+                                    name="passport_number"
+                                    placeholder="Passport Number"
+                                    type="text"
+                                    value={values.passport_number}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                  />
+                                </div>
+                                <div className="">
+                                  <select
+                                    name="nationality"
+                                    value={values.nationality}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+                                  >
+                                    <option value="Kenyan">Kenyan</option>
+                                    <option value="Other">Other</option>
+                                  </select>
+                                </div>
+                                <div className="">
+                                  <label>Start Date *</label>
+                                  <input
+                                    type="date"
+                                    name="start_date"
+                                    value={values.start_date}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    style={{
+                                      borderColor: errors.start_date && touched.start_date ? '#dc3545' : '',
+                                      border: errors.start_date && touched.start_date ? '1px solid #dc3545' : ''
+                                    }}
+                                  />
+                                  {errors.start_date && touched.start_date && (
+                                    <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '4px' }}>
+                                      {errors.start_date}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="">
+                                  <label>End Date</label>
+                                  <input
+                                    type="date"
+                                    name="end_date"
+                                    value={values.end_date}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                  />
+                                </div>
+                                <div className="from-group">
+                                  <div className="total_price_arrow">
+                                    <div className="st_adults_children">
+                                      <span className="label">Adults</span>
+                                      <div className="input-number-ticket">
+                                        <input
+                                          type="number"
+                                          name="adults"
+                                          value={values.adults}
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          min="1"
+                                          max="10"
+                                          placeholder="Number ticket of Adults"
+                                        />
+                                      </div>
+                                      ×
+                                      KES {tourData.price.toFixed(2)}
+                                      =
+                                      <span className="total_price_adults">KES {(parseInt(values.adults || 0) * tourData.price).toFixed(2)}</span>
+                                    </div>
+                                    <div className="st_adults_children">
+                                      <span className="label">Children</span>
+                                      <div className="input-number-ticket">
+                                        <input
+                                          type="number"
+                                          name="children"
+                                          value={values.children}
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          min="0"
+                                          max="10"
+                                          placeholder="Number ticket of Children"
+                                        />
+                                        <input type="hidden" name="price_child" value={tourData.priceChild} />
+                                        <input type="hidden" name="price_child_set_on_tour" value="0" />
+                                      </div>
+                                      ×
+                                      KES {tourData.priceChild.toFixed(2)}
+                                      =
+                                      <span className="total_price_children">KES {(parseInt(values.children || 0) * tourData.priceChild).toFixed(2)}</span>
+                                    </div>
+                                    <div>
+                                      Total =
+                                      <span className="total_price_adults_children">KES {calculateTotalPrice(values).toFixed(2)}</span>
+                                    </div>
+                                    <input type="hidden" name="price_children_percent" value="70" />
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <label>Special Requests</label>
+                                  <textarea
+                                    name="special_requests"
+                                    value={values.special_requests}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    placeholder="Any special requests or requirements?"
+                                    rows="3"
+                                    style={{ width: '100%', padding: '8px' }}
+                                  />
+                                </div>
+                                <div className="spinner">
+                                  <div className="rect1"></div>
+                                  <div className="rect2"></div>
+                                  <div className="rect3"></div>
+                                  <div className="rect4"></div>
+                                  <div className="rect5"></div>
+                                </div>
+                                <input
+                                  className="btn-booking btn"
+                                  value={isSubmitting || submitting ? 'Booking...' : 'Booking now'}
+                                  type="submit"
+                                  disabled={isSubmitting || submitting}
+                                />
+                              </form>
+                            )}
+                          </Formik>
+                        )}
                       </div>
                     </div>
 
@@ -1111,6 +1182,24 @@ export default function SingleTour() {
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
