@@ -10,6 +10,7 @@ export const fetchPackages = createAsyncThunk(
       const response = await api.get('/packages');
       return response.data.data.packages;
     } catch (error) {
+      console.error('Error fetching packages:', error); // Debugging log
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch packages');
     }
   }

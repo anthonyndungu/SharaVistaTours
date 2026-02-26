@@ -523,6 +523,7 @@ import Select from 'react-select'; // ✅ Import react-select
 export default function Tours() {
   const dispatch = useDispatch();
   const { loading, packages, error } = useSelector((state) => state.packages);
+  console.log('Error:', error); // Debugging log
 
   // --- SEARCH & FILTER STATE ---
   const [searchTerm, setSearchTerm] = useState('');
@@ -705,7 +706,7 @@ export default function Tours() {
 
               {!loading && error && (
                 <div className="alert alert-danger" style={{ padding: '20px', backgroundColor: '#fee', color: '#c00', borderRadius: '8px' }}>
-                  Error: {error}
+                  Error : {error}
                 </div>
               )}
 
