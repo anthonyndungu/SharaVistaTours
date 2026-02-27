@@ -1268,3 +1268,338 @@
 2026-02-27 12:40:06:406 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
 2026-02-27 12:40:07:407 [32minfo[39m: [32mGET /api/v1/packages[39m
 2026-02-27 12:40:07:407 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 12:56:00:560 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:00:560 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:00:560 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:00:560 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:01:561 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:01:561 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:14:5614 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:15:5615 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:15:5615 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:15:5615 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:15:5615 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:15:5615 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:28:5628 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:28:5628 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:29:5629 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 12:56:29:5629 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 12:56:30:5630 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 12:56:40:5640 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-27 12:56:41:5641 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-27 13:14:00:140 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 13:14:02:142 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 13:14:02:142 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 13:14:02:142 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 13:15:07:157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:15:07:157 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:15:07:157 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:15:07:157 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:15:07:157 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:15:07:157 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:15:08:158 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:17:27:1727 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:17:27:1727 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:17:28:1728 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:17:28:1728 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:17:28:1728 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:17:28:1728 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:15:1815 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:15:1815 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:15:1815 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:15:1815 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:15:1815 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:15:1815 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:38:1838 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:38:1838 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:18:59:1859 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:18:59:1859 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:18:59:1859 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:19:19:1919 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-27 13:19:19:1919 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-27 13:19:20:1920 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:19:20:1920 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:19:20:1920 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 13:19:42:1942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:19:42:1942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:05:205 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-27 13:20:08:208 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:08:208 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:08:208 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:08:208 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:08:208 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:08:208 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:27:2027 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-27 13:20:27:2027 [32minfo[39m: [32mUser logged in: admin@sharavista.com[39m
+2026-02-27 13:20:28:2028 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:28:2028 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-27 13:20:28:2028 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:28:2028 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-27 13:20:28:2028 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
+2026-02-27 13:20:28:2028 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-02-27 13:20:54:2054 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:20:54:2054 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:21:2121 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:22:2122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:22:2122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:22:2122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:22:2122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:22:2122 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:33:2133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:33:2133 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:35:2135 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:21:35:2135 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:21:35:2135 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:21:42:2142 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:25:25:2525 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:25:25:2525 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:26:03:263 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:26:03:263 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:26:10:2610 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:26:10:2610 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:35:47:3547 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:35:47:3547 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:35:49:3549 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-27 13:35:49:3549 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:35:49:3549 [32minfo[39m: [32mGET /api/v1/packages/3dccd9d1-a27b-4ed0-94a6-7c2e87b61281[39m
+2026-02-27 13:35:49:3549 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:35:3635 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:35:3635 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:35:3635 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:35:3635 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:35:3635 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:35:3635 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:37:3637 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:37:3637 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:39:3639 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:39:3639 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:36:44:3644 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:36:44:3644 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:36:44:3644 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:38:23:3823 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:23:3823 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:38:24:3824 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:24:3824 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:38:24:3824 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:24:3824 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:38:25:3825 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:40:3840 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:40:3840 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:38:41:3841 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:41:3841 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:38:41:3841 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:41:3841 [32minfo[39m: [32mGET /api/v1/packages/9386a40d-d225-4efa-a0f2-d1161c545e4e[39m
+2026-02-27 13:38:41:3841 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:40:3940 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:40:3940 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:41:3941 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:39:42:3942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:42:3942 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:39:42:3942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:54:3954 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:39:54:3954 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:55:3955 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:39:55:3955 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:39:55:3955 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:39:55:3955 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:39:55:3955 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:32:4032 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:32:4032 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:32:4032 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:32:4032 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:32:4032 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:32:4032 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:41:4041 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:41:4041 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:41:4041 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:41:4041 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:41:4041 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:41:4041 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:40:43:4043 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:40:43:4043 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:40:43:4043 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:17:4217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:17:4217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:17:4217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:17:4217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:17:4217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:17:4217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:42:42:4242 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:42:42:4242 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:42:43:4243 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:43:08:438 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:08:438 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:43:08:438 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:08:438 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:43:09:439 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:09:439 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:09:439 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:43:56:4356 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:56:4356 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:43:57:4357 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:57:4357 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:43:57:4357 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:57:4357 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:43:57:4357 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:44:00:440 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:21:4421 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:21:4421 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:44:21:4421 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:21:4421 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:44:21:4421 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:44:21:4421 [32minfo[39m: [32mGET /api/v1/packages/b1492f66-261d-4986-869a-90b03ea0d3e4[39m
+2026-02-27 13:45:36:4536 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:45:37:4537 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:45:37:4537 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:50:44:5044 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m
+2026-02-27 13:51:04:514 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 13:51:05:515 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 13:51:05:515 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 13:51:05:515 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 13:51:46:5146 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:51:46:5146 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:51:47:5147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:51:47:5147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:51:47:5147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:51:47:5147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:52:28:5228 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:52:28:5228 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:52:29:5229 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:52:29:5229 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:52:29:5229 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:52:29:5229 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:52:29:5229 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:08:538 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:09:539 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:12:5312 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:12:5312 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:12:5312 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:31:5331 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 13:53:54:5354 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:53:55:5355 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:54:07:547 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:54:07:547 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:59:22:5922 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:59:22:5922 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:59:42:5942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 13:59:42:5942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:00:26:026 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:00:26:026 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:03:13 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:03:13 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:07:17 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:07:17 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:43:143 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:43:143 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:45:145 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 14:01:45:145 [32minfo[39m: [32mGET /api/v1/packages/868b55a9-dc24-4ac3-9e7f-abdb7c420aea[39m
+2026-02-27 14:01:46:146 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:47:147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:47:147 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:49:149 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:49:149 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 14:01:49:149 [32minfo[39m: [32mGET /api/v1/packages/3d811868-6962-495e-9faa-0801710e8b24[39m
+2026-02-27 14:01:50:150 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:52:152 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:01:52:152 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:02:22 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:02:22 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:07:27 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-27 14:02:07:27 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:07:27 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-27 14:02:07:27 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:17:217 [32minfo[39m: [32mPOST /api/v1/auth/login[39m
+2026-02-27 14:02:17:217 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-02-27 14:02:17:217 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-27 14:02:17:217 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:17:217 [32minfo[39m: [32mGET /api/v1/packages/a9812b44-2c80-4c7d-b3d0-d1088f8e1031[39m
+2026-02-27 14:02:37:237 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:37:237 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-27 14:02:37:237 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:38:238 [32minfo[39m: [32mGET /api/v1/bookings[39m
+2026-02-27 14:02:42:242 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:02:42:242 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:14:514 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:15:515 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:15:515 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:15:515 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:15:515 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:15:515 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:05:24:524 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:05:26:526 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 14:05:26:526 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 14:05:26:526 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 14:05:49:549 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:05:51:551 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 14:05:51:551 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 14:05:51:551 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 14:07:16:716 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:07:17:717 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 14:07:17:717 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 14:07:17:717 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 14:08:20:820 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:20:820 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:20:820 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:20:820 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:25:825 [32minfo[39m: [32mGET /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-27 14:08:25:825 [32minfo[39m: [32mgetPackageById called with id=1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-27 14:08:25:825 [32minfo[39m: [32mGET /api/v1/packages/1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-27 14:08:25:825 [32minfo[39m: [32mgetPackageById called with id=1b2b309b-96c8-4826-8d96-2e2f9fde8aca[39m
+2026-02-27 14:08:25:825 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:25:825 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:30:830 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:30:830 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:30:830 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:30:830 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:32:832 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:32:832 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:32:832 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:32:832 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:33:833 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:33:833 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:33:833 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:33:833 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:35:835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:35:835 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:35:835 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:35:835 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:45:845 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:08:47:847 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 14:08:47:847 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 14:08:47:847 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 14:08:48:848 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:48:848 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:48:848 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:48:848 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:48:848 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:48:848 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:08:49:849 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-02-27 14:08:49:849 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-02-27 14:09:11:911 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:09:13:913 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:09:15:915 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 14:09:15:915 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 14:09:15:915 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 14:09:22:922 [32minfo[39m: [32m✓ Database connection established successfully.[39m
+2026-02-27 14:09:24:924 [32minfo[39m: [32m✓ Database synchronized (alter mode)[39m
+2026-02-27 14:09:24:924 [32minfo[39m: [32m✓ Server running in development mode on port 5000[39m
+2026-02-27 14:09:24:924 [32minfo[39m: [32m✓ API available at http://localhost:5000/api/v1[39m
+2026-02-27 14:09:33:933 [32minfo[39m: [32mSIGINT signal received: closing HTTP server[39m

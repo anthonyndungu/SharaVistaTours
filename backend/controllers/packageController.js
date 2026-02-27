@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 // @route   GET /api/v1/packages
 // @access  Public
 export const getAllPackages = async (req, res) => {
+  logger.info(`getAllPackages called with query ${JSON.stringify(req.query)}`);
   try {
     const queryOptions = {
       where: {},
@@ -72,7 +73,11 @@ export const getAllPackages = async (req, res) => {
       data: { packages }
     });
   } catch (err) {
-    logger.error('Get all packages error:', err);
+    logger.error('Get all packages error:', {
+      message: err.message,
+      stack: err.stack,
+      query: req.query
+    });
     res.status(500).json({ status: 'error', message: err.message });
   }
 };
@@ -81,6 +86,7 @@ export const getAllPackages = async (req, res) => {
 // @route   GET /api/v1/packages/:id
 // @access  Public
 export const getPackageById = async (req, res) => {
+  logger.info(`getPackageById called with id=${req.params.id}`);
   try {
     const packageData = await TourPackage.findByPk(req.params.id, {
       include: [
@@ -105,7 +111,11 @@ export const getPackageById = async (req, res) => {
 
     res.status(200).json({ status: 'success', data: { package: packageData } });
   } catch (err) {
-    logger.error('Get package by ID error:', err);
+    logger.error('Get package by ID error:', {
+      message: err.message,
+      stack: err.stack,
+      params: req.params
+    });
     res.status(500).json({ status: 'error', message: err.message });
   }
 };
@@ -114,6 +124,7 @@ export const getPackageById = async (req, res) => {
 // @route   POST /api/v1/packages
 // @access  Private/Admin
 export const createPackage = async (req, res) => {
+  logger.info('createPackage called', { body: req.body, user: req.user?.id });
   const t = await sequelize.transaction();
 
   try {
@@ -139,6 +150,7 @@ export const createPackage = async (req, res) => {
 
     if (existingPackage) {
       await t.rollback();
+      logger.warn(`createPackage conflict: title \"${title}\" already exists`);
       return res.status(409).json({
         status: 'fail',
         message: `A package with the title "${title}" already exists.`
@@ -209,7 +221,11 @@ export const createPackage = async (req, res) => {
 
   } catch (err) {
     await t.rollback();
-    logger.error('Create package error:', err);
+    logger.error('Create package error:', {
+      message: err.message,
+      stack: err.stack,
+      body: req.body
+    });
 
     if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(409).json({ status: 'fail', message: 'Duplicate entry detected.' });
@@ -223,6 +239,7 @@ export const createPackage = async (req, res) => {
 // @route   PATCH /api/v1/packages/:id
 // @access  Private/Admin
 export const updatePackage = async (req, res) => {
+  logger.info('updatePackage called', { params: req.params, body: req.body, user: req.user?.id });
   const t = await sequelize.transaction();
 
   try {
@@ -236,6 +253,7 @@ export const updatePackage = async (req, res) => {
     const packageData = await TourPackage.findByPk(id, { transaction: t });
     if (!packageData) {
       await t.rollback();
+      logger.warn(`updatePackage: package id=${id} not found`);
       return res.status(404).json({ status: 'fail', message: 'Package not found' });
     }
 
@@ -301,7 +319,12 @@ export const updatePackage = async (req, res) => {
 
   } catch (err) {
     await t.rollback();
-    logger.error('Update package error:', err);
+    logger.error('Update package error:', {
+      message: err.message,
+      stack: err.stack,
+      params: req.params,
+      body: req.body
+    });
     res.status(400).json({ status: 'fail', message: err.message });
   }
 };
@@ -310,6 +333,7 @@ export const updatePackage = async (req, res) => {
 // @route   DELETE /api/v1/packages/:id
 // @access  Private/Admin
 export const deletePackage = async (req, res) => {
+  logger.info(`deletePackage called for id=${req.params.id}`, { user: req.user?.id });
   const t = await sequelize.transaction();
 
   try {
@@ -317,6 +341,7 @@ export const deletePackage = async (req, res) => {
 
     if (!packageData) {
       await t.rollback();
+      logger.warn(`deletePackage: package id=${req.params.id} not found`);
       return res.status(404).json({ status: 'fail', message: 'Package not found' });
     }
 
@@ -343,7 +368,11 @@ export const deletePackage = async (req, res) => {
     });
   } catch (err) {
     await t.rollback();
-    logger.error('Delete package error:', err);
+    logger.error('Delete package error:', {
+      message: err.message,
+      stack: err.stack,
+      params: req.params
+    });
     res.status(400).json({ status: 'fail', message: err.message });
   }
 };
@@ -352,6 +381,7 @@ export const deletePackage = async (req, res) => {
 // @route   GET /api/v1/packages/stats
 // @access  Private/Admin
 export const getPackageStats = async (req, res) => {
+  logger.info('getPackageStats called', { user: req.user?.id });
   try {
     const stats = await TourPackage.findAll({
       attributes: [

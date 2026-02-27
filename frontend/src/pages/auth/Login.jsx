@@ -1297,7 +1297,7 @@
 
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -1323,6 +1323,8 @@ import {
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = (location && location.state && location.state.from) || (new URLSearchParams(location.search).get('redirect')) || null;
 
   // Select auth state
   const { loading, error, isAuthenticated, user, token } = useSelector((state) => state.auth);
@@ -1363,7 +1365,7 @@ export default function Login() {
         if (userData.role === 'admin' || userData.role === 'super_admin') {
           navigate('/admin', { replace: true });
         } else {
-          navigate('/dashboard', { replace: true });
+          navigate(redirectTo || '/dashboard', { replace: true });
         }
         return;
       }
@@ -1376,7 +1378,7 @@ export default function Login() {
         navigate('/admin', { replace: true });
       } else {
         console.log('🚀 Redirecting to Client Dashboard...');
-        navigate('/dashboard', { replace: true });
+        navigate(redirectTo || '/dashboard', { replace: true });
       }
 
     } catch (err) {
@@ -1422,7 +1424,7 @@ export default function Login() {
       navigate('/admin', { replace: true });
     } else {
       console.log('🚀 Navigating to /dashboard');
-      navigate('/dashboard', { replace: true });
+      navigate(redirectTo || '/dashboard', { replace: true });
     }
   }, [isAuthenticated, user, checkingSession, navigate, dispatch]);
 
@@ -1438,7 +1440,7 @@ export default function Login() {
           if (userData.role === 'admin' || userData.role === 'super_admin') {
             navigate('/admin', { replace: true });
           } else {
-            navigate('/dashboard', { replace: true });
+            navigate(redirectTo || '/dashboard', { replace: true });
           }
         })
         .catch(() => {
@@ -1459,7 +1461,7 @@ export default function Login() {
       if (user.role === 'admin' || user.role === 'super_admin') {
         navigate('/admin', { replace: true });
       } else {
-        navigate('/dashboard', { replace: true });
+        navigate(redirectTo || '/dashboard', { replace: true });
       }
     }
   }, [isAuthenticated, user, checkingSession, navigate]);

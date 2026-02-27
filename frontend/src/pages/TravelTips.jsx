@@ -1,255 +1,3 @@
-// import { useState } from 'react'
-// import { Link } from 'react-router-dom'
-
-// export default function TravelTips() {
-//   const [activePanel, setActivePanel] = useState(null) // Start with all closed, or set first ID to open one by default
-
-//   const togglePanel = (id) => {
-//     setActivePanel(activePanel === id ? null : id)
-//   }
-
-//   const tips = [
-//     {
-//       id: '1',
-//       title: 'Choosing Your Holiday',
-//       image: '/assets/img/faq-choosing-your-holiday.jpg',
-//       content: (
-//         <>
-//           <p>Start with your holiday package by choosing a guided tour package. It's the best way to travel with family because all the details are pre-planned for you. This is especially important if you are not keen on researching destinations yourself.</p>
-//           <p>For those who do pre-plan, take some time to create a complete itinerary following some research on the destination you are visiting. Pay special attention to special festivals, weather, and political climate when you are working on the itinerary. This provides space for back up plans in case of unforeseen travel problems.</p>
-//           <p>The itinerary also ensures that everything is planned based on what you/ your family wants to see and experience. Just make sure all the activities are something worth trying and gives you and your fellow travellers a new dimension of the places visited.</p>
-//           <p>If you are travelling on a budget then you should plan with flight, ground arrangements, passport, visa, meals, transport, shopping and contingency cash for emergency.</p>
-//         </>
-//       )
-//     },
-//     {
-//       id: '2',
-//       title: 'Prep Work for Travel',
-//       image: '/assets/img/faq-prep-work-for-travel.jpg',
-//       content: (
-//         <>
-//           <p>Make sure you apply for vacation days which include a day's rest after your return to cope with fatigue or jet lag if you're flying. Furthermore ensure all your travel documents are confirmed 3-4 working days before the travel date to ensure any last minute changes can still be accommodated.</p>
-//           <p>As for packing, it is essential to pack what you need with consideration for the shopping you plan to do at your holiday destination. If you're travelling with family and kids, ensure the needs of the elders and children are itemized and packed to avoid discomfort or tantrums.</p>
-//           <p>Most importantly, it is vital to inform your close relatives/ friends of your travel. It would be good to arrange for house/ pet sitting while you're away. Lastly, call your bank and let them know that you are travelling and there will be large amount of purchases with the debit or credit card.</p>
-//         </>
-//       )
-//     },
-//     {
-//       id: '3',
-//       title: 'Medical Requirement',
-//       image: '/assets/img/faq-medical-requirement.jpg',
-//       content: (
-//         <p>You should be up to date on routine vaccinations while travelling to any destination. Some vaccines may also be required for travel. These vaccines include measles-mumps-rubella (MMR) vaccine, diphtheria-tetanus-pertussis vaccine, varicella (chickenpox) vaccine, polio vaccine, and your yearly flu shot. Latest updates on vaccinations can be obtained from your local clinic or hospital.</p>
-//       )
-//     },
-//     {
-//       id: '4',
-//       title: 'Visa Requirement',
-//       image: '/assets/img/faq-visa-requirement.jpg',
-//       content: (
-//         <p>Please take note that visa requirements for certain countries may change from time to time. It is advisable that you check with your travel agent or directly with destination country's Embassy or High Commission before booking a holiday.</p>
-//       )
-//     },
-//     {
-//       id: '5',
-//       title: 'Travel Insurance',
-//       image: '/assets/img/faq-travel-insurance.jpg',
-//       content: (
-//         <>
-//           <p>What sort of protection/coverage does a travel insurance covers you? Some of the coverage that you should expect is as below:</p>
-//           <ul style={{ paddingLeft: '20px', marginBottom: '15px' }}>
-//             {['Personal Accident', 'Medical Expenses', 'Loss of Luggage & Personal Effect', 'Loss of Travel Documents', 'Baggage Delay', 'Travel Delay', 'Missed Departure', 'Flight Overbooked', 'Hijack Inconvenience', 'Travel Cancellation', 'Loss of Money/ Valuables'].map((item, i) => (
-//               <li key={i} style={{ marginBottom: '5px', color: '#555' }}>{item}</li>
-//             ))}
-//           </ul>
-//           <p>Here are other examples that might NOT be covered in travel insurance:</p>
-//           <ul style={{ paddingLeft: '20px', marginBottom: '15px' }}>
-//             {['Declared or undeclared war or any act of war', 'Loss or destruction of goods due to radiation', 'Suicide/Self harm/ or any intentional acts', 'Engaging in professional competition or hazardous adventure'].map((item, i) => (
-//               <li key={i} style={{ marginBottom: '5px', color: '#555' }}>{item}</li>
-//             ))}
-//           </ul>
-//           <p>For more information on the inclusions & exclusions of travel insurance coverage, contact your travel agent.</p>
-//         </>
-//       )
-//     },
-//     {
-//       id: '6',
-//       title: 'Travel Day',
-//       image: '/assets/img/faq-travel-day.jpg',
-//       content: (
-//         <>
-//           <p>On your travel day, make a list of the things that you need to bring along- luggage, passport and tickets. Also, mark all your bags inside and out with your name and address – both home address and your holiday address. To be on the safe side, weigh your bags to ensure you don't exceed the baggage requirements of the airline.</p>
-//           <p>You do know that it is possible to travel with hand-luggage only, right? Just that you will need to know the airline rules for carrying liquids, otherwise you may have to remove them at the security checkpoint! In order to handle jet lags, stay hydrated by drinking lots of plain water during the flight. Avoid tea and coffee.</p>
-//         </>
-//       )
-//     },
-//     {
-//       id: '7',
-//       title: 'Flight/Airport Reminders',
-//       image: '/assets/img/faq-flight-airport-reminders.jpg',
-//       content: (
-//         <>
-//           <p>Gather required documents before your flight as you are responsible to present as required, documents by the relevant authorities at all entry and exit lanes.</p>
-//           <p>Self-check-in is free, simple & quick! Otherwise, counter check-in opens 3 hours before the scheduled time of departure and closes 1 hour before. Note: Check-in deadlines may vary at different airports.</p>
-//           <p>Pre-book your checked baggage to save money and time. Each piece/item of checked baggage has to weigh less than 30kg.</p>
-//           <p>Bringing liquids are subject to the prevalent applicable local laws and regulations guests may take liquids on board in their cabin baggage with a maximum volume of 100 ml. The items must be placed in a transparent, re-sealable plastic bag.</p>
-//           <p>For boarding time, guests are required to be at the boarding gate at least 20 minutes before the scheduled time of departure or you will be denied boarding.</p>
-//         </>
-//       )
-//     },
-//     {
-//       id: '8',
-//       title: 'Self-Drive Travel Reminders',
-//       image: '/assets/img/faq-self-drive-reminders.jpg',
-//       content: (
-//         <ul style={{ paddingLeft: '20px' }}>
-//           {[
-//             'Ensure you have a reliable GPS system and location maps in the car.',
-//             'Pack enough liquids/water and snacks in the car as some stretches are long.',
-//             'Try to reach your destination before dark as most stretches are either forests or farms.',
-//             'Plan some games, pack short story books or sing along rhymes if you travel with kids.',
-//             'Umbrellas are great in case there are light drizzles or rain.',
-//             'Always ensure your tank is full and refill before it reaches quarter tank.',
-//             'Buy insurance coverage for the driver and passengers.'
-//           ].map((item, i) => (
-//             <li key={i} style={{ marginBottom: '8px', color: '#555', lineHeight: '1.6' }}>{item}</li>
-//           ))}
-//         </ul>
-//       )
-//     },
-//     {
-//       id: '9',
-//       title: 'On Holiday',
-//       image: '/assets/img/faq-on-holidays.jpg',
-//       content: (
-//         <>
-//           <p>When you are overseas/ holiday destination, do call your close relatives/ friends to let them know you have arrived safely and keep them updated of where you are if you are moving around. Make sure to always keep your luggage locked when leaving them behind in the hotel.</p>
-//           <p>When you are abroad and if you want to try something local, make sure it is a recommendation from a trustworthy source. To make life easier, get a local map and identify the tourist info centres.</p>
-//           <p>Before your return flight, do confirm your flight details in case of delays or cancellations. It is best to ensure that you have all travel documents prepared and easily accessible for check in.</p>
-//           <p>Last but not least, make sure you are at the airport two hours (or 3-4 hours in some countries) earlier to avoid missing the flight.</p>
-//         </>
-//       )
-//     }
-//   ]
-
-//   return (
-//     <div className="archive" style={{ backgroundColor: '#f9fafb', minHeight: '100vh' }}>
-//       {/* Breadcrumb */}
-//       <div className="top_site_main" style={{backgroundImage: 'url(/assets/img/banner/top-heading.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative'}}>
-//         <div style={{ position: 'absolute', top:0, left:0, right:0, bottom:0, background: 'rgba(0,0,0,0.5)' }}></div>
-//         <div className="banner-wrapper container article_heading" style={{ position: 'relative', zIndex: 2, padding: '60px 0' }}>
-//           <div className="breadcrumbs-wrapper">
-//             <ul className="phys-breadcrumb" style={{ listStyle: 'none', padding: 0, display: 'flex', gap: '10px', color: '#fff' }}>
-//               <li><Link to="/" className="home" style={{ color: '#ffb300', textDecoration: 'none' }}>Home</Link></li>
-//               <li style={{ color: '#fff' }}>/</li>
-//               <li style={{ color: '#fff' }}>Travel Tips</li>
-//             </ul>
-//           </div>
-//           <h1 className="heading_primary" style={{ color: '#fff', fontSize: '2.5rem', fontWeight: '700', marginTop: '15px' }}>Travel Tips</h1>
-//         </div>
-//       </div>
-
-//       {/* Main Content */}
-//       <section className="content-area" style={{ padding: '60px 0' }}>
-//         <div className="container">
-//           <div className="row">
-//             <div className="site-main col-sm-12 full-width">
-              
-//               <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-//                 {tips.map((tip) => (
-//                   <div 
-//                     key={tip.id} 
-//                     style={{ 
-//                       marginBottom: '20px', 
-//       borderRadius: '8px', 
-//       overflow: 'hidden',
-//       boxShadow: activePanel === tip.id ? '0 10px 25px rgba(0,0,0,0.1)' : '0 2px 5px rgba(0,0,0,0.05)',
-//       border: '1px solid #eee',
-//       backgroundColor: '#fff',
-//       transition: 'all 0.3s ease'
-//     }}
-//                   >
-//                     {/* Header / Trigger */}
-//                     <div 
-//                       onClick={() => togglePanel(tip.id)}
-//                       style={{
-//                         padding: '20px 25px',
-//                         cursor: 'pointer',
-//                         display: 'flex',
-//                         justifyContent: 'space-between',
-//                         alignItems: 'center',
-//                         backgroundColor: activePanel === tip.id ? '#fff' : '#fff',
-//                         borderBottom: activePanel === tip.id ? '1px solid #eee' : 'none',
-//                         transition: 'background-color 0.2s'
-//                       }}
-//                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = activePanel === tip.id ? '#fff' : '#f8f9fa'}
-//                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = activePanel === tip.id ? '#fff' : '#fff'}
-//                     >
-//                       <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '600', color: '#333' }}>
-//                         {tip.title}
-//                       </h4>
-//                       <div style={{ 
-//                         width: '30px', 
-//                         height: '30px', 
-//                         borderRadius: '50%', 
-//                         backgroundColor: activePanel === tip.id ? '#ffb300' : '#f0f0f0',
-//                         display: 'flex',
-//                         alignItems: 'center',
-//                         justifyContent: 'center',
-//                         transition: 'all 0.3s ease',
-//                         transform: activePanel === tip.id ? 'rotate(180deg)' : 'rotate(0deg)'
-//                       }}>
-//                         <i className="fa fa-chevron-down" style={{ color: activePanel === tip.id ? '#fff' : '#777', fontSize: '0.9rem' }}></i>
-//                       </div>
-//                     </div>
-
-//                     {/* Content Body */}
-//                     <div 
-//                       style={{
-//                         maxHeight: activePanel === tip.id ? '1000px' : '0',
-//                         opacity: activePanel === tip.id ? 1 : 0,
-//                         overflow: 'hidden',
-//                         transition: 'max-height 0.4s ease, opacity 0.4s ease',
-//                         backgroundColor: '#fff'
-//                       }}
-//                     >
-//                       <div style={{ padding: '25px' }}>
-//                         <div style={{ display: 'flex', gap: '25px', flexDirection: 'window.innerWidth < 600 ? column : row' }}>
-//                           {/* Image Column */}
-//                           <div style={{ flex: '0 0 150px', display: 'flex', alignItems: 'flex-start' }}>
-//                             <img 
-//                               src={tip.image} 
-//                               alt={tip.title}
-//                               onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
-//                               style={{ 
-//                                 width: '100%', 
-//                                 borderRadius: '8px', 
-//                                 objectFit: 'cover',
-//                                 boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-//                               }}
-//                             />
-//                           </div>
-                          
-//                           {/* Text Column */}
-//                           <div style={{ flex: 1, color: '#555', lineHeight: '1.8', fontSize: '1rem' }}>
-//                             {tip.content}
-//                           </div>
-//                         </div>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </div>
-//   )
-// }
-
-
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -264,7 +12,8 @@ export default function TravelTips() {
       title: 'Choosing Your Holiday',
       category: 'Planning',
       icon: 'fa-map-signs',
-      image: '/assets/img/faq-choosing-your-holiday.jpg',
+      // ✅ Updated Placeholder: Map/Planning theme
+      image: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Learn how to pick the perfect guided tour or plan your own itinerary with confidence.',
       content: (
         <>
@@ -284,7 +33,8 @@ export default function TravelTips() {
       title: 'Prep Work for Travel',
       category: 'Preparation',
       icon: 'fa-suitcase',
-      image: '/assets/img/faq-prep-work-for-travel.jpg',
+      // ✅ Updated Placeholder: Suitcase/Packing theme
+      image: 'https://images.unsplash.com/photo-1553531384-cc64ac80f931?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Essential checklists for documents, packing, and informing loved ones before you go.',
       content: (
         <>
@@ -304,7 +54,8 @@ export default function TravelTips() {
       title: 'Medical Requirements',
       category: 'Health',
       icon: 'fa-medkit',
-      image: '/assets/img/faq-medical-requirement.jpg',
+      // ✅ Updated Placeholder: Health/Medical theme
+      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Stay safe with up-to-date vaccinations and health precautions for your destination.',
       content: (
         <p>You should be up to date on routine vaccinations (MMR, Tetanus, Chickenpox, Polio, Flu). Some destinations require specific vaccines. Always consult your local clinic or hospital for the latest travel health advice.</p>
@@ -315,7 +66,8 @@ export default function TravelTips() {
       title: 'Visa Requirements',
       category: 'Documents',
       icon: 'fa-passport',
-      image: '/assets/img/faq-visa-requirement.jpg',
+      // ✅ Updated Placeholder: Passport/Documents theme
+      image: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Navigate visa rules smoothly by checking official embassy sources before booking.',
       content: (
         <p>Visa requirements change frequently. Always verify with your travel agent or the destination country's Embassy/High Commission before booking any non-refundable tickets.</p>
@@ -326,7 +78,8 @@ export default function TravelTips() {
       title: 'Travel Insurance',
       category: 'Safety',
       icon: 'fa-shield-alt',
-      image: '/assets/img/faq-travel-insurance.jpg',
+      // ✅ Updated Placeholder: Safety/Shield theme
+      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Understand what is covered (accidents, luggage) and what isn\'t (war, extreme sports).',
       content: (
         <>
@@ -345,7 +98,8 @@ export default function TravelTips() {
       title: 'Travel Day Essentials',
       category: 'Airport',
       icon: 'fa-plane-departure',
-      image: '/assets/img/faq-travel-day.jpg',
+      // ✅ Updated Placeholder: Airport/Departure theme
+      image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Final checks for luggage, documents, and staying hydrated to beat jet lag.',
       content: (
         <>
@@ -360,7 +114,8 @@ export default function TravelTips() {
       title: 'Airport Reminders',
       category: 'Airport',
       icon: 'fa-clock',
-      image: '/assets/img/faq-flight-airport-reminders.jpg',
+      // ✅ Updated Placeholder: Time/Airport theme
+      image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Timelines for check-in, security, and boarding to ensure you never miss a flight.',
       content: (
         <>
@@ -378,7 +133,8 @@ export default function TravelTips() {
       title: 'Self-Drive Tips',
       category: 'Driving',
       icon: 'fa-car',
-      image: '/assets/img/faq-self-drive-reminders.jpg',
+      // ✅ Updated Placeholder: Road trip/Car theme
+      image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Stay safe on the road with GPS, supplies, and smart driving habits.',
       content: (
         <ul style={{ paddingLeft: '20px' }}>
@@ -395,7 +151,8 @@ export default function TravelTips() {
       title: 'On Holiday Safety',
       category: 'Safety',
       icon: 'fa-umbrella-beach',
-      image: '/assets/img/faq-on-holidays.jpg',
+      // ✅ Updated Placeholder: Beach/Safety theme
+      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       summary: 'Stay connected, secure your valuables, and enjoy your trip safely.',
       content: (
         <>
@@ -511,7 +268,7 @@ export default function TravelTips() {
                   <img 
                     src={tip.image} 
                     alt={tip.title} 
-                    onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
+                    onError={(e) => e.target.src = 'https://via.placeholder.com/800x400?text=Travel+Tip'}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
                   />
                   <div style={{

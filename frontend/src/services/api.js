@@ -18,13 +18,23 @@ api.interceptors.request.use((config) => {
 })
 
 // Response interceptor - handle token expiration
+let networkErrorLogged = false;
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // handle authentication expiration
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
       window.location.href = '/'
     }
+
+    // log network issues once to avoid console spam
+    if (!error.response && !networkErrorLogged) {
+      console.warn('API network error - server unreachable or network is down');
+      networkErrorLogged = true;
+    }
+
     return Promise.reject(error)
   }
 )

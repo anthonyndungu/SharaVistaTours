@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; // ✅ Import hooks
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
@@ -45,6 +45,7 @@ import About from './pages/About';
 function App() {
   // ✅ 1. ALL HOOKS MUST BE AT THE TOP
   const dispatch = useDispatch();
+  const location = useLocation();
 
   // Select all needed state variables here
   const { loading, isAuthenticated, user } = useSelector((state) => state.auth);
@@ -77,8 +78,9 @@ function App() {
     }
   }
 
+  const loginFrom = (location && location.state && location.state.from) || new URLSearchParams(location.search).get('redirect') || null;
+
   return (
-    <Router>
       <Routes>
         {/* 🌐 PUBLIC SITE */}
         <Route path="/" element={<MainLayout />}>
@@ -126,13 +128,12 @@ function App() {
         </Route>
 
         {/* Auth Routes (Optional: Redirect if already logged in) */}
-        <Route path="/login" element={isAuthenticated ? <Navigate to={defaultRedirect} /> : <Login />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to={loginFrom || defaultRedirect} /> : <Login />} />
         <Route path="/register" element={isAuthenticated ? <Navigate to={defaultRedirect} /> : <Register />} />
 
         {/* 404 */}
         <Route path="*" element={<Navigate to={defaultRedirect} />} />
       </Routes>
-    </Router>
   );
 }
 

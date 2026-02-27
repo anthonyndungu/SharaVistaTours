@@ -1185,11 +1185,16 @@
 
 
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Carousel from 'react-material-ui-carousel'
-import { Paper, Box } from '@mui/material'
+// carousel replaced with Swiper
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination, Autoplay } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/thumbs'
+import { Box } from '@mui/material'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { fetchPackageById, fetchPackages } from '../features/packages/packageSlice'
@@ -1214,6 +1219,17 @@ export default function SingleTour() {
   const [tourData, setTourData] = useState(null)
   const [relatedTours, setRelatedTours] = useState([])
   const [carouselIndex, setCarouselIndex] = useState(0)
+  const [mainSwiper, setMainSwiper] = useState(null) // ref to primary swiper
+  const thumbsRef = useRef(null) // manual ref for thumbnail swiper
+
+  useEffect(() => {
+    if (mainSwiper && typeof carouselIndex === 'number' && carouselIndex !== mainSwiper.activeIndex) {
+      mainSwiper.slideTo(carouselIndex)
+    }
+    if (thumbsRef.current && typeof carouselIndex === 'number' && carouselIndex !== thumbsRef.current.activeIndex) {
+      thumbsRef.current.slideTo(carouselIndex)
+    }
+  }, [carouselIndex, mainSwiper])
   
   const initialBookingValues = () => ({
     // Passenger info
@@ -1569,62 +1585,115 @@ export default function SingleTour() {
                   </div>
                 </div>
 
-                {/* Image Gallery */}
-                <Box sx={{ marginBottom: 2 }}>
-                  <Carousel 
-                    index={carouselIndex}
-                    onChange={(now) => setCarouselIndex(now)}
-                    interval={5000}
-                    navButtonsAlwaysVisible={true}
+                {/* Image Gallery using Swiper */}
+                <Box
+                  sx={{
+                    marginBottom: 2,
+                    position: 'relative',
+                  }}
+                >
+                {/* custom navigation controls */}
+                {mainSwiper && (
+                  <> 
+                    <Box
+                      component="button"
+                      onClick={() => mainSwiper.slidePrev()}
+                      sx={{
+                        position: 'absolute',
+                        left: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 10,
+                        background: 'rgba(0,0,0,0.3)',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: 36,
+                        height: 36,
+                        color: '#fff',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ‹
+                    </Box>
+                    <Box
+                      component="button"
+                      onClick={() => mainSwiper.slideNext()}
+                      sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        zIndex: 10,
+                        background: 'rgba(0,0,0,0.3)',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: 36,
+                        height: 36,
+                        color: '#fff',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ›
+                    </Box>
+                  </>
+                )}
+                  <Swiper
+                    modules={[Pagination, Autoplay]}
+                    // navigation handled by custom buttons
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                    // no thumbs module; manual syncing below
+                    onSwiper={setMainSwiper}
+                    onSlideChange={(swiper) => setCarouselIndex(swiper.activeIndex)}
+                    initialSlide={carouselIndex}
+                    style={{ width: '100%', aspectRatio: '16/9', maxHeight: '700px' }}
+                    className="main-swiper"
                   >
                     {tourData.images.map((image, index) => (
-                      <Paper key={index} sx={{ position: 'relative', overflow: 'hidden' }}>
+                      <SwiperSlide key={index} style={{ position: 'relative', overflow: 'hidden', height: '100%' }}>
                         <a href={image} className="swipebox" title="">
-                          <img 
-                            width="100%" 
-                            height="700" 
-                            src={image} 
+                          <img
+                            width="100%"
+                            height="100%"
+                            src={image}
                             alt={`${tourData.title} - ${index + 1}`}
                             title={tourData.title}
                             style={{ objectFit: 'cover', display: 'block' }}
                             onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
                           />
                         </a>
-                      </Paper>
+                      </SwiperSlide>
                     ))}
-                  </Carousel>
+                  </Swiper>
                 </Box>
 
-                {/* Thumbnail Carousel */}
-                <Box sx={{ display: 'flex', gap: 1, overflowX: 'auto', paddingBottom: 2 }}>
-                  {tourData.images.map((image, index) => (
-                    <Box
-                      key={index}
-                      onClick={() => setCarouselIndex(index)}
-                      sx={{
-                        minWidth: 120,
-                        height: 100,
-                        cursor: 'pointer',
-                        border: carouselIndex === index ? '3px solid #007bff' : '2px solid #ddd',
-                        transition: 'all 0.3s ease',
-                        borderRadius: '4px',
-                        overflow: 'hidden',
-                        '&:hover': {
-                          borderColor: '#007bff'
-                        }
-                      }}
-                    >
-                      <img 
-                        width="100%" 
-                        height="100%" 
-                        src={image} 
-                        alt={`Thumbnail ${index + 1}`}
-                        title={tourData.title}
-                        style={{ objectFit: 'cover', display: 'block' }}
-                        onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
-                      />
-                    </Box>
-                  ))}
+                {/* Thumbnail Slider using Swiper */}
+
+                {/* clicking a thumbnail updates main swiper; manual sync handled in effect above */}
+                <Box sx={{ marginBottom: 2 }}>
+                  <Swiper
+                    onSwiper={(s) => (thumbsRef.current = s)}
+                    modules={[Pagination]}
+                    spaceBetween={10}
+                    slidesPerView={Math.max(1, Math.min(tourData.images.length, 5))}
+                    watchSlidesProgress
+                    style={{ width: '100%', height: '100px' }}
+                  >
+                    {tourData.images.map((image, index) => (
+                      <SwiperSlide key={index} style={{ cursor: 'pointer' }}>
+                        <img
+                          width="100%"
+                          height="100%"
+                          src={image}
+                          alt={`Thumbnail ${index + 1}`}
+                          title={tourData.title}
+                          style={{ objectFit: 'cover', display: 'block', border: carouselIndex === index ? '3px solid #007bff' : '2px solid #ddd', borderRadius: '4px' }}
+                          onClick={() => setCarouselIndex(index)}
+                          onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 </Box>
 
                 <div className="clear"></div>

@@ -6,12 +6,25 @@ import api from '../../services/api';
 export const fetchPackages = createAsyncThunk(
   'packages/fetchAll',
   async (_, { rejectWithValue }) => {
+    // bail out early if browser reports offline status
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      return rejectWithValue('Offline: please check your network connection');
+    }
     try {
       const response = await api.get('/packages');
       return response.data.data.packages;
     } catch (error) {
-      console.error('Error fetching packages:', error); // Debugging log
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch packages');
+      // differentiate network errors (no response) from API errors
+      let msg;
+      if (!error.response) {
+        // network error (server unreachable, DNS, etc.)
+        msg = 'Network error: please check your connection or try again later';
+      } else {
+        msg = error.response.data?.message || 'Failed to fetch packages';
+      }
+      // only log once for debugging, avoid flooding console
+      console.error('Error fetching packages:', msg, error);
+      return rejectWithValue(msg);
     }
   }
 );
@@ -19,11 +32,20 @@ export const fetchPackages = createAsyncThunk(
 export const fetchPackageById = createAsyncThunk(
   'packages/fetchById',
   async (id, { rejectWithValue }) => {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      return rejectWithValue('Offline: unable to fetch package');
+    }
     try {
       const response = await api.get(`/packages/${id}`);
       return response.data.data.package;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Package not found');
+      let msg;
+      if (!error.response) {
+        msg = 'Network error: unable to load package';
+      } else {
+        msg = error.response.data?.message || 'Package not found';
+      }
+      return rejectWithValue(msg);
     }
   }
 );
@@ -31,11 +53,20 @@ export const fetchPackageById = createAsyncThunk(
 export const fetchFeaturedPackages = createAsyncThunk(
   'packages/fetchFeatured',
   async (_, { rejectWithValue }) => {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      return rejectWithValue('Offline: unable to fetch featured packages');
+    }
     try {
       const response = await api.get('/packages?is_featured=true');
       return response.data.data.packages;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch featured packages');
+      let msg;
+      if (!error.response) {
+        msg = 'Network error: unable to load featured packages';
+      } else {
+        msg = error.response.data?.message || 'Failed to fetch featured packages';
+      }
+      return rejectWithValue(msg);
     }
   }
 );
@@ -90,11 +121,20 @@ export const deletePackage = createAsyncThunk(
 export const fetchPackageStats = createAsyncThunk(
   'packages/fetchStats',
   async (_, { rejectWithValue }) => {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      return rejectWithValue('Offline: unable to fetch package statistics');
+    }
     try {
       const response = await api.get('/packages/stats');
       return response.data.data.stats;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch package statistics');
+      let msg;
+      if (!error.response) {
+        msg = 'Network error: unable to retrieve package stats';
+      } else {
+        msg = error.response.data?.message || 'Failed to fetch package statistics';
+      }
+      return rejectWithValue(msg);
     }
   }
 );
