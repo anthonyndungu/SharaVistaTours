@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useDispatch, useSelector } from 'react-redux'; // ✅ Import hooks
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
-import { initializeAuth } from './features/auth/authSlice';
+import { fetchAllUsers, initializeAuth } from './features/auth/authSlice';
 
 // Public routes
 import MainLayout from './layouts/MainLayout';
@@ -22,7 +22,7 @@ import MyBookings from './pages/dashboard/MyBookings';
 import Profile from './pages/dashboard/Profile';
 import Payments from './pages/dashboard/PaymentHistory';
 import Dashboard from './pages/dashboard/Dashboard';
-import BookingDetails from './pages/dashboard/BookingDetails'; // ✅ Added missing import
+import BookingDetails from './pages/dashboard/BookingDetails';
 
 // Admin routes
 import AdminLayout from './layouts/AdminLayout';
@@ -48,10 +48,11 @@ function App() {
 
   // Select all needed state variables here
   const { loading, isAuthenticated, user } = useSelector((state) => state.auth);
-
+  
   useEffect(() => {
     dispatch(initializeAuth());
-    dispatch(fetchPackages())
+    dispatch(fetchPackages());
+    //dispatch(fetchAllUsers());
   }, [dispatch]);
 
 
@@ -116,7 +117,7 @@ function App() {
           <Route path="packages/new" element={<CreatePackage />} />
           <Route path="packages/edit/:id" element={<EditPackage />} /> {/* ✅ Fixed Path */}
           <Route path="bookings" element={<AdminBookings />} />
-          <Route path="bookings/:bookingId" element={<BookingDetails />} /> {/* ✅ Reuse BookingDetails for admin view */}  
+          <Route path="bookings/:bookingId" element={<BookingDetails />} /> {/* ✅ Reuse BookingDetails for admin view */}
           <Route path="clients" element={<AdminClients />} />
           <Route path="users/:id" element={<UserProfile />} />
           <Route path="reviews" element={<AdminReviews />} />

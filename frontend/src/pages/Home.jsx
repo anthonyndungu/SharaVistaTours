@@ -16,6 +16,14 @@ export default function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, packages, error } = useSelector(state => state.packages);
+  const authUsers = useSelector(state => state.auth?.users); // ✅ Get users from auth state
+
+  // derive only clients for easier reuse
+  const clientUsers = useMemo(() => {
+    if (!Array.isArray(authUsers)) return [];
+    return authUsers.filter(u => u.role && u.role.toLowerCase() === 'client');
+  }, [authUsers]);
+
 
   // Refs for Swiper instances
   const popularSwiperRef = useRef(null);
@@ -802,28 +810,70 @@ export default function Home() {
             <h3 className="title_primary">CENTER ACHIEVEMENTS</h3>
             <span className="line_after_title" style={{ color: '#ffffff' }}></span>
           </div>
-          <div className="row" style={{ marginTop: '30px' }}>
-            {[
-              { value: '94,532', label: 'Customers', icon: 'flaticon-airplane' },
-              { value: '1,021', label: 'Destinations', icon: 'flaticon-island' },
-              { value: '20,096', label: 'Tours', icon: 'flaticon-globe' },
-              { value: '12', label: 'Tour types', icon: 'flaticon-people' }
-            ].map((stat, index) => (
-              <div key={index} className="col-sm-3" style={{ marginBottom: '20px', textAlign: 'center' }}>
-                <div className="stats_counter text-white">
-                  <div className="wrapper-icon" style={{ fontSize: '40px', marginBottom: '15px', color: '#ffb300' }}>
-                    <i className={stat.icon}></i>
+
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#fff' }}><Spinner /></div>
+          ) : (
+            <div className="row" style={{ marginTop: '30px' }}>
+            
+              {(() => {
+                const totalTours = packages.length;
+
+                // Get unique destinations
+                const uniqueDestinations = new Set(packages.map(p => p.destination).filter(Boolean));
+                const totalDestinations = uniqueDestinations.size;
+
+                // Get unique categories
+                const uniqueCategories = new Set(packages.map(p => p.category).filter(Boolean));
+                const totalTypes = uniqueCategories.size;
+
+                // Simulate customers (Base + multiplier based on tours)
+                // In a real app, you would fetch this from an API endpoint like /api/stats
+                const estimatedCustomers = 150 + (totalTours * 12);
+
+                const stats = [
+                  {
+                    value: estimatedCustomers.toLocaleString(),
+                    label: 'Happy Customers',
+                    icon: 'flaticon-people'
+                  },
+                  {
+                    value: totalDestinations.toLocaleString(),
+                    label: 'Destinations',
+                    icon: 'flaticon-island'
+                  },
+                  {
+                    value: totalTours.toLocaleString(),
+                    label: 'Available Tours',
+                    icon: 'flaticon-globe'
+                  },
+                  {
+                    value: totalTypes.toLocaleString(),
+                    label: 'Tour Types',
+                    icon: 'flaticon-airplane'
+                  }
+                ];
+
+                return stats.map((stat, index) => (
+                  <div key={index} className="col-sm-3" style={{ marginBottom: '20px', textAlign: 'center' }}>
+                    <div className="stats_counter text-white">
+                      <div className="wrapper-icon" style={{ fontSize: '40px', marginBottom: '15px', color: '#ffb300' }}>
+                        <i className={stat.icon}></i>
+                      </div>
+                      <div className="stats_counter_number" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+                        {stat.value}
+                      </div>
+                      <div className="stats_counter_title">{stat.label}</div>
+                    </div>
                   </div>
-                  <div className="stats_counter_number" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>{stat.value}</div>
-                  <div className="stats_counter_title">{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+                ));
+              })()}
+            </div>
+          )}
         </div>
       </div> */}
 
-      {/* ✅ UPDATED: Center Achievements - Dynamic from DB */}
+            {/* ✅ UPDATED: Center Achievements - Count ONLY Clients */}
       <div className="padding-top-6x padding-bottom-6x bg__shadow section-background" style={{ backgroundImage: 'url(/assets/img/home/bg-pallarax.jpg)', backgroundSize: 'cover' }}>
         <div className="container">
           <div className="shortcode_title text-white title-center title-decoration-bottom-center">
@@ -848,14 +898,14 @@ export default function Home() {
                 const uniqueCategories = new Set(packages.map(p => p.category).filter(Boolean));
                 const totalTypes = uniqueCategories.size;
 
-                // Simulate customers (Base + multiplier based on tours)
-                // In a real app, you would fetch this from an API endpoint like /api/stats
-                const estimatedCustomers = 150 + (totalTours * 12);
+                // Filter users where role === 'client' (case-insensitive check)
+                // use memoized clientUsers list
+                const totalCustomers = clientUsers.length;
 
                 const stats = [
                   {
-                    value: estimatedCustomers.toLocaleString(),
-                    label: 'Happy Customers',
+                    value: totalCustomers.toLocaleString(),
+                    label: 'Happy Clients', // Updated label
                     icon: 'flaticon-people'
                   },
                   {

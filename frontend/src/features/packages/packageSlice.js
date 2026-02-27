@@ -40,37 +40,10 @@ export const fetchFeaturedPackages = createAsyncThunk(
   }
 );
 
-// export const createPackage = createAsyncThunk(
-//   'packages/create',
-//   async (packageData, { rejectWithValue }) => {
-//     try {
-//       const response = await api.post('/packages', packageData);
-//       return response.data.data.package;
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data?.message || 'Failed to create package');
-//     }
-//   }
-// );
-
-// export const updatePackage = createAsyncThunk(
-//   'packages/update',
-//   async ({ id, packageData }, { rejectWithValue }) => {
-//     try {
-//       const response = await api.put(`/packages/${id}`, packageData);
-//       return response.data.data.package;
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data?.message || 'Failed to update package');
-//     }
-//   }
-// );
-
-// src/features/packages/packageSlice.js
-
 export const createPackage = createAsyncThunk(
   'packages/createPackage',
   async (formData, { rejectWithValue }) => {
     try {
-      // Axios automatically sets 'multipart/form-data' when it sees FormData
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data'
