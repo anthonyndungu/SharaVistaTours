@@ -24,7 +24,6 @@
 //     return authUsers.filter(u => u.role && u.role.toLowerCase() === 'client');
 //   }, [authUsers]);
 
-
 //   // Refs for Swiper instances
 //   const popularSwiperRef = useRef(null);
 //   const dealsSwiperRef = useRef(null);
@@ -85,13 +84,11 @@
 //   // --- SEARCH HANDLER ---
 //   const handleSearch = (e) => {
 //     e.preventDefault();
-
 //     const params = new URLSearchParams();
 //     if (searchTerm.trim()) params.append('search', searchTerm.trim());
 //     if (selectedType) params.append('type', selectedType);
 //     if (selectedDest) params.append('destination', selectedDest);
 //     if (selectedMonth) params.append('month', selectedMonth.toLowerCase());
-
 //     navigate(`/tours?${params.toString()}`);
 //   };
 
@@ -124,11 +121,9 @@
 //     return (
 //       <div className="item-tour" style={{ height: '100%' }}>
 //         <div className="item_border" style={{ display: 'flex', flexDirection: 'column', height: '100%', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-
 //           {/* Image Section */}
 //           <div className="post_images" style={{ position: 'relative', width: '100%', paddingTop: '65%', overflow: 'hidden', backgroundColor: '#f0f0f0' }}>
 //             <Link to={`/tours/${pkg.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-
 //               {/* Adult Price Badge */}
 //               <div className="price-badge adult" style={{
 //                 position: 'absolute', left: '10px', top: '10px', zIndex: 2,
@@ -144,7 +139,6 @@
 //                   formatPrice(adultPrice)
 //                 )}
 //               </div>
-
 //               {/* Child Price Badge (below adult) */}
 //               {childPrice > 0 && (
 //                 <div className="price-badge child" style={{
@@ -155,7 +149,6 @@
 //                   Child: {formatPrice(childPrice)}
 //                 </div>
 //               )}
-
 //               {/* Sale Badge */}
 //               {hasAdultDiscount && (
 //                 <span className="onsale" style={{
@@ -163,7 +156,6 @@
 //                   color: '#fff', padding: '4px 8px', borderRadius: '4px', zIndex: 2, fontSize: '0.8rem', fontWeight: 'bold'
 //                 }}>Sale!</span>
 //               )}
-
 //               <img
 //                 src={imageUrl}
 //                 alt={pkg.title || pkg.name}
@@ -172,7 +164,6 @@
 //                 onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
 //               />
 //             </Link>
-
 //             {/* Icons */}
 //             <div className="group-icon" style={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 2, display: 'flex', gap: '5px' }}>
 //               <a href="#" data-toggle="tooltip" data-placement="top" title={pkg.category || ''} className="frist" style={{ background: 'rgba(255,255,255,0.9)', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: '#333' }}>
@@ -183,7 +174,6 @@
 //               </a>
 //             </div>
 //           </div>
-
 //           {/* Content Section */}
 //           <div className="wrapper_content" style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column', background: '#fff' }}>
 //             <div className="post_title">
@@ -203,7 +193,6 @@
 //               </p>
 //             </div>
 //           </div>
-
 //           {/* Footer Section */}
 //           <div className="read_more" style={{ padding: '15px', borderTop: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f9f9f9' }}>
 //             <div className="item_rating">
@@ -252,13 +241,10 @@
 //     </button>
 //   );
 
-
-
 //   const CountdownTimer = ({ targetDate }) => {
 //     const calculateTimeLeft = () => {
 //       const difference = +new Date(targetDate) - +new Date();
 //       let timeLeft = {};
-
 //       if (difference > 0) {
 //         timeLeft = {
 //           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -340,9 +326,7 @@
 //         >
 //           <source src="/assets/video/sharavista-intro1.mp4" type="video/mp4" />
 //         </video>
-
 //         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 2 }}></div>
-
 //         <div style={{
 //           position: 'relative', zIndex: 3, height: '100%',
 //           display: 'flex', flexDirection: 'column',
@@ -419,7 +403,6 @@
 //                   }}
 //                 />
 //               </div>
-
 //               {/* Tour Type Select */}
 //               <div style={{ flex: '1 1 140px', minWidth: 'unset', width: '100%' }}>
 //                 <Select
@@ -443,7 +426,6 @@
 //                   menuPortalTarget={document.body}
 //                 />
 //               </div>
-
 //               {/* Destination Select */}
 //               <div style={{ flex: '1 1 140px', minWidth: 'unset', width: '100%' }}>
 //                 <Select
@@ -467,8 +449,7 @@
 //                   menuPortalTarget={document.body}
 //                 />
 //               </div>
-
-//               {/* Month Select */}
+//               {/* Duration Days */}
 //               <div style={{ flex: '1 1 140px', minWidth: 'unset', width: '100%' }}>
 //                 <Select
 //                   options={[{ value: '', label: 'Month' }, ...monthOptions.map(month => ({ value: month.toLowerCase(), label: month }))]}
@@ -491,7 +472,6 @@
 //                   menuPortalTarget={document.body}
 //                 />
 //               </div>
-
 //               {/* Search Button */}
 //               <button type="submit" style={{
 //                 backgroundColor: '#ffb300', color: '#fff',
@@ -505,9 +485,8 @@
 //               }}>
 //                 SEARCH TOURS
 //               </button>
-
 //               {/* Clear Filters Button */}
-//               {(searchTerm || selectedType || selectedDest || selectedMonth) && (
+//               {(searchTerm || selectedType || selectedDest || durationDays || durationNights) && (
 //                 <button
 //                   type="button"
 //                   onClick={clearFilters}
@@ -527,6 +506,14 @@
 //             </form>
 //           </div>
 //         </div>
+//       </div>
+//         {/* ✅ NEW SECTION: Welcome Message */}
+//       <div className="container" style={{ padding: '60px 20px', textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
+//         <h2 style={{ fontSize: '2.5rem', fontWeight: '700', color: '#333', marginBottom: '20px' }}>Welcome to Sharavista Tours and Travel</h2>
+//         <div style={{ width: '80px', height: '4px', background: '#ffb300', margin: '0 auto 30px auto' }}></div>
+//         <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: '#555' }}>
+//           Your premier partner in creating extraordinary travel experiences throughout Africa and beyond. Established in December 2024, we've quickly emerged as a leading destination management company dedicated to providing personalized travel solutions that exceed expectations.
+//         </p>
 //       </div>
 
 //       {/* Why Choose Us */}
@@ -565,6 +552,8 @@
 //         </div>
 //       </div>
 
+    
+
 //       {/* Most Popular Tours - SWIPER WITH INLINE ARROWS */}
 //       <div className="padding-top-6x padding-bottom-6x section-background" style={{ backgroundImage: 'url(/assets/img/home/bg-popular.jpg)', backgroundSize: 'cover' }}>
 //         <div className="container">
@@ -573,22 +562,17 @@
 //             <h3 className="title_primary">MOST POPULAR TOURS</h3>
 //             <span className="line_after_title" style={{ color: '#ffffff' }}></span>
 //           </div>
-
 //           <div className="row wrapper-tours-slider" style={{ marginTop: '30px' }}>
 //             {loading && <div style={{ textAlign: 'center', width: '100%', color: '#fff' }}><Spinner /></div>}
-
 //             {!loading && error && (
 //               <div className="alert alert-danger" style={{ padding: '20px', backgroundColor: '#fee', color: '#c00', borderRadius: '8px', width: '100%' }}>
 //                 Error: {error}
 //               </div>
 //             )}
-
 //             {!loading && !error && packages.length > 0 && (
 //               <div style={{ position: 'relative', overflow: 'visible' }}>
-
 //                 {/* Left Arrow positioned inside container */}
 //                 <NavButton direction="left" onClick={() => popularSwiperRef.current?.swiper.slidePrev()} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
-
 //                 {/* Swiper with padding to avoid overlap */}
 //                 <div style={{ width: '100%', padding: '0 50px' }}>
 //                   <Swiper
@@ -614,10 +598,8 @@
 //                     ))}
 //                   </Swiper>
 //                 </div>
-
 //                 {/* Right Arrow positioned inside container */}
 //                 <NavButton direction="right" onClick={() => popularSwiperRef.current?.swiper.slideNext()} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
-
 //               </div>
 //             )}
 //           </div>
@@ -632,12 +614,10 @@
 //             <h3 className="title_primary">DESTINATION</h3>
 //             <span className="line_after_title"></span>
 //           </div>
-
 //           {loading ? (
 //             <div style={{ textAlign: 'center', padding: '40px' }}><Spinner /></div>
 //           ) : destinationOptions.length > 0 ? (
 //             <div style={{ marginTop: '40px', paddingBottom: '20px', position: 'relative', overflow: 'visible' }}>
-
 //               {/* Left Arrow Button - Absolutely Positioned */}
 //               <button
 //                 onClick={() => destinationSwiperRef.current?.swiper.slidePrev()}
@@ -665,7 +645,6 @@
 //               >
 //                 <i className="fa fa-chevron-left" style={{ fontSize: '18px' }}></i>
 //               </button>
-
 //               {/* Swiper Component with Padding */}
 //               <div style={{ width: '100%', padding: '0 50px' }}>
 //                 <Swiper
@@ -673,7 +652,6 @@
 //                   modules={[Navigation, Pagination, Autoplay]}
 //                   spaceBetween={20}
 //                   slidesPerView={2}
-//                   // navigation={true} // Disabled default nav
 //                   pagination={{ clickable: true }}
 //                   autoplay={{ delay: 3500, disableOnInteraction: false }}
 //                   breakpoints={{
@@ -689,7 +667,6 @@
 //                     const cityName = dest.toLowerCase().replace(/\s+/g, '-');
 //                     const cityImage = `/assets/img/city/${cityName}.jpg`;
 //                     const fallbackImage = `https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80`;
-
 //                     return (
 //                       <SwiperSlide key={index}>
 //                         <Link
@@ -718,7 +695,6 @@
 //                             onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
 //                             onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
 //                           />
-
 //                           <div style={{
 //                             position: 'absolute',
 //                             bottom: 0,
@@ -728,7 +704,6 @@
 //                             background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
 //                             pointerEvents: 'none'
 //                           }}></div>
-
 //                           <div style={{
 //                             position: 'absolute',
 //                             bottom: '20px',
@@ -766,7 +741,6 @@
 //                   })}
 //                 </Swiper>
 //               </div>
-
 //               {/* Right Arrow Button - Absolutely Positioned */}
 //               <button
 //                 onClick={() => destinationSwiperRef.current?.swiper.slideNext()}
@@ -794,7 +768,6 @@
 //               >
 //                 <i className="fa fa-chevron-right" style={{ fontSize: '18px' }}></i>
 //               </button>
-
 //             </div>
 //           ) : (
 //             <p style={{ textAlign: 'center', padding: '40px', color: '#777' }}>No destinations available at the moment.</p>
@@ -802,78 +775,7 @@
 //         </div>
 //       </div>
 
-//       {/* Center Achievements */}
-//       {/* <div className="padding-top-6x padding-bottom-6x bg__shadow section-background" style={{ backgroundImage: 'url(/assets/img/home/bg-pallarax.jpg)', backgroundSize: 'cover' }}>
-//         <div className="container">
-//           <div className="shortcode_title text-white title-center title-decoration-bottom-center">
-//             <div className="title_subtitle">Some statistics about Sharavista Tours</div>
-//             <h3 className="title_primary">CENTER ACHIEVEMENTS</h3>
-//             <span className="line_after_title" style={{ color: '#ffffff' }}></span>
-//           </div>
-
-//           {loading ? (
-//             <div style={{ textAlign: 'center', padding: '40px', color: '#fff' }}><Spinner /></div>
-//           ) : (
-//             <div className="row" style={{ marginTop: '30px' }}>
-            
-//               {(() => {
-//                 const totalTours = packages.length;
-
-//                 // Get unique destinations
-//                 const uniqueDestinations = new Set(packages.map(p => p.destination).filter(Boolean));
-//                 const totalDestinations = uniqueDestinations.size;
-
-//                 // Get unique categories
-//                 const uniqueCategories = new Set(packages.map(p => p.category).filter(Boolean));
-//                 const totalTypes = uniqueCategories.size;
-
-//                 // Simulate customers (Base + multiplier based on tours)
-//                 // In a real app, you would fetch this from an API endpoint like /api/stats
-//                 const estimatedCustomers = 150 + (totalTours * 12);
-
-//                 const stats = [
-//                   {
-//                     value: estimatedCustomers.toLocaleString(),
-//                     label: 'Happy Customers',
-//                     icon: 'flaticon-people'
-//                   },
-//                   {
-//                     value: totalDestinations.toLocaleString(),
-//                     label: 'Destinations',
-//                     icon: 'flaticon-island'
-//                   },
-//                   {
-//                     value: totalTours.toLocaleString(),
-//                     label: 'Available Tours',
-//                     icon: 'flaticon-globe'
-//                   },
-//                   {
-//                     value: totalTypes.toLocaleString(),
-//                     label: 'Tour Types',
-//                     icon: 'flaticon-airplane'
-//                   }
-//                 ];
-
-//                 return stats.map((stat, index) => (
-//                   <div key={index} className="col-sm-3" style={{ marginBottom: '20px', textAlign: 'center' }}>
-//                     <div className="stats_counter text-white">
-//                       <div className="wrapper-icon" style={{ fontSize: '40px', marginBottom: '15px', color: '#ffb300' }}>
-//                         <i className={stat.icon}></i>
-//                       </div>
-//                       <div className="stats_counter_number" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
-//                         {stat.value}
-//                       </div>
-//                       <div className="stats_counter_title">{stat.label}</div>
-//                     </div>
-//                   </div>
-//                 ));
-//               })()}
-//             </div>
-//           )}
-//         </div>
-//       </div> */}
-
-//             {/* ✅ UPDATED: Center Achievements - Count ONLY Clients */}
+//       {/* ✅ UPDATED: Center Achievements - Count ONLY Clients */}
 //       <div className="padding-top-6x padding-bottom-6x bg__shadow section-background" style={{ backgroundImage: 'url(/assets/img/home/bg-pallarax.jpg)', backgroundSize: 'cover' }}>
 //         <div className="container">
 //           <div className="shortcode_title text-white title-center title-decoration-bottom-center">
@@ -881,7 +783,6 @@
 //             <h3 className="title_primary">CENTER ACHIEVEMENTS</h3>
 //             <span className="line_after_title" style={{ color: '#ffffff' }}></span>
 //           </div>
-
 //           {loading ? (
 //             <div style={{ textAlign: 'center', padding: '40px', color: '#fff' }}><Spinner /></div>
 //           ) : (
@@ -889,19 +790,15 @@
 //               {/* Calculate Dynamic Stats */}
 //               {(() => {
 //                 const totalTours = packages.length;
-
 //                 // Get unique destinations
 //                 const uniqueDestinations = new Set(packages.map(p => p.destination).filter(Boolean));
 //                 const totalDestinations = uniqueDestinations.size;
-
 //                 // Get unique categories
 //                 const uniqueCategories = new Set(packages.map(p => p.category).filter(Boolean));
 //                 const totalTypes = uniqueCategories.size;
-
 //                 // Filter users where role === 'client' (case-insensitive check)
 //                 // use memoized clientUsers list
 //                 const totalCustomers = clientUsers.length;
-
 //                 const stats = [
 //                   {
 //                     value: totalCustomers.toLocaleString(),
@@ -924,7 +821,6 @@
 //                     icon: 'flaticon-airplane'
 //                   }
 //                 ];
-
 //                 return stats.map((stat, index) => (
 //                   <div key={index} className="col-sm-3" style={{ marginBottom: '20px', textAlign: 'center' }}>
 //                     <div className="stats_counter text-white">
@@ -950,7 +846,6 @@
 //             <h3 className="title_primary">DEALS AND DISCOUNTS</h3>
 //             <span className="line_after_title"></span>
 //           </div>
-
 //           <div className="row wrapper-tours-slider" style={{ marginTop: '30px' }}>
 //             {!loading && !error && dealPackages.length > 0 && (
 //               <div style={{ position: 'relative', overflow: 'visible' }}>
@@ -980,7 +875,6 @@
 //                   </Swiper>
 //                 </div>
 //                 <NavButton direction="right" onClick={() => dealsSwiperRef.current?.swiper.slideNext()} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }} />
-
 //               </div>
 //             )}
 //             {!loading && !error && dealPackages.length === 0 && (
@@ -989,11 +883,11 @@
 //           </div>
 //         </div>
 //       </div>
+
 //       {/* ✅ UPDATED: Special Offer with Countdown Timer */}
 //       <div className="bg__shadow padding-top-6x padding-bottom-6x section-background" style={{ backgroundImage: 'url(/assets/img/home/bg-pallarax.jpg)', backgroundSize: 'cover', position: 'relative' }}>
 //         {/* Dark Overlay for better text readability */}
 //         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1 }}></div>
-
 //         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
 //           <div className="row">
 //             <div className="col-sm-2"></div>
@@ -1007,10 +901,8 @@
 //                 </h3>
 //                 <span className="line" style={{ display: 'block', width: '60px', height: '3px', background: '#ffb300', margin: '20px auto' }}></span>
 //                 <p style={{ color: '#ffffff', fontSize: '1.2rem', marginBottom: '30px' }}>It's limited seating! Hurry up</p>
-
 //                 {/* ✅ COUNTDOWN TIMER */}
 //                 <CountdownTimer targetDate="2026-03-31T00:00:00" />
-
 //                 <div className="col-sm-12 text-center padding-top-2x">
 //                   <a href="/tours/special" className="icon-btn" style={{ display: 'inline-block', background: '#ffb300', color: '#fff', padding: '15px 40px', borderRadius: '50px', textDecoration: 'none', fontWeight: 'bold', marginTop: '30px', fontSize: '1.1rem', transition: 'transform 0.2s' }}
 //                     onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
@@ -1169,7 +1061,8 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedDest, setSelectedDest] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [durationDays, setDurationDays] = useState('');
+  const [durationNights, setDurationNights] = useState('');
 
   // Compute deals
   const dealPackages = packages
@@ -1212,10 +1105,6 @@ export default function Home() {
     };
   }, [packages]);
 
-  const monthOptions = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
 
   // --- SEARCH HANDLER ---
   const handleSearch = (e) => {
@@ -1224,7 +1113,8 @@ export default function Home() {
     if (searchTerm.trim()) params.append('search', searchTerm.trim());
     if (selectedType) params.append('type', selectedType);
     if (selectedDest) params.append('destination', selectedDest);
-    if (selectedMonth) params.append('month', selectedMonth.toLowerCase());
+    if (durationDays) params.append('duration_days', durationDays);
+    if (durationNights) params.append('duration_nights', durationNights);
     navigate(`/tours?${params.toString()}`);
   };
 
@@ -1232,7 +1122,8 @@ export default function Home() {
     setSearchTerm('');
     setSelectedType('');
     setSelectedDest('');
-    setSelectedMonth('');
+    setDurationDays('');
+    setDurationNights('');
   };
 
   // Helper to get image URL
@@ -1585,27 +1476,42 @@ export default function Home() {
                   menuPortalTarget={document.body}
                 />
               </div>
-              {/* Month Select */}
+              {/* Duration Days */}
               <div style={{ flex: '1 1 140px', minWidth: 'unset', width: '100%' }}>
-                <Select
-                  options={[{ value: '', label: 'Month' }, ...monthOptions.map(month => ({ value: month.toLowerCase(), label: month }))]}
-                  value={selectedMonth ? { value: selectedMonth, label: monthOptions[monthOptions.findIndex(m => m.toLowerCase() === selectedMonth)] || selectedMonth } : { value: '', label: 'Month' }}
-                  onChange={(option) => setSelectedMonth(option?.value || '')}
-                  isClearable={false}
-                  isSearchable={true}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      minHeight: '48px',
-                      height: '48px',
-                      borderRadius: '4px',
-                      border: '1px solid #ddd',
-                      boxSizing: 'border-box'
-                    }),
-                    menuPortal: (base) => ({ ...base, zIndex: 10000 }),
-                    menu: (base) => ({ ...base, zIndex: 10000 })
+                <input
+                  type="number"
+                  placeholder="Days"
+                  value={durationDays}
+                  onChange={(e) => setDurationDays(e.target.value)}
+                  min="0"
+                  style={{
+                    width: '100%',
+                    padding: '12px 15px',
+                    borderRadius: '4px',
+                    border: '1px solid #ddd',
+                    fontSize: '0.95rem',
+                    boxSizing: 'border-box',
+                    height: '48px'
                   }}
-                  menuPortalTarget={document.body}
+                />
+              </div>
+              {/* Duration Nights */}
+              <div style={{ flex: '1 1 140px', minWidth: 'unset', width: '100%' }}>
+                <input
+                  type="number"
+                  placeholder="Nights"
+                  value={durationNights}
+                  onChange={(e) => setDurationNights(e.target.value)}
+                  min="0"
+                  style={{
+                    width: '100%',
+                    padding: '12px 15px',
+                    borderRadius: '4px',
+                    border: '1px solid #ddd',
+                    fontSize: '0.95rem',
+                    boxSizing: 'border-box',
+                    height: '48px'
+                  }}
                 />
               </div>
               {/* Search Button */}
@@ -1622,7 +1528,7 @@ export default function Home() {
                 SEARCH TOURS
               </button>
               {/* Clear Filters Button */}
-              {(searchTerm || selectedType || selectedDest || selectedMonth) && (
+              {(searchTerm || selectedType || selectedDest || durationDays || durationNights) && (
                 <button
                   type="button"
                   onClick={clearFilters}

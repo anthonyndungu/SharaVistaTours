@@ -388,6 +388,8 @@ export default function Tours() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState(null); // ✅ React-select uses objects/null
   const [selectedDest, setSelectedDest] = useState(null); // ✅ React-select uses objects/null
+  const [durationDays, setDurationDays] = useState('');
+  const [durationNights, setDurationNights] = useState('');
 
   const location = useLocation(); // read query params from URL
 
@@ -454,6 +456,8 @@ export default function Tours() {
     setSearchTerm('');
     setSelectedType(null);
     setSelectedDest(null);
+    setDurationDays('');
+    setDurationNights('');
   };
 
   // --- INITIALIZE STATE FROM QUERY PARAMETERS ---
@@ -462,8 +466,12 @@ export default function Tours() {
     const s = params.get('search') || '';
     const t = params.get('type') || '';
     const d = params.get('destination') || '';
+    const days = params.get('duration_days') || '';
+    const nights = params.get('duration_nights') || '';
 
     setSearchTerm(s);
+    setDurationDays(days);
+    setDurationNights(nights);
 
     if (t) {
       const found = uniqueTypes.find(o => o.value === t);
@@ -723,6 +731,25 @@ export default function Tours() {
                         ...theme,
                         colors: { ...theme.colors, primary: '#ffb300', primary25: '#ffe082' },
                       })}
+                    />
+
+                    {/* Duration Days */}
+                    <input
+                      type="number"
+                      placeholder="Days"
+                      value={durationDays}
+                      onChange={(e) => setDurationDays(e.target.value)}
+                      min="0"
+                      style={{ width: '100%', padding: '10px', marginBottom: '10px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box', height: '46px' }}
+                    />
+                    {/* Duration Nights */}
+                    <input
+                      type="number"
+                      placeholder="Nights"
+                      value={durationNights}
+                      onChange={(e) => setDurationNights(e.target.value)}
+                      min="0"
+                      style={{ width: '100%', padding: '10px', marginBottom: '10px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box', height: '46px' }}
                     />
 
                     <button

@@ -12,22 +12,22 @@
 // export default function SingleTour() {
 //   const { tourId } = useParams()
 //   const dispatch = useDispatch()
-  
+
 //   const navigate = useNavigate()
-  
+
 //   // Redux selectors
 //   const { selectedPackage, packages, loading, error } = useSelector(state => state.packages)
 //   const { selectedBooking, loading: bookingLoading, error: bookingError, successMessage: bookingSuccess } = useSelector(state => state.bookings)
 //   const { mpesaTransaction, loading: paymentLoading, error: paymentError } = useSelector(state => state.payments)
 //   const { user, isAuthenticated } = useSelector(state => state.auth)
-  
+
 //   // Local state
 //   const [activeTab, setActiveTab] = useState('description')
 //   const [submitting, setSubmitting] = useState(false)
 //   const [tourData, setTourData] = useState(null)
 //   const [relatedTours, setRelatedTours] = useState([])
 //   const [carouselIndex, setCarouselIndex] = useState(0)
-  
+
 //   const initialBookingValues = () => ({
 //     // Passenger info
 //     name: user?.name || '',
@@ -57,14 +57,14 @@
 //     nationality: Yup.string(),
 //     special_requests: Yup.string()
 //   })
-  
+
 //   const [reviewForm, setReviewForm] = useState({
 //     name: '',
 //     email: '',
 //     rating: 5,
 //     comment: ''
 //   })
-  
+
 //   const [enquiryForm, setEnquiryForm] = useState({
 //     name: '',
 //     email: '',
@@ -74,7 +74,7 @@
 //   // Transform Redux package data to component format
 //   const transformPackageData = (packageData) => {
 //     if (!packageData) return null
-    
+
 //     const parseJSONField = (field) => {
 //       if (!field) return []
 //       if (Array.isArray(field)) return field
@@ -91,7 +91,7 @@
 //       }
 //       return []
 //     }
-    
+
 //     const itinerary = parseJSONField(packageData.itinerary)
 //     const inclusions = parseJSONField(packageData.inclusions)
 //     const exclusions = parseJSONField(packageData.exclusions)
@@ -159,7 +159,7 @@
 //                   : `/uploads/${pkg.PackageImages[0].url}`)
 //               : '/assets/img/placeholder.jpg'
 //           }))
-        
+
 //         setTourData(prev => ({
 //           ...prev,
 //           relatedTours: relatedPackages
@@ -176,13 +176,13 @@
 //       if (window.$ && window.$.fn.swipebox) {
 //         $('.swipebox').swipebox()
 //       }
-      
+
 //       // Initialize tooltips
 //       if (window.$ && window.$.fn.tooltip) {
 //         $('[data-toggle="tooltip"]').tooltip()
 //       }
 //     }, 100)
-    
+
 //     return () => clearTimeout(timer)
 //   }, [tourData])
 
@@ -233,7 +233,7 @@
 //     e.preventDefault()
 //     try {
 //       setSubmitting(true)
-      
+
 //       if (!reviewForm.comment || reviewForm.comment.length < 10) {
 //         alert('Please write a review of at least 10 characters')
 //         return
@@ -259,7 +259,7 @@
 //           rating: 5,
 //           comment: ''
 //         })
-        
+
 //         // Refresh package data to show new review
 //         dispatch(fetchPackageById(tourId))
 //       }
@@ -522,7 +522,7 @@
 //                         <h2>Product Description</h2>
 //                         <p>{tourData.description}</p>
 //                         <p>{tourData.details}</p>
-                        
+
 //                         <table className="tours-tabs_table">
 //                           <tbody>
 //                             <tr>
@@ -845,7 +845,7 @@
 //                       <span className="travel_tour-Price-amount amount">KES {tourData.price.toFixed(2)}</span>
 //                     </p>
 //                     <div className="clear"></div>
-                    
+
 //                     {/* Booking Form */}
 //                     <div className="booking">
 //                       <div className="">
@@ -1185,7 +1185,7 @@
 
 
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 // carousel replaced with Swiper
@@ -1201,18 +1201,61 @@ import { fetchPackageById, fetchPackages } from '../features/packages/packageSli
 import { createBooking } from '../features/bookings/bookingSlice'
 import { createMPESAPayment, createCardPayment } from '../features/payments/paymentSlice'
 
+// ✅ Import Leaflet for map display (replaces Google Maps iframe)
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+
+// Fix for default Leaflet marker icon
+delete L.Icon.Default.prototype._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+})
+
 export default function SingleTour() {
   const { tourId } = useParams()
   const dispatch = useDispatch()
-  
+
   const navigate = useNavigate()
-  
+
+
+  // ✅ Helper: Parse JSON array or comma-separated string to array
+  const parseJSONField = (field) => {
+    if (!field) return []
+    if (Array.isArray(field)) return field
+    if (typeof field === 'string') {
+      try {
+        const parsed = JSON.parse(field)
+        return Array.isArray(parsed) ? parsed : []
+      } catch (e) {
+        if (field.includes(',')) {
+          return field.split(',').map(item => item.trim()).filter(item => item)
+        }
+        return field ? [field] : []
+      }
+    }
+    return []
+  }
+
+  // ✅ Helper: Parse location object from JSON string
+  const parseLocation = (val) => {
+    if (!val) return null
+    try {
+      return typeof val === 'string' ? JSON.parse(val) : val
+    } catch (e) {
+      console.error('Error parsing location:', e)
+      return null
+    }
+  }
+
   // Redux selectors
   const { selectedPackage, packages, loading, error } = useSelector(state => state.packages)
   const { selectedBooking, loading: bookingLoading, error: bookingError, successMessage: bookingSuccess } = useSelector(state => state.bookings)
   const { mpesaTransaction, loading: paymentLoading, error: paymentError } = useSelector(state => state.payments)
   const { user, isAuthenticated } = useSelector(state => state.auth)
-  
+
   // Local state
   const [activeTab, setActiveTab] = useState('description')
   const [submitting, setSubmitting] = useState(false)
@@ -1230,7 +1273,7 @@ export default function SingleTour() {
       thumbsRef.current.slideTo(carouselIndex)
     }
   }, [carouselIndex, mainSwiper])
-  
+
   const initialBookingValues = () => ({
     // Passenger info
     name: user?.name || '',
@@ -1260,14 +1303,14 @@ export default function SingleTour() {
     nationality: Yup.string(),
     special_requests: Yup.string()
   })
-  
+
   const [reviewForm, setReviewForm] = useState({
     name: '',
     email: '',
     rating: 5,
     comment: ''
   })
-  
+
   const [enquiryForm, setEnquiryForm] = useState({
     name: '',
     email: '',
@@ -1275,59 +1318,110 @@ export default function SingleTour() {
   })
 
   // Transform Redux package data to component format
-  const transformPackageData = (packageData) => {
+  // const transformPackageData = (packageData) => {
+  //   if (!packageData) return null
+
+  //   const parseJSONField = (field) => {
+  //     if (!field) return []
+  //     if (Array.isArray(field)) return field
+  //     if (typeof field === 'string') {
+  //       try {
+  //         const parsed = JSON.parse(field)
+  //         return Array.isArray(parsed) ? parsed : []
+  //       } catch (e) {
+  //         if (field.includes(',')) {
+  //           return field.split(',').map(item => item.trim()).filter(item => item)
+  //         }
+  //         return []
+  //       }
+  //     }
+  //     return []
+  //   }
+
+  //   const itinerary = parseJSONField(packageData.itinerary)
+  //   const inclusions = parseJSONField(packageData.inclusions)
+  //   const exclusions = parseJSONField(packageData.exclusions)
+
+  //   return {
+  //     id: packageData.id,
+  //     title: packageData.title,
+  //     code: packageData.id.substring(0, 6).toUpperCase(),
+  //     duration: `${packageData.duration_days} DAYS`,
+  //     categories: [packageData.category],
+  //     price: parseFloat(packageData.price_adult),
+  //     priceChild: parseFloat(packageData.price_child),
+  //     description: packageData.description,
+  //     destination: packageData.destination,
+  //     duration_days: packageData.duration_days,
+  //     images: packageData.PackageImages && packageData.PackageImages.length > 0
+  //       ? packageData.PackageImages.map(img => {
+  //         if (!img.url) return '/assets/img/placeholder.jpg'
+  //         if (img.url.startsWith('http')) return img.url
+  //         return `/uploads/${img.url}`
+  //       })
+  //       : ['/assets/img/placeholder.jpg'],
+  //     itinerary: itinerary,
+  //     reviews: packageData.Reviews || [],
+  //     inclusions: inclusions,
+  //     exclusions: exclusions,
+  //     departureLocation: packageData.destination,
+  //     departureTime: 'Please arrive at least 2 hours before departure.',
+  //     included: Array.isArray(inclusions) ? inclusions : [],
+  //     notIncluded: Array.isArray(exclusions) ? exclusions : [],
+  //     relatedTours: []
+  //   }
+  // }
+
+  // ✅ Transform Redux package data to component format
+  const transformPackageData = useMemo(() => (packageData) => {
     if (!packageData) return null
-    
-    const parseJSONField = (field) => {
-      if (!field) return []
-      if (Array.isArray(field)) return field
-      if (typeof field === 'string') {
-        try {
-          const parsed = JSON.parse(field)
-          return Array.isArray(parsed) ? parsed : []
-        } catch (e) {
-          if (field.includes(',')) {
-            return field.split(',').map(item => item.trim()).filter(item => item)
-          }
-          return []
-        }
-      }
-      return []
-    }
-    
+
     const itinerary = parseJSONField(packageData.itinerary)
     const inclusions = parseJSONField(packageData.inclusions)
     const exclusions = parseJSONField(packageData.exclusions)
+    const location = parseLocation(packageData.location)
 
     return {
       id: packageData.id,
-      title: packageData.title,
-      code: packageData.id.substring(0, 6).toUpperCase(),
-      duration: `${packageData.duration_days} DAYS`,
-      categories: [packageData.category],
-      price: parseFloat(packageData.price_adult),
-      priceChild: parseFloat(packageData.price_child),
-      description: packageData.description,
-      destination: packageData.destination,
-      duration_days: packageData.duration_days,
-      images: packageData.PackageImages && packageData.PackageImages.length > 0 
-        ? packageData.PackageImages.map(img => {
-            if (!img.url) return '/assets/img/placeholder.jpg'
-            if (img.url.startsWith('http')) return img.url
-            return `/uploads/${img.url}`
-          })
-        : ['/assets/img/placeholder.jpg'],
+      title: packageData.title || 'Untitled Tour',
+      code: packageData.id ? packageData.id.substring(0, 6).toUpperCase() : 'N/A',
+      duration: `${packageData.duration_days || 0} DAYS`,
+      categories: packageData.category ? [packageData.category] : ['Uncategorized'],
+      price: parseFloat(packageData.price_adult) || 0,
+      priceChild: parseFloat(packageData.price_child) || 0,
+      description: packageData.description || '',
+      destination: packageData.destination || '',
+      duration_days: packageData.duration_days || 0,
+      duration_nights: packageData.duration_nights || 0,
+      max_capacity: packageData.max_capacity || 20,
+      status: packageData.status || 'draft',
+      is_featured: packageData.is_featured || false,
+
+      // ✅ Parse array fields properly
       itinerary: itinerary,
-      reviews: packageData.Reviews || [],
       inclusions: inclusions,
       exclusions: exclusions,
-      departureLocation: packageData.destination,
-      departureTime: 'Please arrive at least 2 hours before departure.',
       included: Array.isArray(inclusions) ? inclusions : [],
       notIncluded: Array.isArray(exclusions) ? exclusions : [],
+
+      // ✅ Parse location object
+      location: location,
+
+      // ✅ Handle images with proper URL resolution
+      images: packageData.PackageImages && packageData.PackageImages.length > 0
+        ? packageData.PackageImages.map(img => {
+          if (!img.url) return '/assets/img/placeholder.jpg'
+          if (img.url.startsWith('http')) return img.url
+          return `/uploads/${img.url}`
+        })
+        : ['/assets/img/placeholder.jpg'],
+
+      reviews: packageData.Reviews || [],
+      departureLocation: packageData.destination || 'TBD',
+      departureTime: 'Please arrive at least 2 hours before departure.',
       relatedTours: []
     }
-  }
+  }, [parseJSONField, parseLocation])
 
   // Fetch package data on mount
   useEffect(() => {
@@ -1357,12 +1451,12 @@ export default function SingleTour() {
             price: parseFloat(pkg.price_adult),
             duration: `${pkg.duration_days} DAYS`,
             image: pkg.PackageImages && pkg.PackageImages.length > 0
-              ? (pkg.PackageImages[0].url.startsWith('http') 
-                  ? pkg.PackageImages[0].url 
-                  : `/uploads/${pkg.PackageImages[0].url}`)
+              ? (pkg.PackageImages[0].url.startsWith('http')
+                ? pkg.PackageImages[0].url
+                : `/uploads/${pkg.PackageImages[0].url}`)
               : '/assets/img/placeholder.jpg'
           }))
-        
+
         setTourData(prev => ({
           ...prev,
           relatedTours: relatedPackages
@@ -1379,13 +1473,13 @@ export default function SingleTour() {
       if (window.$ && window.$.fn.swipebox) {
         $('.swipebox').swipebox()
       }
-      
+
       // Initialize tooltips
       if (window.$ && window.$.fn.tooltip) {
         $('[data-toggle="tooltip"]').tooltip()
       }
     }, 100)
-    
+
     return () => clearTimeout(timer)
   }, [tourData])
 
@@ -1436,7 +1530,7 @@ export default function SingleTour() {
     e.preventDefault()
     try {
       setSubmitting(true)
-      
+
       if (!reviewForm.comment || reviewForm.comment.length < 10) {
         alert('Please write a review of at least 10 characters')
         return
@@ -1462,7 +1556,7 @@ export default function SingleTour() {
           rating: 5,
           comment: ''
         })
-        
+
         // Refresh package data to show new review
         dispatch(fetchPackageById(tourId))
       }
@@ -1521,19 +1615,31 @@ export default function SingleTour() {
     )
   }
 
+   // ✅ Safe access helpers for rendering
+  const safeCategories = tourData?.categories || []
+  const safeInclusions = tourData?.included || []
+  const safeExclusions = tourData?.notIncluded || []
+  const safeItinerary = tourData?.itinerary || []
+  const safeReviews = tourData?.reviews || []
+  const safeRelatedTours = tourData?.relatedTours || []
+  const safeImages = tourData?.images || ['/assets/img/placeholder.jpg']
+  const safeLocation = tourData?.location || null
+  const safePrice = tourData?.price || 0
+  const safePriceChild = tourData?.priceChild || 0
+
   return (
     <div className="single-product travel_tour-page travel_tour">
       {/* Breadcrumb */}
-      <div className="top_site_main" style={{ backgroundImage: 'url(/assets/img/banner/top-heading.jpg)' }}>
+      <div className="top_site_main" style={{  backgroundImage: `url(${tourData.images && tourData.images.length > 0 ? tourData.images[0] : '/assets/img/banner/top-heading.jpg'})`, }}>
         <div className="banner-wrapper container article_heading">
           <div className="breadcrumbs-wrapper">
             <ul className="phys-breadcrumb">
               <li><Link to="/" className="home">Home</Link></li>
-              <li><Link to="/blog">Business</Link></li>
-              <li>Love advice from experts</li>
+              <li><Link to="/tours">Tours</Link></li>
+              <li>{tourData.title}</li>
             </ul>
           </div>
-          <h2 className="heading_primary">Business</h2>
+          <h2 className="heading_primary">{tourData.title}</h2>
         </div>
       </div>
 
@@ -1592,51 +1698,51 @@ export default function SingleTour() {
                     position: 'relative',
                   }}
                 >
-                {/* custom navigation controls */}
-                {mainSwiper && (
-                  <> 
-                    <Box
-                      component="button"
-                      onClick={() => mainSwiper.slidePrev()}
-                      sx={{
-                        position: 'absolute',
-                        left: 8,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        zIndex: 10,
-                        background: 'rgba(0,0,0,0.3)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: 36,
-                        height: 36,
-                        color: '#fff',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      ‹
-                    </Box>
-                    <Box
-                      component="button"
-                      onClick={() => mainSwiper.slideNext()}
-                      sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        zIndex: 10,
-                        background: 'rgba(0,0,0,0.3)',
-                        border: 'none',
-                        borderRadius: '50%',
-                        width: 36,
-                        height: 36,
-                        color: '#fff',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      ›
-                    </Box>
-                  </>
-                )}
+                  {/* custom navigation controls */}
+                  {mainSwiper && (
+                    <>
+                      <Box
+                        component="button"
+                        onClick={() => mainSwiper.slidePrev()}
+                        sx={{
+                          position: 'absolute',
+                          left: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          zIndex: 10,
+                          background: 'rgba(0,0,0,0.3)',
+                          border: 'none',
+                          borderRadius: '50%',
+                          width: 36,
+                          height: 36,
+                          color: '#fff',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ‹
+                      </Box>
+                      <Box
+                        component="button"
+                        onClick={() => mainSwiper.slideNext()}
+                        sx={{
+                          position: 'absolute',
+                          right: 8,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          zIndex: 10,
+                          background: 'rgba(0,0,0,0.3)',
+                          border: 'none',
+                          borderRadius: '50%',
+                          width: 36,
+                          height: 36,
+                          color: '#fff',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        ›
+                      </Box>
+                    </>
+                  )}
                   <Swiper
                     modules={[Pagination, Autoplay]}
                     // navigation handled by custom buttons
@@ -1699,110 +1805,46 @@ export default function SingleTour() {
                 <div className="clear"></div>
 
                 {/* Tabs */}
-                <div className="single-tour-tabs wc-tabs-wrapper">
+                 <div className="single-tour-tabs wc-tabs-wrapper">
                   <ul className="tabs wc-tabs" role="tablist">
-                    <li 
-                      className={`description_tab ${activeTab === 'description' ? 'active' : ''}`} 
-                      role="presentation"
-                    >
-                      <a 
-                        href="#tab-description" 
-                        role="tab" 
-                        data-toggle="tab"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setActiveTab('description')
-                        }}
-                      >
-                        Description
-                      </a>
+                    <li className={`description_tab ${activeTab === 'description' ? 'active' : ''}`} role="presentation">
+                      <a href="#tab-description" role="tab" data-toggle="tab"
+                        onClick={(e) => { e.preventDefault(); setActiveTab('description') }}>Description</a>
                     </li>
-                    <li 
-                      className={`itinerary_tab_tab ${activeTab === 'itinerary' ? 'active' : ''}`} 
-                      role="presentation"
-                    >
-                      <a 
-                        href="#tab-itinerary_tab" 
-                        role="tab" 
-                        data-toggle="tab"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setActiveTab('itinerary')
-                        }}
-                      >
-                        Itinerary
-                      </a>
+                    <li className={`itinerary_tab_tab ${activeTab === 'itinerary' ? 'active' : ''}`} role="presentation">
+                      <a href="#tab-itinerary_tab" role="tab" data-toggle="tab"
+                        onClick={(e) => { e.preventDefault(); setActiveTab('itinerary') }}>Itinerary</a>
                     </li>
-                    <li 
-                      className={`location_tab_tab ${activeTab === 'location' ? 'active' : ''}`} 
-                      role="presentation"
-                    >
-                      <a 
-                        href="#tab-location_tab" 
-                        role="tab" 
-                        data-toggle="tab"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setActiveTab('location')
-                        }}
-                      >
-                        Location
-                      </a>
+                    <li className={`location_tab_tab ${activeTab === 'location' ? 'active' : ''}`} role="presentation">
+                      <a href="#tab-location_tab" role="tab" data-toggle="tab"
+                        onClick={(e) => { e.preventDefault(); setActiveTab('location') }}>Location</a>
                     </li>
-                    <li 
-                      className={`reviews_tab ${activeTab === 'reviews' ? 'active' : ''}`} 
-                      role="presentation"
-                    >
-                      <a 
-                        href="#tab-reviews" 
-                        role="tab" 
-                        data-toggle="tab"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          setActiveTab('reviews')
-                        }}
-                      >
-                        Reviews ({tourData.reviews.length})
-                      </a>
+                    <li className={`reviews_tab ${activeTab === 'reviews' ? 'active' : ''}`} role="presentation">
+                      <a href="#tab-reviews" role="tab" data-toggle="tab"
+                        onClick={(e) => { e.preventDefault(); setActiveTab('reviews') }}>Reviews ({safeReviews.length})</a>
                     </li>
                   </ul>
 
                   <div className="tab-content">
                     {/* Description Tab */}
                     {activeTab === 'description' && (
-                      <div 
-                        role="tabpanel" 
-                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab active" 
-                        id="tab-description"
-                      >
+                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab active" id="tab-description">
                         <h2>Product Description</h2>
-                        <p>{tourData.description}</p>
-                        <p>{tourData.details}</p>
-                        
+                        <p>{tourData?.description || 'No description available'}</p>
                         <table className="tours-tabs_table">
                           <tbody>
-                            <tr>
-                              <td><strong>DEPARTURE/RETURN LOCATION</strong></td>
-                              <td>{tourData.departureLocation}</td>
-                            </tr>
-                            <tr>
-                              <td><strong>DEPARTURE TIME</strong></td>
-                              <td>{tourData.departureTime}</td>
-                            </tr>
+                            <tr><td><strong>DEPARTURE/RETURN LOCATION</strong></td><td>{tourData?.departureLocation || 'TBD'}</td></tr>
+                            <tr><td><strong>DEPARTURE TIME</strong></td><td>{tourData?.departureTime || 'TBD'}</td></tr>
                             <tr>
                               <td><strong>INCLUDED</strong></td>
                               <td>
                                 <table>
                                   <tbody>
-                                    {tourData.included && tourData.included.length > 0 ? (
-                                      tourData.included.map((item, idx) => (
-                                        <tr key={idx}>
-                                          <td><i className="fa fa-check icon-tick icon-tick--on"></i> {item}</td>
-                                        </tr>
+                                    {safeInclusions.length > 0 ? (
+                                      safeInclusions.map((item, idx) => (
+                                        <tr key={idx}><td><i className="fa fa-check icon-tick icon-tick--on"></i> {item}</td></tr>
                                       ))
-                                    ) : (
-                                      <tr><td><em>No inclusions listed</em></td></tr>
-                                    )}
+                                    ) : <tr><td><em>No inclusions listed</em></td></tr>}
                                   </tbody>
                                 </table>
                               </td>
@@ -1812,212 +1854,165 @@ export default function SingleTour() {
                               <td>
                                 <table>
                                   <tbody>
-                                    {tourData.notIncluded && tourData.notIncluded.length > 0 ? (
-                                      tourData.notIncluded.map((item, idx) => (
-                                        <tr key={idx}>
-                                          <td><i className="fa fa-times icon-tick icon-tick--off"></i> {item}</td>
-                                        </tr>
+                                    {safeExclusions.length > 0 ? (
+                                      safeExclusions.map((item, idx) => (
+                                        <tr key={idx}><td><i className="fa fa-times icon-tick icon-tick--off"></i> {item}</td></tr>
                                       ))
-                                    ) : (
-                                      <tr><td><em>No exclusions listed</em></td></tr>
-                                    )}
+                                    ) : <tr><td><em>No exclusions listed</em></td></tr>}
                                   </tbody>
                                 </table>
                               </td>
                             </tr>
                           </tbody>
                         </table>
-                        <p>Ridiculus sociis dui eu vivamus tempor justo diam aliquam. Ipsum nunc purus, pede sed placerat sit habitasse potenti eleifend magna mus sociosqu hymenaeos cras metus mi donec tortor nisi leo dignissim turpis sit torquent.</p>
-                        <p>Potenti mattis ad mollis eleifend Phasellus adipiscing ullamcorper interdum faucibus orci litora ornare aliquam. Ligula feugiat scelerisque. Molestie. Facilisi hac.</p>
                       </div>
                     )}
 
                     {/* Itinerary Tab */}
                     {activeTab === 'itinerary' && (
-                      <div 
-                        role="tabpanel" 
-                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab active" 
-                        id="tab-itinerary_tab"
-                      >
-                        {tourData.itinerary && tourData.itinerary.length > 0 ? (
-                          tourData.itinerary.map((item, index) => (
-                            <div key={item.day || index} className="interary-item">
-                              <p><span className="icon-left">{item.day}</span></p>
-                              <div className="item_content">
-                                <h2><strong>{item.title}</strong></h2>
-                                <p>{item.description}</p>
-                                {item.activities && Array.isArray(item.activities) && (
-                                  <ul>
-                                    {item.activities.map((activity, idx) => (
-                                      <li key={idx}>{activity}</li>
-                                    ))}
-                                  </ul>
-                                )}
+                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab active" id="tab-itinerary_tab">
+                        {safeItinerary.length > 0 ? (
+                          safeItinerary.map((item, index) => {
+                            const dayObj = typeof item === 'object' && item !== null 
+                              ? item 
+                              : { day: index + 1, title: String(item), description: '' }
+                            
+                            return (
+                              <div key={dayObj.day || index} className="interary-item">
+                                <p><span className="icon-left">{dayObj.day}</span></p>
+                                <div className="item_content">
+                                  <h2><strong>{dayObj.title}</strong></h2>
+                                  {dayObj.description && <p>{dayObj.description}</p>}
+                                  {dayObj.activities && Array.isArray(dayObj.activities) && (
+                                    <ul>{dayObj.activities.map((activity, idx) => <li key={idx}>{activity}</li>)}</ul>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          ))
-                        ) : (
-                          <p>No itinerary information available.</p>
-                        )}
+                            )
+                          })
+                        ) : <p>No itinerary information available.</p>}
                       </div>
                     )}
 
-                    {/* Location Tab */}
+                    {/* Location Tab - ✅ Leaflet Map */}
                     {activeTab === 'location' && (
-                      <div 
-                        role="tabpanel" 
-                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--location_tab panel entry-content wc-tab active" 
-                        id="tab-location_tab"
-                      >
+                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--location_tab panel entry-content wc-tab active" id="tab-location_tab">
                         <div className="wrapper-gmap">
-                          <div 
-                            id="googleMapCanvas" 
-                            className="google-map" 
-                            data-lat="50.893577" 
-                            data-long="-1.393483" 
-                            data-address="European Way, Southampton, United Kingdom"
-                          ></div>
+                          {safeLocation?.lat && safeLocation?.lng ? (
+                            <>
+                              {/* ✅ Leaflet Map (replaces Google Maps iframe) */}
+                              <div style={{ width: '100%', height: '450px', borderRadius: '8px', overflow: 'hidden', marginBottom: '20px' }}>
+                                <MapContainer 
+                                  center={[safeLocation.lat, safeLocation.lng]} 
+                                  zoom={13} 
+                                  style={{ width: '100%', height: '100%' }}
+                                  scrollWheelZoom={false}
+                                >
+                                  <TileLayer
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                  />
+                                  <Marker position={[safeLocation.lat, safeLocation.lng]}>
+                                    <Popup>
+                                      <strong>{tourData?.title || 'Tour'}</strong><br/>
+                                      {safeLocation.address || tourData?.destination || 'Location'}
+                                    </Popup>
+                                  </Marker>
+                                </MapContainer>
+                              </div>
+                              
+                              {/* Location Details Below Map */}
+                              <div style={{ textAlign: 'center', padding: '15px', background: '#f9f9f9', borderRadius: '8px' }}>
+                                <h4 style={{ margin: '0 0 10px', color: '#333' }}>
+                                  <i className="fa fa-map-marker" style={{ color: '#ffb300', marginRight: '8px' }}></i>
+                                  {safeLocation.address || tourData?.destination || 'Tour Location'}
+                                </h4>
+                                <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
+                                  Coordinates: {safeLocation.lat.toFixed(4)}, {safeLocation.lng.toFixed(4)}
+                                </p>
+                              </div>
+                            </>
+                          ) : (
+                            <div style={{ padding: '40px', textAlign: 'center', background: '#f9f9f9', borderRadius: '8px' }}>
+                              <i className="fa fa-map" style={{ fontSize: '3rem', color: '#ccc', marginBottom: '15px' }}></i>
+                              <h4>No specific map location available</h4>
+                              <p style={{ color: '#666' }}>This tour covers the <strong>{tourData?.destination || 'region'}</strong>. Contact us for exact meeting points.</p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
 
                     {/* Reviews Tab */}
                     {activeTab === 'reviews' && (
-                      <div 
-                        role="tabpanel" 
-                        className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--reviews panel entry-content wc-tab active" 
-                        id="tab-reviews"
-                      >
+                      <div role="tabpanel" className="tab-pane single-tour-tabs-panel single-tour-tabs-panel--reviews panel entry-content wc-tab active" id="tab-reviews">
                         <div id="reviews" className="travel_tour-Reviews">
                           <div id="comments">
                             <h2 className="travel_tour-Reviews-title">
-                              {tourData.reviews.length} review for
-                              <span> {tourData.title}</span>
+                              {safeReviews.length} review{safeReviews.length !== 1 ? 's' : ''} for <span>{tourData?.title || 'Tour'}</span>
                             </h2>
                             <ol className="commentlist">
-                              {tourData.reviews && tourData.reviews.length > 0 ? (
-                                tourData.reviews.map((review) => (
-                                  <li 
-                                    key={review.id} 
-                                    itemscope="" 
-                                    itemtype="http://schema.org/Review" 
-                                    className="comment byuser comment-author-physcode bypostauthor even thread-even depth-1"
-                                    id={`li-comment-${review.id}`}
-                                  >
-                                    <div id={`comment-${review.id}`} className="comment_container">
-                                      <img 
-                                        alt="" 
-                                        src="/assets/img/avata.jpg" 
-                                        className="avatar avatar-60 photo" 
-                                        height="60" 
-                                        width="60"
-                                      />
+                              {safeReviews.length > 0 ? (
+                                safeReviews.map((review) => (
+                                  <li key={review.id} itemscope itemtype="http://schema.org/Review" className="comment">
+                                    <div className="comment_container">
+                                      <img alt="" src="/assets/img/avata.jpg" className="avatar avatar-60 photo" height="60" width="60" />
                                       <div className="comment-text">
                                         <div className="star-rating" title={`Rated ${review.rating} out of 5`}>
                                           {[...Array(5)].map((_, i) => (
-                                            <i key={i} className={`fa fa-star${i < review.rating ? '' : '-o'}`}></i>
+                                            <i key={i} className={`fa fa-star${i < (review.rating || 0) ? '' : '-o'}`}></i>
                                           ))}
                                         </div>
                                         <p className="meta">
                                           <strong>{review.User?.name || 'Anonymous'}</strong> –
-                                          <time dateTime={review.created_at}>
-                                            {new Date(review.created_at).toLocaleDateString()}
-                                          </time>
-                                          :
+                                          <time dateTime={review.created_at}>{new Date(review.created_at).toLocaleDateString()}</time>:
                                         </p>
-                                        <div className="description">
-                                          <p>{review.comment}</p>
-                                        </div>
+                                        <div className="description"><p>{review.comment}</p></div>
                                       </div>
                                     </div>
                                   </li>
                                 ))
-                              ) : (
-                                <li style={{ padding: '20px' }}>No reviews yet. Be the first to review!</li>
-                              )}
+                              ) : <li style={{ padding: '20px' }}>No reviews yet. Be the first to review!</li>}
                             </ol>
                           </div>
-
+                          
                           {/* Review Form */}
                           <div id="review_form_wrapper">
-                            <div id="review_form">
-                              <div id="respond" className="comment-respond">
-                                <h3 id="reply-title" className="comment-reply-title">Add a review</h3>
-                                <form 
-                                  onSubmit={handleReviewSubmit}
-                                  className="comment-form" 
-                                  noValidate
-                                >
-                                  <p className="comment-notes">
-                                    <span id="email-notes">Your email address will not be published.</span> Required fields are marked
-                                    <span className="required">*</span>
-                                  </p>
-                                  <p className="comment-form-author">
-                                    <label htmlFor="author">Name <span className="required">*</span></label>
-                                    <input 
-                                      id="author" 
-                                      name="author" 
-                                      type="text" 
-                                      value={reviewForm.name}
-                                      onChange={(e) => setReviewForm({...reviewForm, name: e.target.value})}
-                                      size="30" 
-                                      required=""
-                                    />
-                                  </p>
-                                  <p className="comment-form-email">
-                                    <label htmlFor="email">Email <span className="required">*</span></label>
-                                    <input 
-                                      id="email" 
-                                      name="email" 
-                                      type="email" 
-                                      value={reviewForm.email}
-                                      onChange={(e) => setReviewForm({...reviewForm, email: e.target.value})}
-                                      size="30" 
-                                      required=""
-                                    />
-                                  </p>
-                                  <p className="comment-form-rating">
-                                    <label>Your Rating</label>
-                                  </p>
-                                  <p className="stars">
-                                    <span>
-                                      {[...Array(5)].map((_, i) => (
-                                        <i 
-                                          key={i} 
-                                          className={`fa fa-star${i < reviewForm.rating ? '' : '-o'}`}
-                                          onClick={() => setReviewForm({...reviewForm, rating: i + 1})}
-                                          style={{cursor: 'pointer'}}
-                                        ></i>
-                                      ))}
-                                    </span>
-                                  </p>
-                                  <p className="comment-form-comment">
-                                    <label htmlFor="comment">Your Review <span className="required">*</span></label>
-                                    <textarea 
-                                      id="comment" 
-                                      name="comment" 
-                                      cols="45" 
-                                      rows="8" 
-                                      value={reviewForm.comment}
-                                      onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
-                                      required=""
-                                    ></textarea>
-                                  </p>
-                                  <p className="form-submit">
-                                    <input 
-                                      name="submit" 
-                                      type="submit" 
-                                      id="submit" 
-                                      className="submit" 
-                                      value={submitting ? "Submitting..." : "Submit"}
-                                      disabled={submitting}
-                                    />
-                                  </p>
-                                </form>
-                              </div>
+                            <div id="respond" className="comment-respond">
+                              <h3 className="comment-reply-title">Add a review</h3>
+                              <form onSubmit={handleReviewSubmit} className="comment-form" noValidate>
+                                <p className="comment-notes">Required fields are marked <span className="required">*</span></p>
+                                <p className="comment-form-author">
+                                  <label>Name <span className="required">*</span></label>
+                                  <input id="author" name="author" type="text" value={reviewForm.name}
+                                    onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })} required />
+                                </p>
+                                <p className="comment-form-email">
+                                  <label>Email <span className="required">*</span></label>
+                                  <input id="email" name="email" type="email" value={reviewForm.email}
+                                    onChange={(e) => setReviewForm({ ...reviewForm, email: e.target.value })} required />
+                                </p>
+                                <p className="comment-form-rating">
+                                  <label>Your Rating</label>
+                                  <span>
+                                    {[...Array(5)].map((_, i) => (
+                                      <i key={i} className={`fa fa-star${i < reviewForm.rating ? '' : '-o'}`}
+                                        onClick={() => setReviewForm({ ...reviewForm, rating: i + 1 })} style={{ cursor: 'pointer', marginRight: '2px' }}></i>
+                                    ))}
+                                  </span>
+                                </p>
+                                <p className="comment-form-comment">
+                                  <label>Your Review <span className="required">*</span></label>
+                                  <textarea id="comment" name="comment" rows="4" value={reviewForm.comment}
+                                    onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })} required></textarea>
+                                </p>
+                                <p className="form-submit">
+                                  <input name="submit" type="submit" className="submit"
+                                    value={submitting ? "Submitting..." : "Submit"} disabled={submitting} />
+                                </p>
+                              </form>
                             </div>
                           </div>
-                          <div className="clear"></div>
                         </div>
                       </div>
                     )}
@@ -2044,11 +2039,11 @@ export default function SingleTour() {
                               ) : (
                                 <span className="price">KES {tour.price.toFixed(2)}</span>
                               )}
-                              <img 
-                                width="430" 
-                                height="305" 
-                                src={tour.image} 
-                                alt={tour.title} 
+                              <img
+                                width="430"
+                                height="305"
+                                src={tour.image}
+                                alt={tour.title}
                                 title={tour.title}
                                 onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
                               />
@@ -2101,7 +2096,7 @@ export default function SingleTour() {
                       <span className="travel_tour-Price-amount amount">KES {tourData.price.toFixed(2)}</span>
                     </p>
                     <div className="clear"></div>
-                    
+
                     {/* Booking Form */}
                     <div className="booking">
                       <div className="">
@@ -2111,7 +2106,7 @@ export default function SingleTour() {
                         {!isAuthenticated ? (
                           <div style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '4px', textAlign: 'center' }}>
                             <p style={{ marginBottom: '15px' }}>You must be logged in to book this tour.</p>
-                            <button 
+                            <button
                               onClick={() => navigate('/login', { state: { from: window.location.pathname } })}
                               style={{
                                 padding: '10px 20px',
@@ -2339,48 +2334,48 @@ export default function SingleTour() {
                           <p>Fill up the form below to tell us what you're looking for</p>
                           <p>
                             <span className="wpcf7-form-control-wrap your-name">
-                              <input 
-                                type="text" 
-                                name="your-name" 
+                              <input
+                                type="text"
+                                name="your-name"
                                 value={enquiryForm.name}
-                                onChange={(e) => setEnquiryForm({...enquiryForm, name: e.target.value})}
-                                placeholder="Your name*" 
-                                className="wpcf7-form-control" 
+                                onChange={(e) => setEnquiryForm({ ...enquiryForm, name: e.target.value })}
+                                placeholder="Your name*"
+                                className="wpcf7-form-control"
                                 aria-invalid="false"
                               />
                             </span>
                           </p>
                           <p>
                             <span className="wpcf7-form-control-wrap your-email">
-                              <input 
-                                type="email" 
-                                name="your-email" 
+                              <input
+                                type="email"
+                                name="your-email"
                                 value={enquiryForm.email}
-                                onChange={(e) => setEnquiryForm({...enquiryForm, email: e.target.value})}
-                                placeholder="Email*" 
-                                className="wpcf7-form-control" 
+                                onChange={(e) => setEnquiryForm({ ...enquiryForm, email: e.target.value })}
+                                placeholder="Email*"
+                                className="wpcf7-form-control"
                                 aria-invalid="false"
                               />
                             </span>
                           </p>
                           <p>
                             <span className="wpcf7-form-control-wrap your-message">
-                              <textarea 
-                                name="your-message" 
-                                cols="40" 
-                                rows="10" 
+                              <textarea
+                                name="your-message"
+                                cols="40"
+                                rows="10"
                                 value={enquiryForm.message}
-                                onChange={(e) => setEnquiryForm({...enquiryForm, message: e.target.value})}
-                                className="wpcf7-form-control" 
-                                aria-invalid="false" 
+                                onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })}
+                                className="wpcf7-form-control"
+                                aria-invalid="false"
                                 placeholder="Message"
                               ></textarea>
                             </span>
                           </p>
                           <p>
-                            <input 
-                              type="submit" 
-                              value="Send Enquiry" 
+                            <input
+                              type="submit"
+                              value="Send Enquiry"
                               className="wpcf7-form-control wpcf7-submit"
                             />
                           </p>
@@ -2396,11 +2391,11 @@ export default function SingleTour() {
                         <div key={index} className="inner-special-tours">
                           <Link to={`/tours/${tour.id}`}>
                             {tour.sale && <span className="onsale">Sale!</span>}
-                            <img 
-                              width="430" 
-                              height="305" 
-                              src={tour.image} 
-                              alt={tour.title} 
+                            <img
+                              width="430"
+                              height="305"
+                              src={tour.image}
+                              alt={tour.title}
                               title={tour.title}
                               onError={(e) => e.target.src = '/assets/img/placeholder.jpg'}
                             />
@@ -2438,52 +2433,3 @@ export default function SingleTour() {
     </div>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
