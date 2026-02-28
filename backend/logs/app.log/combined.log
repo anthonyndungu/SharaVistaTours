@@ -5441,3 +5441,19 @@
 2026-03-01 00:26:50:2650 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
 2026-03-01 00:26:50:2650 [32minfo[39m: [32mGET /api/v1/packages/stats[39m
 2026-03-01 00:26:50:2650 [32minfo[39m: [32mGET /api/v1/bookings/admin/all[39m
+2026-03-01 00:39:42:3942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:39:42:3942 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:39:42:3942 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:39:42:3942 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:39:43:3943 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:39:43:3943 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:39:43:3943 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:39:43:3943 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:39:45:3945 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:39:45:3945 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:39:45:3945 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:39:45:3945 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:45:00:450 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:45:00:450 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-01 00:45:00:450 [32minfo[39m: [32mGET /api/v1/packages[39m
+2026-03-01 00:45:00:450 [32minfo[39m: [32mgetAllPackages called with query {}[39m

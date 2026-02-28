@@ -429,15 +429,17 @@ export default function Tours() {
       // Check .value because react-select returns an object
       const matchesType = selectedType ? pkg.category === selectedType.value : true;
       const matchesDest = selectedDest ? pkg.destination === selectedDest.value : true;
+      const matchesDays = durationDays ? pkg.duration_days == parseInt(durationDays) : true;
+      const matchesNights = durationNights ? pkg.duration_nights == parseInt(durationNights) : true;
 
-      return matchesSearch && matchesType && matchesDest;
+      return matchesSearch && matchesType && matchesDest && matchesDays && matchesNights;
     });
-  }, [packages, searchTerm, selectedType, selectedDest]);
+  }, [packages, searchTerm, selectedType, selectedDest, durationDays, durationNights]);
 
   // Reset to page 1 if filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, selectedType, selectedDest]);
+  }, [searchTerm, selectedType, selectedDest, durationDays, durationNights]);
 
   // --- 3. PAGINATION LOGIC ---
   const totalPages = Math.ceil(filteredPackages.length / itemsPerPage);
@@ -507,6 +509,7 @@ export default function Tours() {
     control: (base, state) => ({
       ...base,
       borderColor: '#ddd',
+      textAlign:"left",
       boxShadow: 'none',
       borderRadius: '4px',
       minHeight: '46px', // Match input height including border
