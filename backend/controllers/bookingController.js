@@ -9,7 +9,7 @@
 // // @access  Private
 // export const createBooking = async (req, res) => {
 //   const t = await sequelize.transaction();
-  
+
 //   try {
 //     console.log('Create booking request body:', req.body); // Debug log
 //     const { package_id, start_date, end_date, passengers, special_requests, total_amount } = req.body;
@@ -25,7 +25,7 @@
 
 //     // 2. Validate Package Exists (with lock to prevent race conditions if needed, but standard find is ok here)
 //     const tourPackage = await TourPackage.findByPk(package_id, { transaction: t });
-    
+
 //     if (!tourPackage) {
 //       await t.rollback();
 //       return res.status(404).json({
@@ -64,7 +64,7 @@
 //         passport_number: passenger.passport_number,
 //         nationality: passenger.nationality || 'Kenyan'
 //       }));
-      
+
 //       await BookingPassenger.bulkCreate(passengerRecords, { transaction: t });
 //     } else {
 //       await t.rollback();
@@ -96,7 +96,7 @@
 
 //     // 8. Send confirmation email with payment instructions
 //     const emailSent = await sendBookingConfirmation(completeBooking, completeBooking.User);
-    
+
 //     if (!emailSent) {
 //       logger.warn(`Booking created but confirmation email failed for ${completeBooking.booking_number}`);
 //     }
@@ -302,7 +302,7 @@
 
 //     // 3. Update
 //     await booking.update({ status }, { transaction: t });
-    
+
 //     // Optional: If status becomes 'confirmed', you might want to decrement package capacity here
 
 //     await t.commit();
@@ -369,7 +369,7 @@
 
 //     // 3. Update Status
 //     await booking.update({ status: 'cancelled' }, { transaction: t });
-    
+
 //     // Optional: Trigger refund logic here if payment_status is 'paid'
 
 //     await t.commit();
@@ -474,7 +474,7 @@ import { sendBookingConfirmation, sendMpesaPaymentReminder } from '../utils/emai
 // @access  Private
 export const createBooking = async (req, res) => {
   const t = await sequelize.transaction();
-  
+
   try {
     console.log('Create booking request body:', req.body); // Debug log
     const { package_id, start_date, end_date, passengers, special_requests, total_amount } = req.body;
@@ -490,7 +490,7 @@ export const createBooking = async (req, res) => {
 
     // 2. Validate Package Exists (with lock to prevent race conditions if needed, but standard find is ok here)
     const tourPackage = await TourPackage.findByPk(package_id, { transaction: t });
-    
+
     if (!tourPackage) {
       await t.rollback();
       return res.status(404).json({
@@ -529,7 +529,7 @@ export const createBooking = async (req, res) => {
         passport_number: passenger.passport_number,
         nationality: passenger.nationality || 'Kenyan'
       }));
-      
+
       await BookingPassenger.bulkCreate(passengerRecords, { transaction: t });
     } else {
       await t.rollback();
@@ -561,7 +561,7 @@ export const createBooking = async (req, res) => {
 
     // 8. Send confirmation email with payment instructions
     const emailSent = await sendBookingConfirmation(completeBooking, completeBooking.User);
-    
+
     if (!emailSent) {
       logger.warn(`Booking created but confirmation email failed for ${completeBooking.booking_number}`);
     }
@@ -589,14 +589,16 @@ export const createBooking = async (req, res) => {
     res.status(201).json({
       status: 'success',
       message: 'Booking created successfully. Confirmation email sent with payment instructions.',
-      data: { 
+      data: {
         booking: completeBooking,
         paymentInstructions
       }
     });
   } catch (err) {
-    await t.rollback();
+    console.log(err)
     logger.error('Create booking error:', err);
+    await t.rollback();
+    //  logger.error('Create booking error:', err);
     // Handle specific errors
     if (err.name === 'SequelizeValidationError') {
       return res.status(400).json({
@@ -767,7 +769,7 @@ export const updateBookingStatus = async (req, res) => {
 
     // 3. Update
     await booking.update({ status }, { transaction: t });
-    
+
     // Optional: If status becomes 'confirmed', you might want to decrement package capacity here
 
     await t.commit();
@@ -834,7 +836,7 @@ export const cancelBooking = async (req, res) => {
 
     // 3. Update Status
     await booking.update({ status: 'cancelled' }, { transaction: t });
-    
+
     // Optional: Trigger refund logic here if payment_status is 'paid'
 
     await t.commit();

@@ -1,11 +1,14 @@
-import { Payment, Booking, sequelize } from '../models/index.js'; // ✅ Added sequelize
-import { Op } from 'sequelize'; // ✅ Added Op
+// controllers/paymentController.js
+import { Payment, Booking, sequelize, Op } from '../models/index.js';
 import mpesaService from '../services/mpesaService.js';
+import stripeService from '../services/stripeService.js';
 import logger from '../utils/logger.js';
 
-// @desc    Initiate MPESA payment
+// ===========================
+// @desc    Initiate MPESA STK Push Payment
 // @route   POST /api/v1/payments/mpesa
-// @access  Private
+// @access  Private (Authenticated users)
+// ===========================
 export const initiateMPESAPayment = async (req, res) => {
   const t = await sequelize.transaction();
   
@@ -13,41 +16,36 @@ export const initiateMPESAPayment = async (req, res) => {
     const { booking_id, phone_number, amount, account_reference } = req.body;
 
     // 1. Validate Inputs
-    if (!booking_id || !phone_number || !amount) {
+    if (!booking_id || !phone_number || !amount || amount <= 0) {
       await t.rollback();
       return res.status(400).json({
         status: 'fail',
-        message: 'Missing required fields: booking_id, phone_number, amount'
+        message: 'Missing required fields: booking_id, phone_number, amount (must be > 0)'
       });
     }
 
-    // 2. Validate Booking Exists (Lock row for update if possible, standard find ok here)
-    const booking = await Booking.findByPk(booking_id, { transaction: t });
+    // 2. Validate Booking Exists (with row lock for concurrency safety)
+    const booking = await Booking.findByPk(booking_id, { 
+      transaction: t,
+      lock: t.LOCK.UPDATE // Prevent race conditions on same booking
+    });
     
     if (!booking) {
       await t.rollback();
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Booking not found'
-      });
+      return res.status(404).json({ status: 'fail', message: 'Booking not found' });
     }
 
     // 3. Verify Ownership
-    if (booking.user_id !== req.user.id && req.user.role !== 'admin') {
+    const isAdmin = ['admin', 'super_admin'].includes(req.user.role);
+    if (!isAdmin && booking.user_id !== req.user.id) {
       await t.rollback();
-      return res.status(403).json({
-        status: 'fail',
-        message: 'Unauthorized access to this booking'
-      });
+      return res.status(403).json({ status: 'fail', message: 'Unauthorized access to this booking' });
     }
 
     // 4. Check if already paid
     if (booking.payment_status === 'paid') {
       await t.rollback();
-      return res.status(400).json({
-        status: 'fail',
-        message: 'This booking has already been paid for.'
-      });
+      return res.status(400).json({ status: 'fail', message: 'This booking has already been paid for.' });
     }
 
     // 5. Initiate MPESA STK Push
@@ -62,11 +60,12 @@ export const initiateMPESAPayment = async (req, res) => {
       await t.rollback();
       return res.status(400).json({
         status: 'fail',
-        message: mpesaResponse.error || 'Failed to initiate MPESA payment'
+        message: mpesaResponse.error || 'Failed to initiate MPESA payment',
+        mpesaCode: mpesaResponse.responseCode
       });
     }
 
-    // 6. Create Payment Record
+    // 6. Create Payment Record (pending until callback confirms)
     const payment = await Payment.create({
       booking_id,
       payment_method: 'mpesa',
@@ -79,13 +78,17 @@ export const initiateMPESAPayment = async (req, res) => {
     }, { transaction: t });
 
     // 7. Update Booking Status to Pending Payment
-    await booking.update({
-      payment_status: 'pending'
-    }, { transaction: t });
+    await booking.update({ payment_status: 'pending' }, { transaction: t });
 
     await t.commit();
 
-    logger.info(`MPESA payment initiated for booking ${booking.booking_number}. CheckoutID: ${mpesaResponse.checkoutRequestId}`);
+    logger.info('MPESA payment initiated', {
+      bookingNumber: booking.booking_number,
+      checkoutRequestId: mpesaResponse.checkoutRequestId,
+      amount,
+      phone: phone_number,
+      userId: req.user.id
+    });
 
     res.status(201).json({
       status: 'success',
@@ -94,145 +97,483 @@ export const initiateMPESAPayment = async (req, res) => {
         payment: {
           id: payment.id,
           status: payment.status,
-          amount: payment.amount
+          amount: payment.amount,
+          currency: payment.currency
         },
         checkoutRequestId: mpesaResponse.checkoutRequestId,
-        customerMessage: mpesaResponse.message || 'Enter PIN on your phone to complete payment'
+        customerMessage: mpesaResponse.customerMessage || 'Enter PIN on your phone to complete payment',
+        // Optional: Return polling endpoint for frontend
+        statusCheckUrl: `/api/v1/payments/status?checkout_request_id=${mpesaResponse.checkoutRequestId}`
       }
     });
   } catch (err) {
     await t.rollback();
-    logger.error('Initiate MPESA payment error:', err);
+    logger.error('Initiate MPESA payment error', { 
+      error: err.message, 
+      stack: err.stack,
+      booking_id: req.body.booking_id 
+    });
     res.status(500).json({
       status: 'error',
-      message: err.message
+      message: process.env.NODE_ENV === 'development' ? err.message : 'Payment initiation failed'
     });
   }
 };
 
-// @desc    MPESA callback handler
+// ===========================
+// @desc    MPESA STK Push Callback Handler
 // @route   POST /api/v1/payments/mpesa/callback
-// @access  Public (MPESA server)
+// @access  Public (MPESA server only)
+// ===========================
 export const mpesaCallback = async (req, res) => {
   const t = await sequelize.transaction();
   
   try {
-    // ⚠️ SECURITY NOTE: In production, verify the request IP comes from Safaricom ranges
-    // before processing to prevent spoofed callbacks.
+    // 🔐 SECURITY: In production, verify request IP is from Safaricom ranges
+    // if (process.env.MPESA_ENV === 'production' && !isSafaricomIP(req.ip)) {
+    //   logger.warn('MPESA callback from unauthorized IP', { ip: req.ip });
+    //   return res.status(403).json({ ResultCode: 1, ResultDesc: 'Unauthorized' });
+    // }
+
+    logger.debug('MPESA callback received', {
+      checkoutRequestId: req.body.Body?.stkCallback?.CheckoutRequestID,
+      resultCode: req.body.Body?.stkCallback?.ResultCode
+    });
     
     const callbackResult = await mpesaService.handleCallback(req.body, t);
 
     if (callbackResult.success) {
       await t.commit();
-      // MPESA expects a 200 OK to stop retries
-      res.status(200).json({
-        ResultCode: 0,
-        ResultDesc: 'Accepted'
-      });
+      // ✅ MPESA expects 200 OK with ResultCode: 0 to stop retries
+      res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
     } else {
       await t.rollback();
-      res.status(400).json({
-        ResultCode: 1,
-        ResultDesc: callbackResult.message || 'Processing failed'
+      // Return 200 with error code to stop retries for logic errors we can't fix
+      res.status(200).json({ 
+        ResultCode: 1, 
+        ResultDesc: callbackResult.message || 'Processing failed' 
       });
     }
   } catch (err) {
     await t.rollback();
-    logger.error('MPESA callback error:', err);
-    // Still return 200 to MPESA to stop retries if it's a local logic error we can't fix by retrying
-    // Or return 500 if you want MPESA to retry later. Usually 200 with error code is safer for logic errors.
-    res.status(500).json({
-      ResultCode: 1,
-      ResultDesc: 'Server error processing callback'
+    logger.error('MPESA callback error', { 
+      error: err.message, 
+      stack: err.stack,
+      checkoutRequestId: req.body.Body?.stkCallback?.CheckoutRequestID 
+    });
+    // Return 200 to stop retries for unfixable errors (prevent infinite loops)
+    // Or return 500 if you want MPESA to retry later for transient errors
+    res.status(200).json({ ResultCode: 1, ResultDesc: 'Server error' });
+  }
+};
+
+// ===========================
+// @desc    Initiate Stripe Card Payment
+// @route   POST /api/v1/payments/card
+// @access  Private (Authenticated users)
+// ===========================
+export const initiateCardPayment = async (req, res) => {
+  const t = await sequelize.transaction();
+  
+  try {
+    const { booking_id, amount, currency = 'KES' } = req.body;
+
+    // Validate inputs
+    if (!booking_id || !amount || amount <= 0) {
+      await t.rollback();
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Missing required fields: booking_id, amount (must be > 0)'
+      });
+    }
+
+    // Validate booking
+    const booking = await Booking.findByPk(booking_id, { transaction: t });
+    if (!booking) {
+      await t.rollback();
+      return res.status(404).json({ status: 'fail', message: 'Booking not found' });
+    }
+
+    // Verify ownership
+    const isAdmin = ['admin', 'super_admin'].includes(req.user.role);
+    if (!isAdmin && booking.user_id !== req.user.id) {
+      await t.rollback();
+      return res.status(403).json({ status: 'fail', message: 'Unauthorized' });
+    }
+
+    if (booking.payment_status === 'paid') {
+      await t.rollback();
+      return res.status(400).json({ status: 'fail', message: 'Booking already paid' });
+    }
+
+    // Create Stripe Payment Intent
+    const stripeResult = await stripeService.createPaymentIntent(
+      amount,
+      currency.toLowerCase(),
+      { booking_id, booking_number: booking.booking_number, user_id: req.user.id }
+    );
+
+    if (!stripeResult.success) {
+      await t.rollback();
+      return res.status(400).json({
+        status: 'fail',
+        message: stripeResult.error || 'Failed to initiate card payment',
+        stripeCode: stripeResult.stripeCode
+      });
+    }
+
+    // Create Payment Record (pending until webhook confirms)
+    const payment = await Payment.create({
+      booking_id,
+      payment_method: 'card',
+      amount,
+      currency: currency.toUpperCase(),
+      status: 'pending',
+      transaction_id: stripeResult.paymentIntentId,
+      stripe_payment_intent_id: stripeResult.paymentIntentId
+    }, { transaction: t });
+
+    // Update booking
+    await booking.update({ payment_status: 'pending' }, { transaction: t });
+
+    await t.commit();
+
+    logger.info('Card payment initialized', {
+      paymentId: payment.id,
+      paymentIntentId: stripeResult.paymentIntentId,
+      amount,
+      bookingNumber: booking.booking_number,
+      userId: req.user.id
+    });
+
+    res.status(201).json({
+      status: 'success',
+      message: 'Card payment initialized',
+      data: {
+        payment: {
+          id: payment.id,
+          status: payment.status,
+          amount: payment.amount,
+          currency: payment.currency
+        },
+        clientSecret: stripeResult.clientSecret, // Send to frontend for Stripe Elements
+        paymentIntentId: stripeResult.paymentIntentId,
+        // Optional: Frontend polling endpoint
+        statusCheckUrl: `/api/v1/payments/status?payment_intent_id=${stripeResult.paymentIntentId}`
+      }
+    });
+  } catch (err) {
+    await t.rollback();
+    logger.error('Initiate card payment error', { 
+      error: err.message, 
+      stack: err.stack,
+      booking_id: req.body.booking_id 
+    });
+    res.status(500).json({ 
+      status: 'error', 
+      message: process.env.NODE_ENV === 'development' ? err.message : 'Payment initiation failed' 
     });
   }
 };
 
-// @desc    Verify payment status
+// ===========================
+// @desc    Stripe Webhook Handler
+// @route   POST /api/v1/payments/stripe/webhook
+// @access  Public (Stripe server only)
+// ===========================
+export const stripeWebhook = async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  
+  try {
+    // ✅ CRITICAL: Raw body required for webhook signature verification
+    // Ensure express.raw({ type: 'application/json' }) middleware is applied BEFORE this route
+    const payload = req.rawBody || JSON.stringify(req.body);
+    
+    logger.debug('Stripe webhook received', {
+      signature: sig ? 'present' : 'missing',
+      payloadLength: payload?.length
+    });
+    
+    const result = await stripeService.handleWebhook(payload, sig);
+
+    if (result.success) {
+      // ✅ Stripe expects 200 OK to stop retries
+      res.status(200).json({ received: true, eventId: result.eventId });
+    } else {
+      // Return 400 for processing errors (Stripe may retry for transient errors)
+      res.status(400).json({ error: result.error });
+    }
+  } catch (err) {
+    logger.error('Stripe webhook error', { 
+      error: err.message, 
+      signature: sig ? 'present' : 'missing',
+      type: err.type
+    });
+    
+    // ✅ Re-throw signature verification errors to trigger Stripe retry with proper HTTP status
+    if (err.type === 'StripeSignatureVerificationError') {
+      res.status(400).send(`Webhook signature verification failed: ${err.message}`);
+    } else {
+      // Return 500 for server errors (Stripe will retry with exponential backoff)
+      res.status(500).send(`Webhook processing error: ${err.message}`);
+    }
+  }
+};
+
+// ===========================
+// @desc    MPESA C2B Validation Endpoint
+// @route   POST /api/v1/payments/mpesa/c2b/validation
+// @access  Public (MPESA server only)
+// ===========================
+export const c2bValidation = async (req, res) => {
+  try {
+    logger.info('C2B Validation Request', { 
+      TransID: req.body.TransID,
+      Amount: req.body.TransAmount,
+      BillRefNumber: req.body.BillRefNumber,
+      MSISDN: req.body.Msisdn
+    });
+    
+    // ✅ Always return success to allow payment to proceed
+    // Add custom validation logic here if needed:
+    // - Check if BillRefNumber matches a valid booking
+    // - Verify amount matches booking total (within tolerance)
+    // - Check for duplicate transactions
+    
+    // Example validation (optional):
+    // if (req.body.BillRefNumber && !await isValidBookingRef(req.body.BillRefNumber)) {
+    //   return res.status(200).json({ ResultCode: 1, ResultDesc: 'Invalid booking reference' });
+    // }
+    
+    res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
+  } catch (err) {
+    logger.error('C2B Validation Error', { error: err.message, stack: err.stack });
+    // Return success anyway to avoid blocking legitimate payments for server errors
+    res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
+  }
+};
+
+// ===========================
+// @desc    MPESA C2B Confirmation Endpoint
+// @route   POST /api/v1/payments/mpesa/c2b/confirmation
+// @access  Public (MPESA server only)
+// ===========================
+export const c2bConfirmation = async (req, res) => {
+  const t = await sequelize.transaction();
+  
+  try {
+    const {
+      TransID,
+      TransTime,
+      TransAmount,
+      Msisdn,
+      BillRefNumber,
+      OrgShortCode,
+      ResultCode,
+      ResultDesc
+    } = req.body;
+
+    logger.info('C2B Confirmation', { 
+      TransID, 
+      BillRefNumber, 
+      TransAmount,
+      ResultCode,
+      Msisdn
+    });
+
+    if (ResultCode !== 0) {
+      logger.warn('C2B Payment failed', { TransID, ResultDesc, ResultCode });
+      res.status(200).json({ ResultCode: 0, ResultDesc: 'Received' });
+      return;
+    }
+
+    // ✅ Find booking by BillRefNumber (should match booking_number)
+    const booking = await Booking.findOne({
+      where: { booking_number: BillRefNumber },
+      transaction: t
+    });
+
+    if (!booking) {
+      logger.warn('Booking not found for C2B payment', { BillRefNumber });
+      // Still return success to MPESA to stop retries for unknown references
+      res.status(200).json({ ResultCode: 0, ResultDesc: 'Received' });
+      return;
+    }
+
+    // ✅ IDEMPOTENCY: Check for duplicate transaction (prevent double-processing)
+    const existingPayment = await Payment.findOne({
+      where: { transaction_id: TransID },
+      transaction: t
+    });
+
+    if (existingPayment) {
+      logger.info('Duplicate C2B payment ignored (idempotent)', { TransID });
+      res.status(200).json({ ResultCode: 0, ResultDesc: 'Received' });
+      return;
+    }
+
+    // Create payment record
+    await Payment.create({
+      booking_id: booking.id,
+      payment_method: 'mpesa',
+      transaction_id: TransID,
+      amount: TransAmount,
+      currency: 'KES',
+      status: 'completed',
+      mpesa_result_code: ResultCode,
+      mpesa_result_desc: ResultDesc,
+      paid_at: new Date(),
+      // Optional: Store C2B-specific metadata for audit/reconciliation
+      mpesa_phone: Msisdn,
+      mpesa_transaction_date: TransTime
+    }, { transaction: t });
+
+    // Update booking status
+    await booking.update({
+      payment_status: 'paid',
+      status: 'confirmed'
+    }, { transaction: t });
+
+    await t.commit();
+
+    logger.info('C2B Payment confirmed successfully', { 
+      TransID, 
+      bookingNumber: BillRefNumber,
+      amount: TransAmount,
+      customerPhone: Msisdn
+    });
+    
+    res.status(200).json({ ResultCode: 0, ResultDesc: 'Success' });
+  } catch (err) {
+    await t.rollback();
+    logger.error('C2B Confirmation Error', { error: err.message, stack: err.stack });
+    // Return 200 with error code to stop MPESA retries for unfixable errors
+    res.status(200).json({ ResultCode: 1, ResultDesc: 'Processing failed' });
+  }
+};
+
+// ===========================
+// @desc    Verify Payment Status
 // @route   GET /api/v1/payments/verify/:transactionId
-// @access  Private
+// @access  Private (Authenticated users)
+// ===========================
 export const verifyPayment = async (req, res) => {
   try {
     const payment = await Payment.findOne({
       where: { 
         [Op.or]: [
           { transaction_id: req.params.transactionId },
-          { mpesa_checkout_request_id: req.params.transactionId }
+          { mpesa_checkout_request_id: req.params.transactionId },
+          { stripe_payment_intent_id: req.params.transactionId }
         ]
       },
       include: [{
         model: Booking,
-        attributes: ['id', 'booking_number', 'status', 'payment_status', 'total_amount']
+        as: 'Booking', // ✅ Must match association alias in models/index.js
+        attributes: ['id', 'booking_number', 'status', 'payment_status', 'total_amount', 'user_id']
       }]
     });
 
     if (!payment) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Payment not found'
-      });
+      return res.status(404).json({ status: 'fail', message: 'Payment not found' });
     }
 
-    // Permission check
-    const isAdmin = req.user.role === 'admin' || req.user.role === 'super_admin';
-    if (!isAdmin && payment.Booking.user_id !== req.user.id) {
-      return res.status(403).json({
-        status: 'fail',
-        message: 'Unauthorized'
-      });
+    // ✅ SAFE: Permission check with optional chaining
+    const isAdmin = ['admin', 'super_admin'].includes(req.user.role);
+    if (!isAdmin && payment.Booking?.user_id !== req.user.id) {
+      return res.status(403).json({ status: 'fail', message: 'Unauthorized' });
+    }
+
+    // ✅ Verify Booking association loaded correctly
+    if (!payment.Booking) {
+      logger.warn('Payment has no associated booking', { paymentId: payment.id });
+      return res.status(400).json({ status: 'fail', message: 'Invalid payment record' });
     }
 
     res.status(200).json({
       status: 'success',
-      data: { payment }
+      data: { 
+        payment: {
+          id: payment.id,
+          status: payment.status,
+          payment_method: payment.payment_method,
+          amount: payment.amount,
+          currency: payment.currency,
+          transaction_id: payment.transaction_id,
+          booking_number: payment.Booking.booking_number,
+          created_at: payment.created_at,
+          updated_at: payment.updated_at,
+          paid_at: payment.paid_at,
+          // MPESA-specific fields
+          mpesa_result_code: payment.mpesa_result_code,
+          mpesa_result_desc: payment.mpesa_result_desc,
+          mpesa_checkout_request_id: payment.mpesa_checkout_request_id,
+          // Stripe-specific fields
+          stripe_payment_intent_id: payment.stripe_payment_intent_id,
+          stripe_charge_id: payment.stripe_charge_id,
+          card_brand: payment.card_brand,
+          card_last4: payment.card_last4
+        }
+      }
     });
   } catch (err) {
-    logger.error('Verify payment error:', err);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    logger.error('Verify payment error', { error: err.message, transactionId: req.params.transactionId });
+    res.status(500).json({ status: 'error', message: 'Verification failed' });
   }
 };
 
-// @desc    Get payment history
+// ===========================
+// @desc    Get Payment History
 // @route   GET /api/v1/payments/history
-// @access  Private
+// @access  Private (Authenticated users)
+// ===========================
 export const getPaymentHistory = async (req, res) => {
   try {
     const queryOptions = {
       where: {},
       include: [{
         model: Booking,
+        as: 'Booking', // ✅ Match association alias
         attributes: ['id', 'booking_number', 'total_amount', 'user_id']
       }],
-      order: [['created_at', 'DESC']]
+      order: [['created_at', 'DESC']],
+      attributes: {
+        exclude: [] // Add fields to exclude if needed for security
+      }
     };
 
-    // For regular users, only show their payments
+    // For regular users, only show their own payments
     if (req.user.role === 'client') {
-      // Subquery or join filter: Find bookings belonging to user
-      // We can do this by joining and filtering, or pre-fetching IDs
-      // Efficient way: Add condition on included model
       queryOptions.include[0].where = { user_id: req.user.id };
-      queryOptions.include[0].required = true; // Inner join
-    } else if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+      queryOptions.include[0].required = true; // Inner join to filter
+    } else if (!['admin', 'super_admin'].includes(req.user.role)) {
        return res.status(403).json({ status: 'fail', message: 'Access denied' });
     }
 
     // Filter by payment method
-    if (req.query.payment_method) {
+    if (req.query.payment_method && ['mpesa', 'card', 'bank_transfer'].includes(req.query.payment_method)) {
       queryOptions.where.payment_method = req.query.payment_method;
     }
 
     // Filter by status
-    if (req.query.status) {
+    if (req.query.status && ['pending', 'completed', 'failed', 'refunded'].includes(req.query.status)) {
       queryOptions.where.status = req.query.status;
     }
 
-    // Pagination
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    // Date range filter (optional)
+    if (req.query.start_date || req.query.end_date) {
+      queryOptions.where.created_at = {};
+      if (req.query.start_date) {
+        queryOptions.where.created_at[Op.gte] = new Date(req.query.start_date);
+      }
+      if (req.query.end_date) {
+        queryOptions.where.created_at[Op.lte] = new Date(req.query.end_date);
+      }
+    }
+
+    // Pagination with limits to prevent abuse
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10)); // Clamp 1-100
     const offset = (page - 1) * limit;
 
     queryOptions.limit = limit;
@@ -246,93 +587,325 @@ export const getPaymentHistory = async (req, res) => {
       total: count,
       page,
       pages: Math.ceil(count / limit),
-      data: { payments }
+      data: { 
+        payments: payments.map(p => ({
+          id: p.id,
+          payment_method: p.payment_method,
+          amount: p.amount,
+          currency: p.currency,
+          status: p.status,
+          transaction_id: p.transaction_id,
+          booking_number: p.Booking?.booking_number,
+          created_at: p.created_at,
+          paid_at: p.paid_at,
+          refunded_at: p.refunded_at,
+          // Include card details (masked) for receipts
+          card_brand: p.card_brand,
+          card_last4: p.card_last4 ? `****${p.card_last4}` : null
+        }))
+      }
     });
   } catch (err) {
-    logger.error('Get payment history error:', err);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    logger.error('Get payment history error', { error: err.message, userId: req.user?.id });
+    res.status(500).json({ status: 'error', message: 'Failed to retrieve payment history' });
   }
 };
 
-// @desc    Process refund
+// ===========================
+// @desc    Process Refund (Admin Only)
 // @route   POST /api/v1/payments/:id/refund
-// @access  Private/Admin
+// @access  Private (Admin/Super Admin only)
+// ===========================
 export const processRefund = async (req, res) => {
   const t = await sequelize.transaction();
   
   try {
-    // 1. Admin Check
-    if (req.user.role !== 'admin' && req.user.role !== 'super_admin') {
+    // 1. Admin Authorization Check
+    if (!['admin', 'super_admin'].includes(req.user.role)) {
       await t.rollback();
-      return res.status(403).json({
-        status: 'fail',
-        message: 'Access denied. Admin privileges required.'
-      });
+      return res.status(403).json({ status: 'fail', message: 'Access denied. Admin privileges required.' });
     }
 
     const payment = await Payment.findByPk(req.params.id, {
-      include: [{ model: Booking }],
+      include: [{ model: Booking, as: 'Booking' }], // ✅ Use association alias
       transaction: t
     });
 
     if (!payment) {
       await t.rollback();
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Payment not found'
-      });
+      return res.status(404).json({ status: 'fail', message: 'Payment not found' });
     }
 
-    // 2. Validation
+    // ✅ Safe Booking access check
+    if (!payment.Booking) {
+      await t.rollback();
+      return res.status(400).json({ status: 'fail', message: 'Payment has no associated booking' });
+    }
+
+    // 2. Validation: Only completed payments can be refunded
     if (payment.status !== 'completed') {
       await t.rollback();
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Only completed payments can be refunded'
-      });
+      return res.status(400).json({ status: 'fail', message: 'Only completed payments can be refunded' });
     }
 
-    if (payment.Booking.status === 'cancelled') {
-       // Optional: Warn if already cancelled, but allow refund
-    }
-
-    // 3. Process Refund Logic
-    // TODO: Integrate actual MPESA B2C (Business to Customer) API here to send money back
-    // For now, we simulate a successful refund by updating status
+    // 3. Process ACTUAL Refund via payment provider
+    let refundResult;
+    const refundReason = req.body.reason || 'requested_by_customer';
     
-    /* 
-    const refundResponse = await mpesaService.b2cTransfer(...);
-    if (!refundResponse.success) throw new Error('Refund transfer failed');
-    */
+    if (payment.payment_method === 'mpesa') {
+      // ✅ Get customer phone for B2C refund
+      // Option A: From booking passenger (adjust query based on your schema)
+      const { BookingPassenger } = await import('../models/index.js');
+      const passenger = await BookingPassenger.findOne({
+        where: { booking_id: payment.booking_id },
+        attributes: ['phone'],
+        order: [['id', 'ASC']], // Get first passenger
+        transaction: t
+      });
+      
+      const customerPhone = passenger?.phone || req.body.customer_phone;
+      
+      if (!customerPhone) {
+        await t.rollback();
+        return res.status(400).json({ 
+          status: 'fail', 
+          message: 'Customer phone number required for MPESA refund. Provide customer_phone in request body.' 
+        });
+      }
 
-    // 4. Update Records
+      // Call MPESA B2C API to send money back
+      refundResult = await mpesaService.b2cRefund(
+        customerPhone,
+        payment.amount,
+        `Refund for booking ${payment.Booking.booking_number}`,
+        'TourRefund'
+      );
+      
+      if (!refundResult.success) {
+        await t.rollback();
+        return res.status(400).json({
+          status: 'fail',
+          message: `MPESA refund failed: ${refundResult.error}`,
+          mpesaResponse: {
+            error: refundResult.error,
+            conversationId: refundResult.conversationId
+          }
+        });
+      }
+      
+      logger.info('MPESA B2C refund initiated', {
+        paymentId: payment.id,
+        conversationId: refundResult.conversationId,
+        amount: payment.amount,
+        customerPhone
+      });
+      
+    } else if (payment.payment_method === 'card') {
+      // Call Stripe Refund API
+      const stripeId = payment.stripe_payment_intent_id || payment.transaction_id;
+      
+      if (!stripeId) {
+        await t.rollback();
+        return res.status(400).json({ 
+          status: 'fail', 
+          message: 'Cannot refund: No Stripe payment intent ID found' 
+        });
+      }
+
+      refundResult = await stripeService.refundPayment(
+        stripeId,
+        payment.amount,
+        refundReason
+      );
+      
+      if (!refundResult.success) {
+        await t.rollback();
+        return res.status(400).json({
+          status: 'fail',
+          message: `Stripe refund failed: ${refundResult.error}`,
+          stripeResponse: {
+            error: refundResult.error,
+            stripeCode: refundResult.stripeCode
+          }
+        });
+      }
+      
+      logger.info('Stripe refund initiated', {
+        paymentId: payment.id,
+        refundId: refundResult.refundId,
+        amount: payment.amount,
+        paymentIntentId: stripeId
+      });
+    } else {
+      // Bank transfer or other methods: manual refund workflow
+      logger.warn('Manual refund required for payment method', {
+        paymentId: payment.id,
+        method: payment.payment_method
+      });
+      
+      // For now, just update status (admin should process refund externally)
+      refundResult = { success: true, manual: true };
+    }
+
+    // 4. Update Records (ONLY after successful refund initiation)
     await payment.update({
-      status: 'refunded'
+      status: 'refunded',
+      refunded_at: new Date(),
+      // Store refund reference for audit trail
+      transaction_id: refundResult.transactionId || refundResult.refundId || refundResult.conversationId || payment.transaction_id
     }, { transaction: t });
 
     await payment.Booking.update({
       payment_status: 'refunded',
-      status: 'cancelled' // Automatically cancel booking if refunded
+      status: 'cancelled' // Automatically cancel booking when refunded
     }, { transaction: t });
 
     await t.commit();
 
-    logger.info(`Payment ${payment.transaction_id} refunded by ${req.user.email}`);
+    logger.info('Payment refunded successfully', {
+      paymentId: payment.id,
+      transactionId: payment.transaction_id,
+      bookingNumber: payment.Booking.booking_number,
+      amount: payment.amount,
+      method: payment.payment_method,
+      refundedBy: req.user.email,
+      refundReference: refundResult.refundId || refundResult.conversationId
+    });
 
     res.status(200).json({
       status: 'success',
       message: 'Refund processed successfully',
-      data: { payment }
+      data: { 
+        payment: {
+          id: payment.id,
+          status: payment.status,
+          refunded_at: payment.refunded_at,
+          refund_reference: refundResult.refundId || refundResult.conversationId,
+          amount: payment.amount,
+          currency: payment.currency
+        },
+        // Return provider-specific reference for tracking
+        mpesa: payment.payment_method === 'mpesa' ? {
+          conversationId: refundResult.conversationId
+        } : undefined,
+        stripe: payment.payment_method === 'card' ? {
+          refundId: refundResult.refundId
+        } : undefined
+      }
     });
   } catch (err) {
     await t.rollback();
-    logger.error('Process refund error:', err);
+    logger.error('Process refund error', { 
+      error: err.message, 
+      stack: err.stack,
+      paymentId: req.params.id,
+      userId: req.user?.id 
+    });
     res.status(400).json({
       status: 'fail',
-      message: err.message
+      message: process.env.NODE_ENV === 'development' ? err.message : 'Refund processing failed'
     });
+  }
+};
+
+// ===========================
+// @desc    Unified Payment Status Check
+// @route   GET /api/v1/payments/status
+// @access  Private (Authenticated users)
+// ===========================
+export const checkPaymentStatus = async (req, res) => {
+  try {
+    const { payment_id, checkout_request_id, payment_intent_id } = req.query;
+
+    let payment;
+    
+    // Determine lookup method based on provided identifier
+    if (payment_id) {
+      payment = await Payment.findByPk(payment_id, {
+        include: [{ model: Booking, as: 'Booking', attributes: ['booking_number', 'payment_status', 'user_id'] }]
+      });
+    } else if (checkout_request_id) {
+      payment = await Payment.findOne({
+        where: { mpesa_checkout_request_id: checkout_request_id },
+        include: [{ model: Booking, as: 'Booking', attributes: ['booking_number', 'payment_status', 'user_id'] }]
+      });
+    } else if (payment_intent_id) {
+      payment = await Payment.findOne({
+        where: { stripe_payment_intent_id: payment_intent_id },
+        include: [{ model: Booking, as: 'Booking', attributes: ['booking_number', 'payment_status', 'user_id'] }]
+      });
+    } else {
+      return res.status(400).json({ 
+        status: 'fail', 
+        message: 'Provide one of: payment_id, checkout_request_id, or payment_intent_id' 
+      });
+    }
+
+    if (!payment) {
+      return res.status(404).json({ status: 'fail', message: 'Payment not found' });
+    }
+
+    // ✅ SAFE: Permission check with optional chaining
+    const isAdmin = ['admin', 'super_admin'].includes(req.user.role);
+    if (!isAdmin && payment.Booking?.user_id !== req.user.id) {
+      return res.status(403).json({ status: 'fail', message: 'Unauthorized' });
+    }
+
+    // ✅ Verify Booking association loaded
+    if (!payment.Booking) {
+      logger.warn('Payment has no associated booking', { paymentId: payment.id });
+      return res.status(400).json({ status: 'fail', message: 'Invalid payment record' });
+    }
+
+    // For pending MPESA payments, optionally query MPESA for latest status (polling fallback)
+    if (payment.status === 'pending' && 
+        payment.payment_method === 'mpesa' && 
+        payment.mpesa_checkout_request_id) {
+      
+      const mpesaStatus = await mpesaService.querySTKStatus(payment.mpesa_checkout_request_id);
+      
+      // Optional: Auto-update local status if MPESA reports completion
+      // (Be careful with race conditions - callbacks are source of truth)
+      if (mpesaStatus.success && mpesaStatus.data?.status === 'completed') {
+        // Could trigger async status sync here, but prefer letting callback handle it
+        logger.debug('MPESA polling shows completed, awaiting callback', {
+          checkoutRequestId: payment.mpesa_checkout_request_id
+        });
+      }
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        payment: {
+          id: payment.id,
+          status: payment.status,
+          payment_method: payment.payment_method,
+          amount: payment.amount,
+          currency: payment.currency,
+          transaction_id: payment.transaction_id,
+          booking_number: payment.Booking.booking_number,
+          created_at: payment.created_at,
+          updated_at: payment.updated_at,
+          paid_at: payment.paid_at,
+          refunded_at: payment.refunded_at,
+          // MPESA-specific fields
+          mpesa_result_code: payment.mpesa_result_code,
+          mpesa_result_desc: payment.mpesa_result_desc,
+          mpesa_checkout_request_id: payment.mpesa_checkout_request_id,
+          // Stripe-specific fields
+          stripe_payment_intent_id: payment.stripe_payment_intent_id,
+          stripe_charge_id: payment.stripe_charge_id,
+          card_brand: payment.card_brand,
+          card_last4: payment.card_last4 ? `****${payment.card_last4}` : null,
+          // Helpful frontend fields
+          canPoll: payment.status === 'pending' && payment.payment_method === 'mpesa',
+          nextPollIn: payment.status === 'pending' ? 5000 : null // Suggest 5s polling interval
+        }
+      }
+    });
+  } catch (err) {
+    logger.error('Check payment status error', { error: err.message, query: req.query });
+    res.status(500).json({ status: 'error', message: 'Status check failed' });
   }
 };

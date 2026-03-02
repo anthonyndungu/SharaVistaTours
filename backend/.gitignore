@@ -1,0 +1,9 @@
+.env
+backend/.env
+backend/.env.local
+backend/.env.development
+backend/.env.production
+backend/.env.test
+
+node_modules/
+dist/

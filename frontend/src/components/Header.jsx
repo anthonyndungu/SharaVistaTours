@@ -254,7 +254,7 @@ export default function Header() {
                   </>
                 ) : (
                   <div className="user-dropdown-container" style={{ position: 'relative', display: 'inline-block' }} ref={userMenuRef}>
-                    <button onClick={() => setShowUserMenu(!showUserMenu)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#333', fontWeight: '600' }}>
+                    <button onClick={() => setShowUserMenu(!showUserMenu)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', fontWeight: '600' }}>
                       <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#1976d2', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px' }}>{userInitials}</div>
                       <span>{user?.name || 'User'}</span>
                       <i className={`fa fa-chevron-${showUserMenu ? 'up' : 'down'}`}></i>

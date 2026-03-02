@@ -1,0 +1,24 @@
+ssh -R 80:localhost:9002 serveo.net
+
+npx localtunnel --port 9002
+
+
+
+cloudflared tunnel login
+cloudflared tunnel --url http://localhost:9002
+
+advance course catering 
+
+ ' Open Carton
+                        Dim TotalPacketQty As Integer
+                        Dim RemainingPktQty As Integer
+                        Dim RemainingCtns As Integer
+                        Dim RemainingPkt As Integer
+
+                        TotalPacketQty = PackQty + (CartonQty * CartonPackQty)
+                        RemainingPktQty = TotalPacketQty - (PackQtyToBeSold + (QTYSelling * CartonPackQty))
+                        RemainingCtns = Math.Floor(RemainingPktQty / CartonPackQty)
+                        RemainingPkt = RemainingPktQty Mod CartonPackQty
+
+                        newcommand = New MySqlCommand("UPDATE item_stock SET qty =" & RemainingCtns & ",QtyPacks=" & RemainingPkt & "  WHERE Stock_Code='" & StockCode & "'", newcon, Transaction)
+                        newcommand.ExecuteNonQuery()

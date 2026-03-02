@@ -1,22 +1,31 @@
+// routes/paymentRoutes.js
 import express from 'express';
 import {
   initiateMPESAPayment,
-  mpesaCallback,
+  initiateCardPayment,
   verifyPayment,
   getPaymentHistory,
-  processRefund
+  processRefund,
+  checkPaymentStatus
 } from '../controllers/paymentController.js';
 import { protect, restrictTo } from '../middleware/auth.js';
+import { paymentRateLimit } from '../middleware/paymentSecurity.js'; // Optional rate limiting
 
 const router = express.Router();
 
-// Public routes (for MPESA callback)
-router.post('/mpesa/callback', mpesaCallback);
+// Apply auth middleware to all routes in this file
+router.use(protect);
 
-// Protected routes
-router.post('/mpesa', protect, initiateMPESAPayment);
-router.get('/verify/:transactionId', protect, verifyPayment);
-router.get('/history', protect, getPaymentHistory);
-router.post('/:id/refund', protect, restrictTo('admin', 'super_admin'), processRefund);
+// Payment initiation (with optional rate limiting)
+router.post('/mpesa', paymentRateLimit, initiateMPESAPayment);
+router.post('/card', paymentRateLimit, initiateCardPayment);
+
+// Payment status & history
+router.get('/status', checkPaymentStatus);
+router.get('/verify/:transactionId', verifyPayment);
+router.get('/history', getPaymentHistory);
+
+// Admin-only refund
+router.post('/:id/refund', restrictTo('admin', 'super_admin'), processRefund);
 
 export default router;
