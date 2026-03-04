@@ -18,8 +18,8 @@ const adminNavigation = [
   { name: 'Packages', href: '/admin/packages', icon: '🧳' },
   { name: 'Bookings', href: '/admin/bookings', icon: '📅' },
   { name: 'Clients', href: '/admin/clients', icon: '👥' },
-  { name: 'Reviews', href: '/admin/reviews', icon: '⭐' },
-  { name: 'Settings', href: '/admin/settings', icon: '⚙️' }
+  // { name: 'Reviews', href: '/admin/reviews', icon: '⭐' },
+  // { name: 'Settings', href: '/admin/settings', icon: '⚙️' }
 ];
 
 const COLORS = {

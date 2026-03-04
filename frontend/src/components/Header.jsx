@@ -87,7 +87,7 @@ export default function Header() {
     }
   }, [isAuthenticated, user, loading, navigate]);
 
-  // ... (Keep all existing useEffects exactly as they were) ...
+
   useEffect(() => {
     const handleModalClick = (e) => {
       const inLoginModal = showLogin && loginModalRef.current?.contains(e.target);
@@ -318,7 +318,7 @@ export default function Header() {
                 src="/assets/img/logo_sticky.png" 
                 alt="Logo" 
                 width="100" 
-                height="15" 
+                height="10" 
                 style={{ display: 'block' }}
               />
             </Link>

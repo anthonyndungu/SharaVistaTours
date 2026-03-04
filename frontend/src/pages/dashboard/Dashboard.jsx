@@ -288,7 +288,7 @@
 //           }}>Need Help?</h3>
 //           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 //             {[
-//               { label: 'Contact Support', href: 'mailto:support@travelease.com' },
+//               { label: 'Contact Support', href: 'mailto:support@sharavistatours.com' },
 //               { label: 'Visit Contact Page', path: '/contact' },
 //               { label: 'Call Us: +254 712 345 678', href: 'tel:+254712345678' }
 //             ].map((action, idx) => (

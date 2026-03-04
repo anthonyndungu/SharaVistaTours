@@ -14,7 +14,7 @@ export default function Privacy() {
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">1. Introduction</h2>
             <p className="text-gray-600">
-              TravelEase ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+              Sharavista Tours ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">2. Information We Collect</h2>
@@ -96,7 +96,7 @@ export default function Privacy() {
               If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us at:
             </p>
             <p className="text-gray-600">
-              Email: <Link to="mailto:privacy@travelease.com" className="text-primary-600 hover:text-primary-800">privacy@travelease.com</Link><br/>
+              Email: <Link to="mailto:privacy@sharavistatours.com" className="text-primary-600 hover:text-primary-800">privacy@sharavistatours.com</Link><br/>
               Phone: <Link to="tel:+254712345678" className="text-primary-600 hover:text-primary-800">+254 712 345 678</Link><br/>
               Address: Nairobi, Kenya
             </p>

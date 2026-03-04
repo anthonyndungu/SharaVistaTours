@@ -14,14 +14,14 @@ export default function Terms() {
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">1. Introduction</h2>
             <p className="text-gray-600">
-              Welcome to TravelEase! These terms and conditions outline the rules and regulations for the use of TravelEase's Website and Services.
-              By accessing this website, we assume you accept these terms and conditions. Do not continue to use TravelEase if you do not agree to all of the terms and conditions stated on this page.
+              Welcome to Sharavista Tours! These terms and conditions outline the rules and regulations for the use of Sharavista Tours' Website and Services.
+              By accessing this website, we assume you accept these terms and conditions. Do not continue to use Sharavista Tours if you do not agree to all of the terms and conditions stated on this page.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">2. Intellectual Property</h2>
             <p className="text-gray-600">
-              Unless otherwise stated, TravelEase and/or its licensors own the intellectual property rights for all material on TravelEase. 
-              All intellectual property rights are reserved. You may access this from TravelEase for your own personal use subjected to restrictions set in these terms and conditions.
+              Unless otherwise stated, Sharavista Tours and/or its licensors own the intellectual property rights for all material on Sharavista Tours. 
+              All intellectual property rights are reserved. You may access this from Sharavista Tours for your own personal use subjected to restrictions set in these terms and conditions.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">3. Booking and Payments</h2>
@@ -41,18 +41,18 @@ export default function Terms() {
             <h2 className="text-2xl font-bold text-gray-900 mt-8">5. User Responsibilities</h2>
             <p className="text-gray-600">
               You agree to provide accurate and complete information when making a booking. You are responsible for ensuring you have all necessary travel documents, visas, and vaccinations required for your destination. 
-              TravelEase is not responsible for any expenses, losses, or damages incurred due to lack of proper documentation.
+              Sharavista Tours is not responsible for any expenses, losses, or damages incurred due to lack of proper documentation.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">6. Limitation of Liability</h2>
             <p className="text-gray-600">
-              TravelEase shall not be liable for any indirect, incidental, special, consequential or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, 
+              Sharavista Tours shall not be liable for any indirect, incidental, special, consequential or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, 
               or any loss of data, use, goodwill, or other intangible losses, resulting from your use of our services.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mt-8">7. Changes to Terms</h2>
             <p className="text-gray-600">
-              TravelEase reserves the right to modify these terms at any time. We will always post the most current version on our website. 
+              Sharavista Tours reserves the right to modify these terms at any time. We will always post the most current version on our website. 
               By continuing to use the website after any modifications, you agree to be bound by the modified terms.
             </p>
 
@@ -66,7 +66,7 @@ export default function Terms() {
               If you have any questions about these Terms, please contact us at:
             </p>
             <p className="text-gray-600">
-              Email: <Link to="mailto:info@travelease.com" className="text-primary-600 hover:text-primary-800">info@travelease.com</Link><br/>
+              Email: <Link to="mailto:info@sharavistatours.com" className="text-primary-600 hover:text-primary-800">info@sharavistatours.com</Link><br/>
               Phone: <Link to="tel:+254712345678" className="text-primary-600 hover:text-primary-800">+254 712 345 678</Link>
             </p>
           </div>

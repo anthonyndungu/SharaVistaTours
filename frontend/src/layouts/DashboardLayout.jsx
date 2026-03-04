@@ -136,7 +136,7 @@ export default function DashboardLayout() {
                   T
                 </div>
                 <h1 style={{ fontSize: '16px', fontWeight: '700', color: COLORS.text }}>
-                  TravelEase
+                  Client Dashboard
                 </h1>
               </div>
               <button
@@ -211,7 +211,7 @@ export default function DashboardLayout() {
               T
             </div>
             <h1 style={{ fontSize: '16px', fontWeight: '700', color: COLORS.text }}>
-              TravelEase
+              Client Dashboard
             </h1>
           </div>
 

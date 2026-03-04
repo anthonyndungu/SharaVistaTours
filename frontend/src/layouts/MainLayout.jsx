@@ -8,6 +8,7 @@ export default function MainLayout() {
     <div className="wrapper-container">
       <Header />
       <div className="site wrapper-content">
+        <br />
         <Outlet />
       </div>
       <Footer />

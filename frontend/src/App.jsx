@@ -41,6 +41,9 @@ import Register from './pages/auth/Register';
 import { fetchPackages } from './features/packages/packageSlice';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import About from './pages/About';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import AdminBookingDetails from './pages/admin/AdminBookingDetails';
 
 function App() {
   // ✅ 1. ALL HOOKS MUST BE AT THE TOP
@@ -87,6 +90,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="tours" element={<Tours />} />
+          <Route path="terms" element={<Terms />} />
+          <Route path="privacy" element={<Privacy />} />
           <Route path="destinations" element={<Destinations />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="travel-tips" element={<TravelTips />} />
@@ -119,7 +124,7 @@ function App() {
           <Route path="packages/new" element={<CreatePackage />} />
           <Route path="packages/edit/:id" element={<EditPackage />} /> {/* ✅ Fixed Path */}
           <Route path="bookings" element={<AdminBookings />} />
-          <Route path="bookings/:bookingId" element={<BookingDetails />} /> {/* ✅ Reuse BookingDetails for admin view */}
+          <Route path="bookings/:bookingId" element={<AdminBookingDetails />} /> {/* ✅ Reuse AdminBookingDetails for admin view */}
           <Route path="clients" element={<AdminClients />} />
           <Route path="users/:id" element={<UserProfile />} />
           <Route path="reviews" element={<AdminReviews />} />
