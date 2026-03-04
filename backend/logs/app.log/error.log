@@ -1,21 +1,43 @@
-2026-03-04 13:45:29:4529 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313981437-642166189.jpg not found[39m
-2026-03-04 13:45:29:4529 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:45:30:4530 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313981437-642166189.jpg not found[39m
-2026-03-04 13:45:30:4530 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:46:02:462 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313981437-642166189.jpg not found[39m
-2026-03-04 13:46:03:463 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:46:03:463 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313981437-642166189.jpg not found[39m
-2026-03-04 13:46:03:463 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:46:31:4631 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313981437-642166189.jpg not found[39m
-2026-03-04 13:46:31:4631 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:47:22:4722 [31merror[39m: [31mError: Route /api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:48:28:4828 [31merror[39m: [31mError: Route /api/v1/uploads/packages/pkg-1772621292330-673088921.jpg not found[39m
-2026-03-04 13:52:00:520 [31merror[39m: [31mError: Route /api/v1/uploads/packages/pkg-1772313366486-274867754.jpg not found[39m
-2026-03-04 13:52:01:521 [31merror[39m: [31mError: Route /favicon.ico not found[39m
-2026-03-04 13:55:21:5521 [31merror[39m: [31mError: Route /api/v1/uploads/packages/pkg-1772312313223-564413600.jpg not found[39m
-2026-03-04 14:04:07:47 [31merror[39m: [31m❌ Failed to start server[39m
-2026-03-04 14:05:14:514 [31merror[39m: [31m❌ Failed to start server[39m
-2026-03-04 14:06:11:611 [31merror[39m: [31m❌ Failed to start server[39m
-2026-03-04 14:12:29:1229 [31merror[39m: [31mError: Route /api/v1/uploads/packages/pkg-1772622736695-394829681.jpg not found[39m
-2026-03-04 14:15:09:159 [31merror[39m: [31mError: Route /api/v1/uploads/packages/pkg-1772622736695-394829681.jpg not found[39m
-2026-03-04 14:29:37:2937 [31merror[39m: [31mError: Route /uploads/http://localhost:5000/uploads/packages/pkg-1772622736695-394829681.jpg not found[39m
+2026-03-04 20:21:56:2156 [31merror[39m: [31mMPESA Token Generation Error: timeout of 10000ms exceeded[39m
+2026-03-04 20:21:56:2156 [31merror[39m: [31mSTK Push Error Failed to generate MPESA access token: timeout of 10000ms exceeded[39m
+2026-03-04 20:23:51:2351 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:24:21:2421 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:24:36:2436 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:24:52:2452 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:25:07:257 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:25:08:258 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:25:10:2510 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:26:07:267 [31merror[39m: [31mError processing queued STK query[39m
+2026-03-04 20:26:22:2622 [31merror[39m: [31mError processing queued STK query[39m
+2026-03-04 20:26:36:2636 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:26:37:2637 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:26:37:2637 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:27:36:2736 [31merror[39m: [31mError processing queued STK query[39m
+2026-03-04 20:27:39:2739 [31merror[39m: [31mError processing queued STK query[39m
+2026-03-04 20:28:40:2840 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:29:22:2922 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:29:48:2948 [31merror[39m: [31m❌ Client error[39m
+2026-03-04 20:30:07:307 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:31:40:3140 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:36:02:362 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:36:17:3617 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:36:33:3633 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:37:02:372 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:37:18:3718 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:37:33:3733 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:37:48:3748 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:38:17:3817 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:38:32:3832 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:38:48:3848 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:39:03:393 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:39:18:3918 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:39:33:3933 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:40:02:402 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:40:17:4017 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:40:33:4033 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:41:04:414 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:41:33:4133 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:42:17:4217 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:42:32:4232 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:43:03:433 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:43:18:4318 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m

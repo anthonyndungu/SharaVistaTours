@@ -126,6 +126,7 @@ export const initiateMPESAPayment = async (req, res) => {
 // @access  Public (MPESA server only)
 // ===========================
 export const mpesaCallback = async (req, res) => {
+  logger.info('MPESA callback received', { body: req.body });
   const t = await sequelize.transaction();
   
   try {
@@ -857,11 +858,16 @@ export const checkPaymentStatus = async (req, res) => {
       return res.status(400).json({ status: 'fail', message: 'Invalid payment record' });
     }
 
-    // For pending MPESA payments, optionally query MPESA for latest status (polling fallback)
+    // For pending MPESA payments, optionally query MPESA for latest status (polling fallback, rate-limited)
     if (payment.status === 'pending' && 
         payment.payment_method === 'mpesa' && 
         payment.mpesa_checkout_request_id) {
       
+      logger.debug('Querying MPESA status (rate-limited)', {
+        checkoutRequestId: payment.mpesa_checkout_request_id,
+        paymentId: payment.id
+      });
+
       const mpesaStatus = await mpesaService.querySTKStatus(payment.mpesa_checkout_request_id);
       
       // Optional: Auto-update local status if MPESA reports completion
@@ -869,7 +875,20 @@ export const checkPaymentStatus = async (req, res) => {
       if (mpesaStatus.success && mpesaStatus.data?.status === 'completed') {
         // Could trigger async status sync here, but prefer letting callback handle it
         logger.debug('MPESA polling shows completed, awaiting callback', {
-          checkoutRequestId: payment.mpesa_checkout_request_id
+          checkoutRequestId: payment.mpesa_checkout_request_id,
+          resultCode: mpesaStatus.data?.resultCode
+        });
+      } else if (mpesaStatus.success) {
+        logger.debug('MPESA polling returned status', {
+          checkoutRequestId: payment.mpesa_checkout_request_id,
+          status: mpesaStatus.data?.status,
+          resultCode: mpesaStatus.data?.resultCode
+        });
+      } else {
+        logger.warn('MPESA query failed or rate-limited', {
+          checkoutRequestId: payment.mpesa_checkout_request_id,
+          error: mpesaStatus.error,
+          statusCode: mpesaStatus.statusCode
         });
       }
     }

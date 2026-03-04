@@ -877,10 +877,10 @@ const Payment = sequelize.define('Payment', {
   },
 
   //addidtional fields for better tracking and auditing
-  // mpesa_amount: DataTypes.DECIMAL(10, 2),
-  // mpesa_phone: DataTypes.STRING,
-  // mpesa_transaction_date: DataTypes.BIGINT, // MPESA sends as YYYYMMDDHHmmss
-  // mpesa_balance: DataTypes.DECIMAL(10, 2),
+  mpesa_amount: DataTypes.DECIMAL(10, 2),
+  mpesa_phone: DataTypes.STRING,
+  mpesa_transaction_date: DataTypes.BIGINT, // MPESA sends as YYYYMMDDHHmmss
+  mpesa_balance: DataTypes.DECIMAL(10, 2),
 
   // 🕐 Audit Timestamps
   paid_at: {

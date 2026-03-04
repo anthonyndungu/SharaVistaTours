@@ -10,6 +10,7 @@ import logger from './utils/logger.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import paymentWebhooks from './routes/paymentWebhooks.js'; // Public webhooks
+import { c2bConfirmation, c2bValidation, mpesaCallback } from './controllers/paymentController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,10 +41,10 @@ const generalLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   // Skip rate limiting for webhooks and health checks
-  skip: (req) => req.path.includes('/payments/mpesa/callback') || 
-                  req.path.includes('/payments/stripe/webhook') ||
-                  req.path.includes('/payments/mpesa/c2b') ||
-                  req.path.includes('/health')
+  skip: (req) => req.path.includes('/payments/mpesa/callback') ||
+    req.path.includes('/payments/stripe/webhook') ||
+    req.path.includes('/payments/mpesa/c2b') ||
+    req.path.includes('/health')
 });
 
 app.use('/api/', generalLimiter);
@@ -70,16 +71,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// ===========================
-// ⚠️ CRITICAL: Webhook Routes BEFORE JSON Parser
-// ===========================
-// Public payment webhooks (MPESA, Stripe) - NO auth, raw body
+//for stripe webhook and mpesa callbacks
 app.use('/api/v1/payments', paymentWebhooks);
+
 
 // ===========================
 // Body Parsers (After webhooks)
 // ===========================
-app.use(express.json({ 
+app.use(express.json({
   limit: '10mb',
   verify: (req, res, buf) => {
     // Store raw body for any routes that need it (fallback)
@@ -314,15 +313,15 @@ const startServer = async () => {
     // Graceful shutdown handling
     const gracefulShutdown = async (signal) => {
       logger.info(`🔄 ${signal} received: starting graceful shutdown`);
-      
+
       // Stop accepting new connections
       server.close(async () => {
         logger.info('🔌 HTTP server closed');
-        
+
         // Close database connections
         await sequelize.close();
         logger.info('🗄️ Database connections closed');
-        
+
         // Exit process
         process.exit(0);
       });

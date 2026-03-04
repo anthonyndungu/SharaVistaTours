@@ -15,6 +15,13 @@ class MpesaService {
     this.callbackUrl = process.env.MPESA_CALLBACK_URL;
     this.accessToken = null;
     this.tokenExpiry = null;
+
+    // Rate limiting for querySTKStatus (MPESA limit: 5 requests per 60 seconds)
+    this.queryRequests = []; // Track request timestamps
+    this.queryQueue = []; // Queue for rate-limited requests
+    this.maxRequestsPerMinute = 5;
+    this.rateLimitWindow = 60000; // 60 seconds in milliseconds
+    this.isProcessingQueue = false;
   }
 
   // Generate Access Token (cached for 1 hour)
@@ -95,6 +102,37 @@ class MpesaService {
     return formatted;
   }
 
+  // Rate Limiting: Check if we can make a request
+  canMakeRequest() {
+    const now = Date.now();
+    // Remove requests older than the rate limit window
+    this.queryRequests = this.queryRequests.filter(timestamp => now - timestamp < this.rateLimitWindow);
+
+    return this.queryRequests.length < this.maxRequestsPerMinute;
+  }
+
+  // Rate Limiting: Record a successful request
+  recordRequest() {
+    this.queryRequests.push(Date.now());
+  }
+
+  // Rate Limiting: Get requests made in current window
+  getRequestsInWindow() {
+    const now = Date.now();
+    this.queryRequests = this.queryRequests.filter(timestamp => now - timestamp < this.rateLimitWindow);
+    return this.queryRequests.length;
+  }
+
+  // Rate Limiting: Calculate wait time until next available request
+  getWaitTime() {
+    if (this.queryRequests.length < this.maxRequestsPerMinute) {
+      return 0;
+    }
+    const oldestRequest = this.queryRequests[0];
+    const now = Date.now();
+    return Math.max(0, this.rateLimitWindow - (now - oldestRequest) + 100); // +100ms buffer
+  }
+
   // 🚀 STK Push (Lipa Na Mpesa Online)
   async lipaNaMpesaOnline(phoneNumber, amount, accountReference, transactionDesc) {
     try {
@@ -118,7 +156,8 @@ class MpesaService {
         Password: password,
         Timestamp: timestamp,
         TransactionType: 'CustomerPayBillOnline',
-        Amount: Math.round(1), // MPESA requires integer amounts (no decimals)
+        // Amount: Math.round(amount), // MPESA requires integer amounts (no decimals)
+        Amount: Math.round(1),
         PartyA: formattedPhone,
         PartyB: this.shortcode,
         PhoneNumber: formattedPhone,
@@ -166,7 +205,7 @@ class MpesaService {
         phoneNumber: formattedPhone,
         amount: payload.Amount
       };
-      
+
     } catch (error) {
       logger.error('STK Push Error', {
         message: error.message,
@@ -230,115 +269,294 @@ class MpesaService {
   }
 
   // 📥 Handle STK Push Callback (MPESA server → your server)
+  // async handleCallback(callbackData, transaction) {
+  //   try {
+  //     // Log raw callback for debugging (sanitize sensitive data in production)
+  //     logger.debug('MPESA Callback received', {
+  //       checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID,
+  //       resultCode: callbackData.Body?.stkCallback?.ResultCode
+  //     });
+
+  //     const stkCallback = callbackData.Body?.stkCallback;
+
+  //     if (!stkCallback) {
+  //       logger.error('Invalid callback structure', { callbackData });
+  //       return { success: false, message: 'Invalid callback format' };
+  //     }
+
+  //     const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
+
+  //     // ✅ Find payment by checkout request ID (using module-level import)
+  //     const payment = await Payment.findOne({
+  //       where: { mpesa_checkout_request_id: CheckoutRequestID },
+  //       include: [{ model: Booking, as: 'Booking' }],
+  //       transaction // Use passed transaction for consistency
+  //     });
+
+  //     if (!payment) {
+  //       logger.warn('Payment not found for CheckoutRequestID', { CheckoutRequestID });
+  //       // Still return success to MPESA to stop retries for unknown requests
+  //       return { success: true, message: 'Payment not found (already processed or invalid)' };
+  //     }
+
+  //     // Prepare update data
+  //     const updateData = {
+  //       mpesa_result_code: ResultCode,
+  //       mpesa_result_desc: ResultDesc
+  //     };
+
+  //     if (ResultCode === 0) {
+  //       // ✅ Payment Successful - extract metadata
+  //       const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
+
+  //       // Helper to extract metadata values
+  //       const getMetadataValue = (name) => {
+  //         const item = callbackMetadata.find(i => i.Name === name);
+  //         return item?.Value;
+  //       };
+
+  //       // Update with confirmed transaction details
+  //       updateData.transaction_id = getMetadataValue('MpesaReceiptNumber');
+  //       updateData.status = 'completed';
+  //       updateData.paid_at = new Date(); // Record exact payment time
+
+  //       // Update booking if associated
+  //       if (payment.Booking) {
+  //         await payment.Booking.update({
+  //           payment_status: 'paid',
+  //           status: 'confirmed' // Or keep as 'pending' if you have manual confirmation flow
+  //         }, { transaction });
+
+  //         logger.info('Payment completed successfully', {
+  //           transactionId: updateData.transaction_id,
+  //           bookingNumber: payment.Booking.booking_number,
+  //           amount: payment.amount
+  //         });
+  //       }
+  //     } else {
+  //       // ❌ Payment Failed/Cancelled by user
+  //       updateData.status = 'failed';
+
+  //       // Revert booking payment status if still pending
+  //       if (payment.Booking?.payment_status === 'pending') {
+  //         await payment.Booking.update({
+  //           payment_status: 'unpaid'
+  //         }, { transaction });
+  //       }
+
+  //       logger.warn('Payment failed or cancelled', {
+  //         checkoutRequestId: CheckoutRequestID,
+  //         resultCode: ResultCode,
+  //         resultDesc: ResultDesc,
+  //         bookingNumber: payment.Booking?.booking_number
+  //       });
+  //     }
+
+  //     // Update payment record
+  //     await payment.update(updateData, { transaction });
+
+  //     return {
+  //       success: true,
+  //       paymentId: payment.id,
+  //       status: updateData.status,
+  //       transactionId: updateData.transaction_id,
+  //       bookingNumber: payment.Booking?.booking_number
+  //     };
+  //   } catch (error) {
+  //     logger.error('Callback Processing Error', {
+  //       message: error.message,
+  //       stack: error.stack,
+  //       checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID
+  //     });
+  //     return { success: false, message: error.message };
+  //   }
+  // }
+
   async handleCallback(callbackData, transaction) {
-    try {
-      // Log raw callback for debugging (sanitize sensitive data in production)
-      logger.debug('MPESA Callback received', {
-        checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID,
-        resultCode: callbackData.Body?.stkCallback?.ResultCode
-      });
+  try {
+    // Log raw callback for debugging (sanitize sensitive data in production)
+    logger.debug('MPESA Callback received', {
+      checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID,
+      resultCode: callbackData.Body?.stkCallback?.ResultCode
+    });
 
-      const stkCallback = callbackData.Body?.stkCallback;
+    const stkCallback = callbackData.Body?.stkCallback;
 
-      if (!stkCallback) {
-        logger.error('Invalid callback structure', { callbackData });
-        return { success: false, message: 'Invalid callback format' };
-      }
+    if (!stkCallback) {
+      logger.error('Invalid callback structure', { callbackData });
+      return { success: false, message: 'Invalid callback format' };
+    }
 
-      const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
+    const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
 
-      // ✅ Find payment by checkout request ID (using module-level import)
-      const payment = await Payment.findOne({
-        where: { mpesa_checkout_request_id: CheckoutRequestID },
-        include: [{ model: Booking, as: 'Booking' }],
-        transaction // Use passed transaction for consistency
-      });
+    // ✅ Find payment by checkout request ID
+    const payment = await Payment.findOne({
+      where: { mpesa_checkout_request_id: CheckoutRequestID },
+      include: [{ model: Booking, as: 'Booking' }],
+      transaction,
+      lock: transaction ? sequelize.Lock.UPDATE : undefined // ✅ Prevent race conditions
+    });
 
-      if (!payment) {
-        logger.warn('Payment not found for CheckoutRequestID', { CheckoutRequestID });
-        // Still return success to MPESA to stop retries for unknown requests
-        return { success: true, message: 'Payment not found (already processed or invalid)' };
-      }
+    if (!payment) {
+      logger.warn('Payment not found for CheckoutRequestID', { CheckoutRequestID });
+      // Still return success to MPESA to stop retries for unknown requests
+      return { success: true, message: 'Payment not found (already processed or invalid)' };
+    }
 
-      // Prepare update data
-      const updateData = {
-        mpesa_result_code: ResultCode,
-        mpesa_result_desc: ResultDesc
+    // ✅ IDEMPOTENCY CHECK: Skip if already processed (ignore retries)
+    if (payment.status === 'completed' || payment.status === 'failed' || payment.status === 'cancelled') {
+      logger.info(`⏭️ Callback already processed for ${CheckoutRequestID} (status: ${payment.status}) - skipping retry`);
+      return { 
+        success: true, 
+        message: 'Already processed - ignored', 
+        paymentId: payment.id,
+        status: payment.status 
+      };
+    }
+
+    // Prepare update data
+    const updateData = {
+      mpesa_result_code: ResultCode,
+      mpesa_result_desc: ResultDesc
+    };
+
+    if (ResultCode === 0) {
+      // ✅ Payment Successful - extract metadata
+      const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
+
+      // Helper to extract metadata values
+      const getMetadataValue = (name) => {
+        const item = callbackMetadata.find(i => i.Name === name);
+        return item?.Value;
       };
 
-      if (ResultCode === 0) {
-        // ✅ Payment Successful - extract metadata
-        const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
+      // ✅ Extract and add M-Pesa specific fields
+      updateData.transaction_id = getMetadataValue('MpesaReceiptNumber');
+      updateData.mpesa_amount = getMetadataValue('Amount');
+      updateData.mpesa_phone = getMetadataValue('PhoneNumber');
+      updateData.mpesa_transaction_date = getMetadataValue('TransactionDate'); // YYYYMMDDHHmmss
+      updateData.mpesa_balance = getMetadataValue('Balance');
 
-        // Helper to extract metadata values
-        const getMetadataValue = (name) => {
-          const item = callbackMetadata.find(i => i.Name === name);
-          return item?.Value;
-        };
+      // ✅ Update status and timestamp
+      updateData.status = 'completed';
+      updateData.paid_at = new Date(); // Record exact payment time
 
-        // Update with confirmed transaction details
-        updateData.transaction_id = getMetadataValue('MpesaReceiptNumber');
-        updateData.status = 'completed';
-        updateData.paid_at = new Date(); // Record exact payment time
+      // Update booking if associated
+      if (payment.Booking) {
+        await payment.Booking.update({
+          payment_status: 'paid',
+          status: 'confirmed'
+        }, { transaction });
 
-        // Update booking if associated
-        if (payment.Booking) {
-          await payment.Booking.update({
-            payment_status: 'paid',
-            status: 'confirmed' // Or keep as 'pending' if you have manual confirmation flow
-          }, { transaction });
-
-          logger.info('Payment completed successfully', {
-            transactionId: updateData.transaction_id,
-            bookingNumber: payment.Booking.booking_number,
-            amount: payment.amount
-          });
-        }
-      } else {
-        // ❌ Payment Failed/Cancelled by user
-        updateData.status = 'failed';
-
-        // Revert booking payment status if still pending
-        if (payment.Booking?.payment_status === 'pending') {
-          await payment.Booking.update({
-            payment_status: 'unpaid'
-          }, { transaction });
-        }
-
-        logger.warn('Payment failed or cancelled', {
-          checkoutRequestId: CheckoutRequestID,
-          resultCode: ResultCode,
-          resultDesc: ResultDesc,
-          bookingNumber: payment.Booking?.booking_number
+        logger.info('Payment completed successfully', {
+          transactionId: updateData.transaction_id,
+          bookingNumber: payment.Booking.booking_number,
+          amount: payment.amount,
+          mpesaAmount: updateData.mpesa_amount,
+          mpesaPhone: updateData.mpesa_phone
         });
       }
 
-      // Update payment record
-      await payment.update(updateData, { transaction });
-
-      return {
-        success: true,
-        paymentId: payment.id,
-        status: updateData.status,
-        transactionId: updateData.transaction_id,
-        bookingNumber: payment.Booking?.booking_number
-      };
-    } catch (error) {
-      logger.error('Callback Processing Error', {
-        message: error.message,
-        stack: error.stack,
-        checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID
+      logger.info('✅ Payment completed', {
+        checkoutRequestId: CheckoutRequestID,
+        mpesaReceiptNumber: updateData.transaction_id,
+        amount: updateData.mpesa_amount,
+        phone: updateData.mpesa_phone,
+        transactionDate: updateData.mpesa_transaction_date,
+        balance: updateData.mpesa_balance
       });
-      return { success: false, message: error.message };
-    }
-  }
 
-  // 🔄 Query STK Push Status (Optional: for frontend polling fallback)
-  async querySTKStatus(checkoutRequestId) {
+    } else {
+      // ❌ Payment Failed/Cancelled by user
+      updateData.status = ResultCode === 1032 ? 'cancelled' : 'failed';
+      updateData.failed_at = new Date();
+
+      // Revert booking payment status if still pending
+      if (payment.Booking?.payment_status === 'pending') {
+        await payment.Booking.update({
+          payment_status: 'unpaid'
+        }, { transaction });
+      }
+
+      logger.warn(`Payment ${ResultCode === 1032 ? 'cancelled' : 'failed'}`, {
+        checkoutRequestId: CheckoutRequestID,
+        resultCode: ResultCode,
+        resultDesc: ResultDesc,
+        bookingNumber: payment.Booking?.booking_number
+      });
+    }
+
+    // ✅ Update payment record (ONLY ONCE per CheckoutRequestID)
+    await payment.update(updateData, { transaction });
+
+    logger.info(`📝 Payment ${payment.status} updated for ${CheckoutRequestID}`, {
+      paymentId: payment.id,
+      status: updateData.status,
+      transactionId: updateData.transaction_id
+    });
+
+    return {
+      success: true,
+      paymentId: payment.id,
+      status: updateData.status,
+      transactionId: updateData.transaction_id,
+      bookingNumber: payment.Booking?.booking_number,
+      mpesaAmount: updateData.mpesa_amount,
+      mpesaPhone: updateData.mpesa_phone
+    };
+
+  } catch (error) {
+    // ✅ Handle unique constraint violation (if DB has unique index)
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      logger.warn(`⚠️ Duplicate callback detected: ${callbackData.Body?.stkCallback?.CheckoutRequestID}`);
+      return { success: true, message: 'Duplicate ignored - already exists' };
+    }
+
+    logger.error('Callback Processing Error', {
+      message: error.message,
+      stack: error.stack,
+      checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID
+    });
+    return { success: false, message: error.message };
+  }
+}
+
+  // 🔄 Query STK Push Status with Rate Limiting (MPESA limit: 5 requests per 60 seconds)
+  async querySTKStatus(checkoutRequestId, retryCount = 0) {
     try {
       if (!checkoutRequestId) {
         return { success: false, error: 'CheckoutRequestID is required' };
       }
+
+      // Check if we can make a request immediately
+      if (!this.canMakeRequest()) {
+        const waitTime = this.getWaitTime();
+        const currentRequests = this.getRequestsInWindow();
+
+        logger.warn('MPESA rate limit: queuing request', {
+          checkoutRequestId,
+          requestsInWindow: currentRequests,
+          maxRequests: this.maxRequestsPerMinute,
+          waitTimeMs: waitTime,
+          queuedRequests: this.queryQueue.length
+        });
+
+        // Create a promise that resolves when the request can be made
+        return new Promise((resolve) => {
+          this.queryQueue.push({
+            checkoutRequestId,
+            resolve,
+            timestamp: Date.now(),
+            retryCount
+          });
+
+          // Process queue if not already processing
+          this.processQueryQueue();
+        });
+      }
+
+      // Record the request and make it
+      this.recordRequest();
 
       const accessToken = await this.getAccessToken();
       const timestamp = this.generateTimestamp();
@@ -358,9 +576,15 @@ class MpesaService {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json'
           },
-          timeout: 10000
+          timeout: 15000 // Increased from 10s to 15s for rate-limited scenarios
         }
       );
+
+      logger.info('STK Query successful', {
+        checkoutRequestId,
+        resultCode: response.data.ResultCode,
+        requestsInWindow: this.getRequestsInWindow()
+      });
 
       return {
         success: true,
@@ -377,12 +601,121 @@ class MpesaService {
       logger.error('STK Query Error', {
         message: error.message,
         response: error.response?.data,
-        checkoutRequestId
+        checkoutRequestId,
+        statusCode: error.response?.status,
+        retryCount
       });
+
+      // Check if this is a rate limit error
+      if (error.response?.status === 429 && retryCount < 3) {
+        logger.warn('Rate limit error, retrying with exponential backoff', {
+          checkoutRequestId,
+          retryCount,
+          nextRetryIn: Math.pow(2, retryCount + 1) * 1000
+        });
+
+        // Exponential backoff: 2s, 4s, 8s
+        const waitTime = Math.pow(2, retryCount + 1) * 1000;
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            this.querySTKStatus(checkoutRequestId, retryCount + 1).then(resolve);
+          }, waitTime);
+        });
+      }
+
       return {
         success: false,
-        error: error.response?.data?.errorMessage || error.message
+        error: error.response?.data?.errorMessage || error.message,
+        statusCode: error.response?.status
       };
+    }
+  }
+
+  // Rate Limiting: Process queued STK query requests
+  async processQueryQueue() {
+    if (this.isProcessingQueue || this.queryQueue.length === 0) {
+      return;
+    }
+
+    this.isProcessingQueue = true;
+
+    try {
+      while (this.queryQueue.length > 0) {
+        // Check if we can make a request
+        if (!this.canMakeRequest()) {
+          const waitTime = this.getWaitTime();
+          logger.debug('Queue processor: waiting before next request', { waitTime });
+          await new Promise(resolve => setTimeout(resolve, waitTime + 100));
+          continue;
+        }
+
+        // Get next request from queue
+        const queuedRequest = this.queryQueue.shift();
+
+        // Calculate wait time since queued
+        const queueWaitTime = Date.now() - queuedRequest.timestamp;
+        logger.debug('Processing queued STK query', {
+          checkoutRequestId: queuedRequest.checkoutRequestId,
+          queuedFor: queueWaitTime,
+          remainingInQueue: this.queryQueue.length
+        });
+
+        // Make the actual request
+        this.recordRequest(); // Record before making request
+
+        try {
+          const accessToken = await this.getAccessToken();
+          const timestamp = this.generateTimestamp();
+
+          const payload = {
+            BusinessShortCode: this.shortcode,
+            Password: this.generatePassword(timestamp),
+            Timestamp: timestamp,
+            CheckoutRequestID: queuedRequest.checkoutRequestId
+          };
+
+          const response = await axios.post(
+            `${this.baseUrl}/mpesa/stkpushquery/v1/query`,
+            payload,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+              },
+              timeout: 15000
+            }
+          );
+
+          // Resolve the promise with result
+          queuedRequest.resolve({
+            success: true,
+            data: {
+              resultCode: response.data.ResultCode,
+              resultDesc: response.data.ResultDesc,
+              checkoutRequestId: response.data.CheckoutRequestID,
+              merchantRequestId: response.data.MerchantRequestID,
+              status: this.mapMpesaStatus(response.data.ResultCode)
+            }
+          });
+        } catch (error) {
+          logger.error('Error processing queued STK query', {
+            checkoutRequestId: queuedRequest.checkoutRequestId,
+            error: error.message
+          });
+
+          queuedRequest.resolve({
+            success: false,
+            error: error.response?.data?.errorMessage || error.message
+          });
+        }
+
+        // Small delay between queue requests
+        if (this.queryQueue.length > 0) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+    } finally {
+      this.isProcessingQueue = false;
     }
   }
 

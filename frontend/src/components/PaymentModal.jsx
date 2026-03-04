@@ -139,7 +139,7 @@ export const PaymentModal = ({ booking, onSuccess, onCancel }) => {
         dispatch(pollPaymentStatus({
           checkoutRequestId: mpesaTransaction.checkoutRequestId
         }));
-      }, 5000);
+      }, 15000); // Increased from 5s to 15s to reduce MPESA rate limit pressure (5 requests per 60s)
 
       return () => clearInterval(interval);
     }
