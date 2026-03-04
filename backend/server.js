@@ -31,18 +31,19 @@ app.use(helmet({
 }));
 
 // ===========================
-// Rate Limiting
+// Rate Limiting (Relaxed in Dev)
 // ===========================
 const generalLimiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  windowMs: process.env.NODE_ENV === 'development' ? 1 * 60 * 1000 : 15 * 60 * 1000,
+  max: process.env.NODE_ENV === 'development' ? 1000 : 100,
   message: { status: 'fail', message: 'Too many requests from this IP, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
-  // Skip rate limiting for webhooks (they come from trusted providers)
+  // Skip rate limiting for webhooks and health checks
   skip: (req) => req.path.includes('/payments/mpesa/callback') || 
                   req.path.includes('/payments/stripe/webhook') ||
-                  req.path.includes('/payments/mpesa/c2b')
+                  req.path.includes('/payments/mpesa/c2b') ||
+                  req.path.includes('/health')
 });
 
 app.use('/api/', generalLimiter);
@@ -51,11 +52,23 @@ app.use('/api/', generalLimiter);
 // CORS Configuration
 // ===========================
 app.use(cors({
-  origin: process.env.CLIENT_URL?.split(',') || 'http://localhost:5173', // Support multiple origins
+  origin: process.env.CLIENT_URL?.split(',') || 'http://localhost:5173',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Stripe-Signature'] // Add Stripe header
+  allowedHeaders: ['Content-Type', 'Authorization', 'Stripe-Signature'],
+  maxAge: 86400 // 24 hours
 }));
+
+// Handle preflight OPTIONS requests immediately
+app.options('*', cors());
+
+// Prevent connection drops on rapid requests
+app.use((req, res, next) => {
+  // Set keep-alive and cache headers
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('Keep-Alive', 'timeout=65, max=100');
+  next();
+});
 
 // ===========================
 // ⚠️ CRITICAL: Webhook Routes BEFORE JSON Parser
@@ -171,6 +184,39 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
+    // ===========================
+    // Global Error Handlers (Before Server Start!)
+    // ===========================
+    // Handle unhandled promise rejections
+    process.on('unhandledRejection', (reason, promise) => {
+      logger.error('❌ UNHANDLED REJECTION', {
+        reason: reason?.message || reason,
+        stack: reason?.stack,
+        promise: promise
+      });
+      // Optionally exit after logging
+      // process.exit(1);
+    });
+
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (error) => {
+      logger.error('❌ UNCAUGHT EXCEPTION', {
+        message: error.message,
+        stack: error.stack
+      });
+      // Force shutdown on uncaught exception
+      process.exit(1);
+    });
+
+    // Handle warnings
+    process.on('warning', (warning) => {
+      logger.warn('⚠️ WARNING', {
+        name: warning.name,
+        message: warning.message,
+        stack: warning.stack
+      });
+    });
+
     // Test database connection
     await sequelize.authenticate();
     logger.info('✅ Database connection established');
@@ -181,6 +227,27 @@ const startServer = async () => {
       logger.info('✅ Database synchronized (alter mode - development only)');
     }
 
+    // Database pool error handling is managed by global error handlers
+
+    // Monitor database pool status (development only)
+    if (process.env.NODE_ENV === 'development') {
+      setInterval(() => {
+        try {
+          const pool = sequelize.connectionManager?.pool;
+          if (pool) {
+            logger.debug('Database pool status', {
+              totalConnections: pool._clients?.length || pool.size || 0,
+              availableConnections: pool._availableObjects?.length || 0,
+              waitingRequests: pool._waitingClients?.length || 0
+            });
+          }
+        } catch (err) {
+          // Silently fail if pool structure differs
+        }
+      }, 30000); // Every 30 seconds
+      logger.info('✅ Database monitoring enabled');
+    }
+
     // Ensure upload directory exists
     const fs = await import('fs');
     const uploadPath = process.env.UPLOAD_PATH || './uploads';
@@ -189,11 +256,59 @@ const startServer = async () => {
       logger.info(`✅ Upload directory created: ${uploadPath}`);
     }
 
-    // Start HTTP server
+    // Start HTTP server with keep-alive and timeout settings
     const server = app.listen(PORT, () => {
       logger.info(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
       logger.info(`📡 API: http://localhost:${PORT}/api/${process.env.API_VERSION || 'v1'}`);
       logger.info(`🔗 Webhooks: http://localhost:${PORT}/api/v1/payments`);
+    });
+
+    // Configure server timeouts and keep-alive
+    server.keepAliveTimeout = 65 * 1000; // 65 seconds
+    server.headersTimeout = 66 * 1000; // 66 seconds
+    server.requestTimeout = 120 * 1000; // 2 minutes
+    server.maxHeadersCount = 2000;
+    server.setTimeout(120 * 1000); // 2 minutes
+
+    // Handle client errors gracefully
+    server.on('clientError', (error, socket) => {
+      if (error.code === 'HPE_HEADER_OVERFLOW') {
+        logger.error('❌ Request header overflow');
+        socket.end('HTTP/1.1 431 Request Header Fields Too Large\r\n\r\n');
+      } else if (error.code === 'ECONNRESET') {
+        logger.debug('ℹ️ Client forcefully closed connection');
+      } else {
+        logger.error('❌ Client error', { code: error.code });
+        socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+      }
+    });
+
+    // Add server error handler
+    server.on('error', (error) => {
+      logger.error('❌ SERVER ERROR', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack
+      });
+      if (error.code === 'EADDRINUSE') {
+        logger.error(`⚠️ Port ${PORT} is already in use. Try a different port.`);
+        process.exit(1);
+      }
+    });
+
+    // Track active connections (for debugging)
+    let activeConnections = 0;
+    server.on('connection', (conn) => {
+      activeConnections++;
+      if (process.env.NODE_ENV === 'development') {
+        logger.debug(`New connection. Active: ${activeConnections}`);
+      }
+      conn.on('close', () => {
+        activeConnections--;
+        if (process.env.NODE_ENV === 'development') {
+          logger.debug(`Connection closed. Active: ${activeConnections}`);
+        }
+      });
     });
 
     // Graceful shutdown handling

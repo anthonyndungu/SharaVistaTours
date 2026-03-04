@@ -484,10 +484,14 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     deletedAt: 'deleted_at'
   },
   pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
+    max: 20,
+    min: 2,
+    acquire: 60000,
+    idle: 30000
+  },
+  dialectOptions: {
+    connectTimeout: 60000,
+    application_name: 'sharavista-tours'
   }
 });
 
