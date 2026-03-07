@@ -904,6 +904,106 @@ const Payment = sequelize.define('Payment', {
   ]
 });
 
+const C2BPayment = sequelize.define('C2BPayment', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
+  trans_id: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+    unique: true,
+    field: 'trans_id'
+  },
+  trans_type: { type: DataTypes.STRING(50), field: 'trans_type' },
+  trans_time: { type: DataTypes.BIGINT, field: 'trans_time' },
+  trans_amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false, field: 'trans_amount' },
+  business_shortcode: { type: DataTypes.STRING(20), field: 'business_shortcode' },
+  msisdn: { type: DataTypes.STRING(20), field: 'msisdn' },
+  first_name: { type: DataTypes.STRING(100), field: 'first_name' },
+  last_name: { type: DataTypes.STRING(100), field: 'last_name' },
+  account_number: { type: DataTypes.STRING(100), field: 'account_number' }, // BillRefNumber
+  org_account_balance: { type: DataTypes.DECIMAL(10, 2), field: 'org_account_balance' },
+  
+  // Link to booking (found via hybrid logic)
+  booking_id: {
+    type: DataTypes.UUID,
+    allowNull: true,
+    field: 'booking_id',
+    references: { model: 'bookings', key: 'id' }
+  },
+  
+  status: {
+    type: DataTypes.ENUM('completed', 'unmatched', 'failed'),
+    defaultValue: 'completed'
+  },
+  match_confidence: {
+    type: DataTypes.STRING(20), // 'high', 'medium', 'low', 'none'
+    field: 'match_confidence'
+  },
+  raw_callback: { type: DataTypes.JSONB, field: 'raw_callback' },
+  processed_at: { type: DataTypes.DATE, field: 'processed_at' }
+}, {
+  timestamps: true,
+  tableName: 'c2b_payments',
+  indexes: [
+    { fields: ['trans_id'], unique: true },
+    { fields: ['msisdn'], name: 'idx_c2b_msisdn' },
+    { fields: ['booking_id'], name: 'idx_c2b_booking' }
+  ]
+});
+C2BPayment.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
+C2BPayment.belongsTo(Booking, { foreignKey: 'booking_id', as: 'Booking' });
+
+const ExpectedPayment = sequelize.define('ExpectedPayment', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
+  phone: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    field: 'phone'
+  },
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    field: 'amount'
+  },
+  booking_id: {
+    type: DataTypes.UUID,
+    allowNull: true,
+    field: 'booking_id',
+    references: { model: 'bookings', key: 'id' }
+  },
+  status: {
+    type: DataTypes.ENUM('pending', 'matched', 'expired', 'failed'),
+    defaultValue: 'pending'
+  },
+  expires_at: {
+    type: DataTypes.DATE,
+    defaultValue: () => new Date(Date.now() + 15 * 60 * 1000) // 15 mins
+  },
+  meta: {
+    type: DataTypes.JSONB,
+    field: 'metadata'
+  }
+}, {
+  timestamps: true,
+  tableName: 'expected_payments',
+  indexes: [
+    { fields: ['phone', 'amount', 'status'], name: 'idx_exp_phone_amt_status' },
+    { fields: ['expires_at'], name: 'idx_exp_expiry' }
+  ]
+});
+
+// Association
+ExpectedPayment.belongsTo(User, { foreignKey: 'user_id', as: 'User' });
+ExpectedPayment.belongsTo(Booking, { foreignKey: 'booking_id', as: 'Booking' });
+
+
 // ===========================
 // Review Model
 // ===========================
@@ -1019,6 +1119,8 @@ export {
   Booking,
   BookingPassenger,
   Payment,
+  C2BPayment,
+  ExpectedPayment,
   Review
 };
 
@@ -1033,5 +1135,7 @@ export default {
   Booking,
   BookingPassenger,
   Payment,
+  C2BPayment,
+  ExpectedPayment,
   Review
 };

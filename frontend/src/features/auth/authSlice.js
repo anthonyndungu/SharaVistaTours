@@ -386,8 +386,6 @@
 // export default authSlice.reducer
 
 
-
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/api';
 
@@ -403,9 +401,17 @@ export const login = createAsyncThunk(
       localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (error) {
-      const message = error.response?.data?.message || 'Login failed';
-      const code = error.response?.data?.code;
-      return rejectWithValue({ message, code });
+      let message = 'Login failed';
+      let code = null;
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+        code = error.response.data?.code || null;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      } else {
+        message = error.message || message;
+      }
+      return rejectWithValue({ message, code, email: credentials.email });
     }
   }
 );
@@ -418,7 +424,13 @@ export const register = createAsyncThunk(
       localStorage.setItem('token', response.data.token);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Registration failed');
+      let message = 'Registration failed';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -430,7 +442,13 @@ export const fetchAllUsers = createAsyncThunk(
       const response = await api.get('/users');
       return response.data.data.users;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch users');
+      let message = 'Failed to fetch users';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -443,7 +461,13 @@ export const fetchUserProfile = createAsyncThunk(
       return response.data.data.user;
     } catch (error) {
       localStorage.removeItem('token');
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch profile');
+      let message = 'Failed to fetch profile';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -455,7 +479,13 @@ export const updateMe = createAsyncThunk(
       const response = await api.patch('/auth/updateMe', updateData);
       return response.data.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update profile');
+      let message = 'Failed to update profile';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -467,7 +497,13 @@ export const updateMyPassword = createAsyncThunk(
       const response = await api.patch('/auth/updateMyPassword', passwordData);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update password');
+      let message = 'Failed to update password';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -479,7 +515,13 @@ export const forgotPassword = createAsyncThunk(
       const response = await api.post('/auth/forgot-password', { email });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to send reset email');
+      let message = 'Failed to send reset email';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -491,7 +533,13 @@ export const resetPassword = createAsyncThunk(
       const response = await api.patch(`/auth/reset-password/${token}`, { password });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to reset password');
+      let message = 'Failed to reset password';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -508,7 +556,13 @@ export const resendVerification = createAsyncThunk(
       const response = await api.post('/auth/resend-verification', { email });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message);
+      let message = 'Failed to resend verification';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -520,7 +574,13 @@ export const resendVerificationOTP = createAsyncThunk(
       const response = await api.post('/auth/resend-otp', { email });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to send OTP');
+      let message = 'Failed to send OTP';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -532,7 +592,13 @@ export const verifyOTP = createAsyncThunk(
       const response = await api.post('/auth/verify-otp', { email, otp });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Invalid OTP');
+      let message = 'Invalid OTP';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -544,31 +610,35 @@ export const verifyUser = createAsyncThunk(
       const response = await api.patch(`/auth/users/${userId}/verify`);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to verify user');
+      let message = 'Failed to verify user';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// ✅ NEW: Initialize Auth on App Load
-// Checks localStorage for token and fetches user data if found
 export const initializeAuth = createAsyncThunk(
   'auth/initialize',
   async (_, { rejectWithValue }) => {
     const token = localStorage.getItem('token');
-    
-    // If no token, return null (user is guest)
-    if (!token) {
-      return null;
-    }
+    if (!token) return null;
 
     try {
-      // Fetch user details using the existing token
       const response = await api.get('/auth/me');
       return response.data.data.user;
     } catch (error) {
-      // If token is invalid/expired, clear it
       localStorage.removeItem('token');
-      return rejectWithValue('Session expired');
+      let message = 'Session expired';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
@@ -586,6 +656,8 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     users: [],
+    loginMessage: null,
+    loginMessageSeverity: 'info',
   },
   reducers: {
     clearError: (state) => {
@@ -598,11 +670,19 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.users = [];
-    }
+    },
+    setLoginMessage: (state, action) => {
+      state.loginMessage = action.payload.message;
+      state.loginMessageSeverity = action.payload.severity || 'info';
+    },
+    clearLoginMessage: (state) => {
+      state.loginMessage = null;
+      state.loginMessageSeverity = 'info';
+    },
   },
   extraReducers: (builder) => {
     builder
-      // ✅ INITIALIZE AUTH (App Load)
+      // ✅ INITIALIZE AUTH
       .addCase(initializeAuth.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -625,25 +705,31 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // LOGIN
+      // ✅ LOGIN
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.data.user;
-        state.token = action.payload.token;
+        if (action.payload?.data?.user) {
+          state.isAuthenticated = true;
+          state.user = action.payload.data.user;
+          state.token = action.payload.token;
+        } else {
+          state.isAuthenticated = false;
+          state.user = null;
+          state.token = null;
+        }
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Login failed';
+        state.error = action.payload || { message: 'Login failed', code: null };
         state.isAuthenticated = false;
       })
 
-      // REGISTER
+      // ✅ REGISTER
       .addCase(register.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -660,7 +746,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // FETCH ALL USERS
+      // ✅ FETCH ALL USERS
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -675,21 +761,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // VERIFY USER (Admin)
-      .addCase(verifyUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(verifyUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(verifyUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // FETCH PROFILE
+      // ✅ FETCH PROFILE
       .addCase(fetchUserProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -707,7 +779,7 @@ const authSlice = createSlice({
         state.user = null;
       })
 
-      // UPDATE ME
+      // ✅ UPDATE ME
       .addCase(updateMe.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -719,47 +791,24 @@ const authSlice = createSlice({
       })
       .addCase(updateMe.rejected, (state, action) => {
         state.loading = false;
-        let errorMessage = 'Failed to update profile';
-        if (action.payload) {
-          if (typeof action.payload === 'object' && !Array.isArray(action.payload)) {
-            const firstErrorKey = Object.keys(action.payload).find(key => !isNaN(key));
-            if (firstErrorKey && action.payload[firstErrorKey].msg) {
-              errorMessage = action.payload[firstErrorKey].msg;
-            } else if (action.payload.message) {
-              errorMessage = action.payload.message;
-            }
-          } else if (typeof action.payload === 'string') {
-            errorMessage = action.payload;
-          }
-        }
-        state.error = errorMessage;
+        state.error = action.payload;
       })
 
-      // UPDATE PASSWORD
+      // ✅ UPDATE PASSWORD
       .addCase(updateMyPassword.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateMyPassword.fulfilled, (state, action) => {
+      .addCase(updateMyPassword.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
       })
       .addCase(updateMyPassword.rejected, (state, action) => {
         state.loading = false;
-        let errorMessage = 'Failed to update password';
-        if (action.payload) {
-          if (typeof action.payload === 'object' && action.payload.message) {
-            errorMessage = action.payload.message;
-          } else if (action.payload['0'] && action.payload['0'].msg) {
-            errorMessage = action.payload['0'].msg;
-          } else if (typeof action.payload === 'string') {
-            errorMessage = action.payload;
-          }
-        }
-        state.error = errorMessage;
+        state.error = action.payload;
       })
 
-      // FORGOT PASSWORD
+      // ✅ FORGOT PASSWORD
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -773,7 +822,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // RESET PASSWORD
+      // ✅ RESET PASSWORD
       .addCase(resetPassword.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -787,16 +836,72 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-      // LOGOUT
+      // ✅ LOGOUT
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
         state.loading = false;
         state.error = null;
+      })
+
+      // ✅ RESEND VERIFICATION (Email)
+      .addCase(resendVerification.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resendVerification.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(resendVerification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ✅ RESEND OTP
+      .addCase(resendVerificationOTP.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resendVerificationOTP.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(resendVerificationOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ✅ VERIFY OTP
+      .addCase(verifyOTP.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyOTP.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(verifyOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ✅ VERIFY USER (Admin)
+      .addCase(verifyUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyUser.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(verifyUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
-  }
+  },
 });
 
-export const { clearError, clearAuthState } = authSlice.actions;
+export const { clearError, clearAuthState, setLoginMessage, clearLoginMessage } = authSlice.actions;
 export default authSlice.reducer;

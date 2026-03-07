@@ -41,3 +41,40 @@
 2026-03-04 20:42:32:4232 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
 2026-03-04 20:43:03:433 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
 2026-03-04 20:43:18:4318 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:46:40:4640 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-04 20:46:43:4643 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:46:45:4645 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:46:49:4649 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-04 20:46:58:4658 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-05 00:38:26:3826 [31merror[39m: [31mSTK Push Error timeout of 30000ms exceeded[39m
+2026-03-05 00:38:56:3856 [31merror[39m: [31mSTK Push Error timeout of 30000ms exceeded[39m
+2026-03-05 14:09:38:938 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 14:09:53:953 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 14:10:23:1023 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 14:10:55:1055 [31merror[39m: [31mSTK Query Error Request failed with status code 429[39m
+2026-03-05 14:11:24:1124 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 14:50:21:5021 [31merror[39m: [31mError: Route /api/v1/bookings/82209ed1-c7fa-4f50-ae41-7acda2eb1753/pay-c2b not found[39m
+2026-03-05 15:15:22:1522 [31merror[39m: [31mError: Route /api/v1/bookings/82209ed1-c7fa-4f50-ae41-7acda2eb1753/pay-c2b not found[39m
+2026-03-05 15:28:13:2813 [31merror[39m: [31mError: Route /api/v1/bookings/82209ed1-c7fa-4f50-ae41-7acda2eb1753/pay-c2b not found[39m
+2026-03-05 15:35:20:3520 [31merror[39m: [31mError: Route /api/v1/bookings/82209ed1-c7fa-4f50-ae41-7acda2eb1753/pay-c2b not found[39m
+2026-03-05 16:06:54:654 [31merror[39m: [31mError: Booking.findById is not a function[39m
+2026-03-05 16:13:14:1314 [31merror[39m: [31mError: Booking.findById is not a function[39m
+2026-03-05 16:18:37:1837 [31merror[39m: [31mError: Cannot read properties of undefined (reading 'toString')[39m
+2026-03-05 17:47:51:4751 [31merror[39m: [31mSTK Push Error timeout of 30000ms exceeded[39m
+2026-03-05 17:48:21:4821 [31merror[39m: [31mSTK Push Error timeout of 30000ms exceeded[39m
+2026-03-05 17:49:15:4915 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:49:45:4945 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:50:00:500 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:50:30:5030 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:50:41:5041 [31merror[39m: [31mSTK Query Error getaddrinfo ENOTFOUND sandbox.safaricom.co.ke[39m
+2026-03-05 17:51:30:5130 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:51:45:5145 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:52:00:520 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:52:11:5211 [31merror[39m: [31mSTK Query Error getaddrinfo ENOTFOUND sandbox.safaricom.co.ke[39m
+2026-03-05 17:52:26:5226 [31merror[39m: [31mSTK Query Error getaddrinfo ENOTFOUND sandbox.safaricom.co.ke[39m
+2026-03-05 17:52:45:5245 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:53:00:530 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:53:15:5315 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:53:30:5330 [31merror[39m: [31mSTK Query Error timeout of 15000ms exceeded[39m
+2026-03-05 17:54:01:541 [31merror[39m: [31mSTK Query Error socket hang up[39m
+2026-03-07 22:02:25:225 [31merror[39m: [31mLogin error: Cannot read properties of null (reading 'is_verified')[39m

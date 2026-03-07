@@ -2,6 +2,7 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 import logger from '../utils/logger.js';
 import { Payment, Booking } from '../models/index.js';
+import smsService from './SmsService.js';
 
 dotenv.config();
 
@@ -224,302 +225,200 @@ class MpesaService {
   }
 
   // 🔄 C2B URL Registration (Run ONCE during setup/deployment)
-  async registerC2BUrls() {
-    try {
-      const accessToken = await this.getAccessToken();
-
-      const payload = {
-        ShortCode: this.shortcode,
-        ResponseType: 'Completed', // or 'Cancelled' if you want to handle cancellations
-        ConfirmationURL: process.env.MPESA_C2B_CONFIRMATION_URL,
-        ValidationURL: process.env.MPESA_C2B_VALIDATION_URL
-      };
-
-      logger.info('Registering C2B URLs', {
-        shortcode: this.shortcode,
-        confirmationUrl: payload.ConfirmationURL,
-        validationUrl: payload.ValidationURL
-      });
-
-      const response = await axios.post(
-        `${this.baseUrl}/mpesa/c2b/v1/registerurl`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-          },
-          timeout: 10000
-        }
-      );
-
-      logger.info('C2B URLs registered successfully', response.data);
-      return { success: true, data: response.data };
-    } catch (error) {
-      logger.error('C2B Registration Error', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      return {
-        success: false,
-        error: error.response?.data?.errorMessage || error.message
-      };
-    }
-  }
-
-  // 📥 Handle STK Push Callback (MPESA server → your server)
-  // async handleCallback(callbackData, transaction) {
+  // async registerC2BUrls() {
   //   try {
-  //     // Log raw callback for debugging (sanitize sensitive data in production)
-  //     logger.debug('MPESA Callback received', {
-  //       checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID,
-  //       resultCode: callbackData.Body?.stkCallback?.ResultCode
-  //     });
+  //     const accessToken = await this.getAccessToken();
 
-  //     const stkCallback = callbackData.Body?.stkCallback;
-
-  //     if (!stkCallback) {
-  //       logger.error('Invalid callback structure', { callbackData });
-  //       return { success: false, message: 'Invalid callback format' };
-  //     }
-
-  //     const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
-
-  //     // ✅ Find payment by checkout request ID (using module-level import)
-  //     const payment = await Payment.findOne({
-  //       where: { mpesa_checkout_request_id: CheckoutRequestID },
-  //       include: [{ model: Booking, as: 'Booking' }],
-  //       transaction // Use passed transaction for consistency
-  //     });
-
-  //     if (!payment) {
-  //       logger.warn('Payment not found for CheckoutRequestID', { CheckoutRequestID });
-  //       // Still return success to MPESA to stop retries for unknown requests
-  //       return { success: true, message: 'Payment not found (already processed or invalid)' };
-  //     }
-
-  //     // Prepare update data
-  //     const updateData = {
-  //       mpesa_result_code: ResultCode,
-  //       mpesa_result_desc: ResultDesc
+  //     const payload = {
+  //       ShortCode: this.shortcode,
+  //       ResponseType: 'Completed', // or 'Cancelled' if you want to handle cancellations
+  //       ConfirmationURL: process.env.MPESA_C2B_CONFIRMATION_URL,
+  //       ValidationURL: process.env.MPESA_C2B_VALIDATION_URL
   //     };
 
-  //     if (ResultCode === 0) {
-  //       // ✅ Payment Successful - extract metadata
-  //       const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
+  //     logger.info('Registering C2B URLs', {
+  //       shortcode: this.shortcode,
+  //       confirmationUrl: payload.ConfirmationURL,
+  //       validationUrl: payload.ValidationURL
+  //     });
 
-  //       // Helper to extract metadata values
-  //       const getMetadataValue = (name) => {
-  //         const item = callbackMetadata.find(i => i.Name === name);
-  //         return item?.Value;
-  //       };
-
-  //       // Update with confirmed transaction details
-  //       updateData.transaction_id = getMetadataValue('MpesaReceiptNumber');
-  //       updateData.status = 'completed';
-  //       updateData.paid_at = new Date(); // Record exact payment time
-
-  //       // Update booking if associated
-  //       if (payment.Booking) {
-  //         await payment.Booking.update({
-  //           payment_status: 'paid',
-  //           status: 'confirmed' // Or keep as 'pending' if you have manual confirmation flow
-  //         }, { transaction });
-
-  //         logger.info('Payment completed successfully', {
-  //           transactionId: updateData.transaction_id,
-  //           bookingNumber: payment.Booking.booking_number,
-  //           amount: payment.amount
-  //         });
+  //     const response = await axios.post(
+  //       `${this.baseUrl}/mpesa/c2b/v1/registerurl`,
+  //       payload,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           'Content-Type': 'application/json'
+  //         },
+  //         timeout: 10000
   //       }
-  //     } else {
-  //       // ❌ Payment Failed/Cancelled by user
-  //       updateData.status = 'failed';
+  //     );
 
-  //       // Revert booking payment status if still pending
-  //       if (payment.Booking?.payment_status === 'pending') {
-  //         await payment.Booking.update({
-  //           payment_status: 'unpaid'
-  //         }, { transaction });
-  //       }
-
-  //       logger.warn('Payment failed or cancelled', {
-  //         checkoutRequestId: CheckoutRequestID,
-  //         resultCode: ResultCode,
-  //         resultDesc: ResultDesc,
-  //         bookingNumber: payment.Booking?.booking_number
-  //       });
-  //     }
-
-  //     // Update payment record
-  //     await payment.update(updateData, { transaction });
-
-  //     return {
-  //       success: true,
-  //       paymentId: payment.id,
-  //       status: updateData.status,
-  //       transactionId: updateData.transaction_id,
-  //       bookingNumber: payment.Booking?.booking_number
-  //     };
+  //     logger.info('C2B URLs registered successfully', response.data);
+  //     return { success: true, data: response.data };
   //   } catch (error) {
-  //     logger.error('Callback Processing Error', {
+  //     logger.error('C2B Registration Error', {
   //       message: error.message,
-  //       stack: error.stack,
-  //       checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID
+  //       response: error.response?.data,
+  //       status: error.response?.status
   //     });
-  //     return { success: false, message: error.message };
+  //     return {
+  //       success: false,
+  //       error: error.response?.data?.errorMessage || error.message
+  //     };
   //   }
   // }
 
+  // 📥 Handle STK Push Callback (MPESA server → your server)
+
   async handleCallback(callbackData, transaction) {
-  try {
-    // Log raw callback for debugging (sanitize sensitive data in production)
-    logger.debug('MPESA Callback received', {
-      checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID,
-      resultCode: callbackData.Body?.stkCallback?.ResultCode
-    });
+    try {
+      // Log raw callback for debugging (sanitize sensitive data in production)
+      logger.debug('MPESA Callback received', {
+        checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID,
+        resultCode: callbackData.Body?.stkCallback?.ResultCode
+      });
 
-    const stkCallback = callbackData.Body?.stkCallback;
+      const stkCallback = callbackData.Body?.stkCallback;
 
-    if (!stkCallback) {
-      logger.error('Invalid callback structure', { callbackData });
-      return { success: false, message: 'Invalid callback format' };
-    }
+      if (!stkCallback) {
+        logger.error('Invalid callback structure', { callbackData });
+        return { success: false, message: 'Invalid callback format' };
+      }
 
-    const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
+      const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
 
-    // ✅ Find payment by checkout request ID
-    const payment = await Payment.findOne({
-      where: { mpesa_checkout_request_id: CheckoutRequestID },
-      include: [{ model: Booking, as: 'Booking' }],
-      transaction,
-      lock: transaction ? sequelize.Lock.UPDATE : undefined // ✅ Prevent race conditions
-    });
+      // ✅ Find payment by checkout request ID
+      const payment = await Payment.findOne({
+        where: { mpesa_checkout_request_id: CheckoutRequestID },
+        include: [{ model: Booking, as: 'Booking' }],
+        transaction,
+        lock: transaction ? sequelize.Lock.UPDATE : undefined // ✅ Prevent race conditions
+      });
 
-    if (!payment) {
-      logger.warn('Payment not found for CheckoutRequestID', { CheckoutRequestID });
-      // Still return success to MPESA to stop retries for unknown requests
-      return { success: true, message: 'Payment not found (already processed or invalid)' };
-    }
+      if (!payment) {
+        logger.warn('Payment not found for CheckoutRequestID', { CheckoutRequestID });
+        // Still return success to MPESA to stop retries for unknown requests
+        return { success: true, message: 'Payment not found (already processed or invalid)' };
+      }
 
-    // ✅ IDEMPOTENCY CHECK: Skip if already processed (ignore retries)
-    if (payment.status === 'completed' || payment.status === 'failed' || payment.status === 'cancelled') {
-      logger.info(`⏭️ Callback already processed for ${CheckoutRequestID} (status: ${payment.status}) - skipping retry`);
-      return { 
-        success: true, 
-        message: 'Already processed - ignored', 
-        paymentId: payment.id,
-        status: payment.status 
-      };
-    }
+      // ✅ IDEMPOTENCY CHECK: Skip if already processed (ignore retries)
+      if (payment.status === 'completed' || payment.status === 'failed' || payment.status === 'cancelled') {
+        logger.info(`⏭️ Callback already processed for ${CheckoutRequestID} (status: ${payment.status}) - skipping retry`);
+        return {
+          success: true,
+          message: 'Already processed - ignored',
+          paymentId: payment.id,
+          status: payment.status
+        };
+      }
 
-    // Prepare update data
-    const updateData = {
-      mpesa_result_code: ResultCode,
-      mpesa_result_desc: ResultDesc
-    };
-
-    if (ResultCode === 0) {
-      // ✅ Payment Successful - extract metadata
-      const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
-
-      // Helper to extract metadata values
-      const getMetadataValue = (name) => {
-        const item = callbackMetadata.find(i => i.Name === name);
-        return item?.Value;
+      // Prepare update data
+      const updateData = {
+        mpesa_result_code: ResultCode,
+        mpesa_result_desc: ResultDesc
       };
 
-      // ✅ Extract and add M-Pesa specific fields
-      updateData.transaction_id = getMetadataValue('MpesaReceiptNumber');
-      updateData.mpesa_amount = getMetadataValue('Amount');
-      updateData.mpesa_phone = getMetadataValue('PhoneNumber');
-      updateData.mpesa_transaction_date = getMetadataValue('TransactionDate'); // YYYYMMDDHHmmss
-      updateData.mpesa_balance = getMetadataValue('Balance');
+      if (ResultCode === 0) {
+        // ✅ Payment Successful - extract metadata
+        const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
 
-      // ✅ Update status and timestamp
-      updateData.status = 'completed';
-      updateData.paid_at = new Date(); // Record exact payment time
+        // Helper to extract metadata values
+        const getMetadataValue = (name) => {
+          const item = callbackMetadata.find(i => i.Name === name);
+          return item?.Value;
+        };
 
-      // Update booking if associated
-      if (payment.Booking) {
-        await payment.Booking.update({
-          payment_status: 'paid',
-          status: 'confirmed'
-        }, { transaction });
+        // ✅ Extract and add M-Pesa specific fields
+        updateData.transaction_id = getMetadataValue('MpesaReceiptNumber');
+        updateData.mpesa_amount = getMetadataValue('Amount');
+        updateData.mpesa_phone = getMetadataValue('PhoneNumber');
+        updateData.mpesa_transaction_date = getMetadataValue('TransactionDate'); // YYYYMMDDHHmmss
+        updateData.mpesa_balance = getMetadataValue('Balance');
 
-        logger.info('Payment completed successfully', {
-          transactionId: updateData.transaction_id,
-          bookingNumber: payment.Booking.booking_number,
-          amount: payment.amount,
-          mpesaAmount: updateData.mpesa_amount,
-          mpesaPhone: updateData.mpesa_phone
+        // ✅ Update status and timestamp
+        updateData.status = 'completed';
+        updateData.paid_at = new Date(); // Record exact payment time
+
+        // Update booking if associated
+        if (payment.Booking) {
+          await payment.Booking.update({
+            payment_status: 'paid',
+            status: 'confirmed'
+          }, { transaction });
+
+          logger.info('Payment completed successfully', {
+            transactionId: updateData.transaction_id,
+            bookingNumber: payment.Booking.booking_number,
+            amount: payment.amount,
+            mpesaAmount: updateData.mpesa_amount,
+            mpesaPhone: updateData.mpesa_phone
+          });
+        }
+
+        logger.info('✅ Payment completed', {
+          checkoutRequestId: CheckoutRequestID,
+          mpesaReceiptNumber: updateData.transaction_id,
+          amount: updateData.mpesa_amount,
+          phone: updateData.mpesa_phone,
+          transactionDate: updateData.mpesa_transaction_date,
+          balance: updateData.mpesa_balance
+        });
+
+      } else {
+        // ❌ Payment Failed/Cancelled by user
+        updateData.status = ResultCode === 1032 ? 'cancelled' : 'failed';
+        updateData.failed_at = new Date();
+
+        // Revert booking payment status if still pending
+        if (payment.Booking?.payment_status === 'pending') {
+          await payment.Booking.update({
+            payment_status: 'unpaid'
+          }, { transaction });
+        }
+
+        logger.warn(`Payment ${ResultCode === 1032 ? 'cancelled' : 'failed'}`, {
+          checkoutRequestId: CheckoutRequestID,
+          resultCode: ResultCode,
+          resultDesc: ResultDesc,
+          bookingNumber: payment.Booking?.booking_number
         });
       }
 
-      logger.info('✅ Payment completed', {
-        checkoutRequestId: CheckoutRequestID,
-        mpesaReceiptNumber: updateData.transaction_id,
-        amount: updateData.mpesa_amount,
-        phone: updateData.mpesa_phone,
-        transactionDate: updateData.mpesa_transaction_date,
-        balance: updateData.mpesa_balance
+      // ✅ Update payment record (ONLY ONCE per CheckoutRequestID)
+      await payment.update(updateData, { transaction });
+
+      logger.info(`📝 Payment ${payment.status} updated for ${CheckoutRequestID}`, {
+        paymentId: payment.id,
+        status: updateData.status,
+        transactionId: updateData.transaction_id
       });
 
-    } else {
-      // ❌ Payment Failed/Cancelled by user
-      updateData.status = ResultCode === 1032 ? 'cancelled' : 'failed';
-      updateData.failed_at = new Date();
+      return {
+        success: true,
+        paymentId: payment.id,
+        status: updateData.status,
+        transactionId: updateData.transaction_id,
+        bookingNumber: payment.Booking?.booking_number,
+        mpesaAmount: updateData.mpesa_amount,
+        mpesaPhone: updateData.mpesa_phone
+      };
 
-      // Revert booking payment status if still pending
-      if (payment.Booking?.payment_status === 'pending') {
-        await payment.Booking.update({
-          payment_status: 'unpaid'
-        }, { transaction });
+    } catch (error) {
+      // ✅ Handle unique constraint violation (if DB has unique index)
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        logger.warn(`⚠️ Duplicate callback detected: ${callbackData.Body?.stkCallback?.CheckoutRequestID}`);
+        return { success: true, message: 'Duplicate ignored - already exists' };
       }
 
-      logger.warn(`Payment ${ResultCode === 1032 ? 'cancelled' : 'failed'}`, {
-        checkoutRequestId: CheckoutRequestID,
-        resultCode: ResultCode,
-        resultDesc: ResultDesc,
-        bookingNumber: payment.Booking?.booking_number
+      logger.error('Callback Processing Error', {
+        message: error.message,
+        stack: error.stack,
+        checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID
       });
+      return { success: false, message: error.message };
     }
-
-    // ✅ Update payment record (ONLY ONCE per CheckoutRequestID)
-    await payment.update(updateData, { transaction });
-
-    logger.info(`📝 Payment ${payment.status} updated for ${CheckoutRequestID}`, {
-      paymentId: payment.id,
-      status: updateData.status,
-      transactionId: updateData.transaction_id
-    });
-
-    return {
-      success: true,
-      paymentId: payment.id,
-      status: updateData.status,
-      transactionId: updateData.transaction_id,
-      bookingNumber: payment.Booking?.booking_number,
-      mpesaAmount: updateData.mpesa_amount,
-      mpesaPhone: updateData.mpesa_phone
-    };
-
-  } catch (error) {
-    // ✅ Handle unique constraint violation (if DB has unique index)
-    if (error.name === 'SequelizeUniqueConstraintError') {
-      logger.warn(`⚠️ Duplicate callback detected: ${callbackData.Body?.stkCallback?.CheckoutRequestID}`);
-      return { success: true, message: 'Duplicate ignored - already exists' };
-    }
-
-    logger.error('Callback Processing Error', {
-      message: error.message,
-      stack: error.stack,
-      checkoutRequestId: callbackData.Body?.stkCallback?.CheckoutRequestID
-    });
-    return { success: false, message: error.message };
   }
-}
 
   // 🔄 Query STK Push Status with Rate Limiting (MPESA limit: 5 requests per 60 seconds)
   async querySTKStatus(checkoutRequestId, retryCount = 0) {
@@ -782,6 +681,162 @@ class MpesaService {
       };
     }
   }
+
+  //c2b validation and confirmation handlers can be added here as needed
+  async registerC2BUrls() {
+    const accessToken = await this.getAccessToken();
+    const payload = {
+      ShortCode: this.shortcode,
+      ResponseType: 'Completed',
+      ConfirmationURL: process.env.MPESA_C2B_CONFIRMATION_URL,
+      ValidationURL: process.env.MPESA_C2B_VALIDATION_URL
+    };
+
+    try {
+      const response = await axios.post(`${this.baseUrl}/mpesa/c2b/v1/registerurl`, payload, {
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }
+      });
+      logger.info('✅ C2B URLs Registered', response.data);
+      return { success: true, data: response.data };
+    } catch (error) {
+      logger.error('❌ Registration Failed', error.response?.data || error.message);
+      return { success: false, error: error.message };
+    }
+  }
+  // 🔍 Hybrid Matching Logic
+  async matchPaymentToBooking(data) {
+    const { TransAmount, MSISDN, BillRefNumber } = data;
+
+    // Strategy 1: Account Reference (PayBill or Till with Ref)
+    if (BillRefNumber) {
+      const booking = await Booking.findOne({ 
+        where: { booking_number: BillRefNumber.trim() },
+        attributes: ['id', 'booking_number', 'total_amount', 'payment_status']
+      });
+      if (booking) {
+        logger.info(`🎯 Matched via Account Ref: ${BillRefNumber}`);
+        return { booking, confidence: 'high', method: 'account_ref' };
+      }
+    }
+
+    // Strategy 2: Expected Payment (Phone + Amount + Time)
+    const tenMinsAgo = new Date(Date.now() - 10 * 60 * 1000);
+    const expected = await ExpectedPayment.findOne({
+      where: {
+        phone: MSISDN,
+        amount: TransAmount,
+        status: 'pending',
+        expires_at: { [Op.gte]: new Date() },
+        createdAt: { [Op.gte]: tenMinsAgo }
+      },
+      include: [{ model: Booking, as: 'Booking', attributes: ['id', 'booking_number'] }],
+      order: [['createdAt', 'DESC']]
+    });
+
+    if (expected && expected.Booking) {
+      await expected.update({ status: 'matched', trans_id: data.TransID });
+      logger.info(`🎯 Matched via Expected Payment: ${expected.id}`);
+      return { booking: expected.Booking, confidence: 'medium', method: 'expected_payment' };
+    }
+
+    logger.warn(`⚠️ No match found for TransID: ${data.TransID}`);
+    return { booking: null, confidence: 'none', method: 'none' };
+  }
+
+  async handleC2BConfirmation(data) {
+    const transaction = await C2BPayment.sequelize.transaction();
+    
+    try {
+      const { TransID, TransAmount, MSISDN, FirstName, LastName, BillRefNumber } = data;
+
+      // 1. Idempotency Check
+      const existing = await C2BPayment.findOne({ where: { trans_id: TransID }, transaction });
+      if (existing) {
+        await transaction.commit();
+        return { ResultCode: 0, ResultDesc: 'Already processed' };
+      }
+
+      // 2. Run Hybrid Matching
+      const matchResult = await this.matchPaymentToBooking(data);
+      const { booking, confidence } = matchResult;
+
+      // 3. Create C2B Record
+      const paymentRecord = await C2BPayment.create({
+        trans_id: TransID,
+        trans_type: data.TransType,
+        trans_time: data.TransTime,
+        trans_amount: TransAmount,
+        business_shortcode: data.BusinessShortCode,
+        msisdn: MSISDN,
+        first_name: FirstName,
+        last_name: LastName,
+        account_number: BillRefNumber,
+        booking_id: booking ? booking.id : null,
+        status: booking ? 'completed' : 'unmatched',
+        match_confidence: confidence,
+        raw_callback: data,
+        processed_at: new Date()
+      }, { transaction });
+
+      // 4. Update Booking if matched
+      if (booking) {
+        await booking.update({
+          payment_status: 'paid',
+          status: 'confirmed'
+        }, { transaction });
+        logger.info(`✅ Payment Confirmed: ${TransID} -> Booking ${booking.booking_number}`);
+      } else {
+        logger.warn(`⚠️ Unmatched Payment: ${TransID}. Requires manual review.`);
+      }
+
+      await transaction.commit();
+
+      // 5. 🚀 Send SMS Notification (Async - do not block response)
+      setImmediate(() => {
+        this.sendNotificationSMS({
+          phone: MSISDN,
+          amount: TransAmount,
+          transId: TransID,
+          bookingNumber: booking?.booking_number,
+          isMatched: !!booking
+        });
+      });
+
+      return { ResultCode: 0, ResultDesc: 'Success', bookingMatched: !!booking };
+
+    } catch (error) {
+      await transaction.rollback();
+      logger.error('❌ C2B Confirmation Error', error);
+      return { ResultCode: 0, ResultDesc: `Error: ${error.message}` };
+    }
+  }
+
+  async sendNotificationSMS({ phone, amount, transId, bookingNumber, isMatched }) {
+    try {
+      if (isMatched) {
+        await smsService.sendPaymentConfirmation({
+          phone,
+          amount,
+          bookingNumber,
+          transId
+        });
+      } else {
+        // Send unmatched alert to customer
+        await smsService.sendUnmatchedAlert({
+          phone,
+          amount,
+          transId
+        });
+        
+        // Optional: Send alert to Admin (implement separate admin SMS method if needed)
+        // await smsService.sendSMS('+254700000000', `ADMIN ALERT: Unmatched payment KES ${amount} from ${phone}. Ref: ${transId}`);
+      }
+    } catch (error) {
+      logger.error('Failed to send notification SMS', error);
+      // Don't throw - payment is still valid even if SMS fails
+    }
+  }
+
 }
 
 // ✅ Export singleton instance

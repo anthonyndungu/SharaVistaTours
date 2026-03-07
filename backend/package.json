@@ -8,6 +8,7 @@
     "start": "nodemon server.js",
     "dev": "nodemon server.js",
     "seed": "node utils/seeder.js",
+    "register:c2b": "node scripts/registerC2BUrls.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

@@ -1,6 +1,6 @@
 // controllers/paymentController.js
-import { Payment, Booking, sequelize, Op } from '../models/index.js';
-import mpesaService from '../services/mpesaService.js';
+import { Payment, Booking, sequelize, Op, C2BPayment } from '../models/index.js';
+import mpesaService from '../services/MpesaService.js';
 import stripeService from '../services/stripeService.js';
 import logger from '../utils/logger.js';
 
@@ -926,5 +926,312 @@ export const checkPaymentStatus = async (req, res) => {
   } catch (err) {
     logger.error('Check payment status error', { error: err.message, query: req.query });
     res.status(500).json({ status: 'error', message: 'Status check failed' });
+  }
+};
+
+// 🆕 NEW: Initiate C2B Payment (PayBill/Till Manual Payment)
+// export const initiateC2BPayment = async (req, res, next) => {
+//   console.log('Initiate C2B payment request received', {
+//     bookingId: req.params.bookingId,
+//     body: req.body,
+//     userId: req.user.id
+//   });
+  
+//   try {
+//     const { bookingId } = req.params;
+//     const { phone, amount, account_reference } = req.body;
+//     const userId = req.user.id;
+
+//     const phone_number = phone || req.body?.phone; // Support both 'phone' and 'phone_number' for flexibility
+ 
+
+//     // 1. Validate input
+//     if (!phone_number || !amount) {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'Phone number and amount are required'
+//       });
+//     }
+
+//     // 2. Validate phone format (Kenyan)
+//     const phoneRegex = /^254\d{9}$/;
+//     if (!phoneRegex.test(phone_number)) {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'Invalid phone number format. Use 2547XXXXXXXX'
+//       });
+//     }
+
+//     // 3. Fetch booking & validate ownership + status
+//     const booking = await Booking.findByPk(bookingId);
+//     if (!booking) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Booking not found'
+//       });
+//     }
+    
+//     if (booking.user.toString() !== userId) {
+//       return res.status(403).json({
+//         success: false,
+//         message: 'Not authorized to pay for this booking'
+//       });
+//     }
+
+//     if (booking.payment_status === 'paid') {
+//       return res.status(400).json({
+//         success: false,
+//         message: 'This booking is already paid'
+//       });
+//     }
+
+//     // 4. Generate C2B instructions (PayBill or Till)
+//     // 🔧 Replace with your actual Safaricom Daraja C2B logic
+//     const c2bConfig = {
+//       shortcode: process.env.MPESA_C2B_SHORTCODE, // e.g., "123456"
+//       accountRef: account_reference || booking.booking_number,
+//       amount: amount || booking.total_amount,
+//       type: process.env.MPESA_C2B_TYPE || 'PayBill', // 'PayBill' or 'Till'
+//       expiresAt: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes expiry
+//     };
+
+//     // 5. Create payment record in database
+//     const payment = await Payment.create({
+//       booking: bookingId,
+//       user: userId,
+//       method: 'c2b',
+//       amount: c2bConfig.amount,
+//       currency: 'KES',
+//       status: 'pending',
+//       c2b_data: {
+//         shortcode: c2bConfig.shortcode,
+//         account_ref: c2bConfig.accountRef,
+//         type: c2bConfig.type,
+//         expires_at: c2bConfig.expiresAt,
+//       },
+//       phone_number,
+//       transaction_reference: `C2B_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+//     });
+
+//     // 6. Return instructions to frontend
+//     res.status(201).json({
+//       success: true,
+//       message: 'C2B payment instructions generated',
+//       data: {
+//         paymentId: payment._id,
+//         shortcode: c2bConfig.shortcode,
+//         accountRef: c2bConfig.accountRef,
+//         amount: c2bConfig.amount,
+//         type: c2bConfig.type,
+//         expiresAt: c2bConfig.expiresAt,
+//         instructions: `Go to Lipa na M-Pesa → ${c2bConfig.type === 'PayBill' ? 'PayBill' : 'Buy Goods'} → Enter ${c2bConfig.shortcode} → ${c2bConfig.accountRef ? `Account: ${c2bConfig.accountRef} → ` : ''}Amount: ${c2bConfig.amount} → Enter PIN`,
+//       }
+//     });
+
+//   } catch (error) {
+//     console.error('C2B Payment Initiation Error:', error);
+//     next(error);
+//   }
+// };
+
+export const initiateC2BPayment = async (req, res, next) => {
+  console.log('Initiate C2B payment request received', {
+    bookingId: req.params.bookingId,
+    body: req.body,
+    userId: req.user?.id
+  });
+  
+  try {
+    const { bookingId } = req.params;
+    const { phone, amount, account_reference } = req.body;
+    const userId = req.user?.id;
+
+    // 🔧 Clean phone extraction
+    const phone_number = phone;
+
+    // 🔧 Parse amount to number (handles string "85000.00")
+    const finalAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+
+    // 1. Validate input
+    if (!phone_number) {
+      return res.status(400).json({
+        success: false,
+        message: 'Phone number is required',
+        hint: 'Send field as "phone" with value like 2547XXXXXXXX'
+      });
+    }
+
+    if (!finalAmount || isNaN(finalAmount) || finalAmount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Valid amount is required',
+        hint: 'Send amount as a number or numeric string (e.g., 85000 or "85000.00")'
+      });
+    }
+
+    // 2. Validate phone format (Kenyan)
+    const phoneRegex = /^254\d{9}$/;
+    if (!phoneRegex.test(phone_number)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid phone number format',
+        hint: 'Use format: 2547XXXXXXXX (e.g., 254793720489)',
+        received: phone_number
+      });
+    }
+
+    // 3. Fetch booking & validate ownership + status
+    const booking = await Booking.findByPk(bookingId, {
+      attributes: ['id', 'booking_number', 'payment_status', 'total_amount', 'user_id']
+    });
+    
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: 'Booking not found',
+        bookingId
+      });
+    }
+    
+    // Handle Sequelize model field access
+    const bookingUserId = booking.user_id || booking.getDataValue?.('user_id');
+    if (bookingUserId?.toString() !== userId?.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to pay for this booking'
+      });
+    }
+
+    const bookingPaymentStatus = booking.payment_status || booking.getDataValue?.('payment_status');
+    if (bookingPaymentStatus === 'paid') {
+      return res.status(400).json({
+        success: false,
+        message: 'This booking is already paid'
+      });
+    }
+
+    // 4. Generate C2B instructions (PayBill or Till)
+    const c2bConfig = {
+      shortcode: process.env.MPESA_SHORTCODE || '174379',
+      accountRef: account_reference || booking.booking_number || booking.getDataValue?.('booking_number'),
+      amount: finalAmount,
+      type: process.env.MPESA_C2B_TYPE || 'PayBill',
+      expiresAt: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes expiry
+    };
+
+    // 🔧 Generate unique trans_id for C2BPayment record
+    const transId = `C2B_${Date.now()}_${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+
+    // 5. Create C2BPayment record using YOUR model fields
+    const c2bPayment = await C2BPayment.create({
+      trans_id: transId,                           // ✅ Unique transaction ID
+      trans_type: c2bConfig.type,                  // ✅ 'PayBill' or 'Till'
+      trans_time: Date.now(),                      // ✅ Timestamp in milliseconds
+      trans_amount: c2bConfig.amount,              // ✅ Amount to pay
+      business_shortcode: c2bConfig.shortcode,     // ✅ PayBill/Till number
+      msisdn: phone_number,                        // ✅ Customer phone
+      account_number: c2bConfig.accountRef,        // ✅ Account reference (BillRefNumber)
+      org_account_balance: 0,                      // ✅ Placeholder (updated by callback)
+      
+      // Link to booking
+      booking_id: bookingId,                       // ✅ Foreign key to bookings table
+      
+      // Initial status for instruction record
+      status: 'completed',                         // ✅ Default: instruction generated
+      match_confidence: 'high',                    // ✅ We generated this, so high confidence
+      
+      // Store full config for frontend reference + callback matching
+      raw_callback: {                              // ✅ JSONB field for flexible data
+        instructions: `Go to Lipa na M-Pesa → ${c2bConfig.type} → Enter ${c2bConfig.shortcode} → ${c2bConfig.accountRef ? `Account: ${c2bConfig.accountRef} → ` : ''}Amount: ${c2bConfig.amount} → Enter PIN`,
+        expiresAt: c2bConfig.expiresAt,
+        booking_number: booking.booking_number || booking.getDataValue?.('booking_number'),
+        initiated_by: userId,
+        initiated_at: new Date().toISOString(),
+      },
+      
+      processed_at: new Date(),                    // ✅ Mark as processed immediately
+    });
+
+    // 6. Return instructions to frontend
+    res.status(201).json({
+      success: true,
+      message: 'C2B payment instructions generated',
+      data: {
+        paymentId: c2bPayment.id,
+        transId: c2bPayment.trans_id,              // ✅ Return the unique trans_id
+        shortcode: c2bConfig.shortcode,
+        accountRef: c2bConfig.accountRef,
+        amount: c2bConfig.amount,
+        type: c2bConfig.type,
+        expiresAt: c2bConfig.expiresAt,
+        instructions: c2bPayment.raw_callback?.instructions,
+        // Helpful for polling
+        canPoll: true,
+        nextPollIn: 5000,
+      }
+    });
+
+  } catch (error) {
+    console.error('C2B Payment Initiation Error:', {
+      name: error.name,
+      message: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+    
+    // Handle Sequelize validation errors
+    if (error.name === 'SequelizeValidationError' || error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid payment data',
+        details: error.errors?.map(err => err.message) || [error.message]
+      });
+    }
+    
+    // Handle Sequelize unique constraint errors (trans_id collision)
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({
+        success: false,
+        message: 'Payment instruction already exists. Please try again.'
+      });
+    }
+    
+    next(error);
+  }
+};
+
+export const initiateC2BPaymentCallback = async (req, res, next) => {
+  try {
+    const { Body: { stkCallback } } = req.body;
+    const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
+
+    // Find payment by checkout request ID
+    const payment = await Payment.findOne({ 'c2b_data.checkout_request_id': CheckoutRequestID });
+    if (!payment) {
+      return res.status(404).json({ ResultCode: 404, ResultDesc: 'Payment not found' });
+    }
+
+    // Update payment status based on Safaricom response
+    if (ResultCode === 0) {
+      payment.status = 'completed';
+      payment.c2b_data.confirmed_at = new Date();
+      await payment.save();
+      
+      // Update booking status
+      await Booking.findByIdAndUpdate(payment.booking, {
+        payment_status: 'paid',
+        paid_at: new Date()
+      });
+    } else {
+      payment.status = 'failed';
+      payment.c2b_data.failure_reason = ResultDesc;
+      await payment.save();
+    }
+
+    // Acknowledge receipt to Safaricom
+    res.json({ ResultCode: 0, ResultDesc: 'Success' });
+
+  } catch (error) {
+    console.error('C2B Callback Error:', error);
+    res.status(500).json({ ResultCode: 500, ResultDesc: 'Internal server error' });
   }
 };

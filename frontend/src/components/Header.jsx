@@ -1,143 +1,107 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, clearAuthState } from '../features/auth/authSlice';
-import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
+import { logout, clearAuthState, clearLoginMessage } from '../features/auth/authSlice';
+import { Snackbar, Alert } from '@mui/material';
 
 export default function Header() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // ✅ Removed navigate import since we aren't redirecting here
 
-  const { isAuthenticated, user ,loading} = useSelector((state) => state.auth);
+  const { isAuthenticated, user, loginMessage, loginMessageSeverity } = useSelector((state) => state.auth);
+  
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const loginModalRef = useRef(null);
-  const registerModalRef = useRef(null);
   const userMenuRef = useRef(null);
   const mobileDrawerRef = useRef(null);
 
   const toggleMobileDrawer = () => setMobileOpen(!mobileOpen);
   const closeMobileDrawer = () => setMobileOpen(false);
 
-  const openLogin = () => {
-    closeMobileDrawer();
-    setShowRegister(false);
-    setShowUserMenu(false);
-    setShowLogin(true);
-  };
-
-  const openRegister = () => {
-    closeMobileDrawer();
-    setShowLogin(false);
-    setShowUserMenu(false);
-    setShowRegister(true);
-  };
-
-  const closeAll = () => {
-    setShowLogin(false);
-    setShowRegister(false);
-    setShowUserMenu(false);
-  };
-
+  // ✅ Logout: Only clears state, NO redirect
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearAuthState());
     setShowUserMenu(false);
     closeMobileDrawer();
-    navigate('/');
+    // No navigate('/') here
   };
 
+  // ✅ Dashboard Click: Only closes menu, NO redirect
   const handleGoToDashboard = () => {
     setShowUserMenu(false);
     closeMobileDrawer();
-    if (user?.role === 'admin' || user?.role === 'super_admin') {
-      navigate('/admin');
-    } else {
-      navigate('/dashboard');
-    }
+    // No navigate logic here
   };
 
-   // ✅ ADD THIS NEW EFFECT FOR REDIRECTS
-  useEffect(() => {
-    if (!loading && isAuthenticated && user) {
-      const currentPath = window.location.pathname;
-      
-      // If user is on login/register page, kick them out to dashboard
-      if (currentPath === '/login' || currentPath === '/register') {
-        if (user.role === 'admin' || user.role === 'super_admin') {
-          navigate('/admin', { replace: true });
-        } else {
-          navigate('/dashboard', { replace: true });
-        }
-        return;
-      }
-
-      // If user is on Home (/) and is logged in, kick them to dashboard
-      if (currentPath === '/') {
-         if (user.role === 'admin' || user.role === 'super_admin') {
-          navigate('/admin', { replace: true });
-        } else {
-          navigate('/dashboard', { replace: true });
-        }
-      }
-    }
-  }, [isAuthenticated, user, loading, navigate]);
-
-
-  useEffect(() => {
-    const handleModalClick = (e) => {
-      const inLoginModal = showLogin && loginModalRef.current?.contains(e.target);
-      const inRegisterModal = showRegister && registerModalRef.current?.contains(e.target);
-      const inUserMenu = showUserMenu && userMenuRef.current?.contains(e.target);
-      const inDrawer = mobileOpen && mobileDrawerRef.current?.contains(e.target);
-      if (!inLoginModal && !inRegisterModal && !inUserMenu && !inDrawer) return;
-      const link = e.target.closest('a[href="/auth/register"]');
-      const backLink = e.target.closest('a[href="/auth/login"]');
-      if (link) { e.preventDefault(); openRegister(); } 
-      else if (backLink) { e.preventDefault(); openLogin(); }
-    };
-    document.addEventListener('click', handleModalClick, true);
-    return () => document.removeEventListener('click', handleModalClick, true);
-  }, [showLogin, showRegister, showUserMenu, mobileOpen]);
-
+  // Click outside handler
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showLogin && loginModalRef.current && !loginModalRef.current.contains(event.target)) { closeAll(); return; }
-      if (showRegister && registerModalRef.current && !registerModalRef.current.contains(event.target)) { closeAll(); return; }
-      if (showUserMenu && userMenuRef.current && !userMenuRef.current.contains(event.target)) { setShowUserMenu(false); return; }
+      if (showUserMenu && userMenuRef.current && !userMenuRef.current.contains(event.target)) { 
+        setShowUserMenu(false); 
+        return; 
+      }
       if (mobileOpen && mobileDrawerRef.current && !mobileDrawerRef.current.contains(event.target)) {
         const toggleBtn = document.querySelector('.navbar-toggle');
-        if (!toggleBtn || !toggleBtn.contains(event.target)) { closeMobileDrawer(); }
+        if (!toggleBtn || !toggleBtn.contains(event.target)) { 
+          closeMobileDrawer(); 
+        }
       }
     };
-    if (showLogin || showRegister || showUserMenu || mobileOpen) {
+    
+    if (showUserMenu || mobileOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showLogin, showRegister, showUserMenu, mobileOpen]);
+  }, [showUserMenu, mobileOpen]);
 
+  // ESC key handler
   useEffect(() => {
-    const handleEsc = (e) => { if (e.key === 'Escape') { closeAll(); closeMobileDrawer(); } };
+    const handleEsc = (e) => { 
+      if (e.key === 'Escape') { 
+        setShowUserMenu(false);
+        closeMobileDrawer(); 
+      } 
+    };
     document.addEventListener('keydown', handleEsc);
     return () => document.removeEventListener('keydown', handleEsc);
   }, []);
 
+  // Body scroll lock
   useEffect(() => {
-    if (showLogin || showRegister || mobileOpen) { document.body.style.overflow = 'hidden'; } 
-    else { document.body.style.overflow = ''; }
+    if (mobileOpen) { 
+      document.body.style.overflow = 'hidden'; 
+    } else { 
+      document.body.style.overflow = ''; 
+    }
     return () => { document.body.style.overflow = ''; };
-  }, [showLogin, showRegister, mobileOpen]);
+  }, [mobileOpen]);
+
+  // ✅ Snackbar Logic: No timeouts, no session storage
+  useEffect(() => {
+    if (loginMessage) {
+      setSnackbarOpen(true);
+    } else {
+      setSnackbarOpen(false);
+    }
+  }, [loginMessage]);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+    // Clear message immediately upon closing
+    dispatch(clearLoginMessage());
+  };
 
   const userInitials = user?.name ? user.name.charAt(0).toUpperCase() : 'U';
 
   return (
     <header id="masthead" className="site-header sticky_header affix-top">
       <style>{`
-        /* 1. LOGIC FOR LOGO SWAP */
         @media (max-width: 991px) {
           .desktop-logo-img { display: none !important; }
           .mobile-logo-text { display: flex !important; }
@@ -147,7 +111,6 @@ export default function Header() {
           .mobile-logo-text { display: none !important; }
         }
 
-        /* 2. LOGIC FOR DRAWER & NAVIGATION */
         @media (max-width: 991px) {
           #mobile-demo {
             position: fixed !important;
@@ -164,15 +127,12 @@ export default function Header() {
             padding: 0 !important;
             margin: 0 !important;
             list-style: none !important;
-            
-            /* Hidden State */
             transform: translateX(-100%) !important;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             visibility: hidden !important;
             opacity: 0 !important;
           }
 
-          /* ACTIVE STATE (When menu is clicked) */
           #mobile-demo.active,
           #mobile-demo.in,
           #mobile-demo.show,
@@ -183,7 +143,6 @@ export default function Header() {
             display: flex !important;
           }
 
-          /* ✅ FORCE LIST ITEMS TO BE VISIBLE */
           #mobile-demo li {
             display: block !important;
             width: 100% !important;
@@ -235,43 +194,104 @@ export default function Header() {
                 </div>
               </aside>
 
-              {/* Desktop Auth */}
+              {/* ✅ Desktop Auth: Hidden/Shown based on isAuthenticated */}
               <aside id="travel_login_register_from-2" className="widget widget_login_form hidden-xs">
                 {!isAuthenticated ? (
                   <>
-                    <span className="show_from login" onClick={openLogin}><i className="fa fa-user"></i>Login</span>
-                    {showLogin && (
-                      <div className="form_popup from_login" tabIndex="-1" ref={loginModalRef}>
-                        <div className="inner-form"><div className="closeicon" onClick={closeAll}></div><Login /></div>
-                      </div>
-                    )}
-                    <span className="register_btn" onClick={openRegister}>Register</span>
-                    {showRegister && (
-                      <div className="form_popup from_register" tabIndex="-1" ref={registerModalRef}>
-                        <div className="inner-form"><div className="closeicon" onClick={closeAll}></div><Register /></div>
-                      </div>
-                    )}
+                    <Link 
+                      to="/auth/login" 
+                      style={{ cursor: 'pointer', color: '#fff', textDecoration: 'none', marginRight: '15px' }}
+                    >
+                      <i className="fa fa-user"></i> Login
+                    </Link>
+                    <Link 
+                      to="/auth/register" 
+                      style={{ cursor: 'pointer', color: '#fff', textDecoration: 'none' }}
+                    >
+                      Register
+                    </Link>
                   </>
                 ) : (
                   <div className="user-dropdown-container" style={{ position: 'relative', display: 'inline-block' }} ref={userMenuRef}>
-                    <button onClick={() => setShowUserMenu(!showUserMenu)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', fontWeight: '600' }}>
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#1976d2', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px' }}>{userInitials}</div>
+                    <button 
+                      onClick={() => setShowUserMenu(!showUserMenu)} 
+                      style={{ 
+                        background: 'none', 
+                        border: 'none', 
+                        cursor: 'pointer', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        color: '#fff', 
+                        fontWeight: '600' 
+                      }}
+                    >
+                      <div style={{ 
+                        width: '32px', 
+                        height: '32px', 
+                        borderRadius: '50%', 
+                        backgroundColor: '#1976d2', 
+                        color: '#fff', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        fontWeight: 'bold', 
+                        fontSize: '14px' 
+                      }}>
+                        {userInitials}
+                      </div>
                       <span>{user?.name || 'User'}</span>
                       <i className={`fa fa-chevron-${showUserMenu ? 'up' : 'down'}`}></i>
                     </button>
                     {showUserMenu && (
-                      <div style={{ position: 'absolute', right: 0, top: '40px', backgroundColor: '#fff', minWidth: '180px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', borderRadius: '8px', zIndex: 1000, overflow: 'hidden', border: '1px solid #eee' }}>
-                        <button onClick={handleGoToDashboard} style={{ width: '100%', padding: '12px 16px', textAlign: 'left', background: 'none', border: 'none', borderBottom: '1px solid #f5f5f5', cursor: 'pointer', fontSize: '14px', color: '#333' }}>
-                          <i className="fa fa-tachometer" style={{ marginRight: '8px' }}></i>{user?.role === 'admin' || user?.role === 'super_admin' ? 'Admin Panel' : 'My Dashboard'}
+                      <div style={{ 
+                        position: 'absolute', 
+                        right: 0, 
+                        top: '40px', 
+                        backgroundColor: '#fff', 
+                        minWidth: '180px', 
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)', 
+                        borderRadius: '8px', 
+                        zIndex: 1000, 
+                        overflow: 'hidden', 
+                        border: '1px solid #eee' 
+                      }}>
+                        <button 
+                          onClick={handleGoToDashboard} 
+                          style={{ 
+                            width: '100%', 
+                            padding: '12px 16px', 
+                            textAlign: 'left', 
+                            background: 'none', 
+                            border: 'none', 
+                            borderBottom: '1px solid #f5f5f5', 
+                            cursor: 'pointer', 
+                            fontSize: '14px', 
+                            color: '#333' 
+                          }}
+                        >
+                          <i className="fa fa-tachometer" style={{ marginRight: '8px' }}></i>
+                          {user?.role === 'admin' || user?.role === 'super_admin' ? 'Admin Panel' : 'My Dashboard'}
                         </button>
-                        <button onClick={handleLogout} style={{ width: '100%', padding: '12px 16px', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: '#d32f2f' }}>
+                        <button 
+                          onClick={handleLogout} 
+                          style={{ 
+                            width: '100%', 
+                            padding: '12px 16px', 
+                            textAlign: 'left', 
+                            background: 'none', 
+                            border: 'none', 
+                            cursor: 'pointer', 
+                            fontSize: '14px', 
+                            color: '#d32f2f' 
+                          }}
+                        >
                           <i className="fa fa-sign-out" style={{ marginRight: '8px' }}></i>Logout
                         </button>
                       </div>
                     )}
                   </div>
                 )}
-                {(showLogin || showRegister) && <div className="background-overlay" onClick={closeAll}></div>}
               </aside>
             </div>
           </div>
@@ -293,17 +313,10 @@ export default function Header() {
             <span className="icon-bar"></span>
           </div>
 
-          {/* ✅ LOGO SECTION */}
+          {/* Logo Section */}
           <div className="width-logo sm-logo" style={{ float: 'left', paddingTop: '10px' }}>
-            <Link to="/" title="Travel" rel="home" style={{ textDecoration: 'none' }}>
-              
-              {/* Text Logo (Hidden on Desktop via CSS) */}
-              <div className="mobile-logo-text" style={{ 
-                display: 'none', 
-                flexDirection: 'column', 
-                lineHeight: '1.2',
-                color: '#333'
-              }}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <div className="mobile-logo-text" style={{ display: 'none', flexDirection: 'column', lineHeight: '1.2', color: '#333' }}>
                 <span style={{ fontSize: '20px', fontWeight: '800', textTransform: 'uppercase', color: '#1976d2' }}>
                   Sharavista
                 </span>
@@ -311,8 +324,6 @@ export default function Header() {
                   TOURS & TRAVEL
                 </span>
               </div>
-
-              {/* Image Logo (Hidden on Mobile via CSS) */}
               <img 
                 className="desktop-logo-img" 
                 src="/assets/img/logo_sticky.png" 
@@ -325,13 +336,12 @@ export default function Header() {
           </div>
 
           <nav className="width-navigation">
-            {/* ✅ NAVBAR ITEMS */}
             <ul 
               className={`nav navbar-nav menu-main-menu side-nav ${mobileOpen ? 'active' : ''}`}
               id="mobile-demo" 
               ref={mobileDrawerRef}
             >
-              {/* 1. TOP: User Profile Section (Mobile Only) */}
+              {/* User Profile Section (Mobile Only) */}
               <li className="mobile-only-section" style={{ 
                 padding: '20px 15px', 
                 backgroundColor: '#f8f9fa', 
@@ -340,10 +350,23 @@ export default function Header() {
               }}>
                 {isAuthenticated ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#1976d2', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '20px' }}>{userInitials}</div>
+                    <div style={{ 
+                      width: '50px', 
+                      height: '50px', 
+                      borderRadius: '50%', 
+                      backgroundColor: '#1976d2', 
+                      color: '#fff', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      fontWeight: 'bold', 
+                      fontSize: '20px' 
+                    }}>
+                      {userInitials}
+                    </div>
                     <div style={{ overflow: 'hidden' }}>
                       <div style={{ fontWeight: '700', color: '#333', fontSize: '16px' }}>{user?.name}</div>
-                      <div style={{ fontSize: '13px', color: '#666', textTransform: 'capitalize' }}>{user?.role.replace('_', ' ')}</div>
+                      <div style={{ fontSize: '13px', color: '#666', textTransform: 'capitalize' }}>{user?.role?.replace('_', ' ')}</div>
                     </div>
                   </div>
                 ) : (
@@ -354,7 +377,7 @@ export default function Header() {
                 )}
               </li>
 
-              {/* ✅ NAVIGATION LINKS (Visible on BOTH Mobile and Desktop) */}
+              {/* Navigation Links */}
               <li><Link to="/" onClick={closeMobileDrawer}>Home</Link></li>
               <li><Link to="/tours" onClick={closeMobileDrawer}>Tours</Link></li>
               <li><Link to="/destinations" onClick={closeMobileDrawer}>Destinations</Link></li>
@@ -363,7 +386,7 @@ export default function Header() {
               <li><Link to="/about" onClick={closeMobileDrawer}>About Us</Link></li>
               <li><Link to="/contact" onClick={closeMobileDrawer}>Contact</Link></li>
 
-              {/* 3. BOTTOM: Auth Actions (Mobile Only) */}
+              {/* Auth Actions (Mobile Only) - Hidden/Shown based on isAuthenticated */}
               <li className="mobile-only-section" style={{ 
                 padding: '15px', 
                 borderTop: '1px solid #eee', 
@@ -372,13 +395,77 @@ export default function Header() {
               }}>
                 {isAuthenticated ? (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <button onClick={handleGoToDashboard} style={{ width: '100%', padding: '12px', backgroundColor: '#1976d2', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>My Dashboard</button>
-                    <button onClick={handleLogout} style={{ width: '100%', padding: '12px', backgroundColor: '#fff', color: '#d32f2f', border: '1px solid #d32f2f', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Sign Out</button>
+                    <button 
+                      onClick={handleGoToDashboard} 
+                      style={{ 
+                        width: '100%', 
+                        padding: '12px', 
+                        backgroundColor: '#1976d2', 
+                        color: '#fff', 
+                        border: 'none', 
+                        borderRadius: '6px', 
+                        fontWeight: '600', 
+                        cursor: 'pointer' 
+                      }}
+                    >
+                      My Dashboard
+                    </button>
+                    <button 
+                      onClick={handleLogout} 
+                      style={{ 
+                        width: '100%', 
+                        padding: '12px', 
+                        backgroundColor: '#fff', 
+                        color: '#d32f2f', 
+                        border: '1px solid #d32f2f', 
+                        borderRadius: '6px', 
+                        fontWeight: '600', 
+                        cursor: 'pointer' 
+                      }}
+                    >
+                      Sign Out
+                    </button>
                   </div>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <button onClick={openLogin} style={{ width: '100%', padding: '12px', backgroundColor: '#1976d2', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Login</button>
-                    <button onClick={openRegister} style={{ width: '100%', padding: '12px', backgroundColor: '#fff', color: '#1976d2', border: '1px solid #1976d2', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}>Register</button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                    <Link 
+                      to="/auth/login" 
+                      onClick={closeMobileDrawer}
+                      style={{ 
+                        display: 'block',
+                        width: '100%', 
+                        padding: '12px', 
+                        backgroundColor: '#1976d2', 
+                        color: '#fff', 
+                        border: 'none', 
+                        borderRadius: '6px', 
+                        fontWeight: '600', 
+                        cursor: 'pointer',
+                        textAlign: 'center',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      Login
+                    </Link>
+                    <Link 
+                      to="/auth/register" 
+                      onClick={closeMobileDrawer}
+                      style={{ 
+                        display: 'block',
+                        width: '100%', 
+                        padding: '12px', 
+                        backgroundColor: '#fff', 
+                        color: '#1976d2', 
+                        border: '1px solid #1976d2', 
+                        borderRadius: '6px', 
+                        fontWeight: '600', 
+                        cursor: 'pointer',
+                        textAlign: 'center',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      Register
+                    </Link>
                   </div>
                 )}
               </li>
@@ -387,28 +474,21 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Modals */}
-      {showLogin && (
-        <div className="form_popup from_login active" tabIndex="-1" ref={loginModalRef} style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="inner-form" style={{ background: '#fff', padding: '30px', borderRadius: '8px', width: '90%', maxWidth: '400px', position: 'relative' }}>
-            <div className="closeicon" onClick={closeAll} style={{ position: 'absolute', top: '10px', right: '15px', cursor: 'pointer', fontSize: '24px' }}>&times;</div>
-            <Login />
-          </div>
-        </div>
-      )}
-      {showRegister && (
-        <div className="form_popup from_register active" tabIndex="-1" ref={registerModalRef} style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div className="inner-form" style={{ background: '#fff', padding: '30px', borderRadius: '8px', width: '90%', maxWidth: '400px', position: 'relative' }}>
-            <div className="closeicon" onClick={closeAll} style={{ position: 'absolute', top: '10px', right: '15px', cursor: 'pointer', fontSize: '24px' }}>&times;</div>
-            <Register />
-          </div>
-        </div>
-      )}
-      
-      {/* Overlay for Mobile Drawer */}
-      {mobileOpen && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9998 }} onClick={closeMobileDrawer}></div>
-      )}
+      {/* ✅ GLOBAL LOGIN MESSAGE SNACKBAR - No Timeouts */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert 
+          severity={loginMessageSeverity || 'info'} 
+          onClose={handleSnackbarClose}
+          sx={{ width: '100%' }}
+        >
+          {loginMessage}
+        </Alert>
+      </Snackbar>
     </header>
   );
 }

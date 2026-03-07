@@ -27,7 +27,7 @@ router.post('/mpesa/callback',
   mpesaCallback
 );
 
-router.post('/mpesa/c2b/validation', 
+router.post('/c2b/validation', 
   express.raw({ type: 'application/json', limit: '1mb' }),
   (req, res, next) => {
     req.rawBody = req.body;
@@ -41,7 +41,7 @@ router.post('/mpesa/c2b/validation',
   c2bValidation
 );
 
-router.post('/mpesa/c2b/confirmation', 
+router.post('/c2b/confirmation', 
   express.raw({ type: 'application/json', limit: '1mb' }),
   (req, res, next) => {
     req.rawBody = req.body;

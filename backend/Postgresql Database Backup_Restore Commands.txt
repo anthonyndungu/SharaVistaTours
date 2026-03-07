@@ -1,0 +1,5 @@
+pg_dump -h 158.220.127.231 -U postgres -v MogulHMISDB > E:\ReactJsProjects\MogulMedCareHMIS\backend\db\MogulHMISDB_backup.sql
+
+
+psql -h 158.220.127.231 -U postgres -d MogulHMISDB < "E:\ReactJsProjects\MogulMedCareHMIS\backend\db\MogulHMISDB_backup.sql"
+

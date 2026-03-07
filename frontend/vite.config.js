@@ -11,15 +11,18 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: '',
+        target: 'https://tours.mogulafric.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
        //Image Uploads
       '/uploads': {
-        target: 'http://localhost:5000',
+        target: 'https://tours.mogulafric.com',
         changeOrigin: true,
       }
     }
+  },
+    define: {
+    'import.meta.env.VITE_API_BASE_URL': JSON.stringify('https://tours.mogulafric.com/api'),
   }
 })
