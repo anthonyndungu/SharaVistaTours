@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, clearAuthState, clearLoginMessage } from '../features/auth/authSlice';
 import { Snackbar, Alert } from '@mui/material';
 
 export default function Header() {
   const dispatch = useDispatch();
-  // ✅ Removed navigate import since we aren't redirecting here
+  const navigate = useNavigate();
 
   const { isAuthenticated, user, loginMessage, loginMessageSeverity } = useSelector((state) => state.auth);
   
@@ -20,20 +20,28 @@ export default function Header() {
   const toggleMobileDrawer = () => setMobileOpen(!mobileOpen);
   const closeMobileDrawer = () => setMobileOpen(false);
 
-  // ✅ Logout: Only clears state, NO redirect
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearAuthState());
     setShowUserMenu(false);
     closeMobileDrawer();
-    // No navigate('/') here
+    navigate('/');
   };
 
-  // ✅ Dashboard Click: Only closes menu, NO redirect
   const handleGoToDashboard = () => {
     setShowUserMenu(false);
     closeMobileDrawer();
-    // No navigate logic here
+    
+    if (!isAuthenticated || !user) {
+      navigate('/auth/login');
+      return;
+    }
+
+    if (user.role === 'admin' || user.role === 'super_admin') {
+      navigate('/admin', { replace: true });
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
   };
 
   // Click outside handler
@@ -79,7 +87,7 @@ export default function Header() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
-  // ✅ Snackbar Logic: No timeouts, no session storage
+  // ✅ Snackbar Logic
   useEffect(() => {
     if (loginMessage) {
       setSnackbarOpen(true);
@@ -93,7 +101,6 @@ export default function Header() {
       return;
     }
     setSnackbarOpen(false);
-    // Clear message immediately upon closing
     dispatch(clearLoginMessage());
   };
 
@@ -102,6 +109,7 @@ export default function Header() {
   return (
     <header id="masthead" className="site-header sticky_header affix-top">
       <style>{`
+        /* Logo Visibility */
         @media (max-width: 991px) {
           .desktop-logo-img { display: none !important; }
           .mobile-logo-text { display: flex !important; }
@@ -111,6 +119,7 @@ export default function Header() {
           .mobile-logo-text { display: none !important; }
         }
 
+        /* ✅ MOBILE DRAWER - NATURAL SCROLL FIX */
         @media (max-width: 991px) {
           #mobile-demo {
             position: fixed !important;
@@ -121,12 +130,18 @@ export default function Header() {
             background-color: #ffffff !important;
             z-index: 999999 !important;
             box-shadow: 2px 0 10px rgba(0,0,0,0.3) !important;
-            overflow-y: auto !important;
+            
             display: flex !important;
             flex-direction: column !important;
+            
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch !important;
+            
             padding: 0 !important;
             margin: 0 !important;
             list-style: none !important;
+            
             transform: translateX(-100%) !important;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             visibility: hidden !important;
@@ -135,26 +150,108 @@ export default function Header() {
 
           #mobile-demo.active,
           #mobile-demo.in,
-          #mobile-demo.show,
-          #mobile-demo.collapsing {
+          #mobile-demo.show {
             transform: translateX(0) !important;
             visibility: visible !important;
             opacity: 1 !important;
-            display: flex !important;
           }
 
           #mobile-demo li {
             display: block !important;
             width: 100% !important;
             border-bottom: 1px solid #f0f0f0 !important;
+            flex-shrink: 0;
           }
           
-          #mobile-demo li a {
+          #mobile-demo li a, 
+          #mobile-demo li button {
             display: block !important;
             padding: 15px 20px !important;
             color: #333 !important;
             text-decoration: none !important;
             font-weight: 500 !important;
+            width: 100% !important;
+            text-align: left !important;
+            background: none !important;
+            border: none !important;
+            font-size: 15px !important;
+            cursor: pointer !important;
+          }
+
+          /* ✅ User Profile (Top) */
+          .mobile-user-profile {
+            background-color: #1976d2 !important;
+            color: #ffffff !important;
+            border-bottom: 1px solid #1565c0 !important;
+            padding: 20px 15px !important;
+            flex-shrink: 0 !important;
+          }
+          .mobile-user-profile * {
+            color: #ffffff !important;
+          }
+
+          /* ✅ Auth Actions (Bottom of List - NOT Fixed) */
+          .mobile-auth-actions {
+            border-top: 1px solid #eee !important;
+            background-color: #fff !important;
+            padding: 20px 15px !important;
+            /* REMOVED: margin-top: auto (This was fixing it to bottom) */
+            flex-shrink: 0 !important;
+            
+            /* CRITICAL: Extra padding at bottom so last item isn't hidden by gesture bar */
+            padding-bottom: 60px !important; 
+            width: 100% !important;
+            box-sizing: border-box !important;
+            
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+
+          /* Professional Button Styles */
+          .mobile-auth-actions .btn-professional {
+            display: block !important;
+            width: 100% !important;
+            padding: 14px 20px !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            text-align: center !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+            border: 2px solid transparent !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+          }
+
+          .btn-primary-blue {
+            background-color: #1976d2 !important;
+            color: #ffffff !important;
+          }
+          .btn-primary-blue:hover {
+            background-color: #1565c0 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3) !important;
+          }
+
+          .btn-secondary-blue {
+            background-color: #ffffff !important;
+            color: #1976d2 !important;
+            border-color: #1976d2 !important;
+          }
+          .btn-secondary-blue:hover {
+            background-color: #e3f2fd !important;
+            transform: translateY(-1px);
+          }
+
+          .btn-danger-outline {
+            background-color: #ffffff !important;
+            color: #d32f2f !important;
+            border-color: #d32f2f !important;
+          }
+          .btn-danger-outline:hover {
+            background-color: #ffebee !important;
+            transform: translateY(-1px);
           }
 
           .mobile-only-section {
@@ -194,98 +291,33 @@ export default function Header() {
                 </div>
               </aside>
 
-              {/* ✅ Desktop Auth: Hidden/Shown based on isAuthenticated */}
+              {/* Desktop Auth */}
               <aside id="travel_login_register_from-2" className="widget widget_login_form hidden-xs">
                 {!isAuthenticated ? (
                   <>
-                    <Link 
-                      to="/auth/login" 
-                      style={{ cursor: 'pointer', color: '#fff', textDecoration: 'none', marginRight: '15px' }}
-                    >
+                    <Link to="/auth/login" style={{ cursor: 'pointer', color: '#fff', textDecoration: 'none', marginRight: '15px' }}>
                       <i className="fa fa-user"></i> Login
                     </Link>
-                    <Link 
-                      to="/auth/register" 
-                      style={{ cursor: 'pointer', color: '#fff', textDecoration: 'none' }}
-                    >
+                    <Link to="/auth/register" style={{ cursor: 'pointer', color: '#fff', textDecoration: 'none' }}>
                       Register
                     </Link>
                   </>
                 ) : (
                   <div className="user-dropdown-container" style={{ position: 'relative', display: 'inline-block' }} ref={userMenuRef}>
-                    <button 
-                      onClick={() => setShowUserMenu(!showUserMenu)} 
-                      style={{ 
-                        background: 'none', 
-                        border: 'none', 
-                        cursor: 'pointer', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '8px', 
-                        color: '#fff', 
-                        fontWeight: '600' 
-                      }}
-                    >
-                      <div style={{ 
-                        width: '32px', 
-                        height: '32px', 
-                        borderRadius: '50%', 
-                        backgroundColor: '#1976d2', 
-                        color: '#fff', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center', 
-                        fontWeight: 'bold', 
-                        fontSize: '14px' 
-                      }}>
+                    <button onClick={() => setShowUserMenu(!showUserMenu)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', fontWeight: '600' }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#fff', color: '#1976d2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '14px' }}>
                         {userInitials}
                       </div>
                       <span>{user?.name || 'User'}</span>
                       <i className={`fa fa-chevron-${showUserMenu ? 'up' : 'down'}`}></i>
                     </button>
                     {showUserMenu && (
-                      <div style={{ 
-                        position: 'absolute', 
-                        right: 0, 
-                        top: '40px', 
-                        backgroundColor: '#fff', 
-                        minWidth: '180px', 
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)', 
-                        borderRadius: '8px', 
-                        zIndex: 1000, 
-                        overflow: 'hidden', 
-                        border: '1px solid #eee' 
-                      }}>
-                        <button 
-                          onClick={handleGoToDashboard} 
-                          style={{ 
-                            width: '100%', 
-                            padding: '12px 16px', 
-                            textAlign: 'left', 
-                            background: 'none', 
-                            border: 'none', 
-                            borderBottom: '1px solid #f5f5f5', 
-                            cursor: 'pointer', 
-                            fontSize: '14px', 
-                            color: '#333' 
-                          }}
-                        >
+                      <div style={{ position: 'absolute', right: 0, top: '40px', backgroundColor: '#fff', minWidth: '180px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', borderRadius: '8px', zIndex: 1000, overflow: 'hidden', border: '1px solid #eee' }}>
+                        <button onClick={handleGoToDashboard} style={{ width: '100%', padding: '12px 16px', textAlign: 'left', background: 'none', border: 'none', borderBottom: '1px solid #f5f5f5', cursor: 'pointer', fontSize: '14px', color: '#333' }}>
                           <i className="fa fa-tachometer" style={{ marginRight: '8px' }}></i>
                           {user?.role === 'admin' || user?.role === 'super_admin' ? 'Admin Panel' : 'My Dashboard'}
                         </button>
-                        <button 
-                          onClick={handleLogout} 
-                          style={{ 
-                            width: '100%', 
-                            padding: '12px 16px', 
-                            textAlign: 'left', 
-                            background: 'none', 
-                            border: 'none', 
-                            cursor: 'pointer', 
-                            fontSize: '14px', 
-                            color: '#d32f2f' 
-                          }}
-                        >
+                        <button onClick={handleLogout} style={{ width: '100%', padding: '12px 16px', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: '#d32f2f' }}>
                           <i className="fa fa-sign-out" style={{ marginRight: '8px' }}></i>Logout
                         </button>
                       </div>
@@ -317,21 +349,10 @@ export default function Header() {
           <div className="width-logo sm-logo" style={{ float: 'left', paddingTop: '10px' }}>
             <Link to="/" style={{ textDecoration: 'none' }}>
               <div className="mobile-logo-text" style={{ display: 'none', flexDirection: 'column', lineHeight: '1.2', color: '#333' }}>
-                <span style={{ fontSize: '20px', fontWeight: '800', textTransform: 'uppercase', color: '#1976d2' }}>
-                  Sharavista
-                </span>
-                <span style={{ fontSize: '12px', fontWeight: '600', letterSpacing: '1px', color: '#555' }}>
-                  TOURS & TRAVEL
-                </span>
+                <span style={{ fontSize: '20px', fontWeight: '800', textTransform: 'uppercase', color: '#1976d2' }}>Sharavista</span>
+                <span style={{ fontSize: '12px', fontWeight: '600', letterSpacing: '1px', color: '#555' }}>TOURS & TRAVEL</span>
               </div>
-              <img 
-                className="desktop-logo-img" 
-                src="/assets/img/logo_sticky.png" 
-                alt="Logo" 
-                width="100" 
-                height="10" 
-                style={{ display: 'block' }}
-              />
+              <img className="desktop-logo-img" src="/assets/img/logo_sticky.png" alt="Logo" width="100" height="10" style={{ display: 'block' }} />
             </Link>
           </div>
 
@@ -341,43 +362,39 @@ export default function Header() {
               id="mobile-demo" 
               ref={mobileDrawerRef}
             >
-              {/* User Profile Section (Mobile Only) */}
-              <li className="mobile-only-section" style={{ 
-                padding: '20px 15px', 
-                backgroundColor: '#f8f9fa', 
-                borderBottom: '1px solid #eee',
-                marginBottom: '10px'
-              }}>
+              {/* ✅ 1. User Profile (Always Top) */}
+              <li className="mobile-only-section mobile-user-profile">
                 {isAuthenticated ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ 
                       width: '50px', 
                       height: '50px', 
                       borderRadius: '50%', 
-                      backgroundColor: '#1976d2', 
-                      color: '#fff', 
+                      backgroundColor: '#ffffff', 
+                      color: '#1976d2',
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center', 
                       fontWeight: 'bold', 
-                      fontSize: '20px' 
+                      fontSize: '22px',
+                      flexShrink: 0
                     }}>
                       {userInitials}
                     </div>
                     <div style={{ overflow: 'hidden' }}>
-                      <div style={{ fontWeight: '700', color: '#333', fontSize: '16px' }}>{user?.name}</div>
-                      <div style={{ fontSize: '13px', color: '#666', textTransform: 'capitalize' }}>{user?.role?.replace('_', ' ')}</div>
+                      <div style={{ fontWeight: '700', fontSize: '16px' }}>{user?.name}</div>
+                      <div style={{ fontSize: '13px', opacity: 0.9, textTransform: 'capitalize' }}>{user?.role?.replace('_', ' ')}</div>
                     </div>
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center', padding: '10px 0' }}>
-                    <div style={{ fontWeight: '700', color: '#333', fontSize: '18px' }}>Welcome</div>
-                    <div style={{ fontSize: '13px', color: '#666' }}>Please login to continue</div>
+                    <div style={{ fontWeight: '700', fontSize: '18px' }}>Welcome</div>
+                    <div style={{ fontSize: '13px', opacity: 0.9 }}>Please login to continue</div>
                   </div>
                 )}
               </li>
 
-              {/* Navigation Links */}
+              {/* ✅ 2. Navigation Links (Middle) */}
               <li><Link to="/" onClick={closeMobileDrawer}>Home</Link></li>
               <li><Link to="/tours" onClick={closeMobileDrawer}>Tours</Link></li>
               <li><Link to="/destinations" onClick={closeMobileDrawer}>Destinations</Link></li>
@@ -386,87 +403,40 @@ export default function Header() {
               <li><Link to="/about" onClick={closeMobileDrawer}>About Us</Link></li>
               <li><Link to="/contact" onClick={closeMobileDrawer}>Contact</Link></li>
 
-              {/* Auth Actions (Mobile Only) - Hidden/Shown based on isAuthenticated */}
-              <li className="mobile-only-section" style={{ 
-                padding: '15px', 
-                borderTop: '1px solid #eee', 
-                backgroundColor: '#fff', 
-                marginTop: 'auto'
-              }}>
+              {/* ✅ 3. Auth Actions (End of List - Scrollable) */}
+              <li className="mobile-only-section mobile-auth-actions" style={{marginTop:"20px !important"}}>
                 {isAuthenticated ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <>
                     <button 
                       onClick={handleGoToDashboard} 
-                      style={{ 
-                        width: '100%', 
-                        padding: '12px', 
-                        backgroundColor: '#1976d2', 
-                        color: '#fff', 
-                        border: 'none', 
-                        borderRadius: '6px', 
-                        fontWeight: '600', 
-                        cursor: 'pointer' 
-                      }}
+                      className="btn-professional btn-primary-blue"
                     >
                       My Dashboard
                     </button>
                     <button 
                       onClick={handleLogout} 
-                      style={{ 
-                        width: '100%', 
-                        padding: '12px', 
-                        backgroundColor: '#fff', 
-                        color: '#d32f2f', 
-                        border: '1px solid #d32f2f', 
-                        borderRadius: '6px', 
-                        fontWeight: '600', 
-                        cursor: 'pointer' 
-                      }}
+                      className="btn-professional btn-danger-outline"
                     >
                       Sign Out
                     </button>
-                  </div>
+                  </>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                  <>
                     <Link 
                       to="/auth/login" 
                       onClick={closeMobileDrawer}
-                      style={{ 
-                        display: 'block',
-                        width: '100%', 
-                        padding: '12px', 
-                        backgroundColor: '#1976d2', 
-                        color: '#fff', 
-                        border: 'none', 
-                        borderRadius: '6px', 
-                        fontWeight: '600', 
-                        cursor: 'pointer',
-                        textAlign: 'center',
-                        textDecoration: 'none'
-                      }}
+                      className="btn-professional btn-primary-blue"
                     >
                       Login
                     </Link>
                     <Link 
                       to="/auth/register" 
                       onClick={closeMobileDrawer}
-                      style={{ 
-                        display: 'block',
-                        width: '100%', 
-                        padding: '12px', 
-                        backgroundColor: '#fff', 
-                        color: '#1976d2', 
-                        border: '1px solid #1976d2', 
-                        borderRadius: '6px', 
-                        fontWeight: '600', 
-                        cursor: 'pointer',
-                        textAlign: 'center',
-                        textDecoration: 'none'
-                      }}
+                      className="btn-professional btn-secondary-blue"
                     >
                       Register
                     </Link>
-                  </div>
+                  </>
                 )}
               </li>
             </ul>
@@ -474,18 +444,14 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ✅ GLOBAL LOGIN MESSAGE SNACKBAR - No Timeouts */}
+      {/* GLOBAL LOGIN MESSAGE SNACKBAR */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert 
-          severity={loginMessageSeverity || 'info'} 
-          onClose={handleSnackbarClose}
-          sx={{ width: '100%' }}
-        >
+        <Alert severity={loginMessageSeverity || 'info'} onClose={handleSnackbarClose} sx={{ width: '100%' }}>
           {loginMessage}
         </Alert>
       </Snackbar>
