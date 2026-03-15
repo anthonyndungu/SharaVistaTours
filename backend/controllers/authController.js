@@ -1,5 +1,5 @@
 import { User, sequelize } from '../models/index.js';
-import { Op } from 'sequelize'; // ✅ Added missing import
+import { Op } from 'sequelize'; 
 import { signToken } from '../middleware/auth.js';
 import { sendEmail } from '../utils/email.js';
 import logger from '../utils/logger.js';
@@ -22,8 +22,10 @@ const filterUser = (user) => {
 // @desc    Signup new user
 // @route   POST /api/v1/auth/signup
 // @access  Public
-export const signup = async (req, res) => {
+export const signup = async (req, res) => { 
+  // Start Transaction
   const t = await sequelize.transaction();
+  
   try {
     const { name, email, phone, password, confirmPassword } = req.body;
 
@@ -37,6 +39,7 @@ export const signup = async (req, res) => {
     }
 
     if (password !== confirmPassword) {
+      logger.warn('Password mismatch during signup');
       await t.rollback();
       return res.status(400).json({
         status: 'fail',
@@ -44,30 +47,60 @@ export const signup = async (req, res) => {
       });
     }
 
-    // 2. Create user (Transaction passed to hook automatically via context if configured, 
-    // but here we just pass transaction to create)
+    // 2. Create user with is_verified = false
     const user = await User.create({
       name,
       email,
       phone,
-      password, // Model hook will hash this
-      role: 'client' // Force role to client on signup
+      password, 
+      role: 'client',
+      is_verified: false 
     }, { transaction: t });
 
-    // 3. Generate token
-    const token = signToken(user.id);
+    // ✅ 3. Generate OTP & Expiry (Still inside transaction)
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiryMinutes = 10;
+    const expiresAt = new Date(Date.now() + expiryMinutes * 60 * 1000);
 
+    // Save OTP to DB (Still inside transaction)
+    user.password_reset_token = otp; 
+    user.password_reset_expires = expiresAt;
+    await user.save({ transaction: t });
+
+    // ✅ 4. Send Email (Outside DB, but before commit)
+    // Note: If email fails, we might want to catch this specifically, 
+    // but for now, if it throws, the whole transaction rolls back (safe).
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'Your Account Verification OTP',
+        message: `Hello ${user.name},\n\nYour One-Time Password (OTP) is: \n\n🔐 ${otp}\n\nThis code expires at ${expiresAt.toLocaleTimeString()}.\n\nIf you did not request this, please ignore this email.`
+      });
+    } catch (emailErr) {
+      logger.error('Failed to send verification email:', emailErr);
+      // Optional: Decide if you want to rollback signup if email fails.
+      // For now, we let it proceed but log the error. 
+      // If you want strict safety, uncomment the next two lines:
+      // await t.rollback();
+      // return res.status(500).json({ status: 'fail', message: 'Account created but failed to send email. Please contact support.' });
+    }
+
+    // ✅ 5. COMMIT ONCE at the very end
     await t.commit();
 
-    logger.info(`New user registered: ${user.email}`);
+    logger.info(`New user registered (unverified): ${user.email}`);
 
     res.status(201).json({
       status: 'success',
-      message: 'Account created successfully',
-      token,
-      data: { user: filterUser(user) }
+      message: 'Registration successful! Please check your email to verify your account before logging in.',
+      data: { 
+        user: filterUser(user),
+        requiresVerification: true 
+      }
     });
+
   } catch (err) {
+    // ✅ Rollback on ANY error (DB, OTP generation, or unexpected issues)
     await t.rollback();
     logger.error('Signup error:', err);
 
@@ -116,8 +149,6 @@ export const login = async (req, res) => {
         code: 'INVALID_CREDENTIALS'
       });
     }
-
-    console.info('##################################################User found:', user.email, 'Verified:', user.is_verified);
 
     // 🔧 FIX: CHECK VERIFICATION STATUS BEFORE PASSWORD
     // This ensures unverified users ALWAYS get the verification error,

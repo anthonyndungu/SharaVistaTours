@@ -190,16 +190,17 @@ export default function Header() {
             color: #ffffff !important;
           }
 
-          /* ✅ Auth Actions (Bottom of List - NOT Fixed) */
+          /*Auth Actions (Bottom of List - NOT Fixed) */
           .mobile-auth-actions {
-            border-top: 1px solid #eee !important;
+            border-top: 1px solid #1976d2 !important;
             background-color: #fff !important;
-            padding: 20px 15px !important;
+            padding: 10px 15px !important;
+            margin-top:40px;
             /* REMOVED: margin-top: auto (This was fixing it to bottom) */
             flex-shrink: 0 !important;
             
             /* CRITICAL: Extra padding at bottom so last item isn't hidden by gesture bar */
-            padding-bottom: 60px !important; 
+            padding-bottom: 40px !important; 
             width: 100% !important;
             box-sizing: border-box !important;
             
@@ -212,7 +213,7 @@ export default function Header() {
           .mobile-auth-actions .btn-professional {
             display: block !important;
             width: 100% !important;
-            padding: 14px 20px !important;
+            padding: 14px 10px !important;
             border-radius: 8px !important;
             font-weight: 700 !important;
             font-size: 15px !important;
@@ -404,7 +405,7 @@ export default function Header() {
               <li><Link to="/contact" onClick={closeMobileDrawer}>Contact</Link></li>
 
               {/* ✅ 3. Auth Actions (End of List - Scrollable) */}
-              <li className="mobile-only-section mobile-auth-actions" style={{marginTop:"20px !important"}}>
+              <li className="mobile-only-section mobile-auth-actions" style={{marginTop:"60px !important"}}>
                 {isAuthenticated ? (
                   <>
                     <button 
