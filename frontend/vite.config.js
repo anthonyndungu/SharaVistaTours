@@ -11,13 +11,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://tours.mogulafric.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
        //Image Uploads
       '/uploads': {
-        target: 'http://localhost:5000',
+        target: 'https://tours.mogulafric.com',
         changeOrigin: true,
       }
     }

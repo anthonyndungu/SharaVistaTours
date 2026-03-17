@@ -1138,7 +1138,7 @@ export const forgotPassword = async (req, res) => {
 // @route   PATCH /api/v1/auth/reset-password/:token
 // @access  Public
 export const resetPassword = async (req, res) => {
-  console.log('55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Reset password endpoint hit', req.params.token, req.body.password, req.body.confirmPassword);
+
   const t = await sequelize.transaction();
   try {
     const hashedToken = crypto

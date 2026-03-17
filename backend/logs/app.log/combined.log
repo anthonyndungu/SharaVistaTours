@@ -781,3 +781,141 @@
 2026-03-17 19:57:07:577 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
 2026-03-17 19:57:07:577 [32minfo[39m: [32mReturning 7 packages[39m
 2026-03-17 19:57:07:577 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 19:57:24:5724 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 19:57:54:5754 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 19:58:13:5813 [37mdebug[39m: [37mConnection closed. Active: 0[39m
+2026-03-17 19:58:24:5824 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 19:58:54:5854 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 19:59:24:5924 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 19:59:54:5954 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:00:24:024 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:00:45:045 [37mdebug[39m: [37mNew connection. Active: 1[39m
+2026-03-17 20:00:45:045 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:00:45:045 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:00:45:045 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:00:45:045 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:00:45:045 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:00:45:045 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:00:45:045 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:00:45:045 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:00:54:054 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:01:24:124 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:01:51:151 [37mdebug[39m: [37mConnection closed. Active: 0[39m
+2026-03-17 20:01:54:154 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:02:24:224 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:02:54:254 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:03:24:324 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:03:54:354 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37mNew connection. Active: 1[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:03:57:357 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:03:57:357 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:04:24:424 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:04:54:454 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:05:04:54 [37mdebug[39m: [37mConnection closed. Active: 0[39m
+2026-03-17 20:05:24:524 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:05:54:554 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:06:24:624 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:06:54:654 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:07:10:710 [37mdebug[39m: [37mNew connection. Active: 1[39m
+2026-03-17 20:07:10:710 [37mdebug[39m: [37mNew connection. Active: 2[39m
+2026-03-17 20:07:18:718 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-03-17 20:07:18:718 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:07:24:724 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:07:30:730 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:07:30:730 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:07:31:731 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:07:31:731 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:07:31:731 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:07:31:731 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:07:31:731 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:07:31:731 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:07:49:749 [32minfo[39m: [32mPassword reset for user: anthonyndungu069@gmail.com[39m
+2026-03-17 20:07:49:749 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:07:54:754 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:08:04:84 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:08:10:810 [32minfo[39m: [32m🔴 Cache invalidated: user:profile:a76c1915-161b-490d-aa27-94e8ded2319b[39m
+2026-03-17 20:08:10:810 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-03-17 20:08:10:810 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:08:11:811 [37mdebug[39m: [37m🟡 Cache MISS: bookings:user:a76c1915-161b-490d-aa27-94e8ded2319b:{}. Fetching from DB...[39m
+2026-03-17 20:08:11:811 [37mdebug[39m: [37mCache MISS for bookings:user:a76c1915-161b-490d-aa27-94e8ded2319b:{}. Fetching from DB...[39m
+2026-03-17 20:08:11:811 [37mdebug[39m: [37m💾 Cached data for: bookings:user:a76c1915-161b-490d-aa27-94e8ded2319b:{} (TTL: 300s)[39m
+2026-03-17 20:08:11:811 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:08:12:812 [37mdebug[39m: [37m🟢 Cache HIT: bookings:user:a76c1915-161b-490d-aa27-94e8ded2319b:{}[39m
+2026-03-17 20:08:12:812 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:08:17:817 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:08:17:817 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:08:17:817 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:08:17:817 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:08:17:817 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:08:17:817 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:08:17:817 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:08:18:818 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:08:24:824 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:08:54:854 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:09:17:917 [37mdebug[39m: [37mConnection closed. Active: 1[39m
+2026-03-17 20:09:24:924 [37mdebug[39m: [37mConnection closed. Active: 0[39m
+2026-03-17 20:09:24:924 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:09:28:928 [37mdebug[39m: [37mNew connection. Active: 1[39m
+2026-03-17 20:09:28:928 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:09:28:928 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:09:28:928 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:09:28:928 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:09:28:928 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:09:28:928 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:09:28:928 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:09:28:928 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:09:54:954 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:10:12:1012 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:10:12:1012 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:10:12:1012 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:10:12:1012 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:10:12:1012 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-17 20:10:12:1012 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-17 20:10:12:1012 [32minfo[39m: [32mReturning 7 packages[39m
+2026-03-17 20:10:12:1012 [32minfo[39m: [32mRequest completed[39m
+2026-03-17 20:10:24:1024 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:10:54:1054 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:11:19:1119 [37mdebug[39m: [37mConnection closed. Active: 0[39m
+2026-03-17 20:11:24:1124 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:11:54:1154 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:12:24:1224 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:12:54:1254 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:13:24:1324 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:13:54:1354 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:14:24:1424 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:14:54:1454 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:15:24:1524 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:15:54:1554 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:16:24:1624 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:16:54:1654 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:17:24:1724 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:17:54:1754 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:18:24:1824 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:18:54:1854 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:19:24:1924 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:19:54:1954 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:20:24:2024 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:20:54:2054 [37mdebug[39m: [37mDatabase pool status[39m
+2026-03-17 20:21:24:2124 [37mdebug[39m: [37mDatabase pool status[39m
