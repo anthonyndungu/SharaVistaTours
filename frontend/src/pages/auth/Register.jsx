@@ -148,7 +148,7 @@ export default function Register() {
     <Box sx={{
       position: 'relative',
       width: '100%',
-      minHeight: '120vh',
+      minHeight: '130vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

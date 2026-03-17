@@ -197,6 +197,7 @@ import VerifyOTP from './pages/auth/VerifyOTP';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ResetPassword from './pages/auth/ResetPassword';
 
 function App() {
   const dispatch = useDispatch();
@@ -230,6 +231,7 @@ function App() {
         <Route path="auth/register" element={<Register />} />
         <Route path="auth/verify-otp" element={<VerifyOTP />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="auth/reset-password/:token" element={<ResetPassword />} />
       </Route>
 
       {/* 👤 CLIENT DASHBOARD (No Protection Logic Here) */}

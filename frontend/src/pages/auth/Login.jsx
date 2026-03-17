@@ -138,7 +138,7 @@ export default function Login() {
   };
 
   return (
-    <Box sx={{ minHeight: '120vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#f5f5f5' }}>
+    <Box sx={{ minHeight: '110vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#f5f5f5' }}>
 
       <Paper elevation={3} sx={{ maxWidth: 400, width: '100%', mx: 2, p: 4, borderRadius: 2 }}>
         <Typography variant="h4" sx={{ textAlign: 'center', mb: 3, color: '#1976d2', fontWeight: 700 }}>Login</Typography>

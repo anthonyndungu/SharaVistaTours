@@ -1,5 +1,3 @@
-
-// // src/features/payments/paymentSlice.js
 // import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // import api from '../../services/api';
 
@@ -7,7 +5,7 @@
 // // Async Thunks
 // // ===========================
 
-// // ✅ Existing: Create MPESA Payment (enhanced return handling)
+// // ✅ Existing: Create MPESA Payment (STK Push)
 // export const createMPESAPayment = createAsyncThunk(
 //   'payments/createMPESA',
 //   async (paymentData, { rejectWithValue }) => {
@@ -16,7 +14,6 @@
 //       return {
 //         ...response.data,
 //         method: 'mpesa',
-//         // Extract useful fields for frontend
 //         checkoutRequestId: response.data.data?.checkoutRequestId,
 //         customerMessage: response.data.data?.customerMessage,
 //       };
@@ -26,7 +23,7 @@
 //   }
 // );
 
-// // ✅ Existing: Create Card Payment (enhanced for Stripe Elements)
+// // ✅ Existing: Create Card Payment (Stripe)
 // export const createCardPayment = createAsyncThunk(
 //   'payments/createCard',
 //   async (paymentData, { rejectWithValue }) => {
@@ -35,12 +32,41 @@
 //       return {
 //         ...response.data,
 //         method: 'card',
-//         // Critical for Stripe Elements confirmation
 //         clientSecret: response.data.data?.clientSecret,
 //         paymentIntentId: response.data.data?.paymentIntentId,
 //       };
 //     } catch (error) {
 //       return rejectWithValue(error.response?.data?.message || 'Failed to process card payment');
+//     }
+//   }
+// );
+
+// // 🆕 NEW: Create C2B Payment (PayBill/Till Manual Payment)
+// export const createC2BPayment = createAsyncThunk(
+//   'payments/createC2B',
+//   async (paymentData, { rejectWithValue }) => {
+//     try {
+//       // Endpoint: POST /v1/bookings/:id/pay-c2b
+//       const response = await api.post(`/payments/bookings/${paymentData.booking_id}/pay-c2b`, {
+//         bookingId: paymentData.booking_id,
+//         phone: paymentData.phone_number,
+//         method: 'c2b',
+//         amount: paymentData.amount,
+//       });
+      
+//       return {
+//         ...response.data,
+//         method: 'c2b',
+//         // C2B-specific fields returned from backend
+//         shortcode: response.data.data?.shortcode,      // PayBill or Till number
+//         accountRef: response.data.data?.accountRef,    // Account reference (optional)
+//         amount: response.data.data?.amount,            // Exact amount to pay
+//         type: response.data.data?.type,                // 'PayBill' or 'Till'
+//         expiresAt: response.data.data?.expiresAt,      // ISO timestamp for expiry
+//         instructions: response.data.data?.instructions,// Human-readable steps
+//       };
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data?.message || 'Failed to generate C2B payment instructions');
 //     }
 //   }
 // );
@@ -66,7 +92,7 @@
 //   }
 // );
 
-// // ✅ Existing: Verify Payment (enhanced to support all ID types)
+// // ✅ Existing: Verify Payment
 // export const verifyPayment = createAsyncThunk(
 //   'payments/verify',
 //   async (transactionId, { rejectWithValue }) => {
@@ -79,14 +105,15 @@
 //   }
 // );
 
-// // 🆕 NEW: Poll Payment Status (for MPESA STK Push fallback)
+// // ✅ Existing: Poll Payment Status (MPESA STK + C2B fallback)
 // export const pollPaymentStatus = createAsyncThunk(
 //   'payments/pollStatus',
-//   async ({ checkoutRequestId, paymentIntentId }, { rejectWithValue }) => {
+//   async ({ checkoutRequestId, paymentIntentId, bookingId }, { rejectWithValue }) => {
 //     try {
 //       const params = {};
 //       if (checkoutRequestId) params.checkout_request_id = checkoutRequestId;
 //       if (paymentIntentId) params.payment_intent_id = paymentIntentId;
+//       if (bookingId) params.booking_id = bookingId; // 🔧 For C2B polling
       
 //       const response = await api.get('/payments/status', { params });
 //       return {
@@ -95,21 +122,20 @@
 //         nextPollIn: response.data.data.payment?.nextPollIn,
 //       };
 //     } catch (error) {
-//       // Don't reject on polling errors - they're expected during wait time
 //       console.warn('Polling error (non-fatal):', error);
 //       return rejectWithValue(error.response?.data?.message || 'Status check failed');
 //     }
 //   }
 // );
 
-// // 🆕 NEW: Process Refund (Admin only)
+// // ✅ Existing: Process Refund (Admin only)
 // export const processRefund = createAsyncThunk(
 //   'payments/refund',
 //   async ({ paymentId, reason, customerPhone }, { rejectWithValue }) => {
 //     try {
 //       const response = await api.post(`/payments/${paymentId}/refund`, {
 //         reason,
-//         customer_phone: customerPhone, // Required for MPESA B2C refunds
+//         customer_phone: customerPhone,
 //       });
 //       return response.data.data.payment;
 //     } catch (error) {
@@ -119,7 +145,7 @@
 // );
 
 // // ===========================
-// // Initial State (Enhanced)
+// // Initial State (Enhanced with C2B)
 // // ===========================
 // const initialState = {
 //   // Payment lists & selection
@@ -129,12 +155,17 @@
 //   // MPESA-specific state
 //   mpesaTransaction: null, // { checkoutRequestId, customerMessage, ... }
   
+//   // 🆕 C2B-specific state
+//   c2bTransaction: null,   // { shortcode, accountRef, amount, type, expiresAt, ... }
+//   isC2BInitiated: false,  // Flag: has C2B flow started?
+//   c2bExpiresAt: null,     // ISO timestamp when instructions expire
+  
 //   // Card/Stripe-specific state
 //   cardPayment: null, // { clientSecret, paymentIntentId, ... }
   
 //   // UI State for Modal/Flow Control
 //   showModal: false,
-//   selectedMethod: null, // 'mpesa' | 'card'
+//   selectedMethod: null, // 'mpesa' | 'card' | 'c2b'
 //   polling: false,
 //   pollInterval: null,
 //   pollAttempts: 0,
@@ -169,6 +200,14 @@
 //       state.polling = false;
 //     },
     
+//     // 🆕 Clear C2B transaction state
+//     clearC2BTransaction: (state) => { 
+//       state.c2bTransaction = null;
+//       state.isC2BInitiated = false;
+//       state.c2bExpiresAt = null;
+//       state.polling = false;
+//     },
+    
 //     // Clear card payment state
 //     clearCardPayment: (state) => { 
 //       state.cardPayment = null;
@@ -179,7 +218,6 @@
 //     setShowModal: (state, action) => {
 //       state.showModal = action.payload;
 //       if (!action.payload) {
-//         // Reset polling when modal closes
 //         state.polling = false;
 //         state.pollAttempts = 0;
 //         if (state.pollInterval) {
@@ -192,7 +230,26 @@
 //     // Set selected payment method
 //     setSelectedMethod: (state, action) => {
 //       state.selectedMethod = action.payload;
-//       state.pollAttempts = 0; // Reset counter on method change
+//       state.pollAttempts = 0;
+//       // 🔧 Clear other method states when switching
+//       if (action.payload !== 'c2b') {
+//         state.c2bTransaction = null;
+//         state.isC2BInitiated = false;
+//       }
+//       if (action.payload !== 'mpesa') {
+//         state.mpesaTransaction = null;
+//       }
+//       if (action.payload !== 'card') {
+//         state.cardPayment = null;
+//       }
+//     },
+    
+//     // 🆕 Mark C2B as initiated (after receiving instructions)
+//     setC2BInitiated: (state, action) => {
+//       state.isC2BInitiated = action.payload ?? true;
+//       if (action.payload) {
+//         state.paymentStatus = 'pending';
+//       }
 //     },
     
 //     // Start polling for payment status
@@ -220,7 +277,7 @@
 //   extraReducers: (builder) => {
 //     builder
 //       // ===========================
-//       // Create MPESA Payment
+//       // Create MPESA Payment (STK)
 //       // ===========================
 //       .addCase(createMPESAPayment.pending, (state) => {
 //         state.loading = true;
@@ -237,13 +294,45 @@
 //         };
 //         state.paymentStatus = 'pending';
 //         state.successMessage = 'MPESA STK Push sent! Check your phone for the PIN prompt.';
-//         // Auto-start polling for MPESA
 //         state.polling = true;
 //       })
 //       .addCase(createMPESAPayment.rejected, (state, action) => {
 //         state.loading = false;
 //         state.error = action.payload;
 //         state.paymentStatus = 'failed';
+//       })
+      
+//       // ===========================
+//       // 🆕 Create C2B Payment
+//       // ===========================
+//       .addCase(createC2BPayment.pending, (state) => {
+//         state.loading = true;
+//         state.error = null;
+//         state.paymentStatus = 'pending';
+//       })
+//       .addCase(createC2BPayment.fulfilled, (state, action) => {
+//         state.loading = false;
+//         state.c2bTransaction = {
+//           shortcode: action.payload.shortcode,
+//           accountRef: action.payload.accountRef,
+//           amount: action.payload.amount,
+//           type: action.payload.type, // 'PayBill' or 'Till'
+//           expiresAt: action.payload.expiresAt,
+//           instructions: action.payload.instructions,
+//           bookingId: action.payload.data?.bookingId,
+//         };
+//         state.c2bExpiresAt = action.payload.expiresAt;
+//         state.isC2BInitiated = true;
+//         state.paymentStatus = 'pending';
+//         state.successMessage = `Payment instructions generated. Pay ${action.payload.type === 'PayBill' ? 'PayBill' : 'Till'} ${action.payload.shortcode} before expiry.`;
+//         // Auto-start polling for C2B confirmation via backend callbacks
+//         state.polling = true;
+//       })
+//       .addCase(createC2BPayment.rejected, (state, action) => {
+//         state.loading = false;
+//         state.error = action.payload;
+//         state.paymentStatus = 'failed';
+//         state.isC2BInitiated = false;
 //       })
       
 //       // ===========================
@@ -272,7 +361,7 @@
 //       })
       
 //       // ===========================
-//       // Poll Payment Status (MPESA fallback)
+//       // Poll Payment Status (MPESA STK + C2B)
 //       // ===========================
 //       .addCase(pollPaymentStatus.pending, (state) => {
 //         state.loading = true;
@@ -294,7 +383,6 @@
 //       })
 //       .addCase(pollPaymentStatus.rejected, (state, action) => {
 //         state.loading = false;
-//         // Don't set error here - polling failures are expected during wait
 //         console.warn('Polling failed (non-fatal):', action.payload);
 //       })
       
@@ -347,7 +435,6 @@
 //         state.paymentStatus = 'refunded';
 //         state.successMessage = 'Refund processed successfully';
         
-//         // Update payment in history list if present
 //         const index = state.payments.findIndex(p => p.id === action.payload.id);
 //         if (index !== -1) {
 //           state.payments[index] = action.payload;
@@ -367,6 +454,12 @@
 // export const selectPaymentPagination = (state) => state.payments.pagination;
 // export const selectSelectedPayment = (state) => state.payments.selectedPayment;
 // export const selectMPESATransaction = (state) => state.payments.mpesaTransaction;
+
+// // 🆕 C2B Selectors
+// export const selectC2BTransaction = (state) => state.payments.c2bTransaction;
+// export const selectIsC2BInitiated = (state) => state.payments.isC2BInitiated;
+// export const selectC2BExpiresAt = (state) => state.payments.c2bExpiresAt;
+
 // export const selectCardPayment = (state) => state.payments.cardPayment;
 // export const selectPaymentLoading = (state) => state.payments.loading;
 // export const selectPaymentError = (state) => state.payments.error;
@@ -377,15 +470,13 @@
 // export const selectShowModal = (state) => state.payments.showModal;
 // export const selectSelectedMethod = (state) => state.payments.selectedMethod;
 
-// // Derived selector: Is payment processing (any async operation)
+// // Derived selectors
 // export const selectIsProcessing = (state) => 
 //   state.payments.loading || state.payments.polling;
 
-// // Derived selector: Is payment completed
 // export const selectIsPaymentCompleted = (state) => 
 //   state.payments.paymentStatus === 'completed';
 
-// // Derived selector: Is payment failed
 // export const selectIsPaymentFailed = (state) => 
 //   state.payments.paymentStatus === 'failed';
 
@@ -396,9 +487,11 @@
 //   clearError,
 //   clearSuccess,
 //   clearMPESATransaction,
+//   clearC2BTransaction, // 🆕 Export new action
 //   clearCardPayment,
 //   setShowModal,
 //   setSelectedMethod,
+//   setC2BInitiated,     // 🆕 Export new action
 //   startPolling,
 //   stopPolling,
 //   resetPaymentState,
@@ -408,20 +501,21 @@
 
 
 
-// src/features/payments/paymentSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/api';
 
 // ===========================
-// Async Thunks
+// 1. ASYNC THUNKS
 // ===========================
 
-// ✅ Existing: Create MPESA Payment (STK Push)
+// ✅ Create MPESA Payment (STK Push)
 export const createMPESAPayment = createAsyncThunk(
   'payments/createMPESA',
   async (paymentData, { rejectWithValue }) => {
     try {
       const response = await api.post('/payments/mpesa', paymentData);
+      // Backend returns: { status, message, data: { payment, checkoutRequestId, customerMessage... } }
       return {
         ...response.data,
         method: 'mpesa',
@@ -429,17 +523,24 @@ export const createMPESAPayment = createAsyncThunk(
         customerMessage: response.data.data?.customerMessage,
       };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to initiate MPESA payment');
+      let message = 'Failed to initiate MPESA payment';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// ✅ Existing: Create Card Payment (Stripe)
+// ✅ Create Card Payment (Stripe)
 export const createCardPayment = createAsyncThunk(
   'payments/createCard',
   async (paymentData, { rejectWithValue }) => {
     try {
       const response = await api.post('/payments/card', paymentData);
+      // Backend returns: { status, message, data: { payment, clientSecret, paymentIntentId... } }
       return {
         ...response.data,
         method: 'card',
@@ -447,76 +548,102 @@ export const createCardPayment = createAsyncThunk(
         paymentIntentId: response.data.data?.paymentIntentId,
       };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to process card payment');
+      let message = 'Failed to process card payment';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// 🆕 NEW: Create C2B Payment (PayBill/Till Manual Payment)
+// 🆕 Create C2B Payment (PayBill/Till Manual Payment)
 export const createC2BPayment = createAsyncThunk(
   'payments/createC2B',
   async (paymentData, { rejectWithValue }) => {
     try {
-      // Endpoint: POST /v1/bookings/:id/pay-c2b
-      const response = await api.post(`/payments/bookings/${paymentData.booking_id}/pay-c2b`, {
-        bookingId: paymentData.booking_id,
+      // Endpoint matches backend: POST /api/v1/payments/c2b/:bookingId
+      const response = await api.post(`/payments/c2b/${paymentData.booking_id}`, {
         phone: paymentData.phone_number,
-        method: 'c2b',
         amount: paymentData.amount,
+        account_reference: paymentData.account_reference,
       });
       
+      // Backend returns: { success, message, data: { paymentId, transId, shortcode, accountRef, amount, type, expiresAt, instructions... } }
       return {
         ...response.data,
         method: 'c2b',
-        // C2B-specific fields returned from backend
-        shortcode: response.data.data?.shortcode,      // PayBill or Till number
-        accountRef: response.data.data?.accountRef,    // Account reference (optional)
-        amount: response.data.data?.amount,            // Exact amount to pay
-        type: response.data.data?.type,                // 'PayBill' or 'Till'
-        expiresAt: response.data.data?.expiresAt,      // ISO timestamp for expiry
-        instructions: response.data.data?.instructions,// Human-readable steps
+        shortcode: response.data.data?.shortcode,
+        accountRef: response.data.data?.accountRef,
+        amount: response.data.data?.amount,
+        type: response.data.data?.type,
+        expiresAt: response.data.data?.expiresAt,
+        instructions: response.data.data?.instructions,
+        transId: response.data.data?.transId,
       };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to generate C2B payment instructions');
+      let message = 'Failed to generate C2B payment instructions';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// ✅ Existing: Fetch Payment History
+// ✅ Fetch Payment History (CACHED in backend)
 export const fetchPaymentHistory = createAsyncThunk(
   'payments/fetchHistory',
   async (params = {}, { rejectWithValue }) => {
     try {
       const response = await api.get('/payments/history', { params });
+      // Backend returns: { status, results, total, page, pages, data: { payments: [...] } }
       return {
-        payments: response.data.data?.payments || [],
+        payments: response.data?.payments || [],
         pagination: {
-          page: response.data.page,
-          pages: response.data.pages,
-          total: response.data.total,
-          results: response.data.results,
+          page: response.data.page || 1,
+          pages: response.data.pages || 0,
+          total: response.data.total || 0,
+          results: response.data.results || 0,
         },
       };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to fetch payment history');
+      let message = 'Failed to fetch payment history';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// ✅ Existing: Verify Payment
+// ✅ Verify Payment (CACHED in backend)
 export const verifyPayment = createAsyncThunk(
   'payments/verify',
   async (transactionId, { rejectWithValue }) => {
     try {
       const response = await api.get(`/payments/verify/${transactionId}`);
+      // Backend returns: { status, data: { payment: {...} } }
       return response.data.data.payment;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to verify payment');
+      let message = 'Failed to verify payment';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// ✅ Existing: Poll Payment Status (MPESA STK + C2B fallback)
+// ✅ Poll Payment Status (MPESA STK + C2B + Stripe)
 export const pollPaymentStatus = createAsyncThunk(
   'payments/pollStatus',
   async ({ checkoutRequestId, paymentIntentId, bookingId }, { rejectWithValue }) => {
@@ -524,22 +651,28 @@ export const pollPaymentStatus = createAsyncThunk(
       const params = {};
       if (checkoutRequestId) params.checkout_request_id = checkoutRequestId;
       if (paymentIntentId) params.payment_intent_id = paymentIntentId;
-      if (bookingId) params.booking_id = bookingId; // 🔧 For C2B polling
+      if (bookingId) params.booking_id = bookingId;
       
       const response = await api.get('/payments/status', { params });
+      // Backend returns: { status, data: { payment: { status, canPoll, nextPollIn... } } }
       return {
         ...response.data.data.payment,
         canPoll: response.data.data.payment?.canPoll,
         nextPollIn: response.data.data.payment?.nextPollIn,
       };
     } catch (error) {
-      console.warn('Polling error (non-fatal):', error);
-      return rejectWithValue(error.response?.data?.message || 'Status check failed');
+      // Non-fatal error for polling
+      console.warn('Polling error:', error);
+      let message = 'Status check failed';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
-// ✅ Existing: Process Refund (Admin only)
+// ✅ Process Refund (Admin Only)
 export const processRefund = createAsyncThunk(
   'payments/refund',
   async ({ paymentId, reason, customerPhone }, { rejectWithValue }) => {
@@ -548,33 +681,48 @@ export const processRefund = createAsyncThunk(
         reason,
         customer_phone: customerPhone,
       });
+      // Backend returns: { status, message, data: { payment: {...} } }
       return response.data.data.payment;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Refund processing failed');
+      let message = 'Refund processing failed';
+      if (error.response) {
+        message = error.response.data?.message || error.response.data?.msg || message;
+      } else if (error.request) {
+        message = 'Network error. Please check your connection.';
+      }
+      return rejectWithValue(message);
     }
   }
 );
 
 // ===========================
-// Initial State (Enhanced with C2B)
+// 2. INITIAL STATE
 // ===========================
 const initialState = {
   // Payment lists & selection
   payments: [],
   selectedPayment: null,
   
+  // Pagination
+  pagination: {
+    page: 1,
+    pages: 0,
+    total: 0,
+    results: 0
+  },
+  
   // MPESA-specific state
-  mpesaTransaction: null, // { checkoutRequestId, customerMessage, ... }
+  mpesaTransaction: null,
   
   // 🆕 C2B-specific state
-  c2bTransaction: null,   // { shortcode, accountRef, amount, type, expiresAt, ... }
-  isC2BInitiated: false,  // Flag: has C2B flow started?
-  c2bExpiresAt: null,     // ISO timestamp when instructions expire
+  c2bTransaction: null,
+  isC2BInitiated: false,
+  c2bExpiresAt: null,
   
   // Card/Stripe-specific state
-  cardPayment: null, // { clientSecret, paymentIntentId, ... }
+  cardPayment: null,
   
-  // UI State for Modal/Flow Control
+  // UI State
   showModal: false,
   selectedMethod: null, // 'mpesa' | 'card' | 'c2b'
   polling: false,
@@ -586,26 +734,22 @@ const initialState = {
   error: null,
   successMessage: null,
   
-  // Payment result tracking
-  paymentStatus: null, // 'pending' | 'completed' | 'failed' | 'refunded'
+  // Result tracking
+  paymentStatus: null,
   lastPolled: null,
 };
 
 // ===========================
-// Slice Definition
+// 3. SLICE DEFINITION
 // ===========================
 const paymentSlice = createSlice({
   name: 'payments',
   initialState,
   
   reducers: {
-    // Clear error messages
     clearError: (state) => { state.error = null; },
-    
-    // Clear success messages
     clearSuccess: (state) => { state.successMessage = null; },
     
-    // Clear MPESA transaction state
     clearMPESATransaction: (state) => { 
       state.mpesaTransaction = null;
       state.polling = false;
@@ -619,13 +763,11 @@ const paymentSlice = createSlice({
       state.polling = false;
     },
     
-    // Clear card payment state
     clearCardPayment: (state) => { 
       state.cardPayment = null;
       state.polling = false;
     },
     
-    // Control modal visibility
     setShowModal: (state, action) => {
       state.showModal = action.payload;
       if (!action.payload) {
@@ -638,11 +780,10 @@ const paymentSlice = createSlice({
       }
     },
     
-    // Set selected payment method
     setSelectedMethod: (state, action) => {
       state.selectedMethod = action.payload;
       state.pollAttempts = 0;
-      // 🔧 Clear other method states when switching
+      // Clear other method states when switching
       if (action.payload !== 'c2b') {
         state.c2bTransaction = null;
         state.isC2BInitiated = false;
@@ -655,7 +796,7 @@ const paymentSlice = createSlice({
       }
     },
     
-    // 🆕 Mark C2B as initiated (after receiving instructions)
+    // 🆕 Mark C2B as initiated
     setC2BInitiated: (state, action) => {
       state.isC2BInitiated = action.payload ?? true;
       if (action.payload) {
@@ -663,14 +804,12 @@ const paymentSlice = createSlice({
       }
     },
     
-    // Start polling for payment status
     startPolling: (state) => {
       state.polling = true;
       state.pollAttempts = 0;
       state.lastPolled = new Date().toISOString();
     },
     
-    // Stop polling
     stopPolling: (state) => {
       state.polling = false;
       if (state.pollInterval) {
@@ -679,7 +818,6 @@ const paymentSlice = createSlice({
       }
     },
     
-    // Reset entire payment state (for cleanup)
     resetPaymentState: (state) => {
       return { ...initialState };
     },
@@ -688,7 +826,7 @@ const paymentSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // ===========================
-      // Create MPESA Payment (STK)
+      // Create MPESA Payment
       // ===========================
       .addCase(createMPESAPayment.pending, (state) => {
         state.loading = true;
@@ -704,7 +842,7 @@ const paymentSlice = createSlice({
           currency: action.payload.data?.payment?.currency,
         };
         state.paymentStatus = 'pending';
-        state.successMessage = 'MPESA STK Push sent! Check your phone for the PIN prompt.';
+        state.successMessage = 'MPESA STK Push sent! Check your phone.';
         state.polling = true;
       })
       .addCase(createMPESAPayment.rejected, (state, action) => {
@@ -727,16 +865,15 @@ const paymentSlice = createSlice({
           shortcode: action.payload.shortcode,
           accountRef: action.payload.accountRef,
           amount: action.payload.amount,
-          type: action.payload.type, // 'PayBill' or 'Till'
+          type: action.payload.type,
           expiresAt: action.payload.expiresAt,
           instructions: action.payload.instructions,
-          bookingId: action.payload.data?.bookingId,
+          transId: action.payload.transId,
         };
         state.c2bExpiresAt = action.payload.expiresAt;
         state.isC2BInitiated = true;
         state.paymentStatus = 'pending';
-        state.successMessage = `Payment instructions generated. Pay ${action.payload.type === 'PayBill' ? 'PayBill' : 'Till'} ${action.payload.shortcode} before expiry.`;
-        // Auto-start polling for C2B confirmation via backend callbacks
+        state.successMessage = `Pay ${action.payload.type} ${action.payload.shortcode} before expiry.`;
         state.polling = true;
       })
       .addCase(createC2BPayment.rejected, (state, action) => {
@@ -763,7 +900,7 @@ const paymentSlice = createSlice({
           currency: action.payload.data?.payment?.currency,
         };
         state.paymentStatus = 'pending';
-        state.successMessage = 'Card payment initialized. Please confirm with your card details.';
+        state.successMessage = 'Card payment initialized.';
       })
       .addCase(createCardPayment.rejected, (state, action) => {
         state.loading = false;
@@ -772,7 +909,7 @@ const paymentSlice = createSlice({
       })
       
       // ===========================
-      // Poll Payment Status (MPESA STK + C2B)
+      // Poll Payment Status
       // ===========================
       .addCase(pollPaymentStatus.pending, (state) => {
         state.loading = true;
@@ -784,7 +921,6 @@ const paymentSlice = createSlice({
         state.selectedPayment = action.payload;
         state.paymentStatus = action.payload.status;
         
-        // Auto-stop polling if payment completed/failed
         if (['completed', 'failed', 'refunded'].includes(action.payload.status)) {
           state.polling = false;
           state.successMessage = action.payload.status === 'completed' 
@@ -794,7 +930,7 @@ const paymentSlice = createSlice({
       })
       .addCase(pollPaymentStatus.rejected, (state, action) => {
         state.loading = false;
-        console.warn('Polling failed (non-fatal):', action.payload);
+        // Non-fatal, do not set global error
       })
       
       // ===========================
@@ -834,7 +970,7 @@ const paymentSlice = createSlice({
       })
       
       // ===========================
-      // Process Refund (Admin)
+      // Process Refund
       // ===========================
       .addCase(processRefund.pending, (state) => {
         state.loading = true;
@@ -859,7 +995,7 @@ const paymentSlice = createSlice({
 });
 
 // ===========================
-// Selectors (Reusable Queries)
+// 4. SELECTORS
 // ===========================
 export const selectPayments = (state) => state.payments.payments;
 export const selectPaymentPagination = (state) => state.payments.pagination;
@@ -881,7 +1017,6 @@ export const selectPollAttempts = (state) => state.payments.pollAttempts;
 export const selectShowModal = (state) => state.payments.showModal;
 export const selectSelectedMethod = (state) => state.payments.selectedMethod;
 
-// Derived selectors
 export const selectIsProcessing = (state) => 
   state.payments.loading || state.payments.polling;
 
@@ -892,17 +1027,17 @@ export const selectIsPaymentFailed = (state) =>
   state.payments.paymentStatus === 'failed';
 
 // ===========================
-// Export Actions & Reducer
+// 5. EXPORTS
 // ===========================
 export const {
   clearError,
   clearSuccess,
   clearMPESATransaction,
-  clearC2BTransaction, // 🆕 Export new action
+  clearC2BTransaction,
   clearCardPayment,
   setShowModal,
   setSelectedMethod,
-  setC2BInitiated,     // 🆕 Export new action
+  setC2BInitiated,
   startPolling,
   stopPolling,
   resetPaymentState,

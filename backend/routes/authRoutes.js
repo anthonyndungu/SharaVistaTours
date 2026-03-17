@@ -15,6 +15,7 @@ import {
 import { protect, restrictTo } from '../middleware/auth.js';
 import { body, validationResult } from 'express-validator';
 import { validate } from '../middleware/validate.js';
+import { loginLimiter, otpLimiter, registerLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
@@ -58,6 +59,7 @@ const resetPasswordValidation = [
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters'),
   body('confirmPassword').custom((value, { req }) => {
+    console.log('Validating confirmPassword:', { value, password: req.body.password,confirmPassword: req.body.confirmPassword });
     if (value !== req.body.password) {
       throw new Error('Passwords do not match');
     }
@@ -66,11 +68,11 @@ const resetPasswordValidation = [
 ];
 
 // Routes
-router.post('/signup', signupValidation, validate, signup);
-router.post('/login', loginValidation, validate, login);
+router.post('/signup',registerLimiter, signupValidation, validate, signup);
+router.post('/login', loginLimiter, loginValidation, validate, login);
 router.post('/forgot-password', body('email').isEmail().withMessage('Please provide a valid email'), validate, forgotPassword);
 router.patch('/reset-password/:token', resetPasswordValidation, validate, resetPassword);
-router.post('/resend-otp', resendVerificationOTP);
+router.post('/resend-otp', otpLimiter, resendVerificationOTP);
 router.post('/verify-otp', verifyOTP);
 router.patch('/users/:id/verify', protect, restrictTo('admin', 'super_admin'), verifyUser);
 
