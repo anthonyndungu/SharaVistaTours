@@ -288,12 +288,15 @@ class MpesaService {
 
       const { CheckoutRequestID, ResultCode, ResultDesc } = stkCallback;
 
-      // ✅ Find payment by checkout request ID
       const payment = await Payment.findOne({
         where: { mpesa_checkout_request_id: CheckoutRequestID },
-        include: [{ model: Booking, as: 'Booking' }],
+        include: [{
+          model: Booking,
+          as: 'Booking',
+          required: true // Forces INNER JOIN, allowing the lock to work
+        }],
         transaction,
-        lock: transaction ? sequelize.Lock.UPDATE : undefined // ✅ Prevent race conditions
+        lock: transaction ? transaction.constructor.LOCK.UPDATE : undefined
       });
 
       if (!payment) {
@@ -709,7 +712,7 @@ class MpesaService {
 
     // Strategy 1: Account Reference (PayBill or Till with Ref)
     if (BillRefNumber) {
-      const booking = await Booking.findOne({ 
+      const booking = await Booking.findOne({
         where: { booking_number: BillRefNumber.trim() },
         attributes: ['id', 'booking_number', 'total_amount', 'payment_status']
       });
@@ -745,7 +748,7 @@ class MpesaService {
 
   async handleC2BConfirmation(data) {
     const transaction = await C2BPayment.sequelize.transaction();
-    
+
     try {
       const { TransID, TransAmount, MSISDN, FirstName, LastName, BillRefNumber } = data;
 
@@ -827,7 +830,7 @@ class MpesaService {
           amount,
           transId
         });
-        
+
         // Optional: Send alert to Admin (implement separate admin SMS method if needed)
         // await smsService.sendSMS('+254700000000', `ADMIN ALERT: Unmatched payment KES ${amount} from ${phone}. Ref: ${transId}`);
       }
