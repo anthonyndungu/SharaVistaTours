@@ -398,11 +398,43 @@ app.use('/api/', generalLimiter);
 // ===========================
 // CORS Configuration
 // ===========================
+
+// Helper to clean URLs (remove trailing slashes)
+const cleanUrl = (url) => url ? url.trim().replace(/\/$/, '') : '';
+
+// Define allowed origins
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://tours.mogulafric.com',
+  'https://www.tours.mogulafric.com'
+];
+
+// Add env variable if exists
+if (process.env.CLIENT_URL) {
+  const envOrigins = process.env.CLIENT_URL.split(',').map(cleanUrl);
+  envOrigins.forEach(origin => {
+    if (origin && !allowedOrigins.includes(origin)) {
+      allowedOrigins.push(origin);
+    }
+  });
+}
+
 app.use(cors({
-  origin: process.env.CLIENT_URL?.split(',') || 'https://tours.mogulafric.com',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl/postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn(`❌ CORS Blocked: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Stripe-Signature'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Stripe-Signature', 'X-Requested-With'],
   maxAge: 86400 // 24 hours
 }));
 

@@ -6,7 +6,8 @@ import {
   updateBookingStatus,
   cancelBooking,
   getAllBookings,
-  checkPaymentStatus
+  checkPaymentStatus,
+  getBookingReceipt
 } from '../controllers/bookingController.js';
 import { protect, restrictTo } from '../middleware/auth.js';
 
@@ -16,6 +17,7 @@ const router = express.Router();
 router.post('/', protect, createBooking);
 router.get('/', protect, getUserBookings);
 router.get('/:id/payment-status', protect, checkPaymentStatus);
+router.get('/:id/receipt', protect, getBookingReceipt);
 router.get('/:id', protect, getBookingById);
 router.patch('/:id/cancel', protect, cancelBooking);
 

@@ -1,4 +1,3 @@
-// src/pages/BookingSuccess.jsx
 import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
@@ -47,7 +46,7 @@ export default function BookingSuccess() {
     };
   }, [dispatch]);
 
-  // ✅ Open payment modal for STK Push
+  //Open payment modal for STK Push
   const handleOpenSTKPush = useCallback(() => {
     if (!selectedBooking) return;
     
