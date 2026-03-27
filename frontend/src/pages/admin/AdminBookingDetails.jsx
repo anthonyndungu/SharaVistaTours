@@ -1,4 +1,3 @@
-// src/pages/AdminBookingDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';

@@ -1,4 +1,3 @@
-// src/components/Payment/C2BPaymentModal.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button, Alert, Steps, Spin, Result } from 'antd'; // Or your UI library
