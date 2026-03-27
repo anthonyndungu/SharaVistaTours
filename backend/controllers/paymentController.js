@@ -4,6 +4,7 @@ import stripeService from '../services/stripeService.js';
 import logger from '../utils/logger.js';
 //Import Redis helpers
 import { getOrSetCache, invalidateCache, invalidatePattern } from '../config/redis.js';
+import { sendPaymentConfirmation } from '../utils/email.js';
 
 // ===========================
 // @desc    Initiate MPESA STK Push Payment
@@ -81,6 +82,80 @@ export const initiateMPESAPayment = async (req, res) => {
   }
 };
 
+// // ===========================
+// // @desc    MPESA STK Push Callback Handler
+// // @route   POST /api/v1/payments/mpesa/callback
+// // @access  Public
+// // ===========================
+// export const mpesaCallback = async (req, res) => {
+//   logger.info('MPESA callback received', { body: req.body });
+//   const t = await sequelize.transaction();
+//   try {
+//     const callbackResult = await mpesaService.handleCallback(req.body, t);
+    
+//     if (callbackResult.success) {
+//       await t.commit();
+      
+//       // 🚀 Invalidate Caches on Success
+//       if (callbackResult.bookingId) {
+//         const booking = await Booking.findByPk(callbackResult.bookingId);
+//         if (booking) {
+//           await invalidatePattern(`payments:history:${booking.user_id}:*`);
+//           await invalidateCache(`payment:status:${callbackResult.checkoutRequestId}`);
+//           await invalidateCache(`booking:single:${booking.id}`);
+//           await invalidatePattern(`bookings:user:${booking.user_id}:*`);
+//         }
+//       }
+      
+//       res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
+//     } else {
+//       await t.rollback();
+//       res.status(200).json({ ResultCode: 1, ResultDesc: callbackResult.message || 'Processing failed' });
+//     }
+//   } catch (err) {
+//     await t.rollback();
+//     logger.error('MPESA callback error', { error: err.message });
+//     res.status(200).json({ ResultCode: 1, ResultDesc: 'Server error' });
+//   }
+// };
+
+// // ===========================
+// // @desc    Stripe Webhook Handler
+// // @route   POST /api/v1/payments/stripe/webhook
+// // @access  Public
+// // ===========================
+// export const stripeWebhook = async (req, res) => {
+//   const sig = req.headers['stripe-signature'];
+//   try {
+//     const payload = req.rawBody || JSON.stringify(req.body);
+//     const result = await stripeService.handleWebhook(payload, sig);
+
+//     if (result.success) {
+//       // 🚀 Invalidate Caches on Success
+//       if (result.bookingId) {
+//         const booking = await Booking.findByPk(result.bookingId);
+//         if (booking) {
+//           await invalidatePattern(`payments:history:${booking.user_id}:*`);
+//           await invalidateCache(`payment:status:${result.paymentIntentId}`);
+//           await invalidateCache(`booking:single:${booking.id}`);
+//           await invalidatePattern(`bookings:user:${booking.user_id}:*`);
+//         }
+//       }
+//       res.status(200).json({ received: true, eventId: result.eventId });
+//     } else {
+//       res.status(400).json({ error: result.error });
+//     }
+//   } catch (err) {
+//     logger.error('Stripe webhook error', { error: err.message });
+//     if (err.type === 'StripeSignatureVerificationError') {
+//       res.status(400).send(`Webhook signature verification failed: ${err.message}`);
+//     } else {
+//       res.status(500).send(`Webhook processing error: ${err.message}`);
+//     }
+//   }
+// };
+
+
 // ===========================
 // @desc    MPESA STK Push Callback Handler
 // @route   POST /api/v1/payments/mpesa/callback
@@ -89,13 +164,14 @@ export const initiateMPESAPayment = async (req, res) => {
 export const mpesaCallback = async (req, res) => {
   logger.info('MPESA callback received', { body: req.body });
   const t = await sequelize.transaction();
+  
   try {
     const callbackResult = await mpesaService.handleCallback(req.body, t);
     
     if (callbackResult.success) {
       await t.commit();
       
-      // 🚀 Invalidate Caches on Success
+      // 🚀 Invalidate Caches
       if (callbackResult.bookingId) {
         const booking = await Booking.findByPk(callbackResult.bookingId);
         if (booking) {
@@ -103,6 +179,34 @@ export const mpesaCallback = async (req, res) => {
           await invalidateCache(`payment:status:${callbackResult.checkoutRequestId}`);
           await invalidateCache(`booking:single:${booking.id}`);
           await invalidatePattern(`bookings:user:${booking.user_id}:*`);
+
+          // 📧 SEND EMAIL IF PAYMENT IS COMPLETED
+          if (callbackResult.status === 'completed') {
+            try {
+              // Fetch User and Full Booking Details for Email
+              const fullBooking = await Booking.findByPk(booking.id, {
+                include: [
+                  { model: User, attributes: ['id', 'name', 'email'] },
+                  { model: TourPackage, attributes: ['title', 'destination'] } // Ensure TourPackage is imported if used in email
+                ]
+              });
+
+              const paymentRecord = await Payment.findOne({
+                where: { id: callbackResult.paymentId },
+                include: [{ model: Booking }]
+              });
+
+              if (fullBooking && fullBooking.User && paymentRecord) {
+                // Fire and forget (don't wait for email to block response to MPESA)
+                sendPaymentConfirmation(paymentRecord, fullBooking, fullBooking.User)
+                  .then(() => logger.info(`Payment email sent to ${fullBooking.User.email}`))
+                  .catch(err => logger.error('Failed to send payment email', err));
+              }
+            } catch (emailErr) {
+              logger.error('Error preparing payment email', emailErr);
+              // Don't fail the callback just because email failed
+            }
+          }
         }
       }
       
@@ -115,6 +219,65 @@ export const mpesaCallback = async (req, res) => {
     await t.rollback();
     logger.error('MPESA callback error', { error: err.message });
     res.status(200).json({ ResultCode: 1, ResultDesc: 'Server error' });
+  }
+};
+
+// ===========================
+// @desc    Stripe Webhook Handler
+// @route   POST /api/v1/payments/stripe/webhook
+// @access  Public
+// ===========================
+export const stripeWebhook = async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  try {
+    const payload = req.rawBody || JSON.stringify(req.body);
+    const result = await stripeService.handleWebhook(payload, sig);
+
+    if (result.success) {
+      // 🚀 Invalidate Caches & Send Email
+      if (result.bookingId) {
+        const booking = await Booking.findByPk(result.bookingId);
+        if (booking) {
+          await invalidatePattern(`payments:history:${booking.user_id}:*`);
+          await invalidateCache(`payment:status:${result.paymentIntentId}`);
+          await invalidateCache(`booking:single:${booking.id}`);
+          await invalidatePattern(`bookings:user:${booking.user_id}:*`);
+
+          // 📧 SEND EMAIL IF PAYMENT IS COMPLETED
+          // Check if the event was a successful charge (e.g., payment_intent.succeeded)
+          if (result.eventType === 'payment_intent.succeeded') {
+            try {
+              const fullBooking = await Booking.findByPk(booking.id, {
+                include: [{ model: User, attributes: ['id', 'name', 'email'] }]
+              });
+
+              const paymentRecord = await Payment.findOne({
+                where: { stripe_payment_intent_id: result.paymentIntentId },
+                include: [{ model: Booking }]
+              });
+
+              if (fullBooking && fullBooking.User && paymentRecord) {
+                sendPaymentConfirmation(paymentRecord, fullBooking, fullBooking.User)
+                  .then(() => logger.info(`Stripe payment email sent to ${fullBooking.User.email}`))
+                  .catch(err => logger.error('Failed to send Stripe payment email', err));
+              }
+            } catch (emailErr) {
+              logger.error('Error preparing Stripe payment email', emailErr);
+            }
+          }
+        }
+      }
+      res.status(200).json({ received: true, eventId: result.eventId });
+    } else {
+      res.status(400).json({ error: result.error });
+    }
+  } catch (err) {
+    logger.error('Stripe webhook error', { error: err.message });
+    if (err.type === 'StripeSignatureVerificationError') {
+      res.status(400).send(`Webhook signature verification failed: ${err.message}`);
+    } else {
+      res.status(500).send(`Webhook processing error: ${err.message}`);
+    }
   }
 };
 
@@ -192,41 +355,6 @@ export const initiateCardPayment = async (req, res) => {
   }
 };
 
-// ===========================
-// @desc    Stripe Webhook Handler
-// @route   POST /api/v1/payments/stripe/webhook
-// @access  Public
-// ===========================
-export const stripeWebhook = async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  try {
-    const payload = req.rawBody || JSON.stringify(req.body);
-    const result = await stripeService.handleWebhook(payload, sig);
-
-    if (result.success) {
-      // 🚀 Invalidate Caches on Success
-      if (result.bookingId) {
-        const booking = await Booking.findByPk(result.bookingId);
-        if (booking) {
-          await invalidatePattern(`payments:history:${booking.user_id}:*`);
-          await invalidateCache(`payment:status:${result.paymentIntentId}`);
-          await invalidateCache(`booking:single:${booking.id}`);
-          await invalidatePattern(`bookings:user:${booking.user_id}:*`);
-        }
-      }
-      res.status(200).json({ received: true, eventId: result.eventId });
-    } else {
-      res.status(400).json({ error: result.error });
-    }
-  } catch (err) {
-    logger.error('Stripe webhook error', { error: err.message });
-    if (err.type === 'StripeSignatureVerificationError') {
-      res.status(400).send(`Webhook signature verification failed: ${err.message}`);
-    } else {
-      res.status(500).send(`Webhook processing error: ${err.message}`);
-    }
-  }
-};
 
 // ===========================
 // @desc    MPESA C2B Validation Endpoint

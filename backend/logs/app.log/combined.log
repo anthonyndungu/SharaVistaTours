@@ -2956,3 +2956,43 @@
 2026-03-27 15:26:37:2637 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
 2026-03-27 15:26:37:2637 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
 2026-03-27 15:26:37:2637 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 15:27:00:270 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 16:02:09:29 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 16:02:11:211 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 16:02:11:211 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 16:02:11:211 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 16:02:12:212 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 16:02:12:212 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 16:02:12:212 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 16:02:12:212 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 16:02:27:227 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 16:02:27:227 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 16:02:27:227 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 16:02:28:228 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 16:02:29:229 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 16:02:29:229 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 16:02:29:229 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 16:02:29:229 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 16:04:33:433 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 16:04:36:436 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 16:04:36:436 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 16:04:36:436 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 16:04:37:437 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 16:04:37:437 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 16:04:37:437 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 16:04:37:437 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 16:04:45:445 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 16:04:45:445 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 16:04:45:445 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 16:04:45:445 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 16:04:47:447 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 16:04:47:447 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 16:04:47:447 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 16:04:47:447 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m

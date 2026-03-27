@@ -306,7 +306,7 @@ export default function BookingSuccess() {
                 {/* Action Buttons */}
                 <div className="action-buttons">
                   <Link
-                    to={`/bookings/${bookingId}/receipt`}
+                    to={`/dashboard/bookings/${bookingId}/receipt`}
                     className="btn btn-primary"
                   >
                     {selectedBooking.payment_status === 'paid' ? 'View Receipt' : 'View Booking Details'}
