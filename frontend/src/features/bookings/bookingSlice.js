@@ -42,7 +42,7 @@ export const fetchUserBookings = createAsyncThunk(
 
       const response = await api.get(`/bookings?${params.toString()}`);
       console.log('Fetch user bookings response:', response.data);
-      return response.data; 
+      return response.data;
     } catch (error) {
       console.error('Fetch user bookings error:', error);
       let message = 'Failed to fetch bookings';
@@ -126,7 +126,7 @@ export const getAllBookings = createAsyncThunk(
       if (end_date) params.append('end_date', end_date);
 
       const response = await api.get(`/bookings/admin/all?${params.toString()}`);
-      
+
       // Backend returns: { status, results, total, page, pages, data: { bookings } }
       return response.data;
     } catch (error) {
@@ -146,6 +146,7 @@ export const fetchBookingReceipt = createAsyncThunk(
   async (bookingId, { rejectWithValue }) => {
     try {
       const response = await api.get(`/bookings/${bookingId}/receipt`);
+      console.log(response)
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to load receipt');
@@ -209,7 +210,7 @@ const bookingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // ✅ FETCH USER BOOKINGS
       .addCase(fetchUserBookings.pending, (state) => {
         state.loading = true;
@@ -229,7 +230,7 @@ const bookingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // ✅ FETCH BOOKING BY ID
       .addCase(fetchBookingById.pending, (state) => {
         state.loading = true;
@@ -244,7 +245,7 @@ const bookingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // ✅ UPDATE BOOKING STATUS
       .addCase(updateBookingStatus.pending, (state) => {
         state.loading = true;
@@ -253,25 +254,25 @@ const bookingSlice = createSlice({
       .addCase(updateBookingStatus.fulfilled, (state, action) => {
         state.loading = false;
         const updatedBooking = action.payload;
-        
+
         // Update in list
         const index = state.bookings.findIndex(b => b.id === updatedBooking.id);
         if (index !== -1) {
           state.bookings[index] = updatedBooking;
         }
-        
+
         // Update selected
         if (state.selectedBooking && state.selectedBooking.id === updatedBooking.id) {
           state.selectedBooking = updatedBooking;
         }
-        
+
         state.successMessage = 'Booking status updated successfully';
       })
       .addCase(updateBookingStatus.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // ✅ CANCEL BOOKING
       .addCase(cancelBooking.pending, (state) => {
         state.loading = true;
@@ -280,25 +281,25 @@ const bookingSlice = createSlice({
       .addCase(cancelBooking.fulfilled, (state, action) => {
         state.loading = false;
         const cancelledBooking = action.payload;
-        
+
         // Update in list
         const index = state.bookings.findIndex(b => b.id === cancelledBooking.id);
         if (index !== -1) {
           state.bookings[index] = cancelledBooking;
         }
-        
+
         // Update selected
         if (state.selectedBooking && state.selectedBooking.id === cancelledBooking.id) {
           state.selectedBooking = cancelledBooking;
         }
-        
+
         state.successMessage = 'Booking cancelled successfully';
       })
       .addCase(cancelBooking.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // ✅ GET ALL BOOKINGS (ADMIN)
       .addCase(getAllBookings.pending, (state) => {
         state.loading = true;
@@ -320,18 +321,18 @@ const bookingSlice = createSlice({
       })
 
       //payment receipt
-       .addCase(fetchBookingReceipt.pending, (state) => {
-    state.receiptLoading = true;
-    state.receiptError = null;
-  })
-  .addCase(fetchBookingReceipt.fulfilled, (state, action) => {
-    state.receiptLoading = false;
-    state.currentReceipt = action.payload;
-  })
-  .addCase(fetchBookingReceipt.rejected, (state, action) => {
-    state.receiptLoading = false;
-    state.receiptError = action.payload;
-  });
+      .addCase(fetchBookingReceipt.pending, (state) => {
+        state.receiptLoading = true;
+        state.receiptError = null;
+      })
+      .addCase(fetchBookingReceipt.fulfilled, (state, action) => {
+        state.receiptLoading = false;
+        state.currentReceipt = action.payload;
+      })
+      .addCase(fetchBookingReceipt.rejected, (state, action) => {
+        state.receiptLoading = false;
+        state.receiptError = action.payload;
+      });
   }
 });
 

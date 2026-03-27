@@ -2425,3 +2425,364 @@
 2026-03-25 11:33:19:3319 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
 2026-03-25 11:33:19:3319 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
 2026-03-25 11:33:19:3319 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-25 11:34:00:340 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-25 11:34:00:340 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-25 11:34:00:340 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-25 11:34:00:340 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-25 11:34:01:341 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-25 11:34:01:341 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-25 11:34:01:341 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-25 11:34:01:341 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-26 15:22:07:227 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:07:227 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:07:227 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:07:227 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:07:227 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:08:228 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:08:228 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:08:228 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-26 15:22:08:228 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:08:228 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:09:229 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:09:229 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:10:2210 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-26 15:22:10:2210 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-26 15:22:10:2210 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-26 15:22:10:2210 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-26 15:22:11:2211 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:11:2211 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:13:2213 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:13:2213 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:15:2215 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:15:2215 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:17:2217 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:17:2217 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:19:2219 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:19:2219 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:22:2222 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:22:2222 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:24:2224 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:24:2224 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:26:2226 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:26:2226 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:28:2228 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:28:2228 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:30:2230 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:30:2230 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:32:2232 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:32:2232 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:34:2234 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:34:2234 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:37:2237 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:37:2237 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:39:2239 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:39:2239 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:41:2241 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:41:2241 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:43:2243 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:43:2243 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:45:2245 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:45:2245 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:47:2247 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:47:2247 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:49:2249 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:49:2249 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:51:2251 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:51:2251 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:53:2253 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:53:2253 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:56:2256 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:56:2256 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:22:58:2258 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:22:58:2258 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:00:230 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:00:230 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:02:232 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:02:232 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:04:234 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:04:234 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:06:236 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:06:236 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:08:238 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:08:238 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:10:2310 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:10:2310 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:12:2312 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:12:2312 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:15:2315 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:15:2315 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:18:2318 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:18:2318 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:21:2321 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:21:2321 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:23:2323 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:23:2323 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:25:2325 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:25:2325 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:27:2327 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:27:2327 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:29:2329 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:29:2329 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:31:2331 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:32:2332 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:34:2334 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:34:2334 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:36:2336 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:36:2336 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:38:2338 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:38:2338 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:41:2341 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:41:2341 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:43:2343 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:43:2343 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:45:2345 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:45:2345 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:47:2347 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:47:2347 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:49:2349 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:50:2350 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:52:2352 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:52:2352 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:54:2354 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:54:2354 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:56:2356 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:56:2356 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:23:58:2358 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:23:58:2358 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:24:00:240 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:24:00:240 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-26 15:24:02:242 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-26 15:24:03:243 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-26 15:24:03:243 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-26 15:24:03:243 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-26 15:30:22:3022 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-26 15:30:23:3023 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-26 15:30:23:3023 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-26 15:30:23:3023 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-26 15:30:26:3026 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-26 15:30:26:3026 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-26 15:30:26:3026 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-26 15:30:26:3026 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-26 15:30:32:3032 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:32:3032 [37mdebug[39m: [37m🟡 Cache MISS: packages:list:{}. Fetching from DB...[39m
+2026-03-26 15:30:32:3032 [37mdebug[39m: [37mCache MISS for packages:list:{}. Fetching from DB...[39m
+2026-03-26 15:30:32:3032 [37mdebug[39m: [37m💾 Cached data for: packages:list:{} (TTL: 1800s)[39m
+2026-03-26 15:30:32:3032 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:32:3032 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:32:3032 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:32:3032 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:32:3032 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:32:3032 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:33:3033 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:33:3033 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:33:3033 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:33:3033 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:33:3033 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:33:3033 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:33:3033 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:33:3033 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:34:3034 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:34:3034 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:34:3034 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:34:3034 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:34:3034 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:34:3034 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:34:3034 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:34:3034 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:35:3035 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:35:3035 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:35:3035 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:35:3035 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:35:3035 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:30:35:3035 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:30:35:3035 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:30:35:3035 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:30:53:3053 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:31:02:312 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:31:50:3150 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:31:50:3150 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:31:50:3150 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:31:50:3150 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:31:50:3150 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:31:50:3150 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:31:50:3150 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:31:50:3150 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:32:17:3217 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:32:17:3217 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:32:17:3217 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:32:17:3217 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:32:17:3217 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:32:17:3217 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:32:17:3217 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:32:17:3217 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:32:21:3221 [37mdebug[39m: [37m🟡 Cache MISS: package:single:68263d82-3d53-4d5c-a69e-da0eb952311d. Fetching from DB...[39m
+2026-03-26 15:32:21:3221 [37mdebug[39m: [37mCache MISS for package:single:68263d82-3d53-4d5c-a69e-da0eb952311d. Fetching from DB...[39m
+2026-03-26 15:32:22:3222 [37mdebug[39m: [37m💾 Cached data for: package:single:68263d82-3d53-4d5c-a69e-da0eb952311d (TTL: 3600s)[39m
+2026-03-26 15:32:22:3222 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:32:22:3222 [37mdebug[39m: [37m🟢 Cache HIT: package:single:68263d82-3d53-4d5c-a69e-da0eb952311d[39m
+2026-03-26 15:32:22:3222 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:32:22:3222 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:32:22:3222 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:32:22:3222 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:32:22:3222 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:33:46:3346 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-03-26 15:33:46:3346 [32minfo[39m: [32mNew user registered (unverified): anthonyndungu069@gmail.com[39m
+2026-03-26 15:33:46:3346 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:19:3419 [32minfo[39m: [32m🔴 Cache invalidated: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e[39m
+2026-03-26 15:34:19:3419 [32minfo[39m: [32mAccount verified via OTP: anthonyndungu069@gmail.com[39m
+2026-03-26 15:34:19:3419 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:28:3428 [32minfo[39m: [32m🔴 Cache invalidated: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e[39m
+2026-03-26 15:34:28:3428 [32minfo[39m: [32mUser logged in: anthonyndungu069@gmail.com[39m
+2026-03-26 15:34:28:3428 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:28:3428 [37mdebug[39m: [37m🟡 Cache MISS: bookings:user:e0b988e2-46a0-42de-bdee-8cf6d776103e:{}. Fetching from DB...[39m
+2026-03-26 15:34:28:3428 [37mdebug[39m: [37mCache MISS for bookings:user:e0b988e2-46a0-42de-bdee-8cf6d776103e:{}. Fetching from DB...[39m
+2026-03-26 15:34:28:3428 [37mdebug[39m: [37m💾 Cached data for: bookings:user:e0b988e2-46a0-42de-bdee-8cf6d776103e:{} (TTL: 300s)[39m
+2026-03-26 15:34:28:3428 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:28:3428 [37mdebug[39m: [37m🟢 Cache HIT: bookings:user:e0b988e2-46a0-42de-bdee-8cf6d776103e:{}[39m
+2026-03-26 15:34:28:3428 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:33:3433 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:34:34:3434 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:34:34:3434 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:34:34:3434 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:34:3434 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:34:34:3434 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:34:34:3434 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:34:34:3434 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:34:38:3438 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:38:3438 [37mdebug[39m: [37m🟡 Cache MISS: package:single:ab5dc344-1553-467e-8e27-0e69a6a15f44. Fetching from DB...[39m
+2026-03-26 15:34:38:3438 [37mdebug[39m: [37mCache MISS for package:single:ab5dc344-1553-467e-8e27-0e69a6a15f44. Fetching from DB...[39m
+2026-03-26 15:34:38:3438 [37mdebug[39m: [37m💾 Cached data for: package:single:ab5dc344-1553-467e-8e27-0e69a6a15f44 (TTL: 3600s)[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:38:3438 [37mdebug[39m: [37m🟢 Cache HIT: package:single:ab5dc344-1553-467e-8e27-0e69a6a15f44[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:34:38:3438 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:34:38:3438 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:34:52:3452 [32minfo[39m: [32mEmail sent to anthonyndungu069@gmail.com[39m
+2026-03-26 15:34:52:3452 [32minfo[39m: [32mBooking created: BK264893655145 by anthonyndungu069@gmail.com[39m
+2026-03-26 15:34:52:3452 [32minfo[39m: [32m🔴 Cache invalidated for pattern: bookings:user:e0b988e2-46a0-42de-bdee-8cf6d776103e:* (1 keys)[39m
+2026-03-26 15:34:52:3452 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:35:11:3511 [32minfo[39m: [32mGenerated MPESA STK Push password:[39m
+2026-03-26 15:35:11:3511 [32minfo[39m: [32mInitiating STK Push[39m
+2026-03-26 15:35:12:3512 [32minfo[39m: [32mMPESA payment initiated[39m
+2026-03-26 15:35:12:3512 [32minfo[39m: [32m🔴 Cache invalidated: payment:status:ws_CO_26032026153510965793720489[39m
+2026-03-26 15:35:12:3512 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:35:27:3527 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153510965793720489. Fetching from DB...[39m
+2026-03-26 15:35:27:3527 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153510965793720489. Fetching from DB...[39m
+2026-03-26 15:35:27:3527 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153510965793720489 (TTL: 30s)[39m
+2026-03-26 15:35:27:3527 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:35:43:3543 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153510965793720489[39m
+2026-03-26 15:35:43:3543 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:35:57:3557 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153510965793720489[39m
+2026-03-26 15:35:57:3557 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:36:12:3612 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153510965793720489. Fetching from DB...[39m
+2026-03-26 15:36:12:3612 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153510965793720489. Fetching from DB...[39m
+2026-03-26 15:36:12:3612 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153510965793720489 (TTL: 30s)[39m
+2026-03-26 15:36:12:3612 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:36:27:3627 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153510965793720489[39m
+2026-03-26 15:36:27:3627 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:36:42:3642 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153510965793720489[39m
+2026-03-26 15:36:42:3642 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:36:57:3657 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153510965793720489. Fetching from DB...[39m
+2026-03-26 15:36:57:3657 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153510965793720489. Fetching from DB...[39m
+2026-03-26 15:36:57:3657 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153510965793720489 (TTL: 30s)[39m
+2026-03-26 15:36:57:3657 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:37:10:3710 [32minfo[39m: [32mGenerated MPESA STK Push password:[39m
+2026-03-26 15:37:10:3710 [32minfo[39m: [32mInitiating STK Push[39m
+2026-03-26 15:37:12:3712 [32minfo[39m: [32mMPESA payment initiated[39m
+2026-03-26 15:37:12:3712 [32minfo[39m: [32m🔴 Cache invalidated: payment:status:ws_CO_26032026153711017793720489[39m
+2026-03-26 15:37:12:3712 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:37:27:3727 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:37:27:3727 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:37:27:3727 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:37:27:3727 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:37:42:3742 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153711017793720489[39m
+2026-03-26 15:37:42:3742 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:37:57:3757 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153711017793720489[39m
+2026-03-26 15:37:57:3757 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:38:13:3813 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:38:13:3813 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:38:13:3813 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:38:13:3813 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:38:27:3827 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153711017793720489[39m
+2026-03-26 15:38:27:3827 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:38:42:3842 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153711017793720489[39m
+2026-03-26 15:38:42:3842 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:38:57:3857 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:38:57:3857 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:38:57:3857 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:38:57:3857 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:39:12:3912 [37mdebug[39m: [37m🟢 Cache HIT: payment:status:ws_CO_26032026153711017793720489[39m
+2026-03-26 15:39:12:3912 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:39:59:3959 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:39:59:3959 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:39:59:3959 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:39:59:3959 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:41:12:4112 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:41:12:4112 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:41:14:4114 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:41:14:4114 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:41:59:4159 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:41:59:4159 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:41:59:4159 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:41:59:4159 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:42:59:4259 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:42:59:4259 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:42:59:4259 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:42:59:4259 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:43:59:4359 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:43:59:4359 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:43:59:4359 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:43:59:4359 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:44:59:4459 [37mdebug[39m: [37m🟡 Cache MISS: payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:44:59:4459 [37mdebug[39m: [37mCache MISS for payment:status:ws_CO_26032026153711017793720489. Fetching from DB...[39m
+2026-03-26 15:44:59:4459 [37mdebug[39m: [37m💾 Cached data for: payment:status:ws_CO_26032026153711017793720489 (TTL: 30s)[39m
+2026-03-26 15:44:59:4459 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m🟡 Cache MISS: booking:single:2cec387a-7327-4666-bbb7-1412af2b525b. Fetching from DB...[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37mCache MISS for booking:single:2cec387a-7327-4666-bbb7-1412af2b525b. Fetching from DB...[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m🟡 Cache MISS: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e. Fetching from DB...[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37mCache MISS for user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e. Fetching user from DB...[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m💾 Cached data for: booking:single:2cec387a-7327-4666-bbb7-1412af2b525b (TTL: 300s)[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m💾 Cached data for: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e (TTL: 1800s)[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m🟢 Cache HIT: booking:single:2cec387a-7327-4666-bbb7-1412af2b525b[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:45:16:4516 [37mdebug[39m: [37m🟢 Cache HIT: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e[39m
+2026-03-26 15:45:16:4516 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:46:25:4625 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-26 15:46:25:4625 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-26 15:46:25:4625 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-26 15:46:26:4626 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-26 15:46:27:4627 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-26 15:46:27:4627 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-26 15:46:27:4627 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-26 15:46:27:4627 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: booking:single:2cec387a-7327-4666-bbb7-1412af2b525b[39m
+2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mgetAllPackages called with query {}[39m
+2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: packages:list:{}[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mReturning 6 packages[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: booking:single:2cec387a-7327-4666-bbb7-1412af2b525b[39m
+2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
+2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m

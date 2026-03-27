@@ -22,24 +22,24 @@ export default function BookingSuccess() {
   
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  // Fetch booking
+  //Fetch booking
   useEffect(() => {
     if (bookingId && (!selectedBooking || selectedBooking.id !== bookingId)) {
       dispatch(fetchBookingById(bookingId));
     }
   }, [dispatch, bookingId, selectedBooking]);
 
-  // Redirect if payment just completed via modal
+  //Redirect if payment just completed via modal
   useEffect(() => {
     if (isPaymentCompleted) {
       const timer = setTimeout(() => {
-        navigate(`/bookings/${bookingId}/receipt`, { state: { paymentCompleted: true } });
+        navigate(`/dashboard/bookings/${bookingId}/receipt`, { state: { paymentCompleted: true } });
       }, 2000);
       return () => clearTimeout(timer);
     }
   }, [isPaymentCompleted, navigate, bookingId]);
 
-  // Cleanup
+  //Cleanup
   useEffect(() => {
     return () => {
       dispatch(resetPaymentState());
