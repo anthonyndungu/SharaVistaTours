@@ -180,7 +180,7 @@ export const mpesaCallback = async (req, res) => {
           await invalidateCache(`booking:single:${booking.id}`);
           await invalidatePattern(`bookings:user:${booking.user_id}:*`);
 
-          // 📧 SEND EMAIL IF PAYMENT IS COMPLETED
+          //SEND EMAIL IF PAYMENT IS COMPLETED
           if (callbackResult.status === 'completed') {
             try {
               // Fetch User and Full Booking Details for Email
