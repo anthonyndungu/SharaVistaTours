@@ -45,7 +45,7 @@ export default function BookingConfirmation() {
     if (isPaymentCompleted && selectedBooking) {
       const timer = setTimeout(() => {
         // Navigate to receipt/success page with payment data
-        navigate(`/bookings/${bookingId}/receipt`, { 
+        navigate(`/dashboard/bookings/${bookingId}/receipt`, { 
           state: { paymentCompleted: true }
         });
       }, 2000);

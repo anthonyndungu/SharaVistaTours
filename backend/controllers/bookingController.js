@@ -494,13 +494,21 @@ export const getBookingReceipt = async (req, res) => {
         },
         {
           model: Payment,
-          where: { status: 'completed' }, // Only show paid receipts
+          where: { status: 'completed' },
           required: true,
-          order: [['created_at', 'DESC']], // Get the latest successful payment
+          order: [['created_at', 'DESC']],
           limit: 1,
           attributes: [
-            'id', 'amount', 'currency', 'payment_method', 'transaction_id', 
-            'mpesa_receipt_number', 'paid_at', 'card_last4', 'card_brand'
+            'id', 
+            'amount', 
+            'currency', 
+            'payment_method', 
+            'transaction_id',       
+            'mpesa_checkout_request_id', 
+            'mpesa_phone',        
+            'paid_at', 
+            'card_last4', 
+            'card_brand'
           ]
         }
       ]
@@ -510,11 +518,13 @@ export const getBookingReceipt = async (req, res) => {
       return res.status(404).json({ status: 'fail', message: 'Booking not found or no completed payment exists.' });
     }
 
-    // 2. Security Check: Ensure user owns this booking or is admin
+    // 2. Security Check
     const isAdmin = ['admin', 'super_admin'].includes(req.user.role);
     if (!isAdmin && booking.user_id !== req.user.id) {
       return res.status(403).json({ status: 'fail', message: 'Unauthorized access to this receipt.' });
     }
+
+    const paymentRecord = booking.Payments[0];
 
     // 3. Format Data for Frontend
     const receiptData = {
@@ -534,15 +544,17 @@ export const getBookingReceipt = async (req, res) => {
         phone: booking.User?.phone
       },
       passengers: booking.BookingPassengers || [],
-      payment: booking.Payments[0] ? {
-        id: booking.Payments[0].id,
-        amount: booking.Payments[0].amount,
-        currency: booking.Payments[0].currency,
-        method: booking.Payments[0].payment_method,
-        transactionId: booking.Payments[0].transaction_id,
-        receiptNumber: booking.Payments[0].mpesa_receipt_number || booking.Payments[0].transaction_id,
-        date: booking.Payments[0].paid_at,
-        cardDetails: booking.Payments[0].card_brand ? `**** ${booking.Payments[0].card_last4}` : null
+      payment: paymentRecord ? {
+        id: paymentRecord.id,
+        amount: paymentRecord.amount,
+        currency: paymentRecord.currency,
+        method: paymentRecord.payment_method,
+        transactionId: paymentRecord.transaction_id,
+        // ✅ FIX: Use transaction_id as the receipt number for MPESA
+        receiptNumber: paymentRecord.transaction_id || paymentRecord.mpesa_checkout_request_id,
+        date: paymentRecord.paid_at,
+        cardDetails: paymentRecord.card_brand ? `**** ${paymentRecord.card_last4}` : null,
+        phoneNumber: paymentRecord.mpesa_phone
       } : null,
       company: {
         name: 'Sharavista Tours & Travel',

@@ -2786,3 +2786,165 @@
 2026-03-26 15:47:11:4711 [37mdebug[39m: [37m🟢 Cache HIT: user:profile:e0b988e2-46a0-42de-bdee-8cf6d776103e[39m
 2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
 2026-03-26 15:47:11:4711 [32minfo[39m: [32mRequest completed[39m
+2026-03-27 14:43:51:4351 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:51:4351 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:51:4351 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:52:4352 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:52:4352 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:52:4352 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:52:4352 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:52:4352 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:52:4352 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:53:4353 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:53:4353 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:55:4355 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 14:43:55:4355 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:55:4355 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:55:4355 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 14:43:55:4355 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 14:43:55:4355 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 14:43:55:4355 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 14:43:57:4357 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:57:4357 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:43:59:4359 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:43:59:4359 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:01:441 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:01:441 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:03:443 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:03:443 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:06:446 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:06:446 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:08:448 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:08:448 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:10:4410 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:10:4410 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:12:4412 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:12:4412 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:14:4414 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:14:4414 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:17:4417 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:17:4417 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:19:4419 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:19:4419 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:21:4421 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:21:4421 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:23:4423 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:23:4423 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:25:4425 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:25:4425 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:29:4429 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:29:4429 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:31:4431 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:31:4431 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:33:4433 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:33:4433 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:35:4435 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:38:4438 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:40:4440 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:40:4440 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:42:4442 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:43:4443 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:45:4445 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:45:4445 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:47:4447 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:47:4447 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:49:4449 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:49:4449 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:52:4452 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:52:4452 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:54:4454 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:54:4454 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:56:4456 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:56:4456 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:44:58:4458 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:44:58:4458 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:00:450 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:00:450 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:02:452 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:02:452 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:04:454 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:04:454 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:06:456 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:06:456 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:09:459 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:09:459 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:11:4511 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:11:4511 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:13:4513 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:14:4514 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:16:4516 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:16:4516 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:18:4518 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:18:4518 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:20:4520 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:22:4522 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:24:4524 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:25:4525 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:27:4527 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:28:4528 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:30:4530 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:30:4530 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:32:4532 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:32:4532 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:34:4534 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:34:4534 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:36:4536 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:36:4536 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:38:4538 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:38:4538 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:40:4540 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:40:4540 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:43:4543 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:43:4543 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:45:4545 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:45:4545 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:47:4547 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:47:4547 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:49:4549 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:49:4549 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:51:4551 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:51:4551 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:53:4553 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:53:4553 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:55:4555 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:55:4555 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:45:58:4558 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:45:58:4558 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:46:01:461 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:46:01:461 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 14:46:01:461 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 14:46:01:461 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 14:57:29:5729 [31merror[39m: [31m❌ Redis Client Error:[39m
+2026-03-27 14:57:29:5729 [33mwarn[39m: [33m🔄 Redis Client Reconnecting...[39m
+2026-03-27 14:57:29:5729 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 14:57:29:5729 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 14:57:29:5729 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 14:57:29:5729 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 14:57:30:5730 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 14:57:30:5730 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 14:57:30:5730 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 14:57:30:5730 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 14:58:17:5817 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 14:58:17:5817 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 14:58:17:5817 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 14:58:17:5817 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 14:58:20:5820 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 14:58:20:5820 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 14:58:20:5820 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 14:58:20:5820 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 15:04:06:46 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 15:04:06:46 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 15:04:06:46 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 15:04:07:47 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 15:04:07:47 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 15:04:07:47 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 15:04:07:47 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 15:04:07:47 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
+2026-03-27 15:04:41:441 [32minfo[39m: [32m✅ Connected to Redis successfully[39m
+2026-03-27 15:04:41:441 [32minfo[39m: [32m🟢 Redis Client Ready[39m
+2026-03-27 15:04:41:441 [32minfo[39m: [32mRedis connection established.[39m
+2026-03-27 15:04:41:441 [32minfo[39m: [32m✅ Database connection established[39m
+2026-03-27 15:04:42:442 [32minfo[39m: [32m✅ Database synchronized (alter mode - development only)[39m
+2026-03-27 15:04:42:442 [32minfo[39m: [32m🚀 Server running in development mode on port 5000[39m
+2026-03-27 15:04:42:442 [32minfo[39m: [32m📡 API: http://localhost:5000/api/v1[39m
+2026-03-27 15:04:42:442 [32minfo[39m: [32m🔗 Webhooks: http://localhost:5000/api/v1/payments[39m
