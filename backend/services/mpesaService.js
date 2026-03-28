@@ -224,52 +224,7 @@ class MpesaService {
     }
   }
 
-  // 🔄 C2B URL Registration (Run ONCE during setup/deployment)
-  // async registerC2BUrls() {
-  //   try {
-  //     const accessToken = await this.getAccessToken();
-
-  //     const payload = {
-  //       ShortCode: this.shortcode,
-  //       ResponseType: 'Completed', // or 'Cancelled' if you want to handle cancellations
-  //       ConfirmationURL: process.env.MPESA_C2B_CONFIRMATION_URL,
-  //       ValidationURL: process.env.MPESA_C2B_VALIDATION_URL
-  //     };
-
-  //     logger.info('Registering C2B URLs', {
-  //       shortcode: this.shortcode,
-  //       confirmationUrl: payload.ConfirmationURL,
-  //       validationUrl: payload.ValidationURL
-  //     });
-
-  //     const response = await axios.post(
-  //       `${this.baseUrl}/mpesa/c2b/v1/registerurl`,
-  //       payload,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //           'Content-Type': 'application/json'
-  //         },
-  //         timeout: 10000
-  //       }
-  //     );
-
-  //     logger.info('C2B URLs registered successfully', response.data);
-  //     return { success: true, data: response.data };
-  //   } catch (error) {
-  //     logger.error('C2B Registration Error', {
-  //       message: error.message,
-  //       response: error.response?.data,
-  //       status: error.response?.status
-  //     });
-  //     return {
-  //       success: false,
-  //       error: error.response?.data?.errorMessage || error.message
-  //     };
-  //   }
-  // }
-
-  // 📥 Handle STK Push Callback (MPESA server → your server)
+  //Handle STK Push Callback (MPESA server → your server)
 
   async handleCallback(callbackData, transaction) {
     try {
@@ -400,6 +355,8 @@ class MpesaService {
       return {
         success: true,
         paymentId: payment.id,
+        bookingId: payment.Booking?.id,
+        checkoutRequestId: CheckoutRequestID,
         status: updateData.status,
         transactionId: updateData.transaction_id,
         bookingNumber: payment.Booking?.booking_number,

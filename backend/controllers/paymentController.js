@@ -1,4 +1,4 @@
-import { Payment, Booking, sequelize, Op, C2BPayment, BookingPassenger } from '../models/index.js';
+import { Payment, Booking, sequelize, Op, C2BPayment, BookingPassenger,TourPackage,User } from '../models/index.js';
 import mpesaService from '../services/MpesaService.js';
 import stripeService from '../services/stripeService.js';
 import logger from '../utils/logger.js';
@@ -82,80 +82,6 @@ export const initiateMPESAPayment = async (req, res) => {
   }
 };
 
-// // ===========================
-// // @desc    MPESA STK Push Callback Handler
-// // @route   POST /api/v1/payments/mpesa/callback
-// // @access  Public
-// // ===========================
-// export const mpesaCallback = async (req, res) => {
-//   logger.info('MPESA callback received', { body: req.body });
-//   const t = await sequelize.transaction();
-//   try {
-//     const callbackResult = await mpesaService.handleCallback(req.body, t);
-    
-//     if (callbackResult.success) {
-//       await t.commit();
-      
-//       // 🚀 Invalidate Caches on Success
-//       if (callbackResult.bookingId) {
-//         const booking = await Booking.findByPk(callbackResult.bookingId);
-//         if (booking) {
-//           await invalidatePattern(`payments:history:${booking.user_id}:*`);
-//           await invalidateCache(`payment:status:${callbackResult.checkoutRequestId}`);
-//           await invalidateCache(`booking:single:${booking.id}`);
-//           await invalidatePattern(`bookings:user:${booking.user_id}:*`);
-//         }
-//       }
-      
-//       res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
-//     } else {
-//       await t.rollback();
-//       res.status(200).json({ ResultCode: 1, ResultDesc: callbackResult.message || 'Processing failed' });
-//     }
-//   } catch (err) {
-//     await t.rollback();
-//     logger.error('MPESA callback error', { error: err.message });
-//     res.status(200).json({ ResultCode: 1, ResultDesc: 'Server error' });
-//   }
-// };
-
-// // ===========================
-// // @desc    Stripe Webhook Handler
-// // @route   POST /api/v1/payments/stripe/webhook
-// // @access  Public
-// // ===========================
-// export const stripeWebhook = async (req, res) => {
-//   const sig = req.headers['stripe-signature'];
-//   try {
-//     const payload = req.rawBody || JSON.stringify(req.body);
-//     const result = await stripeService.handleWebhook(payload, sig);
-
-//     if (result.success) {
-//       // 🚀 Invalidate Caches on Success
-//       if (result.bookingId) {
-//         const booking = await Booking.findByPk(result.bookingId);
-//         if (booking) {
-//           await invalidatePattern(`payments:history:${booking.user_id}:*`);
-//           await invalidateCache(`payment:status:${result.paymentIntentId}`);
-//           await invalidateCache(`booking:single:${booking.id}`);
-//           await invalidatePattern(`bookings:user:${booking.user_id}:*`);
-//         }
-//       }
-//       res.status(200).json({ received: true, eventId: result.eventId });
-//     } else {
-//       res.status(400).json({ error: result.error });
-//     }
-//   } catch (err) {
-//     logger.error('Stripe webhook error', { error: err.message });
-//     if (err.type === 'StripeSignatureVerificationError') {
-//       res.status(400).send(`Webhook signature verification failed: ${err.message}`);
-//     } else {
-//       res.status(500).send(`Webhook processing error: ${err.message}`);
-//     }
-//   }
-// };
-
-
 // ===========================
 // @desc    MPESA STK Push Callback Handler
 // @route   POST /api/v1/payments/mpesa/callback
@@ -167,6 +93,7 @@ export const mpesaCallback = async (req, res) => {
   
   try {
     const callbackResult = await mpesaService.handleCallback(req.body, t);
+    console.log("callbackResult",callbackResult)
     
     if (callbackResult.success) {
       await t.commit();
@@ -187,7 +114,7 @@ export const mpesaCallback = async (req, res) => {
               const fullBooking = await Booking.findByPk(booking.id, {
                 include: [
                   { model: User, attributes: ['id', 'name', 'email'] },
-                  { model: TourPackage, attributes: ['title', 'destination'] } // Ensure TourPackage is imported if used in email
+                  { model: TourPackage, attributes: ['title', 'destination'] }
                 ]
               });
 
